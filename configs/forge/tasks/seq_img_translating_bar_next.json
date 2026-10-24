@@ -1,0 +1,52 @@
+{
+  "adapter": "seq_image",
+  "description": "Predict the next 8x8 frame of a bouncing bar from ambiguous interior frames using memory (batch_size=1).",
+  "evaluation": {
+    "eval_output_noise": "clean",
+    "kind": "sustained_window",
+    "minimum_stable_checks": 5,
+    "observations": 24,
+    "sampling_contract_version": 1,
+    "sampling_law": "enumerated_prior_clean",
+    "scoring_weights": "live",
+    "thresholds": [
+      [
+        "next_frame_rmse",
+        "<=",
+        0.12
+      ],
+      [
+        "direction_acc",
+        ">=",
+        0.9
+      ]
+    ]
+  },
+  "execution": {
+    "host_definition": {
+      "context_dim": 16,
+      "mode": "translating_next",
+      "width": 16
+    },
+    "initializer": "deterministic_orthogonal",
+    "prior": {
+      "kind": "mog",
+      "sigma": 0.025,
+      "standardize": false
+    },
+    "prior_contract": "recipe_owned_v1",
+    "resources": {
+      "batch_size": 1,
+      "num_particles": 32,
+      "z_dim": 8
+    },
+    "steps": 480
+  },
+  "id": "seq_img_translating_bar_next",
+  "resources": {
+    "cpu_threads": 1,
+    "gpus": 1,
+    "timeout_seconds": 300
+  },
+  "schema_version": 1
+}

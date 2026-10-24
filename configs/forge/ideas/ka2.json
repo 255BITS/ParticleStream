@@ -1,0 +1,17 @@
+{
+  "changed_factors": [
+    "KA2 critic EMA anchor on batch_size=1 sequential stream"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "ka2",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "kind": "none"
+  },
+  "recipe_overrides": {},
+  "recipe_preset": "ka2",
+  "schema_version": 3,
+  "technique": "KA2"
+}

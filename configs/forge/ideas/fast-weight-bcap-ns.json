@@ -1,0 +1,42 @@
+{
+  "changed_factors": [
+    "Non-saturating GAN loss for batch_size=1 stability",
+    "Constant Adam learning rate (lr=0.005, betas=(0.0, 0.999), lr_floor=1.0)",
+    "64-frame rehearsal reservoir spanning full dwell=16 4-mode cycle",
+    "Temporal velocity direction memory with static noise gating (||diff|| > 0.35)",
+    "Joint non-linear conditional critic architecture",
+    "Dwell-aware rehearsal replay and task-isolated context conditioning"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "fast-weight-bcap-ns",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "decay": 0.9,
+    "dim": 16,
+    "kind": "fast_weight",
+    "reservoir_size": 64,
+    "write_lr": 0.35
+  },
+  "parent": "fast-weight-bcap",
+  "recipe_overrides": {
+    "betas": [
+      0.0,
+      0.999
+    ],
+    "d_lr_mult": 1.0,
+    "loss": "non_saturating",
+    "lr": 0.005,
+    "lr_floor": 1.0,
+    "network_lr_floor": 1.0,
+    "prior_lr_mult": 2.0,
+    "prior_regularizer": "none",
+    "reg_arm": "b_cap",
+    "reg_coeff": 1.0,
+    "reg_kappa": 1.0
+  },
+  "recipe_preset": "bcap",
+  "schema_version": 3,
+  "technique": "Global-Stream-BCAP"
+}

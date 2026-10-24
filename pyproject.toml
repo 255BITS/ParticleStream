@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=84.2.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "particlestream"
+version = "0.1.0"
+description = "Single-stream (batch_size=1) sequential image and world-model experiments built on particlegan and particlegan_forge"
+readme = "EXPERIMENTATION.md"
+requires-python = ">=3.11"
+dependencies = [
+    "particlegan",
+    "torch>=2.6,<3",
+    "numpy>=1.26,<3",
+    "matplotlib>=3.8,<4",
+    "Pillow>=13.0.0,<14",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["particlestream", "particlestream.*"]
+namespaces = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = [".", "../ParticleGAN"]
+addopts = "-ra"

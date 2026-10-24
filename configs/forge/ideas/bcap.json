@@ -1,0 +1,17 @@
+{
+  "changed_factors": [
+    "Stateless BCAP baseline on batch_size=1 sequential stream"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "bcap",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "kind": "none"
+  },
+  "recipe_overrides": {},
+  "recipe_preset": "bcap",
+  "schema_version": 3,
+  "technique": "BCAP"
+}

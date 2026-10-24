@@ -1,0 +1,22 @@
+{
+  "changed_factors": [
+    "Detached FastWeightMemory writer/reader context + bounded 64-frame reservoir replay on batch_size=1 stream"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "fast-weight-bcap",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "decay": 0.9,
+    "dim": 16,
+    "kind": "fast_weight",
+    "reservoir_size": 64,
+    "write_lr": 0.35
+  },
+  "parent": "bcap",
+  "recipe_overrides": {},
+  "recipe_preset": "bcap",
+  "schema_version": 3,
+  "technique": "FastWeight-BCAP"
+}

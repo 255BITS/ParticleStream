@@ -1,0 +1,34 @@
+{
+  "assignments": [
+    {
+      "importance": "required",
+      "order": 0,
+      "qualification_tier": 1,
+      "task": "seq_img_round_robin_bars4"
+    },
+    {
+      "importance": "required",
+      "order": 1,
+      "qualification_tier": 1,
+      "task": "seq_img_dwell_bars4"
+    },
+    {
+      "importance": "required",
+      "order": 2,
+      "qualification_tier": 1,
+      "task": "seq_img_translating_bar_next"
+    },
+    {
+      "importance": "required",
+      "order": 3,
+      "qualification_tier": 1,
+      "task": "seq_img_fork_rollout"
+    }
+  ],
+  "evidence_scope": "ordinary",
+  "goal": "single_stream_stability",
+  "id": "single_stream_stability",
+  "policy_change_reason": "Initial Tier 1 single-stream batch_size=1 sequential image suite.",
+  "revision": 1,
+  "schema_version": 1
+}
