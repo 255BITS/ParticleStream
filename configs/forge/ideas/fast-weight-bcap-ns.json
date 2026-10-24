@@ -1,7 +1,7 @@
 {
   "changed_factors": [
     "Non-saturating GAN loss for batch_size=1 stability",
-    "Constant Adam learning rate (lr=0.005, betas=(0.0, 0.999), lr_floor=1.0)",
+    "Cosine learning rate annealing (lr=0.005, betas=(0.0, 0.999), lr_schedule=cosine, lr_anneal_start=0.5, lr_floor=0.05)",
     "64-frame rehearsal reservoir spanning full dwell=16 4-mode cycle",
     "Temporal velocity direction memory with static noise gating (||diff|| > 0.35)",
     "Joint non-linear conditional critic architecture",
@@ -16,6 +16,7 @@
     "decay": 0.9,
     "dim": 16,
     "kind": "fast_weight",
+    "rehearsal_batch": 7,
     "reservoir_size": 64,
     "write_lr": 0.35
   },
@@ -28,8 +29,10 @@
     "d_lr_mult": 1.0,
     "loss": "non_saturating",
     "lr": 0.005,
-    "lr_floor": 1.0,
-    "network_lr_floor": 1.0,
+    "lr_anneal_start": 0.5,
+    "lr_floor": 0.05,
+    "lr_schedule": "cosine",
+    "network_lr_floor": 0.05,
     "prior_lr_mult": 2.0,
     "prior_regularizer": "none",
     "reg_arm": "b_cap",

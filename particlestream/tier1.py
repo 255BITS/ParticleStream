@@ -149,7 +149,7 @@ CANDIDATES: list[CandidateSpec] = [
         technique="Global-Stream-BCAP",
         changed_factors=[
             "Non-saturating GAN loss for batch_size=1 stability",
-            "Constant Adam learning rate (lr=0.005, betas=(0.0, 0.999), lr_floor=1.0)",
+            "Cosine learning rate annealing (lr=0.005, betas=(0.0, 0.999), lr_schedule=cosine, lr_anneal_start=0.5, lr_floor=0.05)",
             "64-frame rehearsal reservoir spanning full dwell=16 4-mode cycle",
             "Temporal velocity direction memory with static noise gating (||diff|| > 0.35)",
             "Joint non-linear conditional critic architecture",
@@ -161,8 +161,10 @@ CANDIDATES: list[CandidateSpec] = [
             "loss": "non_saturating",
             "lr": 0.005,
             "betas": [0.0, 0.999],
-            "lr_floor": 1.0,
-            "network_lr_floor": 1.0,
+            "lr_schedule": "cosine",
+            "lr_anneal_start": 0.5,
+            "lr_floor": 0.05,
+            "network_lr_floor": 0.05,
             "d_lr_mult": 1.0,
             "prior_lr_mult": 2.0,
             "prior_regularizer": "none",
@@ -176,6 +178,7 @@ CANDIDATES: list[CandidateSpec] = [
             "decay": 0.90,
             "write_lr": 0.35,
             "reservoir_size": 64,
+            "rehearsal_batch": 7,
         },
     ),
 ]
@@ -309,14 +312,20 @@ def run_seq_image_task(
         if mode == "bars4":
             x_cur, _ = stream.next_frame(data_gen)
             if memory is not None:
-                is_dwelling = (prev_frame is not None) and ((x_cur - prev_frame).abs().max().item() < 0.10)
-                recalled = memory.sample_reservoir(mem_gen)
-                ctx = memory.write(x_cur)
-                prev_frame = x_cur.clone()
-                if is_dwelling and (recalled is not None):
-                    train_real = recalled
+                rehearsal_batch = int(candidate.memory_policy.get("rehearsal_batch", 0))
+                if rehearsal_batch > 0:
+                    ctx = memory.write(x_cur)
+                    recalled = memory.sample_reservoir(mem_gen, n=rehearsal_batch)
+                    train_real = torch.cat([x_cur, recalled], dim=0) if recalled is not None else x_cur
                 else:
-                    train_real = x_cur
+                    is_dwelling = (prev_frame is not None) and ((x_cur - prev_frame).abs().max().item() < 0.10)
+                    recalled = memory.sample_reservoir(mem_gen)
+                    ctx = memory.write(x_cur)
+                    prev_frame = x_cur.clone()
+                    if is_dwelling and (recalled is not None) and (int(memory.reservoir_count.item()) >= memory.reservoir_size):
+                        train_real = recalled
+                    else:
+                        train_real = x_cur
                 if task_context_dim > 0:
                     g.set_context(ctx)
                     d.set_context(ctx)

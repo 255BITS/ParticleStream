@@ -1,16 +1,16 @@
 {
   "all_finite": true,
   "artifacts": {
-    "gif_sha256": "0a25fe016e9faad64fcf413fab681cb1ffa4cbee7d635668cc1c307a4fa0b81b",
+    "gif_sha256": "1f4fbbed4e6dbc832edc91ac36423a65f87c9aafa3cc31a14cd37d7cbb23c785",
     "goal_gif": "gifs/fast-weight-bcap-ns_seq_img_fork_rollout.gif"
   },
-  "candidate_fingerprint": "11bd40a2e5e8b4b042491f1a14dde6d46103db919b66b37fe6703f23075405ef",
+  "candidate_fingerprint": "806fd8daa05ec4a9b0d29b06817285f19d16219306cac0a67c0759d386bae6e0",
   "candidate_id": "fast-weight-bcap-ns",
-  "completed_at": "2026-10-24T02:22:19.445+00:00",
+  "completed_at": "2026-10-24T04:36:52.331+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
-    "wall_seconds": 6.0481
+    "wall_seconds": 6.26
   },
   "device": "cuda",
   "grade": {
@@ -18,7 +18,7 @@
     "live": {
       "branch_tv": 0.09375,
       "hq": 0.9375,
-      "mean_rmse": 0.058747,
+      "mean_rmse": 0.061213,
       "within_state_modes": 2.0
     },
     "required_terminal_checks": 5,
@@ -28,7 +28,7 @@
   "live": {
     "branch_tv": 0.09375,
     "hq": 0.9375,
-    "mean_rmse": 0.058747,
+    "mean_rmse": 0.061213,
     "within_state_modes": 2.0
   },
   "observations": [
@@ -142,18 +142,18 @@
     },
     {
       "metrics": {
-        "branch_tv": 0.21875,
-        "hq": 0.78125,
-        "mean_rmse": 0.103694,
+        "branch_tv": 0.1875,
+        "hq": 0.8125,
+        "mean_rmse": 0.103868,
         "within_state_modes": 2.0
       },
       "step": 260
     },
     {
       "metrics": {
-        "branch_tv": 0.25,
-        "hq": 0.75,
-        "mean_rmse": 0.107516,
+        "branch_tv": 0.1875,
+        "hq": 0.8125,
+        "mean_rmse": 0.100369,
         "within_state_modes": 2.0
       },
       "step": 280
@@ -162,7 +162,7 @@
       "metrics": {
         "branch_tv": 0.15625,
         "hq": 0.84375,
-        "mean_rmse": 0.093117,
+        "mean_rmse": 0.094259,
         "within_state_modes": 2.0
       },
       "step": 300
@@ -171,7 +171,7 @@
       "metrics": {
         "branch_tv": 0.15625,
         "hq": 0.84375,
-        "mean_rmse": 0.088926,
+        "mean_rmse": 0.087417,
         "within_state_modes": 2.0
       },
       "step": 320
@@ -180,7 +180,7 @@
       "metrics": {
         "branch_tv": 0.09375,
         "hq": 0.9375,
-        "mean_rmse": 0.07629,
+        "mean_rmse": 0.0753,
         "within_state_modes": 2.0
       },
       "step": 340
@@ -189,16 +189,16 @@
       "metrics": {
         "branch_tv": 0.09375,
         "hq": 0.90625,
-        "mean_rmse": 0.074227,
+        "mean_rmse": 0.073105,
         "within_state_modes": 2.0
       },
       "step": 360
     },
     {
       "metrics": {
-        "branch_tv": 0.125,
+        "branch_tv": 0.09375,
         "hq": 0.90625,
-        "mean_rmse": 0.070039,
+        "mean_rmse": 0.065538,
         "within_state_modes": 2.0
       },
       "step": 380
@@ -207,7 +207,7 @@
       "metrics": {
         "branch_tv": 0.09375,
         "hq": 0.9375,
-        "mean_rmse": 0.060965,
+        "mean_rmse": 0.063823,
         "within_state_modes": 2.0
       },
       "step": 400
@@ -216,16 +216,16 @@
       "metrics": {
         "branch_tv": 0.09375,
         "hq": 0.9375,
-        "mean_rmse": 0.056053,
+        "mean_rmse": 0.064574,
         "within_state_modes": 2.0
       },
       "step": 420
     },
     {
       "metrics": {
-        "branch_tv": 0.15625,
-        "hq": 0.875,
-        "mean_rmse": 0.072274,
+        "branch_tv": 0.09375,
+        "hq": 0.9375,
+        "mean_rmse": 0.062704,
         "within_state_modes": 2.0
       },
       "step": 440
@@ -234,7 +234,7 @@
       "metrics": {
         "branch_tv": 0.09375,
         "hq": 0.9375,
-        "mean_rmse": 0.055868,
+        "mean_rmse": 0.062642,
         "within_state_modes": 2.0
       },
       "step": 460
@@ -243,7 +243,7 @@
       "metrics": {
         "branch_tv": 0.09375,
         "hq": 0.9375,
-        "mean_rmse": 0.058747,
+        "mean_rmse": 0.061213,
         "within_state_modes": 2.0
       },
       "step": 480
@@ -361,7 +361,7 @@
   "task_id": "seq_img_fork_rollout",
   "technique": "Global-Stream-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-10-24T02:22:19.445+00:00",
+  "timestamp": "2026-10-24T04:36:52.331+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

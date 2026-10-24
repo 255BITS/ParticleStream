@@ -1,23 +1,23 @@
 {
   "all_finite": true,
   "artifacts": {
-    "gif_sha256": "df7aec9761f847e5214c2017a3e52b09ed6ef2f219a075ca30d945812cdcce54",
+    "gif_sha256": "b424fa74078bda028dfe342b8bd131591aa4affb2c00caae48db4f7cb243fc91",
     "goal_gif": "gifs/fast-weight-bcap-ns_seq_img_translating_bar_next.gif"
   },
-  "candidate_fingerprint": "11bd40a2e5e8b4b042491f1a14dde6d46103db919b66b37fe6703f23075405ef",
+  "candidate_fingerprint": "806fd8daa05ec4a9b0d29b06817285f19d16219306cac0a67c0759d386bae6e0",
   "candidate_id": "fast-weight-bcap-ns",
-  "completed_at": "2026-10-24T02:22:13.391+00:00",
+  "completed_at": "2026-10-24T04:36:46.059+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
-    "wall_seconds": 6.2347
+    "wall_seconds": 6.9446
   },
   "device": "cuda",
   "grade": {
     "failed_bounds": [],
     "live": {
       "direction_acc": 1.0,
-      "next_frame_rmse": 0.072516
+      "next_frame_rmse": 0.080267
     },
     "required_terminal_checks": 5,
     "status": "PASS",
@@ -25,7 +25,7 @@
   },
   "live": {
     "direction_acc": 1.0,
-    "next_frame_rmse": 0.072516
+    "next_frame_rmse": 0.080267
   },
   "observations": [
     {
@@ -114,85 +114,85 @@
     },
     {
       "metrics": {
-        "direction_acc": 0.734375,
-        "next_frame_rmse": 0.241558
+        "direction_acc": 0.75,
+        "next_frame_rmse": 0.247487
       },
       "step": 260
     },
     {
       "metrics": {
         "direction_acc": 0.765625,
-        "next_frame_rmse": 0.236303
+        "next_frame_rmse": 0.213656
       },
       "step": 280
     },
     {
       "metrics": {
-        "direction_acc": 0.828125,
-        "next_frame_rmse": 0.225836
+        "direction_acc": 0.703125,
+        "next_frame_rmse": 0.229639
       },
       "step": 300
     },
     {
       "metrics": {
-        "direction_acc": 0.984375,
-        "next_frame_rmse": 0.162888
+        "direction_acc": 0.828125,
+        "next_frame_rmse": 0.191071
       },
       "step": 320
     },
     {
       "metrics": {
-        "direction_acc": 1.0,
-        "next_frame_rmse": 0.149043
+        "direction_acc": 0.828125,
+        "next_frame_rmse": 0.194318
       },
       "step": 340
     },
     {
       "metrics": {
-        "direction_acc": 1.0,
-        "next_frame_rmse": 0.092189
+        "direction_acc": 0.953125,
+        "next_frame_rmse": 0.12404
       },
       "step": 360
     },
     {
       "metrics": {
-        "direction_acc": 1.0,
-        "next_frame_rmse": 0.091176
+        "direction_acc": 0.953125,
+        "next_frame_rmse": 0.12239
       },
       "step": 380
     },
     {
       "metrics": {
-        "direction_acc": 1.0,
-        "next_frame_rmse": 0.095108
+        "direction_acc": 0.96875,
+        "next_frame_rmse": 0.10407
       },
       "step": 400
     },
     {
       "metrics": {
-        "direction_acc": 1.0,
-        "next_frame_rmse": 0.092903
+        "direction_acc": 0.984375,
+        "next_frame_rmse": 0.09753
       },
       "step": 420
     },
     {
       "metrics": {
-        "direction_acc": 1.0,
-        "next_frame_rmse": 0.07364
+        "direction_acc": 0.984375,
+        "next_frame_rmse": 0.091541
       },
       "step": 440
     },
     {
       "metrics": {
         "direction_acc": 1.0,
-        "next_frame_rmse": 0.070301
+        "next_frame_rmse": 0.08365
       },
       "step": 460
     },
     {
       "metrics": {
         "direction_acc": 1.0,
-        "next_frame_rmse": 0.072516
+        "next_frame_rmse": 0.080267
       },
       "step": 480
     }
@@ -309,7 +309,7 @@
   "task_id": "seq_img_translating_bar_next",
   "technique": "Global-Stream-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-10-24T02:22:13.391+00:00",
+  "timestamp": "2026-10-24T04:36:46.059+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

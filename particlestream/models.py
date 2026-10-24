@@ -76,13 +76,16 @@ class FastWeightMemory(nn.Module):
                 return context.detach()
             return torch.zeros(1, self.dim, device=self.matrix.device)
 
-    def sample_reservoir(self, generator: torch.Generator) -> torch.Tensor | None:
-        """Draw 1 historical frame from the bounded FIFO reservoir if populated."""
-        filled = min(int(self.reservoir_count.item()), self.reservoir_size)
-        if filled <= 0:
+    def sample_reservoir(self, generator: torch.Generator, n: int = 1) -> torch.Tensor | None:
+        """Draw n historical frames from the bounded FIFO reservoir if populated."""
+        count = int(self.reservoir_count.item())
+        if count <= 0:
             return None
-        idx = int(torch.randint(filled, (1,), device=self.reservoir.device, generator=generator).item())
-        return self.reservoir[idx : idx + 1].detach().clone()
+        valid = min(count, self.reservoir_size)
+        if valid <= 0:
+            return None
+        indices = torch.randint(0, valid, (n,), generator=generator, device=self.reservoir.device)
+        return self.reservoir[indices].detach().clone()
 
 
 class StreamImageGenerator(nn.Module):

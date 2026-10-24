@@ -772,5 +772,32 @@ def test_fast_weight_bcap_ns_candidate_spec():
     assert c.recipe_preset == "bcap"
     assert c.recipe_overrides.get("loss") == "non_saturating"
     assert c.recipe_overrides.get("lr") == 0.005
+    assert c.recipe_overrides.get("lr_schedule") == "cosine"
+    assert c.recipe_overrides.get("lr_anneal_start") == 0.5
+    assert c.recipe_overrides.get("lr_floor") == 0.05
     assert c.memory_policy.get("reservoir_size") == 64
+    assert c.memory_policy.get("rehearsal_batch") == 7
     assert c.parent == "fast-weight-bcap"
+
+
+def test_sample_reservoir_multi_sample():
+    """Verify that FastWeightMemory.sample_reservoir correctly draws n detached samples."""
+    mem = FastWeightMemory(dim=16, reservoir_size=64)
+    gen = torch.Generator().manual_seed(0)
+
+    # Empty reservoir returns None
+    assert mem.sample_reservoir(gen, n=7) is None
+
+    # Write 4 frames
+    for i in range(4):
+        f = torch.full((1, 1, 8, 8), float(i + 1))
+        mem.write(f)
+
+    samples = mem.sample_reservoir(gen, n=7)
+    assert samples is not None
+    assert samples.shape == (7, 1, 8, 8)
+    assert samples.requires_grad is False
+    assert samples.grad_fn is None
+    # All values must be in {1.0, 2.0, 3.0, 4.0}
+    vals = set(samples[:, 0, 0, 0].int().tolist())
+    assert vals.issubset({1, 2, 3, 4})

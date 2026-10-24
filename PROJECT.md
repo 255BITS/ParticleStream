@@ -42,8 +42,8 @@
 |---|------|-------|-------------|--------|
 | M1 | Upstream Forge Tier API & Git Merge | `particlegan_forge` top-level receipt fields, ParticleGAN test packaging fix, validation, commit/merge to `develop` | none | DONE |
 | M2 | Tier 1 Benchmark Suite & Controls Verification | Hardened unit tests in `tests/test_tier1.py` covering all streams nograd, oracle PASS / destructive FAIL for 4 tasks, RNG isolation | none | DONE |
-| M3 | Global Single-Stream Recipe Research & 4/4 Qualification | Fix `FastWeightMemory` context, reservoir capacity, stabilize recipe; run baselines (`bcap`, `ka2`) and qualify 1 global recipe to 4/4 PASS on CUDA | M1, M2 | IN_PROGRESS (Iteration 2: Worker Implementation) |
-| M4 | Artifact Generation, Single Leaderboard & Hygiene | Render GIFs, generate receipts, compile single leaderboard (`technique-inventory.md`), verify `runs/` untracked, final readout | M3 | PLANNED |
+| M3 | Global Single-Stream Recipe Research & 4/4 Qualification | Fix `FastWeightMemory` context, reservoir capacity, stabilize recipe; run baselines (`bcap`, `ka2`) and qualify 1 global recipe to 4/4 PASS on CUDA | M1, M2 | DONE |
+| M4 | Artifact Generation, Single Leaderboard & Hygiene | Render GIFs, generate receipts, compile single leaderboard (`technique-inventory.md`), verify `runs/` untracked, final readout | M3 | DONE |
 
 ## Interface Contracts
 ### `particlegan_forge` ↔ `particlestream`

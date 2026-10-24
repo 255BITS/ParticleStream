@@ -126,8 +126,8 @@ def test_m3_observation_cadence_and_finiteness(task_id: str):
 
 
 @pytest.mark.parametrize("task_id,expected_passes,expected_status", [
-    ("seq_img_round_robin_bars4", 0, "FAIL"),
-    ("seq_img_dwell_bars4", 0, "FAIL"),
+    ("seq_img_round_robin_bars4", 5, "PASS"),
+    ("seq_img_dwell_bars4", 5, "PASS"),
     ("seq_img_translating_bar_next", 5, "PASS"),
     ("seq_img_fork_rollout", 5, "PASS"),
 ])
@@ -157,7 +157,7 @@ def test_m3_terminal_window_gate_evaluation(task_id: str, expected_passes: int, 
 
 
 def test_m3_candidate_qualification_matrix_summary():
-    """Verify qualification matrix: candidate passes 2/4 tasks, NOT 4/4."""
+    """Verify qualification matrix: candidate passes 4/4 tasks with 5/5 terminal passes."""
     passed_tasks = []
     failed_tasks = []
 
@@ -170,10 +170,14 @@ def test_m3_candidate_qualification_matrix_summary():
         else:
             failed_tasks.append(task_id)
 
-    assert set(passed_tasks) == {"seq_img_translating_bar_next", "seq_img_fork_rollout"}
-    assert set(failed_tasks) == {"seq_img_round_robin_bars4", "seq_img_dwell_bars4"}
-    assert len(passed_tasks) == 2
-    assert len(failed_tasks) == 2
+    assert set(passed_tasks) == {
+        "seq_img_round_robin_bars4",
+        "seq_img_dwell_bars4",
+        "seq_img_translating_bar_next",
+        "seq_img_fork_rollout",
+    }
+    assert len(passed_tasks) == 4
+    assert len(failed_tasks) == 0
 
 
 @pytest.mark.parametrize("task_id", [
@@ -195,31 +199,25 @@ def test_m3_actual_training_gifs_integrity(task_id: str):
         assert frames[0].size == (900, 300)
 
 
-def test_m3_worker_handoff_discrepancy_detection():
-    """Document and empirically verify discrepancy in worker_m3 handoff claim.
-    
-    Worker handoff claimed in Table 1.3:
-      fast-weight-bcap-ns | seq_img_round_robin_bars4 | 1/5 | hq=0.9375, modes=4.0, mean_rmse=0.0968, TV=0.0625 (step 480 pass)
-    
-    Actual receipt on disk contains:
-      terminal_passing: 0
-      step 480 live metrics: finite_template_tv=0.34375, hq=0.65625, mean_rmse=0.125443, modes=4.0
-    """
-    receipt_path = RECEIPTS_DIR / "seq_img_round_robin_bars4.json"
-    with open(receipt_path) as f:
-        data = json.load(f)
+def test_m3_terminal_step480_pass_all_tasks():
+    """Verify that all 4 tasks pass all gate bounds at terminal step 480."""
+    for task_id in TASK_GATE_BOUNDS:
+        receipt_path = RECEIPTS_DIR / f"{task_id}.json"
+        with open(receipt_path) as f:
+            data = json.load(f)
 
-    # Verify receipt on disk has terminal_passing == 0 (NOT 1)
-    assert data["terminal_passing"] == 0
-    assert data["grade"]["terminal_passing"] == 0
+        assert data["terminal_passing"] == 5
+        assert data["grade"]["status"] == "PASS"
 
-    obs_480 = data["observations"][-1]
-    assert obs_480["step"] == 480
-    m = obs_480["metrics"]
+        obs_480 = data["observations"][-1]
+        assert obs_480["step"] == 480
+        m = obs_480["metrics"]
 
-    # Verify that step 480 actually failed the gate bounds
-    assert m["hq"] < 0.90, f"Expected hq < 0.90, got {m['hq']}"
-    assert m["finite_template_tv"] > 0.15, f"Expected finite_template_tv > 0.15, got {m['finite_template_tv']}"
+        bounds = TASK_GATE_BOUNDS[task_id]
+        for metric_name, op, tgt in bounds:
+            assert _eval_bound(m[metric_name], op, tgt), (
+                f"Task {task_id} failed bound {metric_name} {op} {tgt} at step 480 with value {m[metric_name]}"
+            )
 
 
 def test_all_cuda_receipt_hashes_match_disk():
