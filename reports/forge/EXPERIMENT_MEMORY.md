@@ -59,15 +59,15 @@
 ### `online-bcap` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
 - **Parent**: `stream-bcap`
-- **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
-  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_variable_dwell_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_rare_mode_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_delayed_cue` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_persistent_fork` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+- **Status**: `FAIL` (`0/4` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.9`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.4507, mean_rmse=0.2386, modes=0.0000
+  - Tier 1 `seq_img_dwell_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.3981, mean_rmse=0.2541, modes=0.0000
+  - Tier 1 `seq_img_translating_bar_next` (required): **FAIL** — terminal 0/5 · failed `direction_acc >= 0.9`; `next_frame_rmse <= 0.12` · direction_acc=0.5000, live_predictions=480.0000, live_prequential_rmse=0.3895, next_frame_rmse=0.3547
+  - Tier 1 `seq_img_fork_rollout` (required): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `within_state_modes == 2.0` · branch_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.2183, mean_rmse=0.3280, within_state_modes=0.0000
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.3865, mean_rmse=0.2878, modes=0.0000
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.85`; `rare_mass >= 0.03125`; `support_modes == 4.0` · finite_template_tv=0.6875, hq=0.4062, live_predictions=480.0000, live_prequential_rmse=0.4682, mean_rmse=0.1882, rare_mass=0.0000, support_modes=1.0000
+  - Tier 1 `seq_img_delayed_cue` (held): **FAIL** — terminal 0/5 · failed `outcome_accuracy >= 0.9`; `prediction_rmse <= 0.12` · live_predictions=480.0000, live_prequential_rmse=0.1160, outcome_accuracy=0.5000, prediction_rmse=0.2915
+  - Tier 1 `seq_img_persistent_fork` (held): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `trajectory_consistency >= 0.95`; `within_state_modes == 2.0` · branch_tv=1.0000, depth_1_hq=0.0000, depth_1_modes=0.0000, depth_1_tv=1.0000, depth_2_hq=0.0000, depth_2_modes=0.0000, depth_2_tv=1.0000, depth_3_hq=0.0000, depth_3_modes=0.0000, depth_3_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.2445, mean_rmse=0.2037, trajectory_consistency=0.0000, within_state_modes=0.0000
 
 ### `online-bcap-adam` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context

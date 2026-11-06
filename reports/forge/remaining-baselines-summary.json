@@ -1,5 +1,123 @@
 {
   "candidates": {
+    "online-bcap": {
+      "elapsed_seconds": 152.302,
+      "passed_tasks": 0,
+      "source_revision": "27283d524c21c42b7ece093bfd369c6dfd1d8f85",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.115988,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.291461
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.398103,
+            "mean_rmse": 0.25412,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.218276,
+            "mean_rmse": 0.328026,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.0,
+            "depth_1_modes": 0.0,
+            "depth_1_tv": 1.0,
+            "depth_2_hq": 0.0,
+            "depth_2_modes": 0.0,
+            "depth_2_tv": 1.0,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.244487,
+            "mean_rmse": 0.203718,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.6875,
+            "hq": 0.40625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.468222,
+            "mean_rmse": 0.188205,
+            "rare_mass": 0.0,
+            "support_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.450699,
+            "mean_rmse": 0.238641,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.5,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.389457,
+            "next_frame_rmse": 0.354719
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.386537,
+            "mean_rmse": 0.287835,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
     "online-bispf": {
       "elapsed_seconds": 78.137,
       "passed_tasks": 0,
@@ -121,7 +239,6 @@
   },
   "cohort_note": "Remaining nine strict baselines; training source is frozen at d19b9d4. Historical protected artifacts are not rerun or overwritten.",
   "deferred_candidates": [
-    "online-bcap",
     "online-bispf-optimized",
     "online-bispf-optimized-cool",
     "online-fast-weight-bcap",
