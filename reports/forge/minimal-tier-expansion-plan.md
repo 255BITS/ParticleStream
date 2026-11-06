@@ -1,10 +1,11 @@
 # Minimal Tier 1 to Tier 3 experiment targets
 
-Proposed targets, 2026-11-06. Start with five small proofs covering arbitrary
+Targets set on 2026-11-06. Start with five small proofs covering arbitrary
 patterns, discrete output, generalization, arithmetic, and pattern extrapolation.
 Their combined cap is **960 training updates for one global recipe**. The other
-twelve tests are a backlog, not an automatic execution matrix. No training has
-been launched for this plan.
+twelve tests are a backlog, not an automatic execution matrix. The five core
+proofs are implemented and their first bounded comparison is concluded in the
+[experiment readout](minimal-core-readout.md).
 
 The current [leaderboard](technique-inventory.md) records
 `online-feature-prior-bce` passing all ten required Tier 1 tasks. Tier 2 and Tier 3
@@ -163,9 +164,7 @@ evidence includes [experiment memory](EXPERIMENT_MEMORY.md),
 [ParticleGAN's tier policy](https://github.com/255BITS/ParticleGAN/blob/develop/EXPERIMENTATION.md#tiers-and-views),
 and [the online session](../../particlestream/online.py).
 
-Next, implement the core task manifests, source/decoder adapters, scorers and
-controls. Validate them without training. Then run the five bounded core tasks
-sequentially, with no automatic retries or parameter search, and publish measured
-outcomes and cost before choosing a backlog test. A result such as “acquires
-arbitrary patterns, fails unseen kernel combinations” is already a useful,
-readable proof boundary.
+The core task manifests, source/decoder adapters, scorers and controls are now
+implemented. All five bounded tasks ran sequentially after validation. Their
+measured outcomes and costs are in the [readout](minimal-core-readout.md); no
+backlog test was launched. These remain the original targets for that cohort.

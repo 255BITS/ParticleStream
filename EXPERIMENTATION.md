@@ -17,6 +17,10 @@ and unseen-speed rollout (Tier 3). Their fixed training caps are 96, 96, 192,
 192 and 384 updates: 960 total for one unchanged `online-feature-prior-bce`
 recipe. The other twelve proposed tests remain a backlog.
 
+The [first measured readout](reports/forge/minimal-core-readout.md) records one
+new pass (tokens), four numerical failures, 51.35 seconds of complete run time,
+and an unchanged 10/10 required qualification.
+
 ```sh
 particlestream bootstrap
 particlestream controls                 # oracle PASS / destructive FAIL; no training
@@ -251,9 +255,11 @@ image. The storage prior is frozen while this bounded conditional transform
 learns. It uses zero center probes and the same task-owned G/D networks.
 
 Reproduce the qualified recipe with `particlestream run online-feature-prior-bce
---device cuda`. All ten tests are required in view 7 (`single_stream_stability-v5.json`
-and `single_stream_stability-v6.json` are archived in `configs/forge/view-history/`). Promoting the view changes
-the full adapter-module digest, so the first passing view-4 cohort is archived
+--device cuda`. All ten original tests remain required in view 8; views 5, 6 and 7
+are archived in `configs/forge/view-history/`. Earlier promotions changed the
+full adapter-module digest, so the first passing view-4 cohort is archived
 in `reports/forge/cohorts/feature-prior-view4/`, the view-5 cohort is archived
 in `reports/forge/cohorts/particlegan-0.9.6-view5/`, and fresh runs bind qualification
-to the view-7 implementation. Receipts are never manually rebound.
+to the view-7 implementation. View 8 keeps that adapter source unchanged and
+adds the minimal probes through a separate suite module. Receipts are never
+manually rebound.
