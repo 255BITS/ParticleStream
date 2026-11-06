@@ -236,6 +236,124 @@
         }
       }
     },
+    "online-bispf-optimized": {
+      "elapsed_seconds": 104.629,
+      "passed_tasks": 0,
+      "source_revision": "ff659459e46794f76ff534f5e4377075b82fd771",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.115244,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.297083
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.369216,
+            "mean_rmse": 0.248154,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.21024,
+            "mean_rmse": 0.316163,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.0,
+            "depth_1_modes": 0.0,
+            "depth_1_tv": 1.0,
+            "depth_2_hq": 0.0,
+            "depth_2_modes": 0.0,
+            "depth_2_tv": 1.0,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.231371,
+            "mean_rmse": 0.189145,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.6875,
+            "hq": 0.34375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.463696,
+            "mean_rmse": 0.200042,
+            "rare_mass": 0.0,
+            "support_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.450727,
+            "mean_rmse": 0.246911,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.5,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.365302,
+            "next_frame_rmse": 0.356772
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.379189,
+            "mean_rmse": 0.284195,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
     "online-bispf-optimized-cool": {
       "elapsed_seconds": 106.072,
       "passed_tasks": 0,
@@ -357,7 +475,6 @@
   },
   "cohort_note": "Remaining nine strict baselines; training source is frozen at d19b9d4. Historical protected artifacts are not rerun or overwritten.",
   "deferred_candidates": [
-    "online-bispf-optimized",
     "online-fast-weight-bcap",
     "online-ka2",
     "online-ka2-clean",
