@@ -67,6 +67,21 @@ must not alter future training, model modes, memory, or training RNG streams.
 This permits interleaved inference and learning; it does not promise parallel
 GPU kernels or a throughput target.
 
+With an initialized public ParticleGAN trainer, networks and named RNG streams,
+the same API used by the experiment adapter is available to an application:
+
+```python
+from particlestream import OnlineSession
+
+session = OnlineSession(trainer, generator, critic, memory,
+                        predictive=True, serving_generator=serving_rng)
+first_frame, _ = stream.next_frame(data_rng)
+session.observe(first_frame)  # declared warm-up, no optimizer update
+prediction = session.predict()  # serve before fetching the target
+next_frame, _ = stream.next_frame(data_rng)
+stats = session.observe(next_frame)  # learn using the preceding context
+```
+
 For prediction tasks, the first frame is a declared warm-up. A prediction is
 made before the next frame is fetched, then that newly arrived frame trains
 against the context saved from the preceding arrival. Memory is updated only

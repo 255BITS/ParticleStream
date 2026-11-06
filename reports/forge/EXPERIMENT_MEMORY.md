@@ -59,41 +59,41 @@
 ### `online-bcap-adam` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context
 - **Parent**: `stream-bcap-adam`
-- **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
-  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_variable_dwell_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_rare_mode_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_delayed_cue` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_persistent_fork` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+- **Status**: `FAIL` (`0/4` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.9` · finite_template_tv=0.2500, hq=0.7812, live_predictions=480.0000, live_prequential_rmse=0.3822, mean_rmse=0.0928, modes=4.0000
+  - Tier 1 `seq_img_dwell_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.4289, mean_rmse=0.3655, modes=0.0000
+  - Tier 1 `seq_img_translating_bar_next` (required): **FAIL** — terminal 0/5 · failed `direction_acc >= 0.9`; `next_frame_rmse <= 0.12` · direction_acc=0.5000, live_predictions=480.0000, live_prequential_rmse=0.1996, next_frame_rmse=0.3388
+  - Tier 1 `seq_img_fork_rollout` (required): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `within_state_modes == 2.0` · branch_tv=0.5000, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.1678, mean_rmse=0.0485, within_state_modes=1.0000
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.4811, mean_rmse=0.3832, modes=0.0000
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.85`; `rare_mass >= 0.03125`; `support_modes == 4.0` · finite_template_tv=0.4688, hq=0.5312, live_predictions=480.0000, live_prequential_rmse=0.4027, mean_rmse=0.1346, rare_mass=0.0312, support_modes=4.0000
+  - Tier 1 `seq_img_delayed_cue` (held): **FAIL** — terminal 0/5 · failed `outcome_accuracy >= 0.9`; `prediction_rmse <= 0.12` · live_predictions=480.0000, live_prequential_rmse=0.1105, outcome_accuracy=0.5156, prediction_rmse=0.2986
+  - Tier 1 `seq_img_persistent_fork` (held): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `trajectory_consistency >= 0.95`; `within_state_modes == 2.0` · branch_tv=0.9688, depth_1_hq=0.4688, depth_1_modes=1.0000, depth_1_tv=0.5312, depth_2_hq=0.5938, depth_2_modes=1.0000, depth_2_tv=0.5000, depth_3_hq=0.0312, depth_3_modes=1.0000, depth_3_tv=0.9688, hq=0.0312, live_predictions=480.0000, live_prequential_rmse=0.1367, mean_rmse=0.1345, trajectory_consistency=0.0000, within_state_modes=1.0000
 
 ### `online-bispf-early` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context
 - **Parent**: `stream-bispf-early`
-- **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
-  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_variable_dwell_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_rare_mode_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_delayed_cue` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_persistent_fork` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+- **Status**: `FAIL` (`0/4` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **FAIL** — terminal 1/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.9` · finite_template_tv=0.0938, hq=0.9062, live_predictions=480.0000, live_prequential_rmse=0.3770, mean_rmse=0.0778, modes=4.0000
+  - Tier 1 `seq_img_dwell_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.4368, mean_rmse=0.3414, modes=0.0000
+  - Tier 1 `seq_img_translating_bar_next` (required): **FAIL** — terminal 0/5 · failed `direction_acc >= 0.9`; `next_frame_rmse <= 0.12` · direction_acc=0.9688, live_predictions=480.0000, live_prequential_rmse=0.1400, next_frame_rmse=0.1829
+  - Tier 1 `seq_img_fork_rollout` (required): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `within_state_modes == 2.0` · branch_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.1655, mean_rmse=0.2615, within_state_modes=0.0000
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.5451, mean_rmse=0.3903, modes=0.0000
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.85`; `rare_mass >= 0.03125`; `support_modes == 4.0` · finite_template_tv=0.2812, hq=0.7188, live_predictions=480.0000, live_prequential_rmse=0.4420, mean_rmse=0.1204, rare_mass=0.0000, support_modes=3.0000
+  - Tier 1 `seq_img_delayed_cue` (held): **FAIL** — terminal 0/5 · failed `outcome_accuracy >= 0.9`; `prediction_rmse <= 0.12` · live_predictions=480.0000, live_prequential_rmse=0.1147, outcome_accuracy=0.5000, prediction_rmse=0.2987
+  - Tier 1 `seq_img_persistent_fork` (held): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `trajectory_consistency >= 0.95`; `within_state_modes == 2.0` · branch_tv=1.0000, depth_1_hq=0.9062, depth_1_modes=1.0000, depth_1_tv=0.5000, depth_2_hq=0.6562, depth_2_modes=1.0000, depth_2_tv=0.5000, depth_3_hq=0.0000, depth_3_modes=0.0000, depth_3_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.1646, mean_rmse=0.1402, trajectory_consistency=0.0000, within_state_modes=0.0000
 
 ### `online-ka2-ready` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Critic beta2=0.99 (other optimizer betas unchanged) engages KA2 readiness around step 80 within the fixed 480-step budget, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context
 - **Parent**: `stream-ka2-ready`
-- **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
-  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_variable_dwell_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_rare_mode_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_delayed_cue` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_persistent_fork` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+- **Status**: `FAIL` (`0/4` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.9`; `modes == 4.0` · finite_template_tv=0.3438, hq=0.7188, live_predictions=480.0000, live_prequential_rmse=0.4652, mean_rmse=0.1159, modes=3.0000
+  - Tier 1 `seq_img_dwell_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=0.9062, hq=0.0938, live_predictions=480.0000, live_prequential_rmse=0.4884, mean_rmse=0.2511, modes=1.0000
+  - Tier 1 `seq_img_translating_bar_next` (required): **FAIL** — terminal 0/5 · failed `next_frame_rmse <= 0.12` · direction_acc=0.9688, live_predictions=480.0000, live_prequential_rmse=0.1704, next_frame_rmse=0.1692
+  - Tier 1 `seq_img_fork_rollout` (required): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `within_state_modes == 2.0` · branch_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.1537, mean_rmse=0.2133, within_state_modes=0.0000
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=0.9062, hq=0.0938, live_predictions=480.0000, live_prequential_rmse=0.5029, mean_rmse=0.2531, modes=1.0000
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.85`; `rare_mass >= 0.03125`; `support_modes == 4.0` · finite_template_tv=0.2500, hq=0.7500, live_predictions=480.0000, live_prequential_rmse=0.3053, mean_rmse=0.1065, rare_mass=0.0000, support_modes=3.0000
+  - Tier 1 `seq_img_delayed_cue` (held): **FAIL** — terminal 0/5 · failed `outcome_accuracy >= 0.9`; `prediction_rmse <= 0.12` · live_predictions=480.0000, live_prequential_rmse=0.1605, outcome_accuracy=0.5156, prediction_rmse=0.2987
+  - Tier 1 `seq_img_persistent_fork` (held): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `trajectory_consistency >= 0.95`; `within_state_modes == 2.0` · branch_tv=0.9375, depth_1_hq=0.0625, depth_1_modes=1.0000, depth_1_tv=0.9375, depth_2_hq=0.3125, depth_2_modes=1.0000, depth_2_tv=0.6875, depth_3_hq=0.1562, depth_3_modes=1.0000, depth_3_tv=0.8438, hq=0.0625, live_predictions=480.0000, live_prequential_rmse=0.1862, mean_rmse=0.1971, trajectory_consistency=0.0000, within_state_modes=1.0000
 
 ### `stream-bcap` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)
