@@ -35,7 +35,7 @@
   "historical_artifacts_unchanged": 112,
   "limitations": [
     "Qualification covers the fixed seed-0 Tier 1 streams and 480-update budgets.",
-    "Persistent-fork context state reached its 64-slot capacity and evicted 173 entries despite passing all gates.",
+    "Persistent-fork and circle-orbit context states reached their 64-slot capacity and evicted 173 and 174 entries respectively despite passing all gates.",
     "This is an observed-feature conditional-prior and reconstruction recipe; its pass is not a pure adversarial-loss-only BCAP claim."
   ],
   "optimizer_fake_batch": 1,
@@ -44,7 +44,7 @@
   "public_decoder_used_for_all_outputs": true,
   "python_version": "3.13.15",
   "qualification": "PASS",
-  "recipe_delta": "ParticleGAN/Forge 0.9.6 -> 0.9.7; no recipe, task, gate, architecture or budget changes",
+  "recipe_delta": "ParticleGAN/Forge 0.9.6 -> 0.9.7; view 5 -> view 6 adds seq_img_circle_orbit as 9th required task; no recipe, existing task gate, architecture or budget changes",
   "records": [
     {
       "arrivals": 481,
@@ -88,7 +88,7 @@
           "worst_terminal": 8.0
         }
       ],
-      "gif_sha256": "5c510a1a411a2722faacd648d8cf2bafa9942cfefa3b9919d4748fd22b3fd1df",
+      "gif_sha256": "30cdcf0e60184aa49dc4ea15ec055e93986bcb693a92d130514d185f76d5fbb4",
       "task": "seq_img_circle_orbit",
       "terminal_checks_passing": 5
     },
@@ -364,17 +364,17 @@
     "dependency_check": "46 installed packages compatible",
     "oracle_and_destructive_controls": "PASS",
     "pytest_command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q",
-    "pytest_seconds": 40.99,
-    "tests_passed": 435,
+    "pytest_seconds": 45.12,
+    "tests_passed": 436,
     "workspace_candidates_validated": 44,
     "workspace_tasks_validated": 9
   },
-  "source_revision": "c2969bac4e69d6f9f1c3bfa2f9be610716bf21e8",
+  "source_revision": "37c2022800595daeb6f8eb9017b0d0424fe7a2ec",
   "stage": "particlegan_0.9.7_current_view6_qualification_verified",
   "target_retained_after_update": false,
   "task_gates_budgets_initial_capacity_architectures_unchanged_from": "23736b6",
   "terminal_checks_passing": 45,
-  "training_wall_seconds": 0.0,
+  "training_wall_seconds": 140.1123,
   "updates": 4320,
   "view4_archive_artifacts_verified": 16,
   "view_revision": 6

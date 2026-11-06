@@ -51,4 +51,8 @@ def test_feature_recipe_qualifies_all_eight_current_required_tasks():
                       + (transport["manipulator"],))
         gif = workspace.reports_dir / receipt["artifacts"]["goal_gif"]
         assert hashlib.sha256(gif.read_bytes()).hexdigest() == receipt["artifacts"]["gif_sha256"]
+        if task_id == "seq_img_circle_orbit":
+            readme_gif = ROOT / "docs/media/readme/circle-orbit.gif"
+            assert readme_gif.is_file()
+            assert hashlib.sha256(readme_gif.read_bytes()).hexdigest() == receipt["artifacts"]["orbit_gif_sha256"]
     assert all(configuration == shared[0] for configuration in shared)

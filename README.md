@@ -3,8 +3,8 @@
 ![ParticleStream Hero Banner](docs/media/readme/particlestream-hero.png)
 
 [![ParticleGAN](https://img.shields.io/badge/particlegan-0.9.7-blue.svg)](pyproject.toml)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.2%2B-ee4c2c.svg)](pyproject.toml)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
+[![PyTorch](https://img.shields.io/badge/PyTorch-2.6%2B-ee4c2c.svg)](pyproject.toml)
 [![Tier 1 Qualification](https://img.shields.io/badge/Tier%201%20single__stream__stability-9%2F9%20PASS-2ea043.svg)](reports/forge/technique-inventory.md)
 
 **ParticleStream** is a strict online (`batch_size=1`, zero replay) sequential generative modeling and short-horizon world-model memory benchmark built on [`particlegan`](https://pypi.org/project/particlegan/) and `particlegan_forge`.
@@ -34,8 +34,8 @@ To see what ParticleStream does at a glance, consider a point particle learning 
 | `orbit_completion` | `>= 0.90` | **`1.0000`** (`100%` of particles) | Complete 8-step closed-loop revolution without teacher forcing |
 | `step_accuracy` | `>= 0.90` | **`1.0000`** (`100%` of steps) | Per-step nearest-waypoint classification + quality (`RMSE <= 0.12`) |
 | `waypoint_modes` | `== 8.0` | **`8.0`** (`8/8` waypoints) | Full coverage of all 8 orbital phases (`N, NE, E, SE, S, SW, W, NW`) |
-| `xy_rmse` | `<= 0.15` | **`0.0036 .. 0.0045`** | 2D coordinate error in normalized $(x, y) \in [-1, 1]^2$ orbit space |
-| `orbit_rmse` | `<= 0.12` | **`0.0126 .. 0.0135`** | Pixel-space $8\times 8$ rollout RMSE across all 8 steps |
+| `xy_rmse` | `<= 0.15` | **`0.0036 .. 0.0044`** | 2D coordinate error in normalized $(x, y) \in [-1, 1]^2$ orbit space |
+| `orbit_rmse` | `<= 0.12` | **`0.0126 .. 0.0134`** | Pixel-space $8\times 8$ rollout RMSE across all 8 steps |
 
 Standard Forge 24-checkpoint evaluation strip for `seq_img_circle_orbit`:
 
@@ -137,7 +137,7 @@ Every candidate is evaluated with **one global recipe across all 9 required task
 | `seq_img_rare_mode_bars4` | Nonuniform `5:5:5:1` stream frequencies with a rare 4th mode (`1/16`) | `hq >= 0.85`, `finite_template_tv <= 0.15`, `support_modes == 4`, `1/32 <= rare_mass <= 3/32` | **PASS** (`5/5`, `hq=1.0`, `rare_mass=0.0625`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_rare_mode_bars4.gif) |
 | `seq_img_delayed_cue` | Left/Right cue followed by 4 pixel-identical distractors before outcome | `outcome_accuracy >= 0.90`, `prediction_rmse <= 0.12` | **PASS** (`5/5`, `acc=1.0`, `rmse=0.0242`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_delayed_cue.gif) |
 | `seq_img_persistent_fork` | 3-step closed-loop rollout on Left/Right fork without teacher forcing | `hq >= 0.85`, `within_state_modes == 2`, `branch_tv <= 0.20`, `trajectory_consistency >= 0.95` | **PASS** (`5/5`, `consistency=1.0`, `tv=0.0312`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_persistent_fork.gif) |
-| `seq_img_circle_orbit` | 8-waypoint clockwise circular orbit; 8-step closed-loop rollout without teacher forcing | `orbit_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.90`, `orbit_completion >= 0.90`, `waypoint_modes == 8` | **PASS** (`5/5`, `completion=1.0`, `xy_rmse=0.0043`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_circle_orbit.gif) · [circle-orbit.gif](docs/media/readme/circle-orbit.gif) |
+| `seq_img_circle_orbit` | 8-waypoint clockwise circular orbit; 8-step closed-loop rollout without teacher forcing | `orbit_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.90`, `orbit_completion >= 0.90`, `waypoint_modes == 8` | **PASS** (`5/5`, `completion=1.0`, `xy_rmse=0.0036`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_circle_orbit.gif) · [circle-orbit.gif](docs/media/readme/circle-orbit.gif) |
 
 ---
 
@@ -148,7 +148,7 @@ ParticleStream evaluates recipes built on the public `ParticleGAN` trainer formu
 1. **`FeaturePrior-BCAP` (`online-feature-prior-bce`) — `9/9 PASS` (`45/45` terminal checks)**:
    - Combines `bcap_adam` with the causal state reader (`reader="causal_state"`) and `FeatureConditionalReconstruction` (`router="feature_conditional"`, `reconstruction_loss="binary_cross_entropy"`, weight `10.0`).
    - Encodes each arriving frame via a fixed $8\times 64$ orthogonal projection initialized from the protocol `init` RNG stream, maintains bounded empirical feature/context transition counts (`32` features, `64` contexts), and maps particle rows via empirical quantiles at the nearest observed context while keeping the storage table frozen.
-   - Uses **zero generator probe forwards** (`probe_forwards = 0`), retains no target or observation state after each update, and passes all 9 Tier 1 tasks—including 8-step closed-loop circular orbit generation (`100%` orbit completion, `xy_rmse = 0.0043`).
+   - Uses **zero generator probe forwards** (`probe_forwards = 0`), retains no target or observation state after each update, and passes all 9 Tier 1 tasks—including 8-step closed-loop circular orbit generation (`100%` orbit completion, `xy_rmse = 0.0036`).
 2. **Unrouted Strict Online Baselines (`online-bcap-adam`, `online-bispf-early`, `online-ka2-ready`) — `0/9 FAIL`**:
    - Without feature-conditional routing, single-arrival `batch_size=1` updates without replay chase the currently arriving mode during long dwell blocks (`dwell=16..32`), lose rare modes, and drift during multi-step closed-loop rollouts (`seq_img_persistent_fork` and `seq_img_circle_orbit`).
 3. **Competitive & Context-Balanced Transport (`online-bcap-transport-causal`, `online-bcap-balanced`)**:
