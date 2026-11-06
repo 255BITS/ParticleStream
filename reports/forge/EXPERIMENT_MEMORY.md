@@ -293,15 +293,15 @@
 ### `online-ka2` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
 - **Parent**: `stream-ka2`
-- **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
-  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_variable_dwell_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_rare_mode_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_delayed_cue` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_persistent_fork` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+- **Status**: `FAIL` (`0/4` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.9`; `modes == 4.0` · finite_template_tv=0.8125, hq=0.1875, live_predictions=480.0000, live_prequential_rmse=0.4747, mean_rmse=0.2759, modes=3.0000
+  - Tier 1 `seq_img_dwell_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=0.9688, hq=0.0312, live_predictions=480.0000, live_prequential_rmse=0.4928, mean_rmse=0.3093, modes=1.0000
+  - Tier 1 `seq_img_translating_bar_next` (required): **FAIL** — terminal 0/5 · failed `direction_acc >= 0.9`; `next_frame_rmse <= 0.12` · direction_acc=0.2812, live_predictions=480.0000, live_prequential_rmse=0.3413, next_frame_rmse=0.5004
+  - Tier 1 `seq_img_fork_rollout` (required): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `within_state_modes == 2.0` · branch_tv=0.5000, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.1778, mean_rmse=0.0358, within_state_modes=1.0000
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=0.9375, hq=0.0625, live_predictions=480.0000, live_prequential_rmse=0.5291, mean_rmse=0.1954, modes=2.0000
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.85`; `rare_mass >= 0.03125`; `support_modes == 4.0` · finite_template_tv=0.1875, hq=0.8438, live_predictions=480.0000, live_prequential_rmse=0.3900, mean_rmse=0.0817, rare_mass=0.0000, support_modes=3.0000
+  - Tier 1 `seq_img_delayed_cue` (held): **FAIL** — terminal 0/5 · failed `outcome_accuracy >= 0.9`; `prediction_rmse <= 0.12` · live_predictions=480.0000, live_prequential_rmse=0.1283, outcome_accuracy=0.5000, prediction_rmse=0.2882
+  - Tier 1 `seq_img_persistent_fork` (held): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `trajectory_consistency >= 0.95`; `within_state_modes == 2.0` · branch_tv=1.0000, depth_1_hq=0.9688, depth_1_modes=1.0000, depth_1_tv=0.5000, depth_2_hq=0.0000, depth_2_modes=0.0000, depth_2_tv=1.0000, depth_3_hq=0.0000, depth_3_modes=0.0000, depth_3_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.1497, mean_rmse=0.1793, trajectory_consistency=0.0000, within_state_modes=0.0000
 
 ### `online-ka2-clean` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
