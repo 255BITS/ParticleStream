@@ -14,9 +14,10 @@
     "reservoir_size": 64,
     "write_lr": 0.35
   },
+  "namespace": "particlegan_forge",
   "parent": "bcap",
   "recipe_overrides": {},
-  "recipe_preset": "bcap",
+  "recipe_preset": "bcap_adam",
   "schema_version": 3,
   "technique": "FastWeight-BCAP"
 }

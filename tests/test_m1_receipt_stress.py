@@ -13,14 +13,14 @@ import torch
 from particlegan_forge import (
     CandidateSpec,
     ForgeRegistry,
-    ForgeWorkspace,
     MetricBound,
     NamedStreams,
     TaskSpec,
     TierView,
     render_training_gif,
 )
-import particlegan_forge.__main__ as forge_cli
+import particlestream.forge as forge_cli
+from particlestream.forge import StreamWorkspace as ForgeWorkspace
 from particlestream.tier1 import (
     CANDIDATES,
     PRIMARY_VIEW,
@@ -207,7 +207,7 @@ def test_simulated_non_finite_values_via_adapter_flag(tmp_path: Path):
         steps=10,
         observations=5,
         minimum_stable_checks=2,
-        thresholds=[],
+        thresholds=[MetricBound("loss", "<=", 0.1)],
     )
     cand = CandidateSpec(id="cand_nan", technique="test", changed_factors=["baseline"])
     ws.register_task(task)
@@ -249,7 +249,7 @@ def test_non_finite_metric_floats_trigger_atomic_json_crash(tmp_path: Path):
         steps=10,
         observations=5,
         minimum_stable_checks=2,
-        thresholds=[],
+        thresholds=[MetricBound("loss", "<=", 0.1)],
     )
     cand = CandidateSpec(id="cand_literal_nan", technique="test", changed_factors=["baseline"])
     ws.register_task(task)
@@ -438,7 +438,7 @@ def test_simulated_rng_deviation_via_adapter_flag(tmp_path: Path):
         steps=10,
         observations=5,
         minimum_stable_checks=2,
-        thresholds=[],
+        thresholds=[MetricBound("loss", "<=", 0.1)],
     )
     cand = CandidateSpec(id="cand_rng", technique="test", changed_factors=["baseline"])
     ws.register_task(task)
@@ -506,7 +506,7 @@ def test_simultaneous_non_finite_and_rng_deviation(tmp_path: Path):
         steps=10,
         observations=5,
         minimum_stable_checks=2,
-        thresholds=[],
+        thresholds=[MetricBound("loss", "<=", 0.1)],
     )
     cand = CandidateSpec(id="cand_compound", technique="test", changed_factors=["baseline"])
     ws.register_task(task)
@@ -526,7 +526,7 @@ def test_simultaneous_non_finite_and_rng_deviation(tmp_path: Path):
 # ---------------------------------------------------------------------------
 # Test 5: Type Coercion & Missing Field Graceful Defaults
 # ---------------------------------------------------------------------------
-def test_type_coercion_and_missing_field_defaults(tmp_path: Path):
+def test_missing_adapter_evidence_is_invalid(tmp_path: Path):
     reg = ForgeRegistry()
 
     @reg.adapter("minimal_adapter")
@@ -544,7 +544,7 @@ def test_type_coercion_and_missing_field_defaults(tmp_path: Path):
         steps=10,
         observations=5,
         minimum_stable_checks=2,
-        thresholds=[],
+        thresholds=[MetricBound("loss", "<=", 0.1)],
     )
     cand = CandidateSpec(id="cand_min", technique="test", changed_factors=["baseline"])
     ws.register_task(task)
@@ -552,12 +552,11 @@ def test_type_coercion_and_missing_field_defaults(tmp_path: Path):
 
     rec = ws.run_task("cand_min", "task_min", device="cpu")
 
-    assert rec["all_finite"] is True
-    assert rec["unintended_rng_deviations"] == 0
-    assert rec["completed_steps"] == 10
-    assert isinstance(rec["all_finite"], bool)
-    assert isinstance(rec["unintended_rng_deviations"], int)
-    assert isinstance(rec["completed_steps"], int)
+    assert rec["grade"]["status"] == "INVALID"
+    assert rec["all_finite"] is None
+    assert rec["unintended_rng_deviations"] is None
+    assert rec["completed_steps"] is None
+
 
 
 # ---------------------------------------------------------------------------

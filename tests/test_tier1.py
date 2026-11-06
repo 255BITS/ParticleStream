@@ -32,6 +32,7 @@ from particlestream.streams import (
 )
 from particlestream.tier1 import (
     CANDIDATES,
+    PRIMARY_VIEW,
     REGISTRY,
     TIER1_CANDIDATES,
     TIER1_TASKS,
@@ -446,13 +447,13 @@ def test_tier1_grade_sustained_observations_contract():
 
     for task_id, task in tasks.items():
         obs_pass = [{"step": i * 20, "metrics": oracle_metrics[task_id]} for i in range(1, 25)]
-        grade_pass = grade_sustained_observations(task, obs_pass, completed_steps=task.steps)
+        grade_pass = grade_sustained_observations(task, obs_pass, completed_steps=task.steps, all_finite=True, unintended_rng_deviations=0)
         assert grade_pass["status"] == "PASS"
         assert grade_pass["terminal_passing"] == 5
         assert len(grade_pass["failed_bounds"]) == 0
 
         obs_fail = [{"step": i * 20, "metrics": fail_metrics[task_id]} for i in range(1, 25)]
-        grade_fail = grade_sustained_observations(task, obs_fail, completed_steps=task.steps)
+        grade_fail = grade_sustained_observations(task, obs_fail, completed_steps=task.steps, all_finite=True, unintended_rng_deviations=0)
         assert grade_fail["status"] == "FAIL"
         assert grade_fail["terminal_passing"] == 0
         assert len(grade_fail["failed_bounds"]) > 0
@@ -588,7 +589,7 @@ def test_grade_sustained_observations_terminal_window_edges():
     # 1. Clean PASS (all 24 checks pass)
     res_clean = grade_sustained_observations(
         task, [{"step": i * 20, "metrics": good} for i in range(1, 25)], completed_steps=480
-    )
+    , all_finite=True, unintended_rng_deviations=0)
     assert res_clean["status"] == "PASS"
     assert res_clean["terminal_passing"] == 5
     assert res_clean["failed_bounds"] == []
@@ -597,20 +598,20 @@ def test_grade_sustained_observations_terminal_window_edges():
     obs_late = [{"step": i * 20, "metrics": bad} for i in range(1, 20)] + [
         {"step": i * 20, "metrics": good} for i in range(20, 25)
     ]
-    res_late = grade_sustained_observations(task, obs_late, completed_steps=480)
+    res_late = grade_sustained_observations(task, obs_late, completed_steps=480, all_finite=True, unintended_rng_deviations=0)
     assert res_late["status"] == "PASS"
     assert res_late["terminal_passing"] == 5
 
     # 3. Terminal Dip FAIL (checks 1..23 pass, check 24 fails)
     obs_term_dip = [{"step": i * 20, "metrics": good} for i in range(1, 24)] + [{"step": 480, "metrics": bad}]
-    res_term_dip = grade_sustained_observations(task, obs_term_dip, completed_steps=480)
+    res_term_dip = grade_sustained_observations(task, obs_term_dip, completed_steps=480, all_finite=True, unintended_rng_deviations=0)
     assert res_term_dip["status"] == "FAIL"
     assert res_term_dip["terminal_passing"] == 4
     assert len(res_term_dip["failed_bounds"]) > 0
 
     # 4. Mid-Window Dip FAIL (step 440 fails, other terminal checks pass)
     obs_mid_dip = [{"step": i * 20, "metrics": good if i != 22 else bad} for i in range(1, 25)]
-    res_mid_dip = grade_sustained_observations(task, obs_mid_dip, completed_steps=480)
+    res_mid_dip = grade_sustained_observations(task, obs_mid_dip, completed_steps=480, all_finite=True, unintended_rng_deviations=0)
     assert res_mid_dip["status"] == "FAIL"
     assert res_mid_dip["terminal_passing"] == 4
 
@@ -618,7 +619,7 @@ def test_grade_sustained_observations_terminal_window_edges():
     obs_partial = [{"step": i * 20, "metrics": good} for i in range(1, 20)] + [
         {"step": i * 20, "metrics": partial} for i in range(20, 25)
     ]
-    res_partial = grade_sustained_observations(task, obs_partial, completed_steps=480)
+    res_partial = grade_sustained_observations(task, obs_partial, completed_steps=480, all_finite=True, unintended_rng_deviations=0)
     assert res_partial["status"] == "FAIL"
     assert res_partial["terminal_passing"] == 0
     assert "finite_template_tv <= 0.15" in res_partial["failed_bounds"]
@@ -627,14 +628,14 @@ def test_grade_sustained_observations_terminal_window_edges():
     obs_forget = [{"step": i * 20, "metrics": good} for i in range(1, 20)] + [
         {"step": i * 20, "metrics": bad} for i in range(20, 25)
     ]
-    res_forget = grade_sustained_observations(task, obs_forget, completed_steps=480)
+    res_forget = grade_sustained_observations(task, obs_forget, completed_steps=480, all_finite=True, unintended_rng_deviations=0)
     assert res_forget["status"] == "FAIL"
     assert res_forget["terminal_passing"] == 0
 
     # 7. Non-Finite Failure Override
     res_nonfinite = grade_sustained_observations(
         task, [{"step": i * 20, "metrics": good} for i in range(1, 25)], completed_steps=480, all_finite=False
-    )
+    , unintended_rng_deviations=0)
     assert res_nonfinite["status"] == "FAIL"
     assert res_nonfinite["terminal_passing"] == 0
     assert "all_finite == 1" in res_nonfinite["failed_bounds"]
@@ -642,7 +643,7 @@ def test_grade_sustained_observations_terminal_window_edges():
     # 8. Unintended RNG Deviation Override
     res_rng_invalid = grade_sustained_observations(
         task, [{"step": i * 20, "metrics": good} for i in range(1, 25)], completed_steps=480, unintended_rng_deviations=1
-    )
+    , all_finite=True)
     assert res_rng_invalid["status"] == "INVALID"
     assert res_rng_invalid["terminal_passing"] == 0
     assert "unintended_rng_deviations == 0" in res_rng_invalid["failed_bounds"]
@@ -650,7 +651,7 @@ def test_grade_sustained_observations_terminal_window_edges():
     # 9. Incomplete Step Budget
     res_steps_inc = grade_sustained_observations(
         task, [{"step": i * 20, "metrics": good} for i in range(1, 25)], completed_steps=400
-    )
+    , all_finite=True, unintended_rng_deviations=0)
     assert res_steps_inc["status"] == "INCOMPLETE"
     assert res_steps_inc["terminal_passing"] == 0
     assert "completed_steps == steps" in res_steps_inc["failed_bounds"]
@@ -658,7 +659,7 @@ def test_grade_sustained_observations_terminal_window_edges():
     # 10. Too Few Observations (< minimum_stable_checks)
     res_few_obs = grade_sustained_observations(
         task, [{"step": i * 20, "metrics": good} for i in range(1, 4)], completed_steps=480
-    )
+    , all_finite=True, unintended_rng_deviations=0)
     assert res_few_obs["status"] == "INCOMPLETE"
     assert res_few_obs["terminal_passing"] == 0
     assert "observations >= minimum_stable_checks" in res_few_obs["failed_bounds"]
@@ -674,7 +675,7 @@ def test_tier_api_bootstrap_retier_and_short_run(tmp_path: Path):
     val = ws.validate()
     assert val["status"] == "valid"
     assert val["tasks"] == 4
-    assert val["candidates"] == 4
+    assert val["candidates"] == len(CANDIDATES)
 
     # Test short 12-step run with RNG isolation check and GIF generation (grades INCOMPLETE vs full budget)
     rec = ws.run_task("fast-weight-bcap", "seq_img_round_robin_bars4", device="cpu", steps_override=12)
@@ -691,8 +692,8 @@ def test_tier_api_bootstrap_retier_and_short_run(tmp_path: Path):
         new_tier=2,
         reason="Move fork rollout to Tier 2 in test",
     )
-    assert updated.revision == 2
-    assert (tmp_path / "configs/forge/view-history/single_stream_stability-v1.json").is_file()
+    assert updated.revision == PRIMARY_VIEW.revision + 1
+    assert (tmp_path / f"configs/forge/view-history/single_stream_stability-v{PRIMARY_VIEW.revision}.json").is_file()
 
 
 def test_stream_image_critic_non_linear_context_coupling():
@@ -769,7 +770,7 @@ def test_fast_weight_bcap_ns_candidate_spec():
     """Verify fast-weight-bcap-ns specification in TIER1_CANDIDATES."""
     assert "fast-weight-bcap-ns" in TIER1_CANDIDATES
     c = TIER1_CANDIDATES["fast-weight-bcap-ns"]
-    assert c.recipe_preset == "bcap"
+    assert c.recipe_preset == "bcap_adam"
     assert c.recipe_overrides.get("loss") == "non_saturating"
     assert c.recipe_overrides.get("lr") == 0.005
     assert c.recipe_overrides.get("lr_schedule") == "cosine"

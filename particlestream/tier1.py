@@ -2,6 +2,11 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import asdict
+import hashlib
+from importlib.metadata import version
+import inspect
+import json
 from pathlib import Path
 
 import torch
@@ -9,16 +14,19 @@ from particlegan import GANTrainer, Recipe, get_recipe, init
 from particlegan_forge import (
     CandidateSpec,
     ForgeRegistry,
-    ForgeWorkspace,
     MetricBound,
     NamedStreams,
     TaskSpec,
     TierSpec,
     TierView,
+    atomic_text,
+    file_hash,
+    has_nonfinite,
     render_training_gif,
 )
 
 from .models import FastWeightMemory, StreamImageCritic, StreamImageGenerator
+from .forge import StreamWorkspace
 from .streams import (
     ForkStream,
     SequentialBarsStream,
@@ -100,11 +108,17 @@ TIER1_TASKS: list[TaskSpec] = [
     ),
 ]
 
+# Bind dependency code as well as the adapter body into each task fingerprint.
+IMPLEMENTATION = {
+    name: file_hash(Path(__file__).with_name(name))
+    for name in ("models.py", "streams.py")
+}
+
 PRIMARY_VIEW = TierView.from_tiers(
     id="single_stream_stability",
     goal="single_stream_stability",
-    revision=1,
-    policy_change_reason="Initial Tier 1 single-stream batch_size=1 sequential image suite.",
+    revision=2,
+    policy_change_reason="ParticleGAN 0.9.6 source-bound family comparison with task-owned conditional architectures; unchanged gates and budgets.",
     tiers=[
         TierSpec(
             tier=1,
@@ -113,15 +127,12 @@ PRIMARY_VIEW = TierView.from_tiers(
     ],
 )
 
-if not hasattr(TaskSpec, "host"):
-    TaskSpec.host = property(lambda self: self.host_definition)
-
 CANDIDATES: list[CandidateSpec] = [
     CandidateSpec(
         id="bcap",
         technique="BCAP",
         changed_factors=["Stateless BCAP baseline on batch_size=1 sequential stream"],
-        recipe_preset="bcap",
+        recipe_preset="bcap_adam",
         recipe_overrides={},
         memory_policy={"kind": "none"},
     ),
@@ -140,7 +151,7 @@ CANDIDATES: list[CandidateSpec] = [
             "Detached FastWeightMemory writer/reader context + bounded 64-frame reservoir replay on batch_size=1 stream"
         ],
         parent="bcap",
-        recipe_preset="bcap",
+        recipe_preset="bcap_adam",
         recipe_overrides={},
         memory_policy={"kind": "fast_weight", "dim": 16, "decay": 0.90, "write_lr": 0.35, "reservoir_size": 64},
     ),
@@ -156,7 +167,7 @@ CANDIDATES: list[CandidateSpec] = [
             "Dwell-aware rehearsal replay and task-isolated context conditioning",
         ],
         parent="fast-weight-bcap",
-        recipe_preset="bcap",
+        recipe_preset="bcap_adam",
         recipe_overrides={
             "loss": "non_saturating",
             "lr": 0.005,
@@ -183,10 +194,51 @@ CANDIDATES: list[CandidateSpec] = [
     ),
 ]
 
+# Each candidate uses this bounded memory policy across the entire task suite.
+# A family is identified by the resolved critic formulation, not its label.
+STREAM_MEMORY = {
+    "kind": "fast_weight", "dim": 16, "decay": 0.90, "write_lr": 0.35,
+    "reservoir_size": 64, "rehearsal_batch": 7,
+}
+STREAM_SCHEDULE = {
+    "loss": "non_saturating", "lr_schedule": "cosine",
+    "lr_anneal_start": 0.5, "lr_floor": 0.05, "network_lr_floor": 0.05,
+}
+FAMILY_PRESETS = {
+    "stream-bcap-adam": ("BCAP", "bcap_adam"),
+    "stream-bcap": ("BCAP", "bcap"),
+    "stream-ka2": ("KA2", "ka2"),
+    "stream-bispf": ("BISPF", "bispf"),
+    "stream-bispf-optimized": ("BISPF", "bispf_optimized"),
+}
+for candidate_id, (family, preset) in FAMILY_PRESETS.items():
+    overrides = dict(STREAM_SCHEDULE)
+    if preset in {"bcap_adam", "ka2", "bispf"}:
+        overrides.update(lr=0.005, betas=[0.0, 0.999])
+    if family == "BISPF":
+        # Earlier discrete-mode experiments found repulsive prior penalties
+        # obstruct clustering. Declare this ablation instead of hiding it.
+        overrides.update(prior_regularizer="none", prior_reg=0.0,
+                         training_precision="float32")
+    CANDIDATES.append(CandidateSpec(
+        id=candidate_id, technique=family, recipe_preset=preset,
+        recipe_overrides=overrides, memory_policy=dict(STREAM_MEMORY),
+        changed_factors=[
+            f"ParticleGAN 0.9.6 public {preset} trainer preset",
+            "Shared 64-frame FIFO memory, seven replay samples and velocity context",
+            "Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)",
+            *(["SBNP disabled for discrete target modes; FP32 training"] if family == "BISPF" else []),
+        ],
+    ))
+
 TIER1_CANDIDATES = {c.id: c for c in CANDIDATES}
 
 
 def _build_recipe(task: TaskSpec, candidate: CandidateSpec, steps: int) -> Recipe:
+    task_owned = {"total_steps", "batch_size", "num_particles", "z_dim", "prior_kind",
+                  "sigma_rel", "standardize"}
+    if task_owned.intersection(candidate.recipe_overrides):
+        raise ValueError("candidate overrides task-owned resource or initial-prior fields")
     prior_kind = "mog" if task.prior_kind == "mog" else "particles"
     options = {
         "total_steps": steps,
@@ -199,8 +251,6 @@ def _build_recipe(task: TaskSpec, candidate: CandidateSpec, steps: int) -> Recip
         **candidate.recipe_overrides,
     }
     preset = candidate.recipe_preset
-    if preset == "bcap":
-        return get_recipe("bcap_adam", **options).replace(name="bcap")
     return get_recipe(preset, **options)
 
 
@@ -212,6 +262,12 @@ def _init_module(module: torch.nn.Module, streams: NamedStreams, component: str)
     }
     if seeds:
         init.deterministic_orthogonal_(module, parameter_seeds=seeds)
+
+
+for helper in (_build_recipe, _init_module):
+    IMPLEMENTATION[helper.__name__] = hashlib.sha256(inspect.getsource(helper).encode()).hexdigest()
+for task in TIER1_TASKS:
+    task.host_definition["implementation"] = dict(IMPLEMENTATION)
 
 
 @REGISTRY.adapter("seq_image")
@@ -227,13 +283,13 @@ def run_seq_image_task(
     log_event=None,
 ) -> dict:
     steps = int(steps_override or task.steps)
-    host = getattr(task, "host", task.host_definition)
+    host = task.host_definition
     mode = host["mode"]
     width = int(host.get("width", 16))
     task_context_dim = int(host.get("context_dim", 0))
     use_memory = candidate.memory_policy.get("kind") == "fast_weight"
     mem_dim = int(candidate.memory_policy.get("dim", 16)) if use_memory else 0
-    model_context_dim = task_context_dim if use_memory else 0
+    model_context_dim = task_context_dim
 
     with streams.fork("init", component="models", purpose="construction", device=device):
         g = StreamImageGenerator(z_dim=task.z_dim, width=width, context_dim=model_context_dim).to(device)
@@ -348,9 +404,13 @@ def run_seq_image_task(
             x_cur = stem
             train_real = branch
 
-        trainer.step(train_real)
-        all_finite &= all(bool(torch.isfinite(p).all()) for p in g.parameters())
-        all_finite &= all(bool(torch.isfinite(p).all()) for p in d.parameters())
+        stats = trainer.step(train_real)
+        all_finite &= not has_nonfinite(stats)
+        for module in (g, d, prior, memory):
+            if module is not None:
+                all_finite &= all(bool(torch.isfinite(p).all()) for p in module.parameters())
+                all_finite &= all(bool(torch.isfinite(p.grad).all())
+                                  for p in module.parameters() if p.grad is not None)
 
         if step in checkpoints:
             with streams.isolated_evaluation():
@@ -420,7 +480,12 @@ def run_seq_image_task(
         len(gif_frames) >= task.minimum_stable_checks
         and all(f["passed"] for f in gif_frames[-task.minimum_stable_checks :])
     )
-    verdict_str = "PASS" if (window_passed and all_finite and unintended_rng == 0) else "FAIL"
+    if unintended_rng:
+        verdict_str = "INVALID"
+    elif steps < task.steps:
+        verdict_str = "INCOMPLETE"
+    else:
+        verdict_str = "PASS" if (window_passed and all_finite) else "FAIL"
     gif_out = attempt_dir / "goal.gif"
     gif_rel = f"gifs/{candidate.id}_{task.id}.gif"
     gif_meta = render_training_gif(
@@ -450,12 +515,28 @@ def run_seq_image_task(
         "all_finite": all_finite,
         "unintended_rng_deviations": unintended_rng,
         "completed_steps": steps,
-        "artifacts": {"goal_gif": gif_rel, "gif_sha256": gif_sha256},
+        "artifacts": {"goal_gif": gif_rel, "gif_sha256": gif_sha256,
+                      "particlegan_version": version("particlegan"),
+                      "torch_version": torch.__version__,
+                      "resolved_recipe": asdict(recipe),
+                      "implementation": IMPLEMENTATION,
+                      "memory_policy": candidate.memory_policy},
     }
 
 
-def bootstrap_workspace(root: Path | str) -> ForgeWorkspace:
-    ws = ForgeWorkspace(root, registry=REGISTRY)
+def bootstrap_workspace(root: Path | str) -> StreamWorkspace:
+    ws = StreamWorkspace(root, registry=REGISTRY)
+    view_path = ws.views_dir / f"{PRIMARY_VIEW.id}.json"
+    if view_path.is_file():
+        previous = view_path.read_text()
+        previous_revision = json.loads(previous)["revision"]
+        if previous_revision > PRIMARY_VIEW.revision:
+            raise ValueError("bootstrap would replace a newer view; reconcile its policy first")
+        if previous_revision < PRIMARY_VIEW.revision:
+            archive = ws.view_history_dir / f"{PRIMARY_VIEW.id}-v{previous_revision}.json"
+            if archive.exists() and archive.read_text() != previous:
+                raise ValueError("archived view revision differs; refusing to overwrite history")
+            atomic_text(archive, previous)
     for t in TIER1_TASKS:
         ws.register_task(t)
     ws.register_view(PRIMARY_VIEW)

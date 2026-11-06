@@ -30,6 +30,12 @@
   "execution": {
     "host_definition": {
       "dwell": 16,
+      "implementation": {
+        "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+        "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+        "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+        "streams.py": "ba80f0f25eb5212b148dd4f159b4fec16676e7af2d862d270d7e86ef0672fc44"
+      },
       "mode": "bars4",
       "width": 16
     },
@@ -48,6 +54,7 @@
     "steps": 480
   },
   "id": "seq_img_dwell_bars4",
+  "namespace": "particlegan_forge",
   "resources": {
     "cpu_threads": 1,
     "gpus": 1,

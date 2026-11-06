@@ -10,8 +10,9 @@
   "memory_policy": {
     "kind": "none"
   },
+  "namespace": "particlegan_forge",
   "recipe_overrides": {},
-  "recipe_preset": "bcap",
+  "recipe_preset": "bcap_adam",
   "schema_version": 3,
   "technique": "BCAP"
 }

@@ -9,12 +9,18 @@ description = "Single-stream (batch_size=1) sequential image and world-model exp
 readme = "EXPERIMENTATION.md"
 requires-python = ">=3.11"
 dependencies = [
-    "particlegan",
+    "particlegan==0.9.6",
     "torch>=2.6,<3",
     "numpy>=1.26,<3",
     "matplotlib>=3.8,<4",
     "Pillow>=13.0.0,<14",
 ]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10"]
+
+[project.scripts]
+particlestream = "particlestream.forge:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -23,5 +29,5 @@ namespaces = false
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = [".", "../ParticleGAN"]
+pythonpath = ["."]
 addopts = "-ra"

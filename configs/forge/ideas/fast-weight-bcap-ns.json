@@ -20,6 +20,7 @@
     "reservoir_size": 64,
     "write_lr": 0.35
   },
+  "namespace": "particlegan_forge",
   "parent": "fast-weight-bcap",
   "recipe_overrides": {
     "betas": [
@@ -39,7 +40,7 @@
     "reg_coeff": 1.0,
     "reg_kappa": 1.0
   },
-  "recipe_preset": "bcap",
+  "recipe_preset": "bcap_adam",
   "schema_version": 3,
   "technique": "Global-Stream-BCAP"
 }

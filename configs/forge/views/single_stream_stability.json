@@ -28,7 +28,8 @@
   "evidence_scope": "ordinary",
   "goal": "single_stream_stability",
   "id": "single_stream_stability",
-  "policy_change_reason": "Initial Tier 1 single-stream batch_size=1 sequential image suite.",
-  "revision": 1,
+  "namespace": "particlegan_forge",
+  "policy_change_reason": "ParticleGAN 0.9.6 source-bound family comparison with task-owned conditional architectures; unchanged gates and budgets.",
+  "revision": 2,
   "schema_version": 1
 }

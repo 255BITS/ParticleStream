@@ -10,6 +10,7 @@
   "memory_policy": {
     "kind": "none"
   },
+  "namespace": "particlegan_forge",
   "recipe_overrides": {},
   "recipe_preset": "ka2",
   "schema_version": 3,

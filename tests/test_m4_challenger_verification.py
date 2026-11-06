@@ -80,7 +80,9 @@ def test_winning_candidate_gif_and_sha256_match(task_id: str):
 
 
 def test_all_16_cuda_receipts_integrity():
-    receipt_files = glob.glob(os.path.join(RECEIPT_DIR, "*", "*.json"))
+    # This verifies the frozen pre-upgrade cohort; new family runs coexist.
+    receipt_files = [path for candidate in ALL_CANDIDATES
+                     for path in glob.glob(os.path.join(RECEIPT_DIR, candidate, "*.json"))]
     assert len(receipt_files) == 16, f"Expected exactly 16 CUDA receipts, got {len(receipt_files)}"
 
     for r_path in receipt_files:
