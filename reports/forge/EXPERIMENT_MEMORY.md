@@ -1,6 +1,6 @@
 # Experiment Memory
 
-- **Primary view**: [`single_stream_stability`](technique-inventory.md) (revision 7)
+- **Primary view**: [`single_stream_stability`](technique-inventory.md) (revision 8)
 - **Tasks by tier**: [`EXPERIMENTS_BY_TIER.md`](EXPERIMENTS_BY_TIER.md)
 - **Cohort**: device `cuda`, seed 0
 
@@ -20,6 +20,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **PASS** — terminal 5/5 · branch_tv=0.0312, depth_1_hq=1.0000, depth_1_modes=2.0000, depth_1_tv=0.0312, depth_2_hq=1.0000, depth_2_modes=2.0000, depth_2_tv=0.0312, depth_3_hq=1.0000, depth_3_modes=2.0000, depth_3_tv=0.0312, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.0276, mean_rmse=0.0106, trajectory_consistency=1.0000, within_state_modes=2.0000
   - Tier 1 `seq_img_circle_orbit` (required): **PASS** — terminal 5/5 · live_predictions=480.0000, live_prequential_rmse=0.0157, orbit_completion=1.0000, orbit_rmse=0.0126, step_accuracy=1.0000, waypoint_modes=8.0000, xy_rmse=0.0036
   - Tier 1 `seq_img_square_circle_cycle` (required): **PASS** — terminal 5/5 · c2s_rmse=0.0136, cycle_completion=1.0000, cycle_rmse=0.0127, live_predictions=480.0000, live_prequential_rmse=0.0162, s2c_rmse=0.0117, step_accuracy=1.0000, waypoint_modes=8.0000, xy_rmse=0.0038
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `bcap` (`BCAP`)
 - **Changed factors**: Stateless BCAP baseline on batch_size=1 sequential stream
@@ -34,6 +39,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `fast-weight-bcap` (`FastWeight-BCAP`)
 - **Changed factors**: Detached FastWeightMemory writer/reader context + bounded 64-frame reservoir replay on batch_size=1 stream
@@ -49,6 +59,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `fast-weight-bcap-ns` (`Global-Stream-BCAP`)
 - **Changed factors**: Non-saturating GAN loss for batch_size=1 stability, Cosine learning rate annealing (lr=0.005, betas=(0.0, 0.999), lr_schedule=cosine, lr_anneal_start=0.5, lr_floor=0.05), 64-frame rehearsal reservoir spanning full dwell=16 4-mode cycle, Temporal velocity direction memory with static noise gating (||diff|| > 0.35), Joint non-linear conditional critic architecture, Dwell-aware rehearsal replay and task-isolated context conditioning
@@ -64,6 +79,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `ka2` (`KA2`)
 - **Changed factors**: KA2 critic EMA anchor on batch_size=1 sequential stream
@@ -78,6 +98,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -93,6 +118,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-adam` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context
@@ -108,6 +138,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-adam-causal` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context
@@ -123,6 +158,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-balanced` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving, Context-local balanced transport: at most 64 detached conditioning centroids; per-context equal-mass row dual updates at rate 0.05, clip 1; global usage penalty removed
@@ -138,6 +178,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-balanced-bce` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving, Context-local balanced transport: at most 64 detached conditioning centroids; per-context equal-mass row dual updates at rate 0.05, clip 1; global usage penalty removed, Freeze initial prior and ablate associative-history contribution; retain current state, velocity, salient content and repetition age, Replace only image reconstruction MSE with binary cross entropy at weight 10; routing remains current-image MSE plus context-local duals
@@ -153,6 +198,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-balanced-frozen` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving, Context-local balanced transport: at most 64 detached conditioning centroids; per-context equal-mass row dual updates at rate 0.05, clip 1; global usage penalty removed, Freeze initial prior and ablate associative-history contribution; retain current state, velocity, salient content and repetition age
@@ -168,6 +218,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-stateless` (`BCAP`)
 - **Changed factors**: Stateless BCAP baseline on batch_size=1 sequential stream, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -183,6 +238,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-transport` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving
@@ -198,6 +258,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-transport-causal` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving
@@ -213,6 +278,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-transport-fit` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving, Combined global fitting recipe: frozen initial prior; constant generator LR 0.01; critic multiplier 0.25; reconstruction weight 100; associative read weight zero to isolate retained current/velocity/cue/age context
@@ -228,6 +298,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -243,6 +318,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-early` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context
@@ -258,6 +338,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-early-causal` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context
@@ -273,6 +358,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-frozen` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Freeze the initial prior table to remove sparse-row optimizer drift; all other settings unchanged
@@ -288,6 +378,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-momentum` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Critic first-moment beta 0.95 carries optimizer evidence across correlated observations; one update per arrival
@@ -303,6 +398,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-optimized` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf_optimized trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -318,6 +418,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-optimized-cool` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf_optimized trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Conservative global DualNorm rates: lr=0.003, D multiplier=1, prior multiplier=2; annealing starts at 0.25, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -333,6 +438,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-slow-critic` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Reduce critic learning-rate multiplier from 1 to 0.25 to limit chasing one observation
@@ -348,6 +458,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-slow-prior` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Reduce prior learning-rate multiplier from 2 to 0.25 for sparse batch-size-1 row visits
@@ -363,6 +478,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-transport-causal` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving
@@ -378,6 +498,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-fast-weight-bcap` (`FastWeight-BCAP`)
 - **Changed factors**: Detached FastWeightMemory writer/reader context + bounded 64-frame reservoir replay on batch_size=1 stream, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -393,6 +518,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-fast-weight-bcap-ns` (`Global-Stream-BCAP`)
 - **Changed factors**: Non-saturating GAN loss for batch_size=1 stability, Cosine learning rate annealing (lr=0.005, betas=(0.0, 0.999), lr_schedule=cosine, lr_anneal_start=0.5, lr_floor=0.05), 64-frame rehearsal reservoir spanning full dwell=16 4-mode cycle, Temporal velocity direction memory with static noise gating (||diff|| > 0.35), Joint non-linear conditional critic architecture, Dwell-aware rehearsal replay and task-isolated context conditioning, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -408,6 +538,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -423,6 +558,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-clean` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -438,6 +578,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-light-anchor` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Reduce KA2 EMA anchor weight from 1 to 0.1 globally; retain the KA2 penalty and formulation optimizer, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -453,6 +598,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-ready` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Critic beta2=0.99 (other optimizer betas unchanged) engages KA2 readiness around step 80 within the fixed 480-step budget, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context
@@ -468,6 +618,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-ready-causal` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Critic beta2=0.99 (other optimizer betas unchanged) engages KA2 readiness around step 80 within the fixed 480-step budget, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context
@@ -483,6 +638,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-stateless` (`KA2`)
 - **Changed factors**: KA2 critic EMA anchor on batch_size=1 sequential stream, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
@@ -498,6 +658,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-transport-causal` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Critic beta2=0.99 (other optimizer betas unchanged) engages KA2 readiness around step 80 within the fixed 480-step budget, Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving
@@ -513,6 +678,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bcap` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)
@@ -527,6 +697,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bcap-adam` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)
@@ -541,6 +716,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bispf` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training
@@ -555,6 +735,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bispf-early` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window
@@ -570,6 +755,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bispf-optimized` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf_optimized trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training
@@ -584,6 +774,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bispf-optimized-cool` (`BISPF`)
 - **Changed factors**: ParticleGAN 0.9.6 public bispf_optimized trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), SBNP disabled for discrete target modes; FP32 training, Conservative global DualNorm rates: lr=0.003, D multiplier=1, prior multiplier=2; annealing starts at 0.25
@@ -599,6 +794,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-ka2` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)
@@ -613,6 +813,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-ka2-clean` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1
@@ -628,6 +833,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-ka2-light-anchor` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Reduce KA2 EMA anchor weight from 1 to 0.1 globally; retain the KA2 penalty and formulation optimizer
@@ -643,6 +853,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-ka2-ready` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1, Critic beta2=0.99 (other optimizer betas unchanged) engages KA2 readiness around step 80 within the fixed 480-step budget
@@ -658,6 +873,11 @@
   - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 
 Interpretation and historical evidence: [research notes](research-notes.md).
