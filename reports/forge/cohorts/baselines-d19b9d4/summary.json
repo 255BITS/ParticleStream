@@ -1,0 +1,1125 @@
+{
+  "aggregate": {
+    "all_finite": true,
+    "arrivals": 34596,
+    "decoded_animation_frames": 1728,
+    "elapsed_cli_and_audit_seconds": 830.181,
+    "full_suite_passes": 0,
+    "live_predictions": 34560,
+    "observations": 1728,
+    "recipes": 9,
+    "runs": 72,
+    "task_passes": 1,
+    "training_gifs": 72,
+    "unintended_rng_deviations": 0,
+    "updates": 34560
+  },
+  "aliases": [
+    {
+      "candidates": [
+        "online-ka2-clean",
+        "online-ka2-light-anchor"
+      ],
+      "interpretation": "Exact observation curves; no independent improvement. Consistent with KA2 anchor inactivity at beta2=0.999 within 480 updates.",
+      "matching_observations_per_task": 24,
+      "matching_tasks": 8
+    }
+  ],
+  "archive_manifest": "reports/forge/cohorts/baselines-d19b9d4/manifest.json",
+  "candidates": {
+    "online-bcap": {
+      "elapsed_seconds": 152.302,
+      "passed_tasks": 0,
+      "source_revision": "27283d524c21c42b7ece093bfd369c6dfd1d8f85",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.115988,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.291461
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.398103,
+            "mean_rmse": 0.25412,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.218276,
+            "mean_rmse": 0.328026,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.0,
+            "depth_1_modes": 0.0,
+            "depth_1_tv": 1.0,
+            "depth_2_hq": 0.0,
+            "depth_2_modes": 0.0,
+            "depth_2_tv": 1.0,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.244487,
+            "mean_rmse": 0.203718,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.6875,
+            "hq": 0.40625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.468222,
+            "mean_rmse": 0.188205,
+            "rare_mass": 0.0,
+            "support_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.450699,
+            "mean_rmse": 0.238641,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.5,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.389457,
+            "next_frame_rmse": 0.354719
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.386537,
+            "mean_rmse": 0.287835,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
+    "online-bispf": {
+      "elapsed_seconds": 78.137,
+      "passed_tasks": 0,
+      "source_revision": "c16172a4584a11d001a3f0e649c5b8a9833c8abe",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.116584,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.30088
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.360235,
+            "mean_rmse": 0.274285,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.5,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.17614,
+            "mean_rmse": 0.04334,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.96875,
+            "depth_1_hq": 0.25,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.75,
+            "depth_2_hq": 0.75,
+            "depth_2_modes": 1.0,
+            "depth_2_tv": 0.5,
+            "depth_3_hq": 0.03125,
+            "depth_3_modes": 1.0,
+            "depth_3_tv": 0.96875,
+            "hq": 0.03125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.180186,
+            "mean_rmse": 0.15078,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.1875,
+            "hq": 0.8125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.419396,
+            "mean_rmse": 0.096579,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.15625,
+            "hq": 0.875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.409042,
+            "mean_rmse": 0.075273,
+            "modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.96875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.154907,
+            "next_frame_rmse": 0.132983
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.470947,
+            "mean_rmse": 0.285624,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
+    "online-bispf-optimized": {
+      "elapsed_seconds": 104.629,
+      "passed_tasks": 0,
+      "source_revision": "ff659459e46794f76ff534f5e4377075b82fd771",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.115244,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.297083
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.369216,
+            "mean_rmse": 0.248154,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.21024,
+            "mean_rmse": 0.316163,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.0,
+            "depth_1_modes": 0.0,
+            "depth_1_tv": 1.0,
+            "depth_2_hq": 0.0,
+            "depth_2_modes": 0.0,
+            "depth_2_tv": 1.0,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.231371,
+            "mean_rmse": 0.189145,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.6875,
+            "hq": 0.34375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.463696,
+            "mean_rmse": 0.200042,
+            "rare_mass": 0.0,
+            "support_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.450727,
+            "mean_rmse": 0.246911,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.5,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.365302,
+            "next_frame_rmse": 0.356772
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.379189,
+            "mean_rmse": 0.284195,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
+    "online-bispf-optimized-cool": {
+      "elapsed_seconds": 106.072,
+      "passed_tasks": 0,
+      "source_revision": "aec01c2f57a87abdcf0f81049bad31f1bcff3947",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.161914,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.332032
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.354667,
+            "mean_rmse": 0.328292,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.335153,
+            "mean_rmse": 0.355362,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.0,
+            "depth_1_modes": 0.0,
+            "depth_1_tv": 1.0,
+            "depth_2_hq": 0.0,
+            "depth_2_modes": 0.0,
+            "depth_2_tv": 1.0,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.229942,
+            "mean_rmse": 0.227724,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.358598,
+            "mean_rmse": 0.323613,
+            "rare_mass": 0.0,
+            "support_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.359681,
+            "mean_rmse": 0.328736,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.515625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.357896,
+            "next_frame_rmse": 0.360042
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.357674,
+            "mean_rmse": 0.329227,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
+    "online-fast-weight-bcap": {
+      "elapsed_seconds": 73.944,
+      "passed_tasks": 1,
+      "source_revision": "02fc70961f4b98585996de750aa87c2ddffb805e",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.151875,
+            "outcome_accuracy": 0.484375,
+            "prediction_rmse": 0.306565
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.441477,
+            "mean_rmse": 0.400933,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.5,
+            "hq": 0.78125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.180841,
+            "mean_rmse": 0.111968,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.21875,
+            "depth_1_modes": 2.0,
+            "depth_1_tv": 0.78125,
+            "depth_2_hq": 0.125,
+            "depth_2_modes": 1.0,
+            "depth_2_tv": 0.875,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.194505,
+            "mean_rmse": 0.185354,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.21875,
+            "hq": 0.78125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.351095,
+            "mean_rmse": 0.091255,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.25,
+            "hq": 0.75,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.458783,
+            "mean_rmse": 0.110833,
+            "modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.080392,
+            "next_frame_rmse": 0.067943
+          },
+          "status": "PASS",
+          "terminal_passing": 5
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.468733,
+            "mean_rmse": 0.537763,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
+    "online-ka2": {
+      "elapsed_seconds": 84.218,
+      "passed_tasks": 0,
+      "source_revision": "e28a10af4e8a75b2c80f66ac22996b3ea3d63614",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.12826,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.288213
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.96875,
+            "hq": 0.03125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.492785,
+            "mean_rmse": 0.309323,
+            "modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.5,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.177759,
+            "mean_rmse": 0.035834,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.96875,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.5,
+            "depth_2_hq": 0.0,
+            "depth_2_modes": 0.0,
+            "depth_2_tv": 1.0,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.149666,
+            "mean_rmse": 0.179312,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.1875,
+            "hq": 0.84375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.390026,
+            "mean_rmse": 0.081678,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.8125,
+            "hq": 0.1875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.4747,
+            "mean_rmse": 0.275901,
+            "modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.28125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.341252,
+            "next_frame_rmse": 0.500402
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.9375,
+            "hq": 0.0625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.529127,
+            "mean_rmse": 0.195423,
+            "modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
+    "online-ka2-clean": {
+      "elapsed_seconds": 76.83,
+      "passed_tasks": 0,
+      "source_revision": "70db27581ecf59ecf8c7d7c7acd85751dcafd464",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.114813,
+            "outcome_accuracy": 0.515625,
+            "prediction_rmse": 0.297363
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.481852,
+            "mean_rmse": 0.323532,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.5,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.170874,
+            "mean_rmse": 0.038325,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.4375,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.5625,
+            "depth_2_hq": 0.40625,
+            "depth_2_modes": 1.0,
+            "depth_2_tv": 0.59375,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.168272,
+            "mean_rmse": 0.142391,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.28125,
+            "hq": 0.71875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.37722,
+            "mean_rmse": 0.103369,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.625,
+            "hq": 0.375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.3385,
+            "mean_rmse": 0.185969,
+            "modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.65625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.207373,
+            "next_frame_rmse": 0.265544
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.409198,
+            "mean_rmse": 0.288054,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
+    "online-ka2-light-anchor": {
+      "elapsed_seconds": 77.639,
+      "passed_tasks": 0,
+      "source_revision": "3c32a0c57a7708f1d590db5a59f422dcb708e223",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.114813,
+            "outcome_accuracy": 0.515625,
+            "prediction_rmse": 0.297363
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.481852,
+            "mean_rmse": 0.323532,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.5,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.170874,
+            "mean_rmse": 0.038325,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.4375,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.5625,
+            "depth_2_hq": 0.40625,
+            "depth_2_modes": 1.0,
+            "depth_2_tv": 0.59375,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.168272,
+            "mean_rmse": 0.142391,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.28125,
+            "hq": 0.71875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.37722,
+            "mean_rmse": 0.103369,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.625,
+            "hq": 0.375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.3385,
+            "mean_rmse": 0.185969,
+            "modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.65625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.207373,
+            "next_frame_rmse": 0.265544
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.409198,
+            "mean_rmse": 0.288054,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
+    "online-ka2-stateless": {
+      "elapsed_seconds": 76.41,
+      "passed_tasks": 0,
+      "source_revision": "d95bf1dc8b9e5a43079d1b8ad80937c89c4c5217",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.107258,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.29904
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.397902,
+            "mean_rmse": 0.346427,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.625,
+            "hq": 0.375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.278718,
+            "mean_rmse": 0.278087,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.09375,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.90625,
+            "depth_2_hq": 0.3125,
+            "depth_2_modes": 2.0,
+            "depth_2_tv": 0.6875,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.240606,
+            "mean_rmse": 0.234834,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.28125,
+            "hq": 0.71875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.382618,
+            "mean_rmse": 0.123704,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.1875,
+            "hq": 0.8125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.439741,
+            "mean_rmse": 0.096357,
+            "modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.5,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.431785,
+            "next_frame_rmse": 0.366961
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.437693,
+            "mean_rmse": 0.229886,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    }
+  },
+  "cohort_note": "Remaining nine strict baselines; training source is frozen at d19b9d4. Historical protected artifacts are not rerun or overwritten.",
+  "deferred_candidates": [],
+  "immutable_archive": "reports/forge/cohorts/baselines-d19b9d4",
+  "implementation": {
+    "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+    "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+    "challenge_adapter.py": "a32424a40e182d6ad63798a975b9bbd6a891eabb63afa250a1a348ecc8c4c9c1",
+    "challenges.py": "40d2fb42b56bcc7ab747542a4c1c1d145ccab87cd238a18a61b9aa814750d9b5",
+    "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
+    "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+    "online.py": "58acea8f398faa4d1307c05620e8b302a59adf856bc07a323d50744b51c2c774",
+    "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+    "transport.py": "4e7ba19c4ec820c5935701dad13f8f41ff66c28010f1781df5325c1e3b1978a2"
+  },
+  "interpretation": [
+    "All nine global recipes fail the complete eight-task suite; eight pass no task.",
+    "The original fast-weight BCAP recipe passes motion at all five terminal checks: final direction accuracy 1.0, next-frame RMSE 0.067943. It fails the other seven tasks.",
+    "No task-specific recipe selection is justified; the isolated motion success does not qualify a global recipe.",
+    "The earlier two additional recipes (online-bcap-stateless, online-fast-weight-bcap-ns) are recorded separately in unrun-baselines-summary.json. Together both cohorts exhaust all eleven previously unrun historical descendants: 88 full-budget task runs."
+  ],
+  "known_alias_evidence": "Prior cohort online-fast-weight-bcap-ns observations exactly match online-bcap-adam on all eight tasks; treat as reproducibility evidence, not an independent improvement.",
+  "protected_manifest": "reports/forge/cohorts/pre-recovery/manifest.json",
+  "protected_manifest_sha256": "2a4771358fc7ba283df3e4cc9c7cceebdadbfe9d54ddde9f3a9f0c79791f96ae",
+  "protocol_seed": 0,
+  "qualification_scope": "Frozen d19b9d4 implementation only. These are measured pre-feature negative comparisons; they cannot qualify against the later feature-prior implementation.",
+  "recommendations": [
+    "Preserve these frozen-source comparisons as historical evidence, including their one passing task and exact aliases.",
+    "Use fresh source-bound eight-task evidence for later feature-prior recipes; do not relabel these measurements as current qualification.",
+    "Keep protocol seed 0, batch size 1, unchanged gates and one global recipe across all tasks."
+  ],
+  "source_revision": "d19b9d42503b70a454a6fb7b921d91cc597bc11b",
+  "task_count": 8
+}
