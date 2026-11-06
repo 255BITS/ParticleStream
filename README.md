@@ -80,15 +80,26 @@ pip install -e .
 # Sync Tier 1 task, view, and candidate declarations into configs/forge/
 particlestream bootstrap
 
-# Validate all 9 tasks, views, and 44 candidates without launching training
+# Validate all 20 tasks, views, and 44 candidates without launching training
 particlestream validate
 
-# Run the qualifying global recipe across all 9 required Tier 1 tasks
+# Run the qualifying global recipe across all 10 required Tier 1 tasks
 particlestream run online-feature-prior-bce --device cuda
 
 # Run the full test suite (oracle/destructive controls, RNG isolation, receipt audits)
 pytest -q
 ```
+
+### Five Gymnasium-Robotics experiments
+
+Install `pip install -e '.[robotics]'`, then run
+`particlestream robotics --device cuda` for FetchReach, FetchPush, FetchSlide,
+FetchPickAndPlace and HandReach. Each uses real MuJoCo transitions, 480 updates,
+sequential batches of one and the same `online-feature-prior-bce` recipe.
+They predict physical motion from state and action on held-out episodes;
+robot-control success is not the measured outcome. All five are Tier 2 stretch
+tests, with oracle/destructive controls and actual-training GIFs. See the
+[protocol and measured readout](reports/forge/robotics-readout.md).
 
 ### Minimal Python Example: Predicting Subsequent Points on a Circle Online
 

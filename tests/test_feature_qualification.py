@@ -7,7 +7,7 @@ from particlegan_forge import NamedStreams, grade_sustained_observations
 from particlegan_forge.tiers import adapter_source_digest
 from particlestream.forge import StreamWorkspace
 from particlestream.tier1 import IMPLEMENTATION, run_seq_image_task
-from particlestream.suite import REGISTRY
+from particlestream.suite import MINIMAL_TASKS, REGISTRY, ROBOTICS_TASKS
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -21,7 +21,9 @@ def test_feature_recipe_qualifies_all_ten_current_required_tasks():
     assert view.revision >= 7
     required = {assignment.task for assignment in view.assignments if assignment.importance == "required"}
     assert len(required) == 10
-    assert len([a for a in view.assignments if a.importance == "stretch"]) == 5
+    stretch = {a.task for a in view.assignments if a.importance == "stretch"}
+    assert stretch == {task.id for task in [*MINIMAL_TASKS, *ROBOTICS_TASKS]}
+    assert len(stretch) == 10
     result = workspace.qualify(CANDIDATE, view.id, device="cuda")
     assert result["status"] == "PASS" and result["eligible"] is True
     assert result["adapter_source_verified"] is True

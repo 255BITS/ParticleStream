@@ -126,6 +126,28 @@ def test_prediction_precedes_physics_and_evaluation_restores_training_state(tmp_
         env.close()
 
 
+def test_opposite_action_branch_preserves_the_original_simulator_trajectory():
+    task = ROBOTICS_TASKS[1]
+    cases, seeds = _cases(task)
+    streams = _streams()
+    rng = streams.generator("eval", component="robotics", purpose="heldout_episodes", device="cpu")
+    env = data.make_env("fetch_push")
+    try:
+        for episode in range(4):
+            observation, seed = data.reset_env(env, rng)
+            assert seed == seeds[episode]
+            for step in range(data.EPISODE_LENGTH):
+                action = data.policy_action("fetch_push", observation, step, rng, 4)
+                following, *_ = env.step(action)
+                if step in (7, 17, 27, 37):
+                    case = next(case for case in cases if case.episode == episode and case.step == step)
+                    delta = data.tracked_positions("fetch_push", following) - data.tracked_positions("fetch_push", observation)
+                    assert np.allclose(delta, case.delta, atol=1e-12, rtol=0)
+                observation = following
+    finally:
+        env.close()
+
+
 @pytest.mark.parametrize("task", ROBOTICS_TASKS, ids=lambda task: task.id)
 def test_public_forge_short_run_has_real_training_and_causal_receipt(tmp_path, task):
     workspace = _workspace(tmp_path)
