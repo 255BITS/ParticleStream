@@ -825,12 +825,129 @@
           "terminal_passing": 0
         }
       }
+    },
+    "online-ka2-stateless": {
+      "elapsed_seconds": 76.41,
+      "passed_tasks": 0,
+      "source_revision": "d95bf1dc8b9e5a43079d1b8ad80937c89c4c5217",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.107258,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.29904
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.397902,
+            "mean_rmse": 0.346427,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.625,
+            "hq": 0.375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.278718,
+            "mean_rmse": 0.278087,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.09375,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.90625,
+            "depth_2_hq": 0.3125,
+            "depth_2_modes": 2.0,
+            "depth_2_tv": 0.6875,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.240606,
+            "mean_rmse": 0.234834,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.28125,
+            "hq": 0.71875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.382618,
+            "mean_rmse": 0.123704,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.1875,
+            "hq": 0.8125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.439741,
+            "mean_rmse": 0.096357,
+            "modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.5,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.431785,
+            "next_frame_rmse": 0.366961
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.437693,
+            "mean_rmse": 0.229886,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
     }
   },
   "cohort_note": "Remaining nine strict baselines; training source is frozen at d19b9d4. Historical protected artifacts are not rerun or overwritten.",
   "deferred_candidates": [
-    "online-fast-weight-bcap",
-    "online-ka2-stateless"
+    "online-fast-weight-bcap"
   ],
   "implementation": {
     "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
