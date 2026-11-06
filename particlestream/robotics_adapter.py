@@ -35,11 +35,11 @@ def make_tasks(base):
         host_definition={
             "mode": mode, "environment_id": env_id, "width": 16, "context_dim": 16,
             "qualification_tier": 2, "implementation": implementation(base),
-            "protocol": "gym_robotics_action_dynamics_v1", "dependencies": data.VERSIONS,
+            "protocol": "gym_robotics_action_dynamics_v2", "dependencies": data.VERSIONS,
             "episode_length": data.EPISODE_LENGTH, "training_episodes": 12,
             "target": "gripper_xyz" if mode == "fetch_reach" else "fingertips_xyz" if mode == "hand_reach" else "gripper_xyz_and_object_xyz",
             "encoding": {"source": "complete_tanh_state_then_affine_action_two_frames",
-                         "target": "repeated_displacement_coordinates_affine_no_clipping",
+                         "target": "repeated_displacement_coordinates_invertible_atan_no_clipping",
                          "delta_scale_metres": data.DELTA_SCALE_METRES},
             "policy": "fixed_task_excitation_v1; no reward or success feedback",
             "evaluation": {"episodes": 4, "steps_per_episode": [7, 17, 27, 37],

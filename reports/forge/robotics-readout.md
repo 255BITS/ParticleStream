@@ -30,8 +30,11 @@ diagnostics and are never used by the learner or excitation policy.
 - Targets are gripper displacement for Reach, gripper plus object displacement
   for Push/Slide/PickAndPlace, and all five fingertip displacements for HandReach.
   Coordinates in metres repeat across the 64 target pixels, encoded as
-  `0.5 + displacement/0.2`. Out-of-range motion is rejected; it is never clipped.
-  Decoding averages only fixed repeat slots, with no target snapping.
+  `0.5 + atan(displacement/0.1)/pi`. The inverse is
+  `0.1*tan(pi*(code-0.5))`; 0.1 m sets the curvature, not a hard limit. This
+  handles finite fast-contact motion without clipping. Decoding averages only
+  fixed repeat slots before inversion, with no target snapping. Raw codes must
+  lie strictly between zero and one.
 - Fixed task-owned excitation uses uniform actions for Reach/HandReach;
   approach/contact/push phases for Push/Slide; approach/close/lift phases for
   PickAndPlace. This collection policy is not trained. No policy search occurs.
@@ -60,7 +63,7 @@ no-motion baseline RMS spans 8.22–16.76 mm; object RMS spans 12.55–14.86 mm,
 so the manipulation probes include real object motion. These are data/control
 measurements before training, not learned-model results.
 
-All five tests are Tier 2 `stretch` in view 9. View 8 is archived byte-for-byte;
+All five tests are Tier 2 `stretch` in view 10. Views 8 and 9 are archived byte-for-byte;
 the ten required toy tasks and five minimal probe declarations remain intact.
 The only generated leaderboard remains [technique-inventory.md](technique-inventory.md).
 
@@ -82,6 +85,16 @@ show actual checkpoint predictions and targets as coordinate rasters; they are
 not rendered camera reconstructions. Full traces also remain in each run folder.
 
 Measured results and recommendations will be added after the fixed-budget runs.
+
+## Superseded encoding attempt
+
+The initial affine encoding could represent only ±0.10 m of motion per step.
+Reach and Push completed as FAIL, then a real fast-puck Slide transition
+exceeded the range and stopped that run as INVALID. The unchanged source,
+declarations and available evidence are preserved in
+[the affine-v1 cohort](cohorts/robotics-affine-v1/README.md). The replacement
+changes only the shared task-owned target encoding, followed by five fresh runs.
+Recipe delta remains `{}`; physical gates, splits, policies and budgets stay fixed.
 
 Environment definitions: [Fetch](https://robotics.farama.org/envs/fetch/),
 [HandReach](https://robotics.farama.org/envs/shadow_dexterous_hand/reach/).

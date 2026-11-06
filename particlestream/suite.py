@@ -18,8 +18,8 @@ ALL_TASKS = [*TIER1_TASKS, *MINIMAL_TASKS, *ROBOTICS_TASKS]
 REGISTRY.adapter("minimal_probe")(run_minimal_task)
 REGISTRY.adapter("gym_robotics")(run_robotics_task)
 PRIMARY_VIEW = TierView.from_tiers(
-    id="single_stream_stability", goal="single_stream_stability", revision=9,
-    policy_change_reason="Add five real Gymnasium-Robotics action-conditioned dynamics tests as Tier 2 stretch; preserve ten required tasks and five minimal probes unchanged.",
+    id="single_stream_stability", goal="single_stream_stability", revision=10,
+    policy_change_reason="Replace the robotics tasks' capped affine target encoding with one shared invertible arctangent map after a fast Slide transition exceeded the range; preserve all recipes, physical gates, budgets, required tasks and minimal probes.",
     tiers=[TierSpec(tier=tier,
                     required=[task.id for task in TIER1_TASKS] if tier == 1 else [],
                     stretch=[task.id for task in [*MINIMAL_TASKS, *ROBOTICS_TASKS]

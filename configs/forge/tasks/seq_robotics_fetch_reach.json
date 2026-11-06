@@ -43,7 +43,7 @@
       "encoding": {
         "delta_scale_metres": 0.1,
         "source": "complete_tanh_state_then_affine_action_two_frames",
-        "target": "repeated_displacement_coordinates_affine_no_clipping"
+        "target": "repeated_displacement_coordinates_invertible_atan_no_clipping"
       },
       "environment_id": "FetchReach-v4",
       "episode_length": 40,
@@ -75,8 +75,8 @@
         "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
         "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
         "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
-        "robotics_adapter.py": "b42070ebcc36acb0f533277ec942586c1ad0ec1b50bf7acaf62bff4dd10e7ffb",
-        "robotics_tasks.py": "03b3c01678611f55298be1348adf59f019de440385ee2a8ea8cb44368095e909",
+        "robotics_adapter.py": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+        "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
         "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
         "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
       },
@@ -91,7 +91,7 @@
         "target_timing": "predict_before_simulator_step"
       },
       "policy": "fixed_task_excitation_v1; no reward or success feedback",
-      "protocol": "gym_robotics_action_dynamics_v1",
+      "protocol": "gym_robotics_action_dynamics_v2",
       "qualification_tier": 2,
       "sampling": {
         "best_of_n": false,

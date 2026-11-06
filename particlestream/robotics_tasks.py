@@ -65,16 +65,19 @@ def encode_source(observation, action, device="cpu"):
 
 def encode_delta(delta, device="cpu"):
     delta = np.asarray(delta)
-    if not np.isfinite(delta).all() or np.any(np.abs(delta) >= DELTA_SCALE_METRES):
-        raise ValueError("physical displacement exceeds the declared encoding range; no clipping allowed")
-    return _frame(.5 + delta / (2 * DELTA_SCALE_METRES), repeat=True, device=device)
+    if not np.isfinite(delta).all():
+        raise ValueError("physical displacement must be finite")
+    # A shared invertible map covers fast sliding contacts without clipping or
+    # task-specific limits. DELTA_SCALE_METRES sets curvature, not a hard cap.
+    return _frame(.5 + np.arctan(delta / DELTA_SCALE_METRES) / np.pi, repeat=True, device=device)
 
 
 def decode_delta(frames, dimensions):
     if frames.ndim != 4 or tuple(frames.shape[1:]) != (1, 8, 8):
         raise ValueError("expected (N,1,8,8) predictions")
-    flat = frames.detach().flatten(1)
-    return torch.stack([flat[:, index::dimensions].mean(1) for index in range(dimensions)], 1).sub(.5).mul(2 * DELTA_SCALE_METRES)
+    flat = frames.detach().flatten(1).double()
+    code = torch.stack([flat[:, index::dimensions].mean(1) for index in range(dimensions)], 1)
+    return torch.tan((code - .5) * torch.pi) * DELTA_SCALE_METRES
 
 
 def policy_action(mode, observation, step, rng, action_dim):
@@ -148,7 +151,7 @@ def heldout_transitions(mode, rng):
                 following, _, terminated, truncated, _ = env.step(action)
                 if step in (7, 17, 27, 37):
                     delta = tracked_positions(mode, following) - before
-                    encode_delta(delta)  # Reject out-of-contract data before training.
+                    encode_delta(delta)  # Reject nonfinite simulator data before training.
                     cases.append(Transition(encode_source(observation, action), delta, opposite_delta, episode, step))
                 observation = following
                 if terminated or truncated:
@@ -164,7 +167,7 @@ def score_predictions(predictions, cases):
     if predictions.ndim != 5 or predictions.shape[0] != len(cases):
         raise ValueError("expected (cases,particles,1,8,8) predictions")
     finite = torch.isfinite(predictions).flatten(2).all(2)
-    in_range = ((predictions >= 0) & (predictions <= 1)).flatten(2).all(2)
+    in_range = ((predictions > 0) & (predictions < 1)).flatten(2).all(2)
     predicted = decode_delta(torch.nan_to_num(predictions.reshape(-1, 1, 8, 8), nan=1e6, posinf=1e6, neginf=-1e6), dimensions).reshape(len(cases), -1, dimensions).double()
     target = torch.tensor(np.stack([case.delta for case in cases]), device=predicted.device)[:, None]
     errors = (predicted - target).square()

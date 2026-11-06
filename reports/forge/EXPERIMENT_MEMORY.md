@@ -1,6 +1,6 @@
 # Experiment Memory
 
-- **Primary view**: [`single_stream_stability`](technique-inventory.md) (revision 9)
+- **Primary view**: [`single_stream_stability`](technique-inventory.md) (revision 10)
 - **Tasks by tier**: [`EXPERIMENTS_BY_TIER.md`](EXPERIMENTS_BY_TIER.md)
 - **Cohort**: device `cuda`, seed 0
 
@@ -24,9 +24,9 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **PASS** — terminal 5/5 · invalid_fraction=0.0000, live_prequential_rmse=0.1765, mass_tv=0.0000, modes=4.0000, valid_fraction=1.0000
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **FAIL** — terminal 0/5 · failed `heldout_max_abs_error <= 0.05`; `heldout_response_rmse <= 0.03`; `seen_max_abs_error <= 0.05`; `seen_response_rmse <= 0.03` · heldout_max_abs_error=0.4325, heldout_response_rmse=0.2614, live_prequential_rmse=0.0441, seen_max_abs_error=0.1660, seen_response_rmse=0.0427
   - Tier 2 `seq_minimal_addition2bit` (stretch): **FAIL** — terminal 0/5 · failed `heldout_exact_accuracy == 1.0`; `heldout_min_bit_confidence >= 0.9` · heldout_carry_accuracy=0.0000, heldout_exact_accuracy=0.0000, heldout_invalid_fraction=0.0000, heldout_min_bit_confidence=0.0000, live_prequential_rmse=0.0020, seen_carry_accuracy=1.0000, seen_exact_accuracy=1.0000, seen_invalid_fraction=0.0000, seen_min_bit_confidence=0.9791
-  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
   - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **FAIL** — terminal 0/5 · failed `extrapolation_centroid_rmse <= 0.01`; `extrapolation_direction_accuracy == 1.0`; `extrapolation_point_validity == 1.0`; `extrapolation_speed_error <= 0.01`; `interpolation_centroid_rmse <= 0.01`; `interpolation_direction_accuracy == 1.0`; `interpolation_point_validity == 1.0`; `interpolation_speed_error <= 0.01` · centroid_rmse=0.0833, direction_accuracy=0.9583, extrapolation_centroid_rmse=0.0833, extrapolation_direction_accuracy=1.0000, extrapolation_point_validity=0.5833, extrapolation_raw_rmse=0.0536, extrapolation_speed_error=0.0740, interpolation_centroid_rmse=0.0300, interpolation_direction_accuracy=0.9167, interpolation_point_validity=0.8333, interpolation_raw_rmse=0.0261, interpolation_speed_error=0.0393, live_prequential_rmse=0.0091, point_validity=0.7083, raw_rmse=0.0536, speed_error=0.0740

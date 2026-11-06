@@ -47,8 +47,10 @@ def test_roles_budget_and_physical_encoding():
     delta = np.array([.0123, -.0045, .0007, .0067, -.0008, .0033])
     decoded = data.decode_delta(data.encode_delta(delta), 6)
     assert np.allclose(decoded[0].numpy(), delta, atol=2e-8)
-    with pytest.raises(ValueError, match="no clipping"):
-        data.encode_delta(np.array([.101]))
+    fast_delta = np.array([.101, -.3, .8])
+    assert np.allclose(data.decode_delta(data.encode_delta(fast_delta), 3)[0].numpy(), fast_delta, atol=1e-6)
+    with pytest.raises(ValueError, match="finite"):
+        data.encode_delta(np.array([float("nan")]))
 
 
 @pytest.mark.parametrize("task", ROBOTICS_TASKS, ids=lambda task: task.id)

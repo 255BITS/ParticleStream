@@ -11,7 +11,7 @@ Start with:
 
 ## Gymnasium-Robotics expansion
 
-View 9 adds five real simulator tasks as Tier 2 stretch: FetchReach, FetchPush,
+View 10 adds five real simulator tasks as Tier 2 stretch: FetchReach, FetchPush,
 FetchSlide, FetchPickAndPlace and HandReach. They measure action-conditioned
 one-step physical motion on held-out episodes with the unchanged global
 `online-feature-prior-bce` recipe: 480 updates each, sequential batches of one,
