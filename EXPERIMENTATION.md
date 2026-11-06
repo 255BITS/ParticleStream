@@ -38,7 +38,7 @@ python -m particlestream.forge bootstrap
 python -m particlestream.forge --root . validate
 
 # Run a candidate across Tier 1 and update the single leaderboard + goal.gif artifacts
-python -m particlestream.forge --root . run stream-bispf --view single_stream_stability --through-tier 1 --device cpu
+python -m particlestream.forge --root . run stream-bispf-early --view single_stream_stability --through-tier 1 --device cpu
 
 # Tail live execution events
 tail -F runs/forge/events.jsonl
@@ -79,3 +79,28 @@ Qualification requires fresh source-bound receipts. Historical receipts and GIFs
 remain in place but cannot qualify against the upgraded engine. See
 [research notes](reports/forge/research-notes.md) for the previous cohort and
 interpretation. Never promote a shortened software check to qualification.
+
+## Qualified representatives (ParticleGAN 0.9.6, CUDA, seed 0)
+
+- **BISPF:** `stream-bispf-early`, all four tasks passing. Relative to
+  `stream-bispf`, annealing starts at 0.25 instead of 0.5 of the fixed budget.
+- **BCAP:** `stream-bcap-adam`, all four tasks passing.
+- **KA2:** `stream-ka2-ready`, all four tasks passing. Relative to `stream-ka2`,
+  auxiliary training noise, serving EMA, critic guard and latent damping are
+  disabled; critic betas are (0,0.99). Generator/prior betas remain (0,0.999).
+  The KA2 penalty and native formulation optimizer remain in use.
+
+These are three separate global recipes, each passing all five terminal checks
+on every task. See the single current [leaderboard](reports/forge/technique-inventory.md)
+for all successes and failures. The original and optimized BISPF presets have
+separate candidate identities; optimized DualNorm BISPF has not qualified here.
+
+Variant declarations live in `configs/forge/ideas/*.json`; bootstrap preserves
+additional declared variants. Reproduce selected comparisons with:
+
+```sh
+particlestream compare --device cuda --candidate stream-bispf-early --candidate stream-bcap-adam --candidate stream-ka2-ready
+```
+
+Omitting `--candidate` runs all declared `stream-*` candidates, including failed
+variants. Always retain those failures in the leaderboard.

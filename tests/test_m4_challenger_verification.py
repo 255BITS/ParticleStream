@@ -13,10 +13,11 @@ import hashlib
 import json
 import os
 import subprocess
+from pathlib import Path
 from PIL import Image
 import pytest
 
-STREAM_ROOT = "/nvme/dev/particlegan/ParticleStream"
+STREAM_ROOT = str(Path(__file__).resolve().parents[1])
 GIF_DIR = os.path.join(STREAM_ROOT, "reports/forge/gifs")
 RECEIPT_DIR = os.path.join(STREAM_ROOT, "reports/forge/receipts/cuda")
 

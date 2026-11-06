@@ -60,7 +60,7 @@ class StreamWorkspace(ForgeWorkspace):
 
 
 def main(argv=None):
-    from .tier1 import FAMILY_PRESETS, PRIMARY_VIEW, REGISTRY, bootstrap_workspace
+    from .tier1 import PRIMARY_VIEW, REGISTRY, bootstrap_workspace
 
     parser = argparse.ArgumentParser(description="ParticleStream gauntlet (particlegan_forge)")
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
@@ -82,7 +82,7 @@ def main(argv=None):
             command.add_argument("candidate")
             command.add_argument("--through-tier", type=int, default=1)
         elif name == "compare":
-            command.add_argument("--candidate", action="append", choices=tuple(FAMILY_PRESETS),
+            command.add_argument("--candidate", action="append",
                                  help="Repeat to select candidates; default runs all families, BISPF first")
     args = parser.parse_args(argv)
     workspace = StreamWorkspace(args.root, registry=REGISTRY)
@@ -102,8 +102,10 @@ def main(argv=None):
                                        reason=args.reason).to_dict()
         elif args.command == "compare":
             workspace.validate()
-            selected = args.candidate or sorted(FAMILY_PRESETS,
-                                                key=lambda cid: ("bispf" not in cid, cid))
+            selected = args.candidate or sorted(
+                (cid for cid in workspace.load_candidates() if cid.startswith("stream-")),
+                key=lambda cid: ("bispf" not in cid, cid),
+            )
             result = {}
             for candidate in selected:
                 result[candidate] = workspace.run_tier(candidate, args.view, device=args.device)

@@ -10,7 +10,7 @@ uv pip install --python .venv/bin/python -e '.[dev]'
 source .venv/bin/activate
 particlestream bootstrap
 particlestream validate
-particlestream run stream-bispf --device cuda
+particlestream run stream-bispf-early --device cuda
 particlestream compare --device cuda
 particlestream board --device cuda
 python -m pytest -q

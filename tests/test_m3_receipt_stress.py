@@ -12,7 +12,7 @@ from pathlib import Path
 import pytest
 from PIL import Image, ImageSequence
 
-WORKSPACE_ROOT = Path("/nvme/dev/particlegan/ParticleStream")
+WORKSPACE_ROOT = Path(__file__).resolve().parents[1]
 RECEIPTS_DIR = WORKSPACE_ROOT / "reports/forge/receipts/cuda/fast-weight-bcap-ns"
 GIFS_DIR = WORKSPACE_ROOT / "reports/forge/gifs"
 
@@ -224,7 +224,7 @@ def test_all_cuda_receipt_hashes_match_disk():
     """Verify that every CUDA receipt on disk has a matching goal_gif whose SHA-256 equals receipt['artifacts']['gif_sha256']."""
     import hashlib
     receipts = list(WORKSPACE_ROOT.glob("reports/forge/receipts/cuda/*/*.json"))
-    assert len(receipts) == 16, f"Expected 16 CUDA receipts, found {len(receipts)}"
+    assert len(receipts) >= 16, f"Historical receipts are missing: found {len(receipts)}"
     for p in sorted(receipts):
         data = json.loads(p.read_text())
         assert "artifacts" in data, f"Receipt {p} missing artifacts"
