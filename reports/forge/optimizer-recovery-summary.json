@@ -1,7 +1,8 @@
 {
   "candidates": {
     "online-bispf-frozen": {
-      "elapsed_seconds": 0.347,
+      "audit_elapsed_seconds": 0.347,
+      "audit_only_summary": true,
       "passed_tasks": 1,
       "source_revision": "5b245c520090a75bbb4a050718c53e1af085e33b",
       "tasks": {
@@ -116,10 +117,12 @@
           "status": "FAIL",
           "terminal_passing": 0
         }
-      }
+      },
+      "training_wall_seconds": 73.4858
     },
     "online-bispf-momentum": {
-      "elapsed_seconds": 0.313,
+      "audit_elapsed_seconds": 0.313,
+      "audit_only_summary": true,
       "passed_tasks": 0,
       "source_revision": "5b245c520090a75bbb4a050718c53e1af085e33b",
       "tasks": {
@@ -234,10 +237,12 @@
           "status": "FAIL",
           "terminal_passing": 0
         }
-      }
+      },
+      "training_wall_seconds": 72.864
     },
     "online-bispf-slow-critic": {
-      "elapsed_seconds": 0.313,
+      "audit_elapsed_seconds": 0.313,
+      "audit_only_summary": true,
       "passed_tasks": 0,
       "source_revision": "5b245c520090a75bbb4a050718c53e1af085e33b",
       "tasks": {
@@ -352,10 +357,12 @@
           "status": "FAIL",
           "terminal_passing": 0
         }
-      }
+      },
+      "training_wall_seconds": 73.8368
     },
     "online-bispf-slow-prior": {
-      "elapsed_seconds": 0.322,
+      "audit_elapsed_seconds": 0.322,
+      "audit_only_summary": true,
       "passed_tasks": 1,
       "source_revision": "5b245c520090a75bbb4a050718c53e1af085e33b",
       "tasks": {
@@ -470,7 +477,8 @@
           "status": "FAIL",
           "terminal_passing": 0
         }
-      }
+      },
+      "training_wall_seconds": 74.7391
     }
   },
   "deferred_candidates": [],

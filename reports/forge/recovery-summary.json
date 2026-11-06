@@ -1,7 +1,17 @@
 {
+  "campaign_totals": {
+    "actual_training_gif_frames": 3840,
+    "attempt_wall_seconds": 1708.3484,
+    "chronological_arrivals": 76880,
+    "distinct_new_recipes": 19,
+    "full_budget_runs": 160,
+    "note": "Includes the first view4 passing cohort and fresh view5 source verification; task-attempt time includes evaluation/GIF rendering. Older-source receipts retain historical outcomes, not current qualification.",
+    "training_updates": 76800
+  },
   "candidates": {
     "online-bcap-balanced": {
-      "elapsed_seconds": 0.352,
+      "audit_elapsed_seconds": 0.352,
+      "audit_only_summary": true,
       "passed_tasks": 2,
       "source_revision": "f62903552b6621b309540e0d1eb71258c7db02b0",
       "tasks": {
@@ -116,10 +126,12 @@
           "status": "FAIL",
           "terminal_passing": 0
         }
-      }
+      },
+      "training_wall_seconds": 110.3034
     },
     "online-bcap-transport-causal": {
-      "elapsed_seconds": 0.363,
+      "audit_elapsed_seconds": 0.363,
+      "audit_only_summary": true,
       "passed_tasks": 0,
       "source_revision": "d19b9d42503b70a454a6fb7b921d91cc597bc11b",
       "tasks": {
@@ -234,10 +246,12 @@
           "status": "FAIL",
           "terminal_passing": 0
         }
-      }
+      },
+      "training_wall_seconds": 106.7171
     },
     "online-bcap-transport-fit": {
-      "elapsed_seconds": 0.371,
+      "audit_elapsed_seconds": 0.371,
+      "audit_only_summary": true,
       "passed_tasks": 0,
       "source_revision": "78144f8a99259e3f65ee5438daee67b31b2497df",
       "tasks": {
@@ -352,10 +366,12 @@
           "status": "FAIL",
           "terminal_passing": 0
         }
-      }
+      },
+      "training_wall_seconds": 99.9301
     },
     "online-feature-prior-bce": {
-      "elapsed_seconds": 0.315,
+      "audit_elapsed_seconds": 0.315,
+      "audit_only_summary": true,
       "passed_tasks": 8,
       "source_revision": "44241d712c80726746f98b72f8a0e0ddb6818f6d",
       "tasks": {
@@ -470,7 +486,8 @@
           "status": "PASS",
           "terminal_passing": 5
         }
-      }
+      },
+      "training_wall_seconds": 80.8439
     }
   },
   "deferred_candidates": [],

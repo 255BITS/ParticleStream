@@ -319,3 +319,31 @@ within 480 updates despite passing. A useful next tier should test longer
 streams, context churn and richer images with the same global recipe. This
 qualification establishes the declared eight-task protocol, not those untested
 settings. Earlier failed and alias recipes remain visible in history.
+
+### Complete recovery campaign and verification
+
+Measured all eleven previously unrun historical descendants across 88 full-budget
+tasks. None passes the full suite. Original `online-fast-weight-bcap` passes motion
+5/5, with final accuracy 1 and RMSE 0.067943, but fails the other seven tasks.
+KA2 clean/light-anchor curves are exactly identical on all eight tasks; as with
+the earlier BCAP alias, this is reproduction evidence rather than a new gain.
+The nine later baseline recipes have an immutable source/declaration/GIF archive
+under `cohorts/baselines-d19b9d4/`. Their older source bindings cannot qualify
+against the final feature-prior implementation.
+
+The campaign ran 160 full-budget tasks over 19 distinct new recipes, including
+the final winner's fresh source-verification repeat: 76,800 training updates,
+76,880 chronological arrivals and 3,840 actual-training GIF frames. Aggregate
+task-attempt time was 1,708.3484 seconds, including evaluation and rendering.
+Every new run stayed finite, used seed 0 and optimizer batches of one, and
+recorded zero replay and evaluation RNG deviations. Exploratory declarations
+without runs remain NOT_RUN; no outcomes are inferred for them.
+
+Final view-5 qualification is eligible PASS on all eight required tasks, with
+zero held tasks. All 192 observations and eight GIF hashes exactly reproduce
+the archived first passing cohort under distinct, fresh adapter source bindings.
+Independent audit checks every GIF frame, unchanged task gates/resources,
+identical global configuration, target cleanup and the real decoder path. The
+complete regression suite passes 417 tests. Detailed verification is recorded in
+[`feature-prior-audit.json`](feature-prior-audit.json); current qualification
+remains in the single [leaderboard](technique-inventory.md).
