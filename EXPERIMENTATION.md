@@ -104,8 +104,11 @@ Rare-mode TV uses the declared nonuniform target and includes invalid mass.
 Support means at least one valid particle per mode, not the uniform task's
 minimum-frequency rule. Delayed-cue evaluation balances both cue histories;
 cue labels, stream indices and future frames are never model inputs. Persistent
-fork evaluation keeps each particle's latent identity and feeds its generated
-frames through a cloned memory state. It receives no real future frames.
+fork evaluation keeps each particle's latent identity and Gaussian perturbation,
+then feeds its generated frames through a cloned memory state. It receives no
+real future frames. Both fork streams draw independent fair branches when the
+branch arrives; evaluation checks both attainable previous-branch-to-stem
+histories separately and requires the worst state to meet every gate.
 
 The four new challenges start **held**, with explicit explanations and reentry
 criteria in the view. They still run and their failures remain visible. Existing

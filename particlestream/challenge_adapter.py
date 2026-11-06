@@ -16,7 +16,7 @@ from .challenges import (
     score_persistent_fork,
     score_rare_mode_bars,
 )
-from .streams import score_multimodal_bars
+from .streams import score_fork_rollout, score_multimodal_bars
 
 
 def _task(task_id, description, mode, bounds, *, predictive=False, **host):
@@ -51,6 +51,7 @@ CHALLENGE_TASKS = [
         "persistent_fork", [("hq", ">=", .85), ("within_state_modes", "==", 2.),
                             ("branch_tv", "<=", .20), ("trajectory_consistency", ">=", .95)],
         predictive=True, rollout_horizon=3, rollout_latent_policy="fixed_particle_and_noise_v1",
+        branch_law="independent_fair_on_arrival", evaluation_histories="previous_terminal_then_stem",
     ),
 ]
 
@@ -98,6 +99,26 @@ def _history_context(memory, history, generator, critic):
     return simulated
 
 
+def _worst_states(states):
+    return {
+        key: (max if key.endswith("_tv") or key in {"branch_tv", "mean_rmse"} else min)(state[key] for state in states)
+        for key in states[0]
+    }
+
+
+@torch.no_grad()
+def evaluate_original_fork(trainer, generator, critic, memory, stream, num_particles, eval_generator):
+    """Both futures must be represented from each attainable previous-branch state."""
+    states, predictions = [], []
+    with _saved_context(generator, critic):
+        for previous in (1, 2):
+            _history_context(memory, stream.templates[[previous, 0]], generator, critic)
+            samples = trainer.sample(num_particles, fixed_first_n=True, generator=eval_generator)
+            states.append(score_fork_rollout(samples, stream.templates))
+            predictions.append(samples)
+    return _worst_states(states), torch.cat([samples[:16] for samples in predictions])
+
+
 @torch.no_grad()
 def evaluate_challenge(mode, trainer, generator, critic, memory, stream, num_particles, eval_generator):
     """Return metrics and actual learned images; simulation only mutates cloned state."""
@@ -114,21 +135,25 @@ def evaluate_challenge(mode, trainer, generator, critic, memory, stream, num_par
             metrics = score_delayed_cue(*predictions, stream.outcomes)
             return metrics, torch.cat([predictions[0][:16], predictions[1][:16]])
 
-        paths = []
-        for particle in range(num_particles):
-            simulated = _history_context(memory, stream.stem, generator, critic)
-            frames = []
-            # fixed_first_n fixes the MoG row, but its Gaussian perturbation
-            # still consumes RNG. Reuse that perturbation throughout the path.
-            latent_rng = eval_generator.get_state()
-            for depth in range(stream.branch_paths.shape[1]):
-                eval_generator.set_state(latent_rng)
-                image = trainer.sample(1, fixed_first_n=True, offset=particle, generator=eval_generator)
-                frames.append(image[0])
-                if simulated is not None and depth + 1 < stream.branch_paths.shape[1]:
-                    context = simulated.write(image)
-                    generator.set_context(context)
-                    critic.set_context(context)
-            paths.append(torch.stack(frames))
-        trajectories = torch.stack(paths)
-        return score_persistent_fork(trajectories, stream.branch_paths), trajectories[:, -1]
+        states, predictions = [], []
+        for previous in (0, 1):
+            paths = []
+            history = torch.cat([stream.branch_paths[previous, -1:], stream.stem])
+            for particle in range(num_particles):
+                simulated = _history_context(memory, history, generator, critic)
+                frames = []
+                # Reuse both the MoG row and its Gaussian perturbation.
+                latent_rng = eval_generator.get_state()
+                for depth in range(stream.branch_paths.shape[1]):
+                    eval_generator.set_state(latent_rng)
+                    image = trainer.sample(1, fixed_first_n=True, offset=particle, generator=eval_generator)
+                    frames.append(image[0])
+                    if simulated is not None and depth + 1 < stream.branch_paths.shape[1]:
+                        context = simulated.write(image)
+                        generator.set_context(context)
+                        critic.set_context(context)
+                paths.append(torch.stack(frames))
+            trajectories = torch.stack(paths)
+            states.append(score_persistent_fork(trajectories, stream.branch_paths))
+            predictions.append(trajectories[:, -1])
+        return _worst_states(states), torch.cat([samples[:16] for samples in predictions])

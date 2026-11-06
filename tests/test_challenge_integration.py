@@ -70,8 +70,8 @@ def test_closed_loop_fork_keeps_particle_identity_and_live_memory_unchanged():
     )
     assert metrics["trajectory_consistency"] == 1
     assert metrics["branch_tv"] == 0
-    assert sampler.calls == [particle for particle in range(32) for _ in range(3)]
-    assert all(len(set(sampler.draws[i:i + 3])) == 1 for i in range(0, 96, 3))
+    assert sampler.calls == [particle for particle in range(32) for _ in range(3)] * 2
+    assert all(len(set(sampler.draws[i:i + 3])) == 1 for i in range(0, 192, 3))
     assert samples.shape == (32, 1, 8, 8)
     assert all(torch.equal(value, before[name]) for name, value in memory.state_dict().items())
     assert torch.equal(generator.active_context, contexts[0])
