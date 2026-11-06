@@ -50,7 +50,7 @@ CHALLENGE_TASKS = [
         "seq_img_persistent_fork", "Generate both three-step fork futures while preserving each particle's branch without teacher forcing.",
         "persistent_fork", [("hq", ">=", .85), ("within_state_modes", "==", 2.),
                             ("branch_tv", "<=", .20), ("trajectory_consistency", ">=", .95)],
-        predictive=True, rollout_horizon=3,
+        predictive=True, rollout_horizon=3, rollout_latent_policy="fixed_particle_and_noise_v1",
     ),
 ]
 
@@ -118,7 +118,11 @@ def evaluate_challenge(mode, trainer, generator, critic, memory, stream, num_par
         for particle in range(num_particles):
             simulated = _history_context(memory, stream.stem, generator, critic)
             frames = []
+            # fixed_first_n fixes the MoG row, but its Gaussian perturbation
+            # still consumes RNG. Reuse that perturbation throughout the path.
+            latent_rng = eval_generator.get_state()
             for depth in range(stream.branch_paths.shape[1]):
+                eval_generator.set_state(latent_rng)
                 image = trainer.sample(1, fixed_first_n=True, offset=particle, generator=eval_generator)
                 frames.append(image[0])
                 if simulated is not None and depth + 1 < stream.branch_paths.shape[1]:
