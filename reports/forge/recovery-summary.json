@@ -1,5 +1,123 @@
 {
   "candidates": {
+    "online-bcap-balanced": {
+      "elapsed_seconds": 0.352,
+      "passed_tasks": 2,
+      "source_revision": "f62903552b6621b309540e0d1eb71258c7db02b0",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.124518,
+            "outcome_accuracy": 0.953125,
+            "prediction_rmse": 0.218652
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.21875,
+            "hq": 0.78125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.343294,
+            "mean_rmse": 0.103979,
+            "modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.1875,
+            "hq": 0.8125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.215539,
+            "mean_rmse": 0.082297,
+            "within_state_modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.53125,
+            "depth_1_hq": 0.78125,
+            "depth_1_modes": 2.0,
+            "depth_1_tv": 0.21875,
+            "depth_2_hq": 0.8125,
+            "depth_2_modes": 2.0,
+            "depth_2_tv": 0.1875,
+            "depth_3_hq": 0.46875,
+            "depth_3_modes": 2.0,
+            "depth_3_tv": 0.53125,
+            "hq": 0.46875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.104653,
+            "mean_rmse": 0.099736,
+            "trajectory_consistency": 0.34375,
+            "within_state_modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.0,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.431384,
+            "mean_rmse": 0.045786,
+            "rare_mass": 0.0625,
+            "support_modes": 4.0
+          },
+          "status": "PASS",
+          "terminal_passing": 5
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.09375,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.370668,
+            "mean_rmse": 0.058675,
+            "modes": 4.0
+          },
+          "status": "PASS",
+          "terminal_passing": 5
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.6875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.153009,
+            "next_frame_rmse": 0.241444
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.5625,
+            "hq": 0.59375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.491948,
+            "mean_rmse": 0.1331,
+            "modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    },
     "online-bcap-transport-causal": {
       "elapsed_seconds": 0.363,
       "passed_tasks": 0,

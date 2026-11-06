@@ -28,6 +28,7 @@ from particlegan_forge import (
 from .models import FastWeightMemory, StreamImageCritic, StreamImageGenerator
 from .memory import make_stream_memory
 from .transport import TransportGANTrainer
+from .balanced_transport import ContextBalancedReconstruction
 from .forge import StreamWorkspace
 from .challenge_adapter import (
     CHALLENGE_TASKS, CHALLENGE_MODES, PREDICTIVE_CHALLENGE_MODES,
@@ -122,7 +123,7 @@ PREDICTIVE_MODES = {"translating_next", "fork_rollout"} | PREDICTIVE_CHALLENGE_M
 # Bind dependency code as well as the adapter body into each task fingerprint.
 IMPLEMENTATION = {
     name: file_hash(Path(__file__).with_name(name))
-    for name in ("models.py", "streams.py", "online.py", "challenges.py", "challenge_adapter.py", "memory.py", "transport.py")
+    for name in ("models.py", "streams.py", "online.py", "challenges.py", "challenge_adapter.py", "memory.py", "transport.py", "balanced_transport.py")
 }
 
 PRIMARY_VIEW = TierView.from_tiers(
@@ -359,9 +360,15 @@ def run_seq_image_task(
     transport_options = candidate.memory_policy.get("transport")
     trainer_class = TransportGANTrainer if transport_options is not None else GANTrainer
     trainer_options = {} if transport_options is None else {
-        "transport": transport_options,
+        "transport": dict(transport_options),
         "routing_generator": streams.generator("prior", component="routing", purpose="assignment", device=device),
     }
+    if transport_options is not None:
+        router = trainer_options["transport"].pop("router", "competitive")
+        if router == "context_balanced":
+            trainer_options["router_class"] = ContextBalancedReconstruction
+        elif router != "competitive":
+            raise ValueError(f"unknown transport router: {router}")
     trainer = trainer_class(
         recipe,
         g,

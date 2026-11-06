@@ -211,3 +211,69 @@ controls, serving/training concurrency, bitwise trajectory invariance under extr
 serving calls, public-trainer batch guards, independent receipt grading and
 historical artifact preservation. Every new GIF hash matches its receipt and all
 576 frames decode. The independent protocol audit found no remaining blocker.
+
+## Strict online recovery
+
+The recovery target is one global recipe passing all eight unchanged task gates.
+Experiments retain seed 0, chronological single-image arrivals, one public
+ParticleGAN critic/generator update per arrival, and the five-check terminal
+window. Failed recipes remain evidence; a final-check improvement is insufficient.
+
+### Initial comparisons
+
+Two previously unrun strict descendants, `online-bcap-stateless` and
+`online-fast-weight-bcap-ns`, completed all eight tasks and passed none. The latter
+reproduces `online-bcap-adam`'s complete numerical curves on all eight tasks; it
+is alias/reproduction evidence rather than an independent improvement. Nine
+additional historical descendants were declared for complete comparisons.
+
+Four isolated BISPF ablations completed 32 CUDA runs. Freezing the initial prior
+and reducing its learning-rate multiplier from 2 to 0.25 each recover motion
+prediction, passing all five terminal checks. Frozen-prior motion has direction
+accuracy 1 throughout that window, worst RMSE 0.079487, and final RMSE 0.071489.
+Each still fails the other seven tasks. Critic momentum (0.95,0.999) and critic
+rate multiplier 0.25 pass no tasks. These results support the individual recipe
+deltas under this protocol; they do not establish broad robustness or solve
+retention and delayed recall.
+
+The first combined causal-reader/current-observation reconstruction recipe,
+`online-bcap-transport-causal`, also fails all eight sustained gates. Final
+delayed-cue accuracy rises to 0.765625, with RMSE 0.265376. Persistent-fork
+trajectory consistency rises to 0.53125, but worst-depth quality 0.6875 and
+branch coverage still fail. Particle-use diagnostics expose incomplete density
+coverage and show why visiting all rows globally does not ensure coverage within
+each conditioning state. The combined frozen-prior/constant-rate/weight-100
+fitting candidate regresses and also passes none; its several simultaneous
+changes do not isolate a cause.
+
+### Mechanisms and evidence scope
+
+The causal reader carries current appearance, last-step change, retained salient
+content, repetition age and an associative read in the existing context size.
+It adds no generator or critic parameters. The competitive reconstruction
+recipe uses only the current arriving target, uniform critic draws, one routed
+generator draw and 32 sequential inference-only center probes per update. It
+clears targets before serving and records probe counts and particle assignments.
+The probes add compute; comparison by update count alone does not equalize cost.
+
+Context-balanced routing is a separate declared mechanism: bounded detached
+conditioning centroids carry local transport duals. An overused row's dual
+increases its future assignment cost within that context. Synthetic controls
+test marginal frequencies, rare support and independent conditional coverage;
+these controls do not substitute for actual eight-task training receipts.
+
+The first actual context-balanced recipe passes round-robin acquisition and
+rare-mode retention across all five terminal checks. Final rare-mode quality
+is 1, TV is 0, and rare mass is exactly 2/32. It still fails the other six tasks.
+Delayed-cue accuracy reaches 0.953125, but image RMSE 0.218652 exceeds the 0.12
+gate. Accuracy alone does not establish correct reconstruction. Fixed dwell has
+four modes yet quality 0.78125 and TV 0.21875 still fail; variable dwell remains
+unsolved. Motion and persistent rollouts remain important unresolved failures.
+
+Before integrating recovery sources, 72 strict-online receipt/GIF pairs were
+copied byte-for-byte into `cohorts/pre-recovery/`, with all eight task declarations.
+Its 256-file manifest also protects the original 56 historical pairs. Canonical
+paths can receive new source-bound measurements without discarding the archive.
+Source changes invalidate qualification of older receipts even when numerical
+gates and architectures are unchanged. Current qualification is generated only
+in the canonical [leaderboard](technique-inventory.md).
