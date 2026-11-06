@@ -157,12 +157,14 @@ class TransportGANTrainer(GANTrainer):
     """
 
     def __init__(self, recipe, generator, discriminator, *, prior, transport=None,
-                 routing_generator=None, **kwargs):
+                 routing_generator=None, router_class=CompetitiveReconstruction, **kwargs):
         if isinstance(prior, ManipulatedPrior):
             raise ValueError("transport currently requires an unwrapped storage prior")
         if recipe.batch_size != 1:
             raise ValueError("transport requires recipe.batch_size=1")
-        self.transport = CompetitiveReconstruction(
+        if not isinstance(router_class, type) or not issubclass(router_class, CompetitiveReconstruction):
+            raise ValueError("router_class must extend CompetitiveReconstruction")
+        self.transport = router_class(
             generator, routing_generator=routing_generator, **dict(transport or {}),
         )
         wrapped = ManipulatedPrior(unwrap_prior(prior), [self.transport])
