@@ -2,7 +2,7 @@
 
 ParticleStream compares trainer families on sequential 8×8 image learning and
 short-horizon memory tasks. The current declared view is
-`single_stream_stability` revision 6, with all nine tasks required.
+`single_stream_stability` revision 7, with all ten tasks required.
 
 ## Runtime
 
@@ -21,10 +21,12 @@ short-horizon memory tasks. The current declared view is
 
 ## Gauntlet
 
-All nine tasks are required: round-robin mode acquisition, fixed and variable
+All ten tasks are required: round-robin mode acquisition, fixed and variable
 dwell retention, rare-mode retention, direction-sensitive next-frame prediction,
-delayed cue recall, single-step and persistent fork generation, and 8-step closed-loop
-circular-orbit point prediction (`seq_img_circle_orbit`). Every task runs 480 updates with
+delayed cue recall, single-step and persistent fork generation, 8-step closed-loop
+circular-orbit point prediction (`seq_img_circle_orbit`), and 8-step cross-fed
+bidirectional Square $\leftrightarrow$ Circle CycleGAN orbit translation
+(`seq_img_square_circle_cycle`). Every task runs 480 updates with
 24 observations; all bounds must pass at the final five checks. Seed is always 0.
 
 Compare BCAP/Adam, BCAP/DualNorm, KA2, BISPF and optimized BISPF. Every candidate

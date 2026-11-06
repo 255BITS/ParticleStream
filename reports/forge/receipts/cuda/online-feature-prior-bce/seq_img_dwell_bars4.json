@@ -7,12 +7,12 @@
       "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
       "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
       "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
-      "challenge_adapter.py": "e21bd79de0d83109f56f81666379eb888bc5b6a2ccb880e5c2971f214f43802d",
-      "challenges.py": "5eaadf8f98f97a993a50db1c6a5eca425b414c1e5e8a4ce2d207a7569b543477",
+      "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+      "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
       "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
-      "online.py": "58acea8f398faa4d1307c05620e8b302a59adf856bc07a323d50744b51c2c774",
+      "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
@@ -337,24 +337,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "79b4fd0956bff6f14635817f1c7bc04e4c8053c29931eeec0842481df942222a",
+    "adapter_source_sha256": "e3e036cda6ba6b2adabd1c59ef491492316ebe505e13a6b9f16eae04b8dce12d",
     "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "49ca1cbe3a476bb2f0e0d33d45072d6eb4409ae46ac513bebf7669afd8b9d4f8"
+    "task_fingerprint": "c9a05124786dc0369b5c08a0f0129cbc99b910a5f00809da762f045376e53e71"
   },
   "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
   "candidate_id": "online-feature-prior-bce",
-  "cohort_key": "b77278ea200765414a8fd06d9f082223922f59add75c5ce6c57409232d900fad",
-  "completed_at": "2026-11-06T14:12:41.196+00:00",
+  "cohort_key": "bfea682e1e0ebcfd9bff13ecb477dd5d0959a115e272454c3218444eae54408f",
+  "completed_at": "2026-11-06T17:13:08.749+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 14.3224
+    "wall_seconds": 6.8786
   },
   "device": "cuda",
   "error": null,
@@ -763,11 +763,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "49ca1cbe3a476bb2f0e0d33d45072d6eb4409ae46ac513bebf7669afd8b9d4f8",
+  "task_fingerprint": "c9a05124786dc0369b5c08a0f0129cbc99b910a5f00809da762f045376e53e71",
   "task_id": "seq_img_dwell_bars4",
   "technique": "FeaturePrior-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-06T14:12:41.196+00:00",
+  "timestamp": "2026-11-06T17:13:08.749+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

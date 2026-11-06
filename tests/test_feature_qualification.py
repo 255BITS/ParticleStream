@@ -17,8 +17,8 @@ def test_feature_recipe_qualifies_all_eight_current_required_tasks():
     workspace = StreamWorkspace(ROOT, registry=REGISTRY)
     workspace.validate()
     view = workspace.load_views()["single_stream_stability"]
-    assert view.revision >= 6
-    assert len(view.assignments) == 9
+    assert view.revision >= 7
+    assert len(view.assignments) == 10
     assert all(assignment.importance == "required" for assignment in view.assignments)
     result = workspace.qualify(CANDIDATE, view.id, device="cuda")
     assert result["status"] == "PASS" and result["eligible"] is True
@@ -55,4 +55,8 @@ def test_feature_recipe_qualifies_all_eight_current_required_tasks():
             readme_gif = ROOT / "docs/media/readme/circle-orbit.gif"
             assert readme_gif.is_file()
             assert hashlib.sha256(readme_gif.read_bytes()).hexdigest() == receipt["artifacts"]["orbit_gif_sha256"]
+        if task_id == "seq_img_square_circle_cycle":
+            readme_cycle_gif = ROOT / "docs/media/readme/square-circle-cycle.gif"
+            assert readme_cycle_gif.is_file()
+            assert hashlib.sha256(readme_cycle_gif.read_bytes()).hexdigest() == receipt["artifacts"]["cycle_gif_sha256"]
     assert all(configuration == shared[0] for configuration in shared)

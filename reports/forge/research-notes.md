@@ -1,5 +1,56 @@
 # ParticleStream research notes
 
+## Bidirectional Square-Circle CycleGAN (`seq_img_square_circle_cycle`) and View 7 Qualification, 2026-11-06
+
+Added `seq_img_square_circle_cycle` as the tenth required task in `single_stream_stability`
+revision 7 (`configs/forge/view-history/single_stream_stability-v6.json` is archived).
+In `seq_img_square_circle_cycle`, two synchronized orbital domains step clockwise around
+`(3.5, 3.5)` at `batch_size=1` with no replay (`seed=0`):
+- **Square Orbit ($S$)** along the unit $L_\infty$ perimeter ($\max(|x|, |y|) = 1.0$):
+  `SQUARE_WAYPOINTS = ((0, 3), (0, 6), (3, 6), (6, 6), (6, 3), (6, 0), (3, 0), (0, 0))`
+- **Circle Orbit ($C$)** along the unit $L_2$ ring ($\sqrt{x^2 + y^2} \approx 1.0$):
+  `CIRCLE_WAYPOINTS = ((0, 3), (1, 5), (3, 6), (5, 5), (6, 3), (5, 1), (3, 0), (1, 1))`
+
+A bidirectional CycleGAN pair of public `ParticleGAN` trainers with causal state memories
+— forward $(G_{S\to C}, D_C, M_S)$ and reverse $(G_{C\to S}, D_S, M_C)$ — observes one arriving
+frame pair per step (`real_batch=1`, `fake_batch=1`, `replayed_examples=0`). Before the arrival
+is revealed, `session_s2c.predict()` and `reverse_session.predict()` serve cross-domain
+next-frame predictions; then `session_s2c.observe(c_cur, context_frame=s_cur)` and
+`reverse_session.observe(s_cur, context_frame=c_cur)` each perform a single `batch_size=1`
+update. At each of the 24 checkpoints (`steps 20, 40, ..., 480`), all 32 particles are
+warm-started with two preceding waypoints (`W -> NW`) in both domains and rolled out in
+**closed-loop cross-fed cycle ($S \to C \to S$ and $C \to S \to C$) for 8 consecutive steps
+(`N .. NW`) without teacher forcing**: generated Circle frames feed into cloned $M_C$ to drive
+$G_{C\to S}$, and generated Square frames feed into cloned $M_S$ to drive $G_{S\to C}$.
+
+The numerical gates require simultaneous bidirectional pixel accuracy (`cycle_rmse <= 0.12`,
+`s2c_rmse <= 0.12`, `c2s_rmse <= 0.12`), normalized 2D coordinate accuracy (`xy_rmse <= 0.15`),
+bidirectional per-step waypoint accuracy (`step_accuracy >= 0.90`), full 8-step closed-loop
+bidirectional cycle completion (`cycle_completion >= 0.90`), and complete phase support
+(`waypoint_modes == 8.0`) across all five terminal checks (`400..480`). Crucially, at all four
+diagonal corner phases (`NE, SE, SW, NW`, phases `1, 3, 5, 7`), where Square corners lie at
+$\|( \pm 1, \pm 1 )\|_2 = \sqrt{2} \approx 1.414$ (`(0,6), (6,6), (6,0), (0,0)`) and Circle
+diagonals lie tucked inward at $\|( \pm \frac{2}{3}, \pm \frac{2}{3} )\|_2 \approx 0.943$
+(`(1,5), (5,5), (5,1), (1,1)`), each direction must be strictly closer in pixel RMSE to its
+target domain template than to the source domain template. Oracle and destructive controls
+verify that identity copy ($S \to S$ / $C \to C$, `step_accuracy = 0.50`, `cycle_completion = 0.0`),
+one-way collapse, counter-clockwise orbits, 1-step phase lag, and midpoint corner interpolation
+all fail.
+
+Without changing any recipe hyperparameter, architecture, or task-owned resource budget,
+the single global `online-feature-prior-bce` recipe qualifies **`10/10` required tasks (`PASS`,
+`50/50` terminal checks)** across 4,800 primary training updates (plus 480 reverse-direction
+CycleGAN updates) and 240 observations:
+- On `seq_img_square_circle_cycle`, `online-feature-prior-bce` reaches `100%` closed-loop
+  `cycle_completion` at step 120, holds `cycle_completion = 1.0`, `step_accuracy = 1.0`, and
+  `waypoint_modes = 8.0` across all five terminal checks (`400..480`), and finishes at step 480
+  with `cycle_rmse = 0.012665`, `s2c_rmse = 0.011734`, `c2s_rmse = 0.013596`, `xy_rmse = 0.003817`,
+  and live prequential RMSE `0.016235`.
+- Both the canonical Forge checkpoint strip
+  (`reports/forge/gifs/online-feature-prior-bce_seq_img_square_circle_cycle.gif`) and a 3-panel
+  Square $\leftrightarrow$ Circle CycleGAN training animation
+  (`docs/media/readme/square-circle-cycle.gif`) are rendered directly from actual training checkpoints.
+
 ## Circular-Orbit Real-Time Point Prediction (`seq_img_circle_orbit`) and View 6 Qualification, 2026-11-06
 
 Added `seq_img_circle_orbit` as the ninth required task in `single_stream_stability`

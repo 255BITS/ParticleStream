@@ -7,26 +7,32 @@ import torch
 
 from particlestream.challenges import (
     CIRCLE_WAYPOINTS,
+    SQUARE_WAYPOINTS,
     CircleOrbitStream,
     DelayedCueStream,
     PersistentForkStream,
     RareModeBarsStream,
+    SquareCircleCycleStream,
     VariableDwellBarsStream,
     circle_orbit_coords,
     circle_orbit_templates,
     extract_circle_coords,
     render_circle_orbit_gif,
+    render_square_circle_cycle_gif,
     score_circle_orbit,
     score_delayed_cue,
     score_persistent_fork,
     score_rare_mode_bars,
+    score_square_circle_cycle,
+    square_orbit_coords,
+    square_orbit_templates,
 )
 from particlestream.streams import score_multimodal_bars
 
 
 @pytest.mark.parametrize("stream_cls", [VariableDwellBarsStream, RareModeBarsStream,
                                         DelayedCueStream, PersistentForkStream,
-                                        CircleOrbitStream])
+                                        CircleOrbitStream, SquareCircleCycleStream])
 def test_single_arrival_detached_reproducible_stream(stream_cls):
     first, second = stream_cls(), stream_cls()
     first_rng = torch.Generator().manual_seed(0)
@@ -407,4 +413,161 @@ def test_render_circle_orbit_gif_produces_valid_animation(tmp_path):
         assert img.n_frames >= len(frames)
     with pytest.raises(ValueError, match="at least one frame"):
         render_circle_orbit_gif([], tmp_path / "empty.gif")
+
+
+def test_square_circle_cycle_geometry_and_chronological_pairs():
+    stream = SquareCircleCycleStream(noise_std=0.0)
+    generator = torch.Generator().manual_seed(0)
+    assert stream.period == 8
+    assert len(SQUARE_WAYPOINTS) == 8
+    sq_coords = square_orbit_coords()
+    ci_coords = circle_orbit_coords()
+    assert sq_coords.shape == (8, 2)
+    assert ci_coords.shape == (8, 2)
+    # Every square waypoint lies on the unit L_inf perimeter max(|x|, |y|) == 1.0
+    linf_radii = sq_coords.abs().amax(dim=-1)
+    assert torch.allclose(linf_radii, torch.ones(8), atol=1e-5)
+    # Diagonal corners (1, 3, 5, 7) have L2 radius sqrt(2) on the square vs <1.0 on the circle
+    for corner in (1, 3, 5, 7):
+        assert sq_coords[corner].norm().item() > 1.35
+        assert ci_coords[corner].norm().item() < 1.0
+    sq_warm = stream.clean_square_warmup(0)
+    ci_warm = stream.clean_circle_warmup(0)
+    assert sq_warm.shape == ci_warm.shape == (2, 1, 8, 8)
+    assert torch.equal(sq_warm[0], stream.square_templates[6])
+    assert torch.equal(sq_warm[1], stream.square_templates[7])
+    assert torch.equal(ci_warm[0], stream.circle_templates[6])
+    assert torch.equal(ci_warm[1], stream.circle_templates[7])
+    for step in range(16):
+        s_frame, c_frame, meta = stream.next_pair(generator)
+        phase = step % 8
+        assert meta["phase"] == phase
+        assert meta["orbit"] == step // 8
+        assert s_frame.shape == c_frame.shape == (1, 1, 8, 8)
+        assert not s_frame.requires_grad and not c_frame.requires_grad
+        assert torch.equal(s_frame, stream.square_templates[phase:phase + 1])
+        assert torch.equal(c_frame, stream.circle_templates[phase:phase + 1])
+
+
+def test_square_circle_cycle_oracle_and_destructive_controls():
+    sq_tmpl = square_orbit_templates()
+    ci_tmpl = circle_orbit_templates()
+    oracle_s2c = ci_tmpl.unsqueeze(0).repeat(32, 1, 1, 1, 1)
+    oracle_c2s = sq_tmpl.unsqueeze(0).repeat(32, 1, 1, 1, 1)
+
+    oracle_score = score_square_circle_cycle(oracle_s2c, oracle_c2s, sq_tmpl, ci_tmpl)
+    assert oracle_score == {
+        "cycle_rmse": 0.0,
+        "s2c_rmse": 0.0,
+        "c2s_rmse": 0.0,
+        "xy_rmse": 0.0,
+        "step_accuracy": 1.0,
+        "cycle_completion": 1.0,
+        "waypoint_modes": 8.0,
+    }
+
+    # Identity destructive control: G_S2C outputs Square, G_C2S outputs Circle (no shape translation!)
+    identity_score = score_square_circle_cycle(oracle_c2s, oracle_s2c, sq_tmpl, ci_tmpl)
+    assert identity_score["cycle_completion"] == 0.0
+    assert identity_score["step_accuracy"] == 0.5
+    assert identity_score["waypoint_modes"] == 4.0
+    assert identity_score["cycle_rmse"] > 0.12
+    assert identity_score["s2c_rmse"] > 0.12
+    assert identity_score["c2s_rmse"] > 0.12
+    assert identity_score["xy_rmse"] > 0.15
+
+    # One-way collapse: S->C works, but C->S also outputs Circle instead of Square
+    one_way_score = score_square_circle_cycle(oracle_s2c, oracle_s2c, sq_tmpl, ci_tmpl)
+    assert one_way_score["s2c_rmse"] == 0.0
+    assert one_way_score["c2s_rmse"] > 0.12
+    assert one_way_score["cycle_completion"] == 0.0
+    assert one_way_score["step_accuracy"] == 0.5
+    assert one_way_score["waypoint_modes"] == 4.0
+
+    # Phase-lagged by 1 step
+    lagged_s2c = ci_tmpl.roll(1, dims=0).unsqueeze(0).repeat(32, 1, 1, 1, 1)
+    lag_score = score_square_circle_cycle(lagged_s2c, oracle_c2s, sq_tmpl, ci_tmpl)
+    assert lag_score["step_accuracy"] == 0.0
+    assert lag_score["cycle_completion"] == 0.0
+
+    # Incomplete 7/8 cycle (last waypoint repeats waypoint 6 in C->S)
+    incomplete_c2s = oracle_c2s.clone()
+    incomplete_c2s[:, 7] = sq_tmpl[6]
+    inc_score = score_square_circle_cycle(oracle_s2c, incomplete_c2s, sq_tmpl, ci_tmpl)
+    assert inc_score["step_accuracy"] == 7 / 8
+    assert inc_score["cycle_completion"] == 0.0
+    assert inc_score["waypoint_modes"] == 7.0
+
+    # Midpoint interpolation between Square and Circle corners fails translation discrimination
+    midpoint_s2c = 0.5 * (oracle_s2c + oracle_c2s)
+    midpoint_c2s = 0.5 * (oracle_s2c + oracle_c2s)
+    mid_score = score_square_circle_cycle(midpoint_s2c, midpoint_c2s, sq_tmpl, ci_tmpl, quality_rmse=0.25, quality_xy=0.50)
+    assert mid_score["cycle_completion"] == 0.0
+    assert mid_score["step_accuracy"] == 0.5
+
+
+@pytest.mark.parametrize(
+    "bad_trajectories",
+    [
+        torch.empty(0, 8, 1, 8, 8),
+        torch.zeros(32, 3, 1, 8, 8),
+        torch.zeros(32, 8, 1, 8, 8, dtype=torch.long),
+        torch.full((32, 8, 1, 8, 8), float("nan")),
+    ],
+)
+def test_bad_square_circle_cycle_outputs_safely_fail(bad_trajectories):
+    sq_tmpl = square_orbit_templates()
+    ci_tmpl = circle_orbit_templates()
+    score = score_square_circle_cycle(bad_trajectories, bad_trajectories, sq_tmpl, ci_tmpl)
+    assert score["step_accuracy"] == 0.0
+    assert score["cycle_completion"] == 0.0
+    assert score["waypoint_modes"] == 0.0
+    assert score["s2c_rmse"] == 1e6
+    assert score["c2s_rmse"] == 1e6
+    assert score["cycle_rmse"] == 1e6
+    assert score["xy_rmse"] == 1e6
+
+    oracle_c2s = sq_tmpl.unsqueeze(0).repeat(32, 1, 1, 1, 1)
+    one_sided = score_square_circle_cycle(bad_trajectories, oracle_c2s, sq_tmpl, ci_tmpl)
+    assert one_sided["s2c_rmse"] == 1e6
+    assert one_sided["step_accuracy"] == 0.0
+    assert one_sided["cycle_completion"] == 0.0
+    assert one_sided["waypoint_modes"] == 0.0
+
+
+def test_render_square_circle_cycle_gif_produces_valid_animation(tmp_path):
+    from PIL import Image
+
+    sq_tmpl = square_orbit_templates()
+    ci_tmpl = circle_orbit_templates()
+    samples = torch.cat([ci_tmpl.repeat(2, 1, 1, 1), sq_tmpl.repeat(2, 1, 1, 1)], dim=0).numpy()
+    frames = [
+        {
+            "step": step,
+            "passed": step >= 120,
+            "metrics": {
+                "cycle_rmse": 0.02 if step >= 120 else 0.22,
+                "s2c_rmse": 0.02 if step >= 120 else 0.22,
+                "c2s_rmse": 0.02 if step >= 120 else 0.22,
+                "xy_rmse": 0.01 if step >= 120 else 0.45,
+                "step_accuracy": 1.0 if step >= 120 else 0.375,
+                "cycle_completion": 1.0 if step >= 120 else 0.0,
+                "waypoint_modes": 8.0 if step >= 120 else 3.0,
+            },
+            "current_stream_image": ci_tmpl[0:1].numpy(),
+            "target_images": torch.cat([ci_tmpl, sq_tmpl], dim=0).numpy(),
+            "sample_images": samples,
+        }
+        for step in (40, 120, 240, 480)
+    ]
+    out_gif = tmp_path / "square_circle_cycle.gif"
+    meta = render_square_circle_cycle_gif(frames, out_gif, substeps_per_checkpoint=1)
+    assert out_gif.is_file()
+    assert len(meta["sha256"]) == 64
+    with Image.open(out_gif) as img:
+        assert img.size == (920, 400)
+        assert img.n_frames >= len(frames)
+    with pytest.raises(ValueError, match="at least one frame"):
+        render_square_circle_cycle_gif([], tmp_path / "empty.gif")
+
 

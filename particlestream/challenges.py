@@ -811,3 +811,561 @@ def render_circle_orbit_gif(
     digest = hashlib.sha256(out.read_bytes()).hexdigest()
     return {"path": str(out), "sha256": digest, "frames": len(pil_frames)}
 
+
+SQUARE_WAYPOINTS: tuple[tuple[int, int], ...] = (
+    (0, 3),  # 0: N  (top midpoint:    x= 0.0, y=+1.0)
+    (0, 6),  # 1: NE (top-right corner: x=+1.0, y=+1.0)
+    (3, 6),  # 2: E  (right midpoint:  x=+1.0, y= 0.0)
+    (6, 6),  # 3: SE (bot-right corner: x=+1.0, y=-1.0)
+    (6, 3),  # 4: S  (bottom midpoint: x= 0.0, y=-1.0)
+    (6, 0),  # 5: SW (bot-left corner:  x=-1.0, y=-1.0)
+    (3, 0),  # 6: W  (left midpoint:   x=-1.0, y= 0.0)
+    (0, 0),  # 7: NW (top-left corner:  x=-1.0, y=+1.0)
+)
+
+
+def square_orbit_templates(device: str | torch.device = "cpu") -> torch.Tensor:
+    """Return 8 clockwise 8x8 square-perimeter point templates of shape (8, 1, 8, 8).
+
+    Each waypoint is a disjoint 2x2 bright patch (0.9) on a 0.1 background along the
+    outer unit L_inf square perimeter (max(|x|, |y|) == 1.0).
+    """
+    templates = torch.full((len(SQUARE_WAYPOINTS), 1, 8, 8), 0.1, device=device, dtype=torch.float32)
+    for idx, (row, col) in enumerate(SQUARE_WAYPOINTS):
+        templates[idx, 0, row:row + 2, col:col + 2] = 0.9
+    return templates.detach()
+
+
+def square_orbit_coords(device: str | torch.device = "cpu") -> torch.Tensor:
+    """Return the 8 ground-truth normalized (x, y) square coordinates of shape (8, 2)."""
+    return extract_circle_coords(square_orbit_templates(device)).detach()
+
+
+class SquareCircleCycleStream:
+    """Paired/chronological 8-waypoint Square <-> Circle orbit stream for CycleGAN translation."""
+
+    period = len(SQUARE_WAYPOINTS)
+
+    def __init__(self, noise_std: float = 0.01, device: str | torch.device = "cpu"):
+        self.device = torch.device(device)
+        self.noise_std = float(noise_std)
+        self.square_templates = square_orbit_templates(self.device)
+        self.circle_templates = circle_orbit_templates(self.device)
+        self.templates = torch.cat((self.circle_templates, self.square_templates), dim=0).detach()
+        self.square_coords = extract_circle_coords(self.square_templates)
+        self.circle_coords = extract_circle_coords(self.circle_templates)
+        self.cursor = 0
+
+    def clean_square_warmup(self, start_phase: int = 0) -> torch.Tensor:
+        """Two preceding Square waypoints before `start_phase`."""
+        p0 = (int(start_phase) - 2) % self.period
+        p1 = (int(start_phase) - 1) % self.period
+        return torch.stack((self.square_templates[p0], self.square_templates[p1])).detach()
+
+    def clean_circle_warmup(self, start_phase: int = 0) -> torch.Tensor:
+        """Two preceding Circle waypoints before `start_phase`."""
+        p0 = (int(start_phase) - 2) % self.period
+        p1 = (int(start_phase) - 1) % self.period
+        return torch.stack((self.circle_templates[p0], self.circle_templates[p1])).detach()
+
+    def next_pair(self, generator: torch.Generator) -> tuple[torch.Tensor, torch.Tensor, dict]:
+        """Return detached batch_size=1 (square_frame, circle_frame, metadata) for the current phase."""
+        phase = self.cursor % self.period
+        orbit = self.cursor // self.period
+        self.cursor += 1
+        s_frame = _noisy_frame(self.square_templates[phase:phase + 1], generator, self.noise_std)
+        c_frame = _noisy_frame(self.circle_templates[phase:phase + 1], generator, self.noise_std)
+        s_xy = self.square_coords[phase]
+        c_xy = self.circle_coords[phase]
+        return s_frame, c_frame, {
+            "phase": phase,
+            "orbit": orbit,
+            "square_x": round(float(s_xy[0].item()), 6),
+            "square_y": round(float(s_xy[1].item()), 6),
+            "circle_x": round(float(c_xy[0].item()), 6),
+            "circle_y": round(float(c_xy[1].item()), 6),
+        }
+
+    def next_frame(self, generator: torch.Generator) -> tuple[torch.Tensor, dict]:
+        """Single-frame arrival interface returning the Square frame and orbital metadata."""
+        s_frame, _, meta = self.next_pair(generator)
+        return s_frame, meta
+
+
+def score_square_circle_cycle(
+    s2c_trajectories: torch.Tensor,
+    c2s_trajectories: torch.Tensor,
+    square_templates: torch.Tensor,
+    circle_templates: torch.Tensor,
+    *,
+    quality_rmse: float = 0.12,
+    quality_xy: float = 0.15,
+) -> dict[str, float]:
+    """Score bidirectional 8-step closed-loop CycleGAN rollouts (S->C and C->S).
+
+    Inputs `s2c_trajectories` and `c2s_trajectories` have shape (N, 8, 1, 8, 8).
+    Every particle must translate all 8 clockwise waypoints in both directions
+    (Square -> Circle and Circle -> Square) with pixel RMSE <= `quality_rmse`,
+    coordinate error <= `quality_xy`, strict nearest-waypoint matching within the
+    target domain, and strict geometric discrimination against the source domain
+    at all non-overlapping corner waypoints (phases 1, 3, 5, 7).
+    """
+    failure = {
+        "cycle_rmse": 1e6,
+        "s2c_rmse": 1e6,
+        "c2s_rmse": 1e6,
+        "xy_rmse": 1e6,
+        "step_accuracy": 0.0,
+        "cycle_completion": 0.0,
+        "waypoint_modes": 0.0,
+    }
+    if (
+        not isinstance(s2c_trajectories, torch.Tensor)
+        or not isinstance(c2s_trajectories, torch.Tensor)
+        or not isinstance(square_templates, torch.Tensor)
+        or not isinstance(circle_templates, torch.Tensor)
+        or s2c_trajectories.ndim != 5
+        or c2s_trajectories.ndim != 5
+        or tuple(s2c_trajectories.shape[1:]) != (8, 1, 8, 8)
+        or tuple(c2s_trajectories.shape[1:]) != (8, 1, 8, 8)
+        or len(s2c_trajectories) == 0
+        or len(s2c_trajectories) != len(c2s_trajectories)
+        or tuple(square_templates.shape) != (8, 1, 8, 8)
+        or tuple(circle_templates.shape) != (8, 1, 8, 8)
+        or not s2c_trajectories.is_floating_point()
+        or not c2s_trajectories.is_floating_point()
+        or not square_templates.is_floating_point()
+        or not circle_templates.is_floating_point()
+        or not bool(torch.isfinite(square_templates).all())
+        or not bool(torch.isfinite(circle_templates).all())
+    ):
+        return failure
+
+    with torch.no_grad():
+        device = s2c_trajectories.device
+        dtype = s2c_trajectories.dtype
+        c2s_trajectories = c2s_trajectories.to(device=device, dtype=dtype)
+        sq_tmpl = square_templates.to(device=device, dtype=dtype)
+        ci_tmpl = circle_templates.to(device=device, dtype=dtype)
+        step_idx = torch.arange(8, device=device)
+
+        # 1. Forward S -> C evaluation against circle_templates
+        s2c_rmses = (s2c_trajectories[:, :, None] - ci_tmpl[None, None]).square().mean(dim=(3, 4, 5)).sqrt()
+        s2c_finite = torch.isfinite(s2c_rmses).all(dim=2)
+        s2c_safe = torch.nan_to_num(s2c_rmses, nan=1e6, posinf=1e6, neginf=1e6)
+        s2c_target_rmses = s2c_safe[:, step_idx, step_idx]
+        s2c_other = s2c_safe.clone()
+        s2c_other[:, step_idx, step_idx] = float("inf")
+        s2c_nearest = (s2c_target_rmses + 1e-6) < s2c_other.min(dim=2).values
+
+        # Source-domain contrast at distinct waypoints (corners 1, 3, 5, 7)
+        s2c_source_rmse = (s2c_trajectories - sq_tmpl[None]).square().mean(dim=(2, 3, 4)).sqrt()
+        s2c_source_rmse = torch.nan_to_num(s2c_source_rmse, nan=1e6, posinf=1e6, neginf=1e6)
+        distinct_mask = (ci_tmpl - sq_tmpl).abs().amax(dim=(1, 2, 3)) > 1e-4
+        s2c_translated = torch.where(
+            distinct_mask[None, :],
+            (s2c_target_rmses + 1e-6) < s2c_source_rmse,
+            torch.ones_like(s2c_nearest),
+        )
+
+        s2c_pred_xy = extract_circle_coords(s2c_trajectories)
+        ci_target_xy = extract_circle_coords(ci_tmpl)[None, :, :]
+        s2c_xy_err = (s2c_pred_xy - ci_target_xy).square().sum(dim=-1).sqrt()
+        s2c_xy_err = torch.where(
+            s2c_finite,
+            torch.nan_to_num(s2c_xy_err, nan=1e6, posinf=1e6, neginf=1e6),
+            torch.full_like(s2c_xy_err, 1e6),
+        )
+        s2c_valid = (
+            s2c_finite
+            & s2c_nearest
+            & s2c_translated
+            & (s2c_target_rmses <= quality_rmse)
+            & (s2c_xy_err <= quality_xy)
+        )
+
+        # 2. Backward C -> S evaluation against square_templates
+        c2s_rmses = (c2s_trajectories[:, :, None] - sq_tmpl[None, None]).square().mean(dim=(3, 4, 5)).sqrt()
+        c2s_finite = torch.isfinite(c2s_rmses).all(dim=2)
+        c2s_safe = torch.nan_to_num(c2s_rmses, nan=1e6, posinf=1e6, neginf=1e6)
+        c2s_target_rmses = c2s_safe[:, step_idx, step_idx]
+        c2s_other = c2s_safe.clone()
+        c2s_other[:, step_idx, step_idx] = float("inf")
+        c2s_nearest = (c2s_target_rmses + 1e-6) < c2s_other.min(dim=2).values
+
+        c2s_source_rmse = (c2s_trajectories - ci_tmpl[None]).square().mean(dim=(2, 3, 4)).sqrt()
+        c2s_source_rmse = torch.nan_to_num(c2s_source_rmse, nan=1e6, posinf=1e6, neginf=1e6)
+        c2s_translated = torch.where(
+            distinct_mask[None, :],
+            (c2s_target_rmses + 1e-6) < c2s_source_rmse,
+            torch.ones_like(c2s_nearest),
+        )
+
+        c2s_pred_xy = extract_circle_coords(c2s_trajectories)
+        sq_target_xy = extract_circle_coords(sq_tmpl)[None, :, :]
+        c2s_xy_err = (c2s_pred_xy - sq_target_xy).square().sum(dim=-1).sqrt()
+        c2s_xy_err = torch.where(
+            c2s_finite,
+            torch.nan_to_num(c2s_xy_err, nan=1e6, posinf=1e6, neginf=1e6),
+            torch.full_like(c2s_xy_err, 1e6),
+        )
+        c2s_valid = (
+            c2s_finite
+            & c2s_nearest
+            & c2s_translated
+            & (c2s_target_rmses <= quality_rmse)
+            & (c2s_xy_err <= quality_xy)
+        )
+
+        joint_step_valid = s2c_valid & c2s_valid
+        full_cycle = joint_step_valid.all(dim=1)
+        waypoint_modes = float((joint_step_valid.sum(dim=0) > 0).sum().item())
+        s2c_rmse_val = float(s2c_target_rmses.mean().item())
+        c2s_rmse_val = float(c2s_target_rmses.mean().item())
+        cycle_rmse_val = 0.5 * (s2c_rmse_val + c2s_rmse_val)
+        xy_rmse_val = 0.5 * float((s2c_xy_err.mean() + c2s_xy_err.mean()).item())
+
+        return {
+            "cycle_rmse": round(cycle_rmse_val, 6),
+            "s2c_rmse": round(s2c_rmse_val, 6),
+            "c2s_rmse": round(c2s_rmse_val, 6),
+            "xy_rmse": round(xy_rmse_val, 6),
+            "step_accuracy": round(float(joint_step_valid.float().mean().item()), 6),
+            "cycle_completion": round(float(full_cycle.float().mean().item()), 6),
+            "waypoint_modes": waypoint_modes,
+        }
+
+
+def render_square_circle_cycle_gif(
+    frames: list[dict],
+    output_path: Path | str,
+    *,
+    task_id: str = "seq_img_square_circle_cycle",
+    candidate_id: str = "online-feature-prior-bce",
+    verdict: str = "PASS",
+    substeps_per_checkpoint: int = 2,
+    duration_ms: int = 110,
+) -> dict:
+    """Render a 3-panel bidirectional Square <-> Circle CycleGAN training animation."""
+    if not frames:
+        raise ValueError("render_square_circle_cycle_gif requires at least one frame")
+    out = Path(output_path)
+    out.parent.mkdir(parents=True, exist_ok=True)
+    font = ImageFont.load_default()
+
+    sq_templates = square_orbit_templates("cpu")
+    ci_templates = circle_orbit_templates("cpu")
+    sq_target_xy = extract_circle_coords(sq_templates).numpy()  # (8, 2)
+    ci_target_xy = extract_circle_coords(ci_templates).numpy()  # (8, 2)
+    waypoint_labels = ("N", "NE", "E", "SE", "S", "SW", "W", "NW")
+
+    all_steps = [int(f["step"]) for f in frames]
+    max_step = max(all_steps) if all_steps else 480
+    substeps = max(1, int(substeps_per_checkpoint))
+
+    pil_frames: list[Image.Image] = []
+    width, height = 920, 400
+
+    for idx, frame in enumerate(frames):
+        step = int(frame["step"])
+        passed = bool(frame.get("passed", False))
+        metrics = frame.get("metrics", {})
+        sample_arr = np.asarray(frame["sample_images"], dtype=np.float32)
+        if sample_arr.ndim == 3:
+            sample_arr = sample_arr[:, None, :, :]
+
+        # Unpack s2c (first half) and c2s (second half) 8-step closed-loop trajectories
+        if len(sample_arr) >= 16 and (len(sample_arr) // 2) % 8 == 0:
+            half = len(sample_arr) // 2
+            s2c_rollouts = torch.from_numpy(sample_arr[:half]).reshape(-1, 8, 1, 8, 8)
+            c2s_rollouts = torch.from_numpy(sample_arr[half:]).reshape(-1, 8, 1, 8, 8)
+            s2c_mean = s2c_rollouts.mean(dim=0)
+            c2s_mean = c2s_rollouts.mean(dim=0)
+            s2c_pred_xy = extract_circle_coords(s2c_mean).numpy()
+            c2s_pred_xy = extract_circle_coords(c2s_mean).numpy()
+        else:
+            t_tensor = torch.from_numpy(sample_arr[:8])
+            if len(t_tensor) < 8:
+                repeats = (8 + len(t_tensor) - 1) // max(1, len(t_tensor))
+                t_tensor = t_tensor.repeat(repeats, 1, 1, 1)[:8]
+            s2c_mean = t_tensor
+            c2s_mean = t_tensor
+            s2c_pred_xy = extract_circle_coords(s2c_mean).numpy()
+            c2s_pred_xy = extract_circle_coords(c2s_mean).numpy()
+
+        with torch.no_grad():
+            s2c_rmses = (s2c_mean - ci_templates).square().mean(dim=(1, 2, 3)).sqrt().numpy()
+            c2s_rmses = (c2s_mean - sq_templates).square().mean(dim=(1, 2, 3)).sqrt().numpy()
+            s2c_xy_err = np.linalg.norm(s2c_pred_xy - ci_target_xy, axis=-1)
+            c2s_xy_err = np.linalg.norm(c2s_pred_xy - sq_target_xy, axis=-1)
+            step_hits = (
+                (s2c_rmses <= 0.12)
+                & (c2s_rmses <= 0.12)
+                & (s2c_xy_err <= 0.15)
+                & (c2s_xy_err <= 0.15)
+            )
+
+        for sub in range(substeps):
+            active_phase = (idx * substeps + sub) % 8
+            canvas = Image.new("RGB", (width, height), (13, 17, 23))
+            draw = ImageDraw.Draw(canvas)
+
+            # Top header bar
+            draw.rectangle([0, 0, width, 40], fill=(22, 27, 34))
+            draw.line([0, 40, width, 40], fill=(48, 54, 61), width=1)
+            draw.text(
+                (16, 13),
+                f"ParticleStream CycleGAN  |  {task_id}  |  {candidate_id}",
+                fill=(230, 237, 243),
+                font=font,
+            )
+            verdict_bg = (35, 134, 54) if verdict == "PASS" else (218, 54, 51)
+            step_bg = (31, 111, 235) if passed else (110, 118, 129)
+            draw.rectangle([width - 250, 9, width - 126, 31], fill=step_bg)
+            draw.text((width - 240, 14), f"step {step:3d}/{max_step}", fill=(255, 255, 255), font=font)
+            draw.rectangle([width - 118, 9, width - 16, 31], fill=verdict_bg)
+            draw.text((width - 106, 14), f"verdict: {verdict}", fill=(255, 255, 255), font=font)
+
+            # Panel 1: Dual Square <-> Circle 2D Plane (left)
+            p1_x0, p1_y0, p1_x1, p1_y1 = 14, 52, 314, 386
+            draw.rectangle([p1_x0, p1_y0, p1_x1, p1_y1], fill=(18, 23, 31), outline=(48, 54, 61))
+            draw.text((p1_x0 + 12, p1_y0 + 8), "Square <-> Circle Cycle Plane", fill=(201, 209, 217), font=font)
+            draw.text((p1_x0 + 12, p1_y0 + 22), "Bidirectional G_S2C & G_C2S rollout", fill=(125, 133, 144), font=font)
+
+            cx, cy = 164, 222
+            radius = 84
+            ring_r = int(round(radius * 0.96))
+
+            draw.line([cx - radius - 20, cy, cx + radius + 20, cy], fill=(33, 38, 45), width=1)
+            draw.line([cx, cy - radius - 20, cx, cy + radius + 20], fill=(33, 38, 45), width=1)
+            # Ideal Square wireframe (amber) & Circle wireframe (slate-cyan)
+            draw.rectangle([cx - radius, cy - radius, cx + radius, cy + radius], outline=(92, 68, 36), width=1)
+            draw.ellipse([cx - ring_r, cy - ring_r, cx + ring_r, cy + ring_r], outline=(46, 74, 98), width=2)
+
+            def _to_screen(pt_xy: np.ndarray | tuple[float, float]) -> tuple[int, int]:
+                sx = int(round(cx + float(pt_xy[0]) * radius))
+                sy = int(round(cy - float(pt_xy[1]) * radius))
+                return sx, sy
+
+            # Draw predicted Square polygon (amber-gold) and predicted Circle polygon (cyan-emerald)
+            c2s_screen = [_to_screen(c2s_pred_xy[w]) for w in range(8)]
+            s2c_screen = [_to_screen(s2c_pred_xy[w]) for w in range(8)]
+            draw.line(c2s_screen + [c2s_screen[0]], fill=(245, 158, 11), width=2)
+            draw.line(s2c_screen + [s2c_screen[0]], fill=(56, 189, 248), width=2)
+
+            # Translation connectors between Square and Circle waypoints
+            for w_idx in range(8):
+                sx_pt, sy_pt = c2s_screen[w_idx]
+                cx_pt, cy_pt = s2c_screen[w_idx]
+                is_active = w_idx == active_phase
+                if is_active or w_idx in (1, 3, 5, 7):
+                    col_line = (168, 85, 247) if is_active else (68, 56, 98)
+                    draw.line([(sx_pt, sy_pt), (cx_pt, cy_pt)], fill=col_line, width=2 if is_active else 1)
+                draw.rectangle([sx_pt - 3, sy_pt - 3, sx_pt + 3, sy_pt + 3], fill=(245, 158, 11), outline=(253, 224, 71))
+                draw.ellipse([cx_pt - 3, cy_pt - 3, cx_pt + 3, cy_pt + 3], fill=(56, 189, 248), outline=(230, 237, 243))
+                lx = int(round(cx + float(sq_target_xy[w_idx, 0]) * (radius + 16))) - 5
+                ly = int(round(cy - float(sq_target_xy[w_idx, 1]) * (radius + 16))) - 5
+                draw.text((lx, ly), waypoint_labels[w_idx], fill=(139, 148, 158), font=font)
+
+            # Highlight active Square <-> Circle translated pair
+            asx, asy = c2s_screen[active_phase]
+            acx, acy = s2c_screen[active_phase]
+            draw.rectangle([asx - 6, asy - 6, asx + 6, asy + 6], fill=(245, 158, 11), outline=(255, 255, 255), width=2)
+            draw.ellipse([acx - 6, acy - 6, acx + 6, acy + 6], fill=(52, 211, 153), outline=(255, 255, 255), width=2)
+
+            draw.rectangle([p1_x0 + 14, p1_y1 - 22, p1_x0 + 22, p1_y1 - 14], fill=(245, 158, 11), outline=(253, 224, 71))
+            draw.text((p1_x0 + 28, p1_y1 - 24), "C->S Square", fill=(139, 148, 158), font=font)
+            draw.ellipse([p1_x0 + 146, p1_y1 - 22, p1_x0 + 154, p1_y1 - 14], fill=(56, 189, 248), outline=(255, 255, 255))
+            draw.text((p1_x0 + 160, p1_y1 - 24), "S->C Circle", fill=(139, 148, 158), font=font)
+
+            # Panel 2: 8x8 Bidirectional Translation & 8-Step Cycle Strip (center)
+            p2_x0, p2_y0, p2_x1, p2_y1 = 326, 52, 616, 386
+            draw.rectangle([p2_x0, p2_y0, p2_x1, p2_y1], fill=(18, 23, 31), outline=(48, 54, 61))
+            draw.text((p2_x0 + 12, p2_y0 + 8), "Bidirectional 8x8 Translation", fill=(201, 209, 217), font=font)
+            draw.text(
+                (p2_x0 + 12, p2_y0 + 22),
+                f"Phase {active_phase + 1}/8 ({waypoint_labels[active_phase]})  |  S->C & C->S",
+                fill=(125, 133, 144),
+                font=font,
+            )
+
+            draw.text((p2_x0 + 18, p2_y0 + 44), "G_S2C (Circle)", fill=(56, 189, 248), font=font)
+            _draw_pixel_patch(
+                draw,
+                s2c_mean[active_phase, 0].numpy(),
+                p2_x0 + 18,
+                p2_y0 + 60,
+                cell=13,
+                border_color=(52, 211, 153) if step_hits[active_phase] else (248, 113, 113),
+                accent_xy=tuple(s2c_pred_xy[active_phase]),
+                accent_color=(56, 189, 248),
+            )
+
+            draw.text((p2_x0 + 162, p2_y0 + 44), "G_C2S (Square)", fill=(245, 158, 11), font=font)
+            _draw_pixel_patch(
+                draw,
+                c2s_mean[active_phase, 0].numpy(),
+                p2_x0 + 162,
+                p2_y0 + 60,
+                cell=13,
+                border_color=(245, 158, 11) if step_hits[active_phase] else (248, 113, 113),
+                accent_xy=tuple(c2s_pred_xy[active_phase]),
+                accent_color=(253, 224, 71),
+            )
+
+            strip_y0 = p2_y0 + 184
+            draw.text(
+                (p2_x0 + 14, strip_y0),
+                "8-Step Cross-Fed CycleGAN Rollout (S<->C):",
+                fill=(201, 209, 217),
+                font=font,
+            )
+            draw.text((p2_x0 + 14, strip_y0 + 28), "S->C", fill=(56, 189, 248), font=font)
+            draw.text((p2_x0 + 14, strip_y0 + 66), "C->S", fill=(245, 158, 11), font=font)
+
+            for w_idx in range(8):
+                sx = p2_x0 + 58 + w_idx * 28
+                draw.text((sx + 4, strip_y0 + 14), waypoint_labels[w_idx], fill=(125, 133, 144), font=font)
+                hit = bool(step_hits[w_idx])
+                _draw_pixel_patch(
+                    draw,
+                    s2c_mean[w_idx, 0].numpy(),
+                    sx,
+                    strip_y0 + 28,
+                    cell=3,
+                    border_color=(52, 211, 153) if hit else (248, 113, 113),
+                )
+                _draw_pixel_patch(
+                    draw,
+                    c2s_mean[w_idx, 0].numpy(),
+                    sx,
+                    strip_y0 + 66,
+                    cell=3,
+                    border_color=(245, 158, 11) if hit else (248, 113, 113),
+                )
+
+            hits_count = int(step_hits.sum())
+            draw.text(
+                (p2_x0 + 14, p2_y1 - 26),
+                f"Cycle waypoints locked: {hits_count}/8   |   modes: {int(metrics.get('waypoint_modes', 0))}/8",
+                fill=(52, 211, 153) if hits_count == 8 else (201, 209, 217),
+                font=font,
+            )
+
+            # Panel 3: Live Online Convergence Curves (right)
+            p3_x0, p3_y0, p3_x1, p3_y1 = 628, 52, 906, 386
+            draw.rectangle([p3_x0, p3_y0, p3_x1, p3_y1], fill=(18, 23, 31), outline=(48, 54, 61))
+            draw.text((p3_x0 + 12, p3_y0 + 8), "CycleGAN Convergence (batch_size=1)", fill=(201, 209, 217), font=font)
+
+            def _draw_chart(
+                box: tuple[int, int, int, int],
+                title: str,
+                series_list: list[tuple[str, list[float], tuple[int, int, int]]],
+                *,
+                y_min: float,
+                y_max: float,
+                gate_val: float,
+                gate_label: str,
+            ) -> None:
+                cx0, cy0, cx1, cy1 = box
+                draw.text((cx0, cy0 - 14), title, fill=(139, 148, 158), font=font)
+                draw.rectangle([cx0, cy0, cx1, cy1], fill=(13, 17, 23), outline=(48, 54, 61))
+                if len(frames) >= 5:
+                    win_start_step = int(frames[-5]["step"])
+                    wx0 = int(round(cx0 + (win_start_step / max(1, max_step)) * (cx1 - cx0)))
+                    draw.rectangle([wx0, cy0 + 1, cx1 - 1, cy1 - 1], fill=(19, 35, 29))
+                gy = int(round(cy1 - ((gate_val - y_min) / max(1e-6, y_max - y_min)) * (cy1 - cy0)))
+                gy = max(cy0, min(cy1, gy))
+                for gx in range(cx0 + 2, cx1 - 2, 6):
+                    draw.line([gx, gy, min(cx1 - 2, gx + 3), gy], fill=(110, 118, 129), width=1)
+                draw.text((cx1 - 68, max(cy0 + 2, gy - 11)), gate_label, fill=(139, 148, 158), font=font)
+
+                for _, vals, col in series_list:
+                    pts = []
+                    for s_i, val in zip(all_steps[: idx + 1], vals[: idx + 1]):
+                        v_clamped = max(y_min, min(y_max, float(val)))
+                        px = int(round(cx0 + (s_i / max(1, max_step)) * (cx1 - cx0)))
+                        py = int(round(cy1 - ((v_clamped - y_min) / max(1e-6, y_max - y_min)) * (cy1 - cy0)))
+                        pts.append((px, py))
+                    if len(pts) >= 2:
+                        draw.line(pts, fill=col, width=2)
+                    if pts:
+                        lx, ly = pts[-1]
+                        draw.ellipse([lx - 3, ly - 3, lx + 3, ly + 3], fill=col)
+
+            comp_vals = [float(f.get("metrics", {}).get("cycle_completion", 0.0)) for f in frames]
+            acc_vals = [float(f.get("metrics", {}).get("step_accuracy", 0.0)) for f in frames]
+            xy_vals = [float(f.get("metrics", {}).get("xy_rmse", 0.6)) for f in frames]
+            cyc_vals = [float(f.get("metrics", {}).get("cycle_rmse", 0.4)) for f in frames]
+
+            _draw_chart(
+                (p3_x0 + 14, p3_y0 + 42, p3_x1 - 14, p3_y0 + 138),
+                "Cycle Completion (green) & Step Acc (cyan)",
+                [
+                    ("step_acc", acc_vals, (56, 189, 248)),
+                    ("cycle_comp", comp_vals, (52, 211, 153)),
+                ],
+                y_min=0.0,
+                y_max=1.05,
+                gate_val=0.90,
+                gate_label="gate >=0.90",
+            )
+
+            _draw_chart(
+                (p3_x0 + 14, p3_y0 + 164, p3_x1 - 14, p3_y0 + 260),
+                "Coord Error xy_rmse (amber) & cycle_rmse",
+                [
+                    ("cycle_rmse", cyc_vals, (168, 85, 247)),
+                    ("xy_rmse", xy_vals, (245, 158, 11)),
+                ],
+                y_min=0.0,
+                y_max=0.65,
+                gate_val=0.15,
+                gate_label="gate <=0.15",
+            )
+
+            cur_comp = float(metrics.get("cycle_completion", 0.0))
+            cur_acc = float(metrics.get("step_accuracy", 0.0))
+            cur_xy = float(metrics.get("xy_rmse", 0.0))
+            cur_rmse = float(metrics.get("cycle_rmse", 0.0))
+            draw.rectangle([p3_x0 + 14, p3_y0 + 272, p3_x1 - 14, p3_y1 - 12], fill=(13, 17, 23), outline=(48, 54, 61))
+            draw.text(
+                (p3_x0 + 22, p3_y0 + 279),
+                f"cycle_completion: {cur_comp * 100:5.1f}%   (gate >= 90%)",
+                fill=(52, 211, 153) if cur_comp >= 0.90 else (230, 237, 243),
+                font=font,
+            )
+            draw.text(
+                (p3_x0 + 22, p3_y0 + 295),
+                f"step_accuracy:    {cur_acc * 100:5.1f}%   (gate >= 90%)",
+                fill=(56, 189, 248) if cur_acc >= 0.90 else (230, 237, 243),
+                font=font,
+            )
+            draw.text(
+                (p3_x0 + 22, p3_y0 + 311),
+                f"xy_rmse: {cur_xy:.4f} (<=0.15) | cycle_rmse: {cur_rmse:.4f}",
+                fill=(201, 209, 217),
+                font=font,
+            )
+
+            pil_frames.append(canvas)
+
+    if len(pil_frames) >= 8:
+        pil_frames.extend(pil_frames[-8:])
+    elif pil_frames:
+        pil_frames.extend([pil_frames[-1]] * 4)
+
+    tmp_path = out.with_suffix(".gif.tmp")
+    pil_frames[0].save(
+        tmp_path,
+        format="GIF",
+        save_all=True,
+        append_images=pil_frames[1:],
+        duration=int(duration_ms),
+        loop=0,
+    )
+    shutil.move(str(tmp_path), str(out))
+    digest = hashlib.sha256(out.read_bytes()).hexdigest()
+    return {"path": str(out), "sha256": digest, "frames": len(pil_frames)}
+
+
