@@ -1,0 +1,65 @@
+{
+  "changed_factors": [
+    "ParticleGAN 0.9.6 public bcap_adam trainer preset",
+    "Shared 64-frame FIFO memory, seven replay samples and velocity context",
+    "Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)",
+    "Explicit replay_policy=none: train every arriving observation once, batch_size=1",
+    "Predict before arrival; learn next-frame targets from the preceding detached context",
+    "Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context",
+    "Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving",
+    "Context-local balanced transport: at most 64 detached conditioning centroids; per-context equal-mass row dual updates at rate 0.05, clip 1; global usage penalty removed",
+    "Freeze initial prior and ablate associative-history contribution; retain current state, velocity, salient content and repetition age",
+    "Replace only image reconstruction MSE with binary cross entropy at weight 10; routing remains current-image MSE plus context-local duals"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "online-bcap-balanced-bce",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "age_horizon": 8.0,
+    "association_weight": 0.0,
+    "change_threshold": 0.04,
+    "context_scale": 3.0,
+    "contrast_threshold": 0.03,
+    "decay": 0.9,
+    "dim": 16,
+    "kind": "fast_weight",
+    "reader": "causal_state",
+    "rehearsal_batch": 0,
+    "replay_policy": "none",
+    "reservoir_size": 64,
+    "transport": {
+      "context_capacity": 64,
+      "context_clip": 8.0,
+      "context_tolerance": 0.25,
+      "dual_clip": 1.0,
+      "dual_rate": 0.05,
+      "reconstruction_loss": "binary_cross_entropy",
+      "reconstruction_weight": 10.0,
+      "router": "context_balanced",
+      "temperature": 0.0,
+      "usage_decay": 1.0,
+      "usage_penalty": 0.0
+    },
+    "write_lr": 0.35
+  },
+  "namespace": "particlegan_forge",
+  "parent": "online-bcap-balanced-frozen",
+  "recipe_overrides": {
+    "betas": [
+      0.0,
+      0.999
+    ],
+    "loss": "non_saturating",
+    "lr": 0.005,
+    "lr_anneal_start": 0.5,
+    "lr_floor": 0.05,
+    "lr_schedule": "cosine",
+    "network_lr_floor": 0.05,
+    "prior_update": "frozen"
+  },
+  "recipe_preset": "bcap_adam",
+  "schema_version": 3,
+  "technique": "BCAP"
+}

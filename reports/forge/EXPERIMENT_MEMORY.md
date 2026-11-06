@@ -6,18 +6,18 @@
 
 ## Recorded Candidates
 
-### `online-bcap-balanced` (`BCAP`)
-- **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving, Context-local balanced transport: at most 64 detached conditioning centroids; per-context equal-mass row dual updates at rate 0.05, clip 1; global usage penalty removed
-- **Parent**: `online-bcap-transport-causal`
-- **Status**: `FAIL` (`1/4` required passes, qualified tier 0)
-  - Tier 1 `seq_img_round_robin_bars4` (required): **PASS** — terminal 5/5 · finite_template_tv=0.0938, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.3707, mean_rmse=0.0587, modes=4.0000
-  - Tier 1 `seq_img_dwell_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=0.2188, hq=0.7812, live_predictions=480.0000, live_prequential_rmse=0.3433, mean_rmse=0.1040, modes=4.0000
-  - Tier 1 `seq_img_translating_bar_next` (required): **FAIL** — terminal 0/5 · failed `direction_acc >= 0.9`; `next_frame_rmse <= 0.12` · direction_acc=0.6875, live_predictions=480.0000, live_prequential_rmse=0.1530, next_frame_rmse=0.2414
-  - Tier 1 `seq_img_fork_rollout` (required): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `within_state_modes == 2.0` · branch_tv=0.1875, hq=0.8125, live_predictions=480.0000, live_prequential_rmse=0.2155, mean_rmse=0.0823, within_state_modes=2.0000
-  - Tier 1 `seq_img_variable_dwell_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=0.5625, hq=0.5938, live_predictions=480.0000, live_prequential_rmse=0.4919, mean_rmse=0.1331, modes=2.0000
-  - Tier 1 `seq_img_rare_mode_bars4` (held): **PASS** — terminal 5/5 · finite_template_tv=0.0000, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.4314, mean_rmse=0.0458, rare_mass=0.0625, support_modes=4.0000
-  - Tier 1 `seq_img_delayed_cue` (held): **FAIL** — terminal 0/5 · failed `outcome_accuracy >= 0.9`; `prediction_rmse <= 0.12` · live_predictions=480.0000, live_prequential_rmse=0.1245, outcome_accuracy=0.9531, prediction_rmse=0.2187
-  - Tier 1 `seq_img_persistent_fork` (held): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `trajectory_consistency >= 0.95`; `within_state_modes == 2.0` · branch_tv=0.5312, depth_1_hq=0.7812, depth_1_modes=2.0000, depth_1_tv=0.2188, depth_2_hq=0.8125, depth_2_modes=2.0000, depth_2_tv=0.1875, depth_3_hq=0.4688, depth_3_modes=2.0000, depth_3_tv=0.5312, hq=0.4688, live_predictions=480.0000, live_prequential_rmse=0.1047, mean_rmse=0.0997, trajectory_consistency=0.3438, within_state_modes=2.0000
+### `online-feature-prior-bce` (`FeaturePrior-BCAP`)
+- **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, New observed-feature conditional prior: fixed named deterministic orthogonal 8x64 encoder; at most 32 latent feature means and 64 observed-context outcome counts; learn statistics only after successful current-observation updates, Freeze storage prior; learned additive conditional transform preserves each sampled MoG perturbation and task capacity, samples empirical feature quantiles at nearest past context; no image output bypass or stored-frame replay, G-phase posterior encodes only the current arrived frame; BCE reconstruction weight 10 trains the unchanged image decoder; D and serving use learned conditional prior without current target or generator probes, Ablate associative-history context term; retain appearance, velocity, salient content and repetition age
+- **Parent**: `online-bcap-adam-causal`
+- **Status**: `PASS` (`4/4` required passes, qualified tier 1)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **PASS** — terminal 5/5 · finite_template_tv=0.0000, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.2902, mean_rmse=0.0075, modes=4.0000
+  - Tier 1 `seq_img_dwell_bars4` (required): **PASS** — terminal 5/5 · finite_template_tv=0.0312, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.3873, mean_rmse=0.0127, modes=4.0000
+  - Tier 1 `seq_img_translating_bar_next` (required): **PASS** — terminal 5/5 · direction_acc=1.0000, live_predictions=480.0000, live_prequential_rmse=0.0131, next_frame_rmse=0.0085
+  - Tier 1 `seq_img_fork_rollout` (required): **PASS** — terminal 5/5 · branch_tv=0.0000, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.2025, mean_rmse=0.0100, within_state_modes=2.0000
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **PASS** — terminal 5/5 · finite_template_tv=0.0000, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.4578, mean_rmse=0.0147, modes=4.0000
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **PASS** — terminal 5/5 · finite_template_tv=0.0000, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.4028, mean_rmse=0.0078, rare_mass=0.0625, support_modes=4.0000
+  - Tier 1 `seq_img_delayed_cue` (held): **PASS** — terminal 5/5 · live_predictions=480.0000, live_prequential_rmse=0.0316, outcome_accuracy=1.0000, prediction_rmse=0.0242
+  - Tier 1 `seq_img_persistent_fork` (held): **PASS** — terminal 5/5 · branch_tv=0.0312, depth_1_hq=1.0000, depth_1_modes=2.0000, depth_1_tv=0.0312, depth_2_hq=1.0000, depth_2_modes=2.0000, depth_2_tv=0.0312, depth_3_hq=1.0000, depth_3_modes=2.0000, depth_3_tv=0.0312, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.0276, mean_rmse=0.0106, trajectory_consistency=1.0000, within_state_modes=2.0000
 
 ### `bcap` (`BCAP`)
 - **Changed factors**: Stateless BCAP baseline on batch_size=1 sequential stream
@@ -98,6 +98,32 @@
 ### `online-bcap-adam-causal` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context
 - **Parent**: `online-bcap-adam`
+- **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_delayed_cue` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_persistent_fork` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+
+### `online-bcap-balanced` (`BCAP`)
+- **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving, Context-local balanced transport: at most 64 detached conditioning centroids; per-context equal-mass row dual updates at rate 0.05, clip 1; global usage penalty removed
+- **Parent**: `online-bcap-transport-causal`
+- **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 1 `seq_img_delayed_cue` (held): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+  - Tier 1 `seq_img_persistent_fork` (held): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
+
+### `online-bcap-balanced-bce` (`BCAP`)
+- **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving, Context-local balanced transport: at most 64 detached conditioning centroids; per-context equal-mass row dual updates at rate 0.05, clip 1; global usage penalty removed, Freeze initial prior and ablate associative-history contribution; retain current state, velocity, salient content and repetition age, Replace only image reconstruction MSE with binary cross entropy at weight 10; routing remains current-image MSE plus context-local duals
+- **Parent**: `online-bcap-balanced-frozen`
 - **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
   - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt

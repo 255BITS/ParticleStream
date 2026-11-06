@@ -54,3 +54,31 @@ def test_public_recovery_execution_uses_causal_reader_and_single_image_transport
     assert execution["max_real_batch"] == execution["max_fake_batch"] == 1
     assert execution["replayed_examples"] == 0
     assert execution["gradient_accumulation_steps"] == 1
+
+
+@pytest.mark.parametrize("task_id", ["seq_img_round_robin_bars4", "seq_img_delayed_cue"])
+def test_feature_prior_executes_without_probes_and_learns_only_arrived_transitions(tmp_path, task_id):
+    candidate = CandidateSpec.from_dict(json.loads(
+        (ROOT / "configs/forge/ideas/online-feature-prior-bce.json").read_text()))
+    workspace = bootstrap_workspace(tmp_path)
+    workspace.register_candidate(candidate)
+    receipt = workspace.run_task(candidate.id, task_id, steps_override=4)
+    assert receipt["error"] is None
+    assert receipt["all_finite"]
+    assert receipt["unintended_rng_deviations"] == 0
+    transport = receipt["artifacts"]["transport"]
+    assert transport["assignment_updates"] == 4
+    assert transport["probe_forwards"] == 0
+    assert sum(transport["feature_visits"]) == 4
+    assert sum(transport["context_visits"]) == 4
+    assert sum(map(sum, transport["context_outcomes"])) == 4
+    assert 1 <= transport["feature_count"] <= 4
+    assert 1 <= transport["context_count"] <= 4
+    assert transport["target_retained"] is False
+    assert transport["observation_state_retained"] is False
+    assert transport["critic_sampling"] == "observed_context_feature_prior"
+    assert transport["manipulator"]["config"]["reconstruction_loss"] == "binary_cross_entropy"
+    assert "feature_prior.py" in receipt["artifacts"]["implementation"]
+    execution = receipt["artifacts"]["online_execution"]
+    assert execution["updates"] == 4
+    assert execution["max_real_batch"] == execution["max_fake_batch"] == 1
