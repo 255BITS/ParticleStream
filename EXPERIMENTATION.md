@@ -153,7 +153,7 @@ Select an individual global recipe with:
 particlestream run online-bcap-adam --device cuda
 ```
 
-The default comparison selects the three `online-*` recipes. Historical
+The default comparison selects all declared `online-*` recipes. Historical
 `stream-*` receipts and GIFs are preserved and cannot qualify against the
 revised execution contract. Changing the adapter or dependent source requires
 fresh source-bound receipts. Short software checks never qualify a candidate.
@@ -162,3 +162,36 @@ Results, including failures, are generated into the single
 [leaderboard](reports/forge/technique-inventory.md). See
 [research notes](reports/forge/research-notes.md) for historical interpretation
 and current measurements. `goal.gif` frames come from actual training snapshots.
+
+## Strict online recovery recipes
+
+The recovery comparison first gives each previously unrun historical recipe a
+new explicit no-replay identity. Four separate BISPF ablations then test a frozen
+prior, prior-rate multiplier 0.25, critic betas (0.95,0.999), and critic-rate
+multiplier 0.25. Each candidate runs all eight tasks with one complete recipe.
+
+The opt-in `reader=causal_state` policy preserves the same 16-dimensional context
+and projection parameter shapes. Its detached, bounded state carries current
+appearance, last-step change, retained contrast-bearing content, repetition age,
+and an associative-matrix query. It uses arriving pixels only. Cue labels,
+templates, stream metadata and future frames are unavailable to the reader.
+
+The opt-in `memory_policy.transport` configuration uses the public ParticleGAN
+prior-manipulator interface. The critic still samples the uniform mixture. The
+generator routes the current observation to one particle using image MSE plus a
+declared usage penalty, and adds reconstruction on that one generated image.
+Thirty-two clean particle-center probes execute sequentially without gradients
+per update; this is additional inference compute, not additional optimization.
+The target clears after the update, including on exceptions. Serving retains
+the original prior law and receives no target. Numerical gates, architectures,
+480-update budgets and the sustained five-check rule remain unchanged.
+
+The initial transport policy uses reconstruction weight 10, temperature 0,
+usage penalty 0.01 and no usage decay. Combined fitting candidates declare every
+additional optimizer or memory change in their JSON. These are distinct
+experiments; a combination does not isolate the contribution of each change.
+
+Archived task declarations and unchanged receipt/GIF copies are stored under
+`reports/forge/cohorts/pre-recovery/`. The manifest also protects the original
+historical artifacts. Receipts from earlier implementations cannot qualify
+against new source fingerprints; the archive retains their measured outcomes.
