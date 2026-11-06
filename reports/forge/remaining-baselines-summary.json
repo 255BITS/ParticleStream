@@ -589,12 +589,129 @@
           "terminal_passing": 0
         }
       }
+    },
+    "online-ka2-clean": {
+      "elapsed_seconds": 76.83,
+      "passed_tasks": 0,
+      "source_revision": "70db27581ecf59ecf8c7d7c7acd85751dcafd464",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.114813,
+            "outcome_accuracy": 0.515625,
+            "prediction_rmse": 0.297363
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.481852,
+            "mean_rmse": 0.323532,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.5,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.170874,
+            "mean_rmse": 0.038325,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 1.0,
+            "depth_1_hq": 0.4375,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.5625,
+            "depth_2_hq": 0.40625,
+            "depth_2_modes": 1.0,
+            "depth_2_tv": 0.59375,
+            "depth_3_hq": 0.0,
+            "depth_3_modes": 0.0,
+            "depth_3_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.168272,
+            "mean_rmse": 0.142391,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.28125,
+            "hq": 0.71875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.37722,
+            "mean_rmse": 0.103369,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.625,
+            "hq": 0.375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.3385,
+            "mean_rmse": 0.185969,
+            "modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.65625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.207373,
+            "next_frame_rmse": 0.265544
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.409198,
+            "mean_rmse": 0.288054,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
     }
   },
   "cohort_note": "Remaining nine strict baselines; training source is frozen at d19b9d4. Historical protected artifacts are not rerun or overwritten.",
   "deferred_candidates": [
     "online-fast-weight-bcap",
-    "online-ka2-clean",
     "online-ka2-light-anchor",
     "online-ka2-stateless"
   ],
