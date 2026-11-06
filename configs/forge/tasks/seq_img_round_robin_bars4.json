@@ -39,7 +39,7 @@
         "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
         "online.py": "58acea8f398faa4d1307c05620e8b302a59adf856bc07a323d50744b51c2c774",
         "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
-        "transport.py": "4e7ba19c4ec820c5935701dad13f8f41ff66c28010f1781df5325c1e3b1978a2"
+        "transport.py": "a9033b081e6b48dd7c68a372a75e6b2371b5415c947ab936cf8a632d47574fe0"
       },
       "mode": "bars4",
       "online_contract": {
