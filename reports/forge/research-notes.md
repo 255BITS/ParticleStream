@@ -1,5 +1,50 @@
 # ParticleStream research notes
 
+## ParticleGAN and Forge 0.9.7 compatibility, 2026-11-06
+
+Upgraded the published `particlegan` wheel from 0.9.6 to 0.9.7, including its
+`particlegan_forge` namespace. The release adds canonical stretch assignments
+and a separate per-tier stretch table. All eight ParticleStream tasks remain
+required in view 5. Recipe settings, task declarations, adapters, architectures,
+480-update budgets, numerical gates and seed 0 are unchanged. All training ran
+sequentially with real/fake batch size one and no replay.
+
+Fresh CUDA execution of the single global `online-feature-prior-bce` recipe
+passes **8/8 required tasks and 40/40 terminal checks**, covering 3,840 updates
+and 192 observations. Every observation and every actual-training GIF is
+identical to the archived 0.9.6 cohort. All 192 GIF frames decode successfully;
+receipt hashes match the GIFs, training remains finite, and evaluation records
+zero RNG deviations. Fresh receipts carry the installed 0.9.7 engine digest;
+historical receipts cannot qualify against it.
+
+The full regression suite passes **421 tests** in 40.99 seconds, including
+oracle/destructive controls, all three trainer families, serving isolation,
+source-bound qualification, archived artifacts and the new stretch-report
+integration. Workspace validation accepts all 44 candidates and eight tasks;
+`uv pip check` reports all 46 installed packages compatible. The eight full
+training runs take 67.412 aggregate seconds including rendering.
+
+The clean environment uses Python 3.13.15, Torch 2.15.0+cu132, NumPy 2.5.4,
+Matplotlib 3.11.2 and Pillow 13.0.0. The prior receipts used Torch 2.14.1+cu130;
+the measured observation/GIF parity therefore also covers this runtime change.
+The previous eight-task receipts, GIFs and audit are preserved byte for byte in
+[`cohorts/particlegan-0.9.6-view5/`](cohorts/particlegan-0.9.6-view5/README.md).
+The refreshed [audit](feature-prior-audit.json) records package versions,
+engine binding, worst terminal gate values and archive integrity checks.
+
+Reproduce with `particlestream validate`,
+`particlestream run online-feature-prior-bce --device cuda` and
+`python -m pytest -q` in the project environment. Independently audit receipts
+and every GIF frame with `python scripts/online_comparison.py
+--candidate online-feature-prior-bce --device cuda --audit-only
+--summary runs/forge/upgrade-audit.json`.
+
+Recommendation: keep the 0.9.7 pin and the same qualifying global recipe. The
+single [leaderboard](technique-inventory.md) remains 8/8 for that recipe;
+other candidates retain their historical evidence and require fresh runs for
+qualification with the new engine. This upgrade does not extend the validated
+480-update horizon or the bounded memory capacity.
+
 ## Cohort before the ParticleGAN 0.9.6 upgrade
 
 The original reports are recoverable at git commit

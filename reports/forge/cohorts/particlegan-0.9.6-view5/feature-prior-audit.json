@@ -1,0 +1,304 @@
+{
+  "stage": "final_current_view5_qualification_verified",
+  "candidate": "online-feature-prior-bce",
+  "source_revision": "44241d712c80726746f98b72f8a0e0ddb6818f6d",
+  "view_revision": 5,
+  "required_tasks": 8,
+  "held_tasks": 0,
+  "qualification": "PASS",
+  "eligible": true,
+  "adapter_source_verified": true,
+  "runs": 8,
+  "updates": 3840,
+  "checks": 192,
+  "terminal_checks_passing": 40,
+  "gif_frames_decoded": 192,
+  "historical_artifacts_unchanged": 112,
+  "view4_archive_artifacts_verified": 16,
+  "all_observations_and_gifs_identical_to_archived_view4": true,
+  "global_recipe_policy_manipulator_identical": true,
+  "task_gates_budgets_initial_capacity_architectures_unchanged_from": "23736b6",
+  "encoder_seed": 77676876021444575,
+  "optimizer_real_batch": 1,
+  "optimizer_fake_batch": 1,
+  "replayed_examples": 0,
+  "gradient_accumulation_steps": 1,
+  "evaluation_rng_deviations": 0,
+  "extra_generator_assignment_probes": 0,
+  "target_retained_after_update": false,
+  "public_decoder_used_for_all_outputs": true,
+  "current_adapter_module_sha256": "232cf05891fff6f2b486ee3f0ecc11da63d13e666f0177164da39a29bbcd1936",
+  "archived_view4_adapter_module_sha256": "c9ea09f73c165b4e9b47d23d0f0c5b6d55bdd2e17664d433479ea7e09aacb36f",
+  "limitations": [
+    "Qualification covers the fixed seed-0 Tier 1 streams and 480-update budgets.",
+    "Persistent-fork context state reached its 64-slot capacity and evicted 173 entries despite passing all gates.",
+    "This is an observed-feature conditional-prior and reconstruction recipe; its pass is not a pure adversarial-loss-only BCAP claim."
+  ],
+  "records": [
+    {
+      "task": "seq_img_delayed_cue",
+      "terminal_checks_passing": 5,
+      "arrivals": 481,
+      "gates": [
+        {
+          "metric": "outcome_accuracy",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0,
+          "margin": 0.1
+        },
+        {
+          "metric": "prediction_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.02601,
+          "margin": 0.09399
+        }
+      ],
+      "gif_sha256": "1c7deae5a9ca90b18cc545a1e67705090ebc92d9d1df13e2465b01a3c12b0d8c",
+      "feature_count": 5,
+      "context_count": 29,
+      "context_evictions": 0
+    },
+    {
+      "task": "seq_img_dwell_bars4",
+      "terminal_checks_passing": 5,
+      "arrivals": 480,
+      "gates": [
+        {
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0,
+          "margin": 0.15
+        },
+        {
+          "metric": "modes",
+          "operator": "==",
+          "threshold": 4.0,
+          "worst_terminal": 4.0,
+          "margin": 0.0
+        },
+        {
+          "metric": "finite_template_tv",
+          "operator": "<=",
+          "threshold": 0.2,
+          "worst_terminal": 0.03125,
+          "margin": 0.16875
+        }
+      ],
+      "gif_sha256": "2d77166d3c42dd119baec9a07018b9b3e82a121c8230f9aa056b6194b97f9278",
+      "feature_count": 4,
+      "context_count": 1,
+      "context_evictions": 0
+    },
+    {
+      "task": "seq_img_fork_rollout",
+      "terminal_checks_passing": 5,
+      "arrivals": 481,
+      "gates": [
+        {
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0,
+          "margin": 0.15
+        },
+        {
+          "metric": "within_state_modes",
+          "operator": "==",
+          "threshold": 2.0,
+          "worst_terminal": 2.0,
+          "margin": 0.0
+        },
+        {
+          "metric": "branch_tv",
+          "operator": "<=",
+          "threshold": 0.2,
+          "worst_terminal": 0.03125,
+          "margin": 0.16875
+        }
+      ],
+      "gif_sha256": "26e0611b293dcec6f9a951c26e50e80b370002f4c79a80fd01b314a3d6b024a6",
+      "feature_count": 3,
+      "context_count": 8,
+      "context_evictions": 0
+    },
+    {
+      "task": "seq_img_persistent_fork",
+      "terminal_checks_passing": 5,
+      "arrivals": 481,
+      "gates": [
+        {
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0,
+          "margin": 0.15
+        },
+        {
+          "metric": "within_state_modes",
+          "operator": "==",
+          "threshold": 2.0,
+          "worst_terminal": 2.0,
+          "margin": 0.0
+        },
+        {
+          "metric": "branch_tv",
+          "operator": "<=",
+          "threshold": 0.2,
+          "worst_terminal": 0.09375,
+          "margin": 0.10625
+        },
+        {
+          "metric": "trajectory_consistency",
+          "operator": ">=",
+          "threshold": 0.95,
+          "worst_terminal": 1.0,
+          "margin": 0.05
+        }
+      ],
+      "gif_sha256": "85a1f3d59e8b08d1dbc739407e0e41321633acde29b2148a80dcce7b83a3646b",
+      "feature_count": 7,
+      "context_count": 64,
+      "context_evictions": 173
+    },
+    {
+      "task": "seq_img_rare_mode_bars4",
+      "terminal_checks_passing": 5,
+      "arrivals": 480,
+      "gates": [
+        {
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0,
+          "margin": 0.15
+        },
+        {
+          "metric": "finite_template_tv",
+          "operator": "<=",
+          "threshold": 0.15,
+          "worst_terminal": 0.0,
+          "margin": 0.15
+        },
+        {
+          "metric": "support_modes",
+          "operator": "==",
+          "threshold": 4.0,
+          "worst_terminal": 4.0,
+          "margin": 0.0
+        },
+        {
+          "metric": "rare_mass",
+          "operator": ">=",
+          "threshold": 0.03125,
+          "worst_terminal": 0.0625,
+          "margin": 0.03125
+        },
+        {
+          "metric": "rare_mass",
+          "operator": "<=",
+          "threshold": 0.09375,
+          "worst_terminal": 0.0625,
+          "margin": 0.03125
+        }
+      ],
+      "gif_sha256": "b6cb24847b10626d0a925dd8b50ced1b0c45c2ccb83c93cbf0d2dc3cf4fe8766",
+      "feature_count": 4,
+      "context_count": 1,
+      "context_evictions": 0
+    },
+    {
+      "task": "seq_img_round_robin_bars4",
+      "terminal_checks_passing": 5,
+      "arrivals": 480,
+      "gates": [
+        {
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0,
+          "margin": 0.1
+        },
+        {
+          "metric": "modes",
+          "operator": "==",
+          "threshold": 4.0,
+          "worst_terminal": 4.0,
+          "margin": 0.0
+        },
+        {
+          "metric": "finite_template_tv",
+          "operator": "<=",
+          "threshold": 0.15,
+          "worst_terminal": 0.0,
+          "margin": 0.15
+        }
+      ],
+      "gif_sha256": "a51e95b4e828c1dbc03d0790a1b77c750730daaafec933b0a91d5e3f924a06b4",
+      "feature_count": 4,
+      "context_count": 1,
+      "context_evictions": 0
+    },
+    {
+      "task": "seq_img_translating_bar_next",
+      "terminal_checks_passing": 5,
+      "arrivals": 481,
+      "gates": [
+        {
+          "metric": "next_frame_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.009068,
+          "margin": 0.110932
+        },
+        {
+          "metric": "direction_acc",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0,
+          "margin": 0.1
+        }
+      ],
+      "gif_sha256": "23d4bfc71d75f7db5fc9379cb4f4247ac335b752972db4a1f7482293ece1b968",
+      "feature_count": 4,
+      "context_count": 7,
+      "context_evictions": 0
+    },
+    {
+      "task": "seq_img_variable_dwell_bars4",
+      "terminal_checks_passing": 5,
+      "arrivals": 480,
+      "gates": [
+        {
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0,
+          "margin": 0.15
+        },
+        {
+          "metric": "modes",
+          "operator": "==",
+          "threshold": 4.0,
+          "worst_terminal": 4.0,
+          "margin": 0.0
+        },
+        {
+          "metric": "finite_template_tv",
+          "operator": "<=",
+          "threshold": 0.2,
+          "worst_terminal": 0.03125,
+          "margin": 0.16875
+        }
+      ],
+      "gif_sha256": "7923087bc03e2f661528dd9fc78f049e5b481a93e2562371f19c8649aa9b7f9c",
+      "feature_count": 4,
+      "context_count": 1,
+      "context_evictions": 0
+    }
+  ],
+  "decoder_output_path_validation": "Source review and public-runtime destructive decoder-zero control",
+  "current_qualification_guard_tests_passed": 1
+}

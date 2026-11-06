@@ -55,7 +55,7 @@
       "updates": 480,
       "warmup_arrivals": 1
     },
-    "particlegan_version": "0.9.6",
+    "particlegan_version": "0.9.7",
     "resolved_recipe": {
       "adam_variant": "pytorch",
       "alpha_bar": [
@@ -192,7 +192,7 @@
       "ucd_weight": 0.02,
       "z_dim": 8
     },
-    "torch_version": "2.14.1+cu130",
+    "torch_version": "2.15.0+cu132",
     "transport": {
       "assignment_mass": [
         20.0,
@@ -550,7 +550,7 @@
     "adapter_source_sha256": "232cf05891fff6f2b486ee3f0ecc11da63d13e666f0177164da39a29bbcd1936",
     "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
     "device": "cuda",
-    "engine_source_sha256": "aaae50e38584b5397e4b8b55d7e69982049c5c93bf12d44c322d02e5424a4dd1",
+    "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
@@ -558,13 +558,13 @@
   },
   "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
   "candidate_id": "online-feature-prior-bce",
-  "cohort_key": "a7911445219aaf636e2348483f6ee5789c7aa090a706018f5b95dee801bc52fd",
-  "completed_at": "2026-11-06T05:21:37.499+00:00",
+  "cohort_key": "14b4040bfca1a6e79d1912bd6f9d12b89e34315be015cd024dc00d6054c82ed0",
+  "completed_at": "2026-11-06T13:21:59.057+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 8.9717
+    "wall_seconds": 7.5977
   },
   "device": "cuda",
   "error": null,
@@ -914,7 +914,7 @@
     },
     "runtime": {
       "rng": "torch.Generator",
-      "torch": "2.14.1+cu130"
+      "torch": "2.15.0+cu132"
     },
     "seed": 0,
     "version": "forge-rng-v1"
@@ -925,7 +925,7 @@
   "task_id": "seq_img_translating_bar_next",
   "technique": "FeaturePrior-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-06T05:21:37.499+00:00",
+  "timestamp": "2026-11-06T13:21:59.057+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

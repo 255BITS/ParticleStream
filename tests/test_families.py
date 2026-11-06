@@ -20,7 +20,7 @@ def test_family_runs_through_current_public_trainer(tmp_path, candidate_id):
     assert receipt["grade"]["status"] == "INCOMPLETE", receipt["error"]
     assert receipt["all_finite"] is True
     assert receipt["unintended_rng_deviations"] == 0
-    assert receipt["artifacts"]["particlegan_version"] == "0.9.6"
+    assert receipt["artifacts"]["particlegan_version"] == "0.9.7"
     recipe = receipt["artifacts"]["resolved_recipe"]
     assert recipe["critic_formulation"] == family.lower()
     if candidate_id == "stream-bcap":

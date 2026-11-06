@@ -6,7 +6,7 @@ from the same session. Real and fake training batches are one; replay is
 explicitly disabled. Each candidate uses one global recipe and protocol seed 0.
 
 ```sh
-uv venv .venv
+uv venv --python 3.13 .venv
 uv pip install --python .venv/bin/python -e '.[dev]'
 source .venv/bin/activate
 particlestream bootstrap
