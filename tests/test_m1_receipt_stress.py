@@ -156,7 +156,8 @@ def test_receipt_durability_and_full_budget(tmp_path: Path):
         thresholds=[MetricBound(metric="hq", op=">=", bound=0.9)],
         host_definition={},
     )
-    cand = CandidateSpec(id="mock_c", technique="test", changed_factors=["baseline"])
+    cand = CandidateSpec(id="mock_c", technique="test", changed_factors=["baseline"],
+                         memory_policy={"replay_policy": "none", "rehearsal_batch": 0})
     ws.register_task(task)
     ws.register_candidate(cand)
 
@@ -209,7 +210,8 @@ def test_simulated_non_finite_values_via_adapter_flag(tmp_path: Path):
         minimum_stable_checks=2,
         thresholds=[MetricBound("loss", "<=", 0.1)],
     )
-    cand = CandidateSpec(id="cand_nan", technique="test", changed_factors=["baseline"])
+    cand = CandidateSpec(id="cand_nan", technique="test", changed_factors=["baseline"],
+                         memory_policy={"replay_policy": "none", "rehearsal_batch": 0})
     ws.register_task(task)
     ws.register_candidate(cand)
 
@@ -251,7 +253,8 @@ def test_non_finite_metric_floats_trigger_atomic_json_crash(tmp_path: Path):
         minimum_stable_checks=2,
         thresholds=[MetricBound("loss", "<=", 0.1)],
     )
-    cand = CandidateSpec(id="cand_literal_nan", technique="test", changed_factors=["baseline"])
+    cand = CandidateSpec(id="cand_literal_nan", technique="test", changed_factors=["baseline"],
+                         memory_policy={"replay_policy": "none", "rehearsal_batch": 0})
     ws.register_task(task)
     ws.register_candidate(cand)
 
@@ -440,7 +443,8 @@ def test_simulated_rng_deviation_via_adapter_flag(tmp_path: Path):
         minimum_stable_checks=2,
         thresholds=[MetricBound("loss", "<=", 0.1)],
     )
-    cand = CandidateSpec(id="cand_rng", technique="test", changed_factors=["baseline"])
+    cand = CandidateSpec(id="cand_rng", technique="test", changed_factors=["baseline"],
+                         memory_policy={"replay_policy": "none", "rehearsal_batch": 0})
     ws.register_task(task)
     ws.register_candidate(cand)
 
@@ -508,7 +512,8 @@ def test_simultaneous_non_finite_and_rng_deviation(tmp_path: Path):
         minimum_stable_checks=2,
         thresholds=[MetricBound("loss", "<=", 0.1)],
     )
-    cand = CandidateSpec(id="cand_compound", technique="test", changed_factors=["baseline"])
+    cand = CandidateSpec(id="cand_compound", technique="test", changed_factors=["baseline"],
+                         memory_policy={"replay_policy": "none", "rehearsal_batch": 0})
     ws.register_task(task)
     ws.register_candidate(cand)
 
@@ -546,7 +551,8 @@ def test_missing_adapter_evidence_is_invalid(tmp_path: Path):
         minimum_stable_checks=2,
         thresholds=[MetricBound("loss", "<=", 0.1)],
     )
-    cand = CandidateSpec(id="cand_min", technique="test", changed_factors=["baseline"])
+    cand = CandidateSpec(id="cand_min", technique="test", changed_factors=["baseline"],
+                         memory_policy={"replay_policy": "none", "rehearsal_batch": 0})
     ws.register_task(task)
     ws.register_candidate(cand)
 

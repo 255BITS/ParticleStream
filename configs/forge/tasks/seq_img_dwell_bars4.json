@@ -33,9 +33,11 @@
       "implementation": {
         "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
         "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+        "challenge_adapter.py": "a32424a40e182d6ad63798a975b9bbd6a891eabb63afa250a1a348ecc8c4c9c1",
+        "challenges.py": "40d2fb42b56bcc7ab747542a4c1c1d145ccab87cd238a18a61b9aa814750d9b5",
         "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
         "online.py": "58acea8f398faa4d1307c05620e8b302a59adf856bc07a323d50744b51c2c774",
-        "streams.py": "203ef14a8b6b9c32ec7e99891a432034085e9d91648b75f2489a7d94efd0f970"
+        "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6"
       },
       "mode": "bars4",
       "online_contract": {

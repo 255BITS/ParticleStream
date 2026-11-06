@@ -116,3 +116,33 @@ controls, real public-trainer smoke checks, source-bound family qualification,
 independent sustained-gate recomputation and historical artifact preservation.
 All **56** receipt/GIF pairs match SHA-256 and decode as **1,344** total frames
 (24 frames per 900×300 GIF). Logs remain untracked under `runs/forge/`.
+
+
+## Strict online Tier 1
+
+The batch-size-1 requirement now applies to real and fake optimizer inputs,
+chronological arrival order and serving while learning. Historical replay
+receipts and GIFs remain unchanged and no longer qualify against this contract.
+The new `online-*` recipes copy their historical parents' complete optimization
+settings and explicitly disable replay, including stored-frame substitution.
+
+Both temporal training paths now reveal one frame at a time. Predictions precede
+the target arrival; the arriving target trains using the preceding detached
+context. Predictive tasks declare one warm-up arrival, so 480 updates consume
+481 frames; marginal image tasks use 480 arrivals. Serving is serialized with
+training and uses an isolated RNG. Extra serving calls are tested to leave
+subsequent parameters, optimizer states and non-evaluation RNG states unchanged.
+
+View revision 4 keeps the four original requirements and adds variable dwell,
+rare-mode retention, delayed cue and persistent fork as four held challenges.
+They all execute and retain their failures. A held task returns to counted
+qualification only when one global recipe passes it with every counted task,
+under a separately archived view revision. Holding never cures a counted failure.
+
+The fork law is an explicit task delta: each branch is an independent fair draw
+when its first frame arrives. Previous episodes therefore cannot determine the
+next outcome. Evaluation separately checks both attainable previous-branch to
+stem histories and takes the worst state. The three-step fork keeps both the
+particle index and its Gaussian latent perturbation fixed, feeds generated
+frames into per-particle cloned memory, and never reads real future frames.
+These declarations change task fingerprints and require fresh receipts.

@@ -95,7 +95,7 @@ def test_real_public_trainers_remain_strict_while_serving(tmp_path, candidate_id
     assert receipt["all_finite"]
     assert receipt["unintended_rng_deviations"] == 0
     execution = receipt["artifacts"]["online_execution"]
-    warmup = int(task.host_definition["mode"] != "bars4")
+    warmup = task.host_definition["online_contract"]["warmup_arrivals"]
     assert execution == {
         "arrivals": 4 + warmup, "updates": 4, "warmup_arrivals": warmup,
         "live_predictions": 4, "max_real_batch": 1, "max_fake_batch": 1,
@@ -108,8 +108,8 @@ def test_real_public_trainers_remain_strict_while_serving(tmp_path, candidate_id
 def test_historical_replay_adapter_cannot_start_training(tmp_path):
     workspace = bootstrap_workspace(tmp_path)
     with patch("particlestream.tier1.GANTrainer") as trainer:
-        receipt = workspace.run_task("stream-bcap-adam", TIER1_TASKS[0].id,
-                                     device="cpu", steps_override=4)
+        with pytest.raises(ValueError, match="replay_policy"):
+            workspace.run_task("stream-bcap-adam", TIER1_TASKS[0].id,
+                               device="cpu", steps_override=4)
     trainer.assert_not_called()
-    assert receipt["observations"] == []
-    assert "replay_policy" in receipt["error"]
+    assert not (workspace.reports_dir / "receipts/cpu/stream-bcap-adam").exists()
