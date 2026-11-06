@@ -163,15 +163,15 @@
 ### `online-fast-weight-bcap-ns` (`Global-Stream-BCAP`)
 - **Changed factors**: Non-saturating GAN loss for batch_size=1 stability, Cosine learning rate annealing (lr=0.005, betas=(0.0, 0.999), lr_schedule=cosine, lr_anneal_start=0.5, lr_floor=0.05), 64-frame rehearsal reservoir spanning full dwell=16 4-mode cycle, Temporal velocity direction memory with static noise gating (||diff|| > 0.35), Joint non-linear conditional critic architecture, Dwell-aware rehearsal replay and task-isolated context conditioning, Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
 - **Parent**: `fast-weight-bcap-ns`
-- **Status**: `INCOMPLETE` (`0/4` required passes, qualified tier 0)
-  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_variable_dwell_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_rare_mode_bars4` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_delayed_cue` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
-  - Tier 1 `seq_img_persistent_fork` (held): **NOT_RUN** — terminal 0/- · reason: no receipt
+- **Status**: `FAIL` (`0/4` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.9` · finite_template_tv=0.2500, hq=0.7812, live_predictions=480.0000, live_prequential_rmse=0.3822, mean_rmse=0.0928, modes=4.0000
+  - Tier 1 `seq_img_dwell_bars4` (required): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.4289, mean_rmse=0.3655, modes=0.0000
+  - Tier 1 `seq_img_translating_bar_next` (required): **FAIL** — terminal 0/5 · failed `direction_acc >= 0.9`; `next_frame_rmse <= 0.12` · direction_acc=0.5000, live_predictions=480.0000, live_prequential_rmse=0.1996, next_frame_rmse=0.3388
+  - Tier 1 `seq_img_fork_rollout` (required): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `within_state_modes == 2.0` · branch_tv=0.5000, hq=1.0000, live_predictions=480.0000, live_prequential_rmse=0.1678, mean_rmse=0.0485, within_state_modes=1.0000
+  - Tier 1 `seq_img_variable_dwell_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.2`; `hq >= 0.85`; `modes == 4.0` · finite_template_tv=1.0000, hq=0.0000, live_predictions=480.0000, live_prequential_rmse=0.4811, mean_rmse=0.3832, modes=0.0000
+  - Tier 1 `seq_img_rare_mode_bars4` (held): **FAIL** — terminal 0/5 · failed `finite_template_tv <= 0.15`; `hq >= 0.85`; `rare_mass >= 0.03125`; `support_modes == 4.0` · finite_template_tv=0.4688, hq=0.5312, live_predictions=480.0000, live_prequential_rmse=0.4027, mean_rmse=0.1346, rare_mass=0.0312, support_modes=4.0000
+  - Tier 1 `seq_img_delayed_cue` (held): **FAIL** — terminal 0/5 · failed `outcome_accuracy >= 0.9`; `prediction_rmse <= 0.12` · live_predictions=480.0000, live_prequential_rmse=0.1105, outcome_accuracy=0.5156, prediction_rmse=0.2986
+  - Tier 1 `seq_img_persistent_fork` (held): **FAIL** — terminal 0/5 · failed `branch_tv <= 0.2`; `hq >= 0.85`; `trajectory_consistency >= 0.95`; `within_state_modes == 2.0` · branch_tv=0.9688, depth_1_hq=0.4688, depth_1_modes=1.0000, depth_1_tv=0.5312, depth_2_hq=0.5938, depth_2_modes=1.0000, depth_2_tv=0.5000, depth_3_hq=0.0312, depth_3_modes=1.0000, depth_3_tv=0.9688, hq=0.0312, live_predictions=480.0000, live_prequential_rmse=0.1367, mean_rmse=0.1345, trajectory_consistency=0.0000, within_state_modes=1.0000
 
 ### `online-ka2` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction

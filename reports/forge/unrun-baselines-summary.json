@@ -116,8 +116,138 @@
           "terminal_passing": 0
         }
       }
+    },
+    "online-fast-weight-bcap-ns": {
+      "elapsed_seconds": 67.723,
+      "passed_tasks": 0,
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.11045,
+            "outcome_accuracy": 0.515625,
+            "prediction_rmse": 0.298599
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.428919,
+            "mean_rmse": 0.365458,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.5,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.167779,
+            "mean_rmse": 0.048459,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.96875,
+            "depth_1_hq": 0.46875,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.53125,
+            "depth_2_hq": 0.59375,
+            "depth_2_modes": 1.0,
+            "depth_2_tv": 0.5,
+            "depth_3_hq": 0.03125,
+            "depth_3_modes": 1.0,
+            "depth_3_tv": 0.96875,
+            "hq": 0.03125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.136686,
+            "mean_rmse": 0.134529,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.46875,
+            "hq": 0.53125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.402668,
+            "mean_rmse": 0.134593,
+            "rare_mass": 0.03125,
+            "support_modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.25,
+            "hq": 0.78125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.382222,
+            "mean_rmse": 0.092822,
+            "modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.5,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.199613,
+            "next_frame_rmse": 0.33884
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.481094,
+            "mean_rmse": 0.383169,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      },
+      "timing_basis": "sum Forge attempt wall_seconds"
     }
   },
+  "deferred_candidates": [
+    "online-fast-weight-bcap",
+    "online-ka2-stateless",
+    "online-bcap",
+    "online-bispf-optimized-cool",
+    "online-bispf-optimized",
+    "online-bispf",
+    "online-ka2-clean",
+    "online-ka2-light-anchor",
+    "online-ka2"
+  ],
+  "deferred_reason": "Resume the remaining baseline runs after the recovery implementation source is final, avoiding redundant stale cohorts.",
   "protocol_seed": 0,
   "source_revision": "e8c8c6865f2ccfa162337b86b4aa8351c5c9cc37",
   "task_count": 8
