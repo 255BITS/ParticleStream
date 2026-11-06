@@ -248,7 +248,17 @@
     "online-ka2"
   ],
   "deferred_reason": "Resume the remaining baseline runs after the recovery implementation source is final, avoiding redundant stale cohorts.",
+  "interpretation": [
+    "Both additional complete recipes fail every sustained eight-task gate set; neither is a qualified recovery.",
+    "The stateless baseline is at chance on directional ambiguity and delayed cue, consistent with missing temporal state.",
+    "The earlier non-saturating fast-weight recipe does not resolve strict online retention or long-delay recall."
+  ],
   "protocol_seed": 0,
+  "recommendations": [
+    "Prioritize a memory reader that retains information through identical distractors and an objective stable at batch size 1.",
+    "Run the remaining nine unchanged baselines after the recovery implementation source is fixed; preserve this measured cohort separately.",
+    "Keep seed 0, existing numerical gates and one global recipe across all eight tasks; retain failures."
+  ],
   "source_revision": "e8c8c6865f2ccfa162337b86b4aa8351c5c9cc37",
   "task_count": 8
 }
