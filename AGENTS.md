@@ -8,4 +8,4 @@ Read [reports/forge/EXPERIMENT_MEMORY.md](reports/forge/EXPERIMENT_MEMORY.md) an
 - Only keep one generated leaderboard per goal (`reports/forge/technique-inventory.md`).
 - Summarize and give explanations, leaderboard, and recommendations after running experiments.
 - commit and push as you go
-- develop->master PR should always exist and have a link to the up to date https://github.com/255BITS/ParticleGAN/blob/develop/reports/forge/technique-inventory.md
+- develop->master PR should always exist and have a link to the up to date develop/reports/forge/technique-inventory.md
