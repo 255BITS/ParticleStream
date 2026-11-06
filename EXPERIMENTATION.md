@@ -47,7 +47,7 @@ tail -F runs/forge/<candidate>/<task>/run.log
 
 ## Strict online execution
 
-ParticleGAN is pinned to **0.9.6**. Tests import its installed wheel, never the
+ParticleGAN (including `particlegan_forge`) is pinned to **0.9.7**. Tests import its installed wheel, never the
 adjacent source checkout. `StreamWorkspace` extends the public
 `particlegan_forge.ForgeWorkspace`; use the project CLI so validation checks the
 actual `configs/forge` workspace.

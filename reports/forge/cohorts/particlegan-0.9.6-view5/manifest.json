@@ -1,0 +1,19 @@
+{
+  "reports/forge/cohorts/particlegan-0.9.6-view5/feature-prior-audit.json": "f3906c5c1e07a382058ee804dfac77d31f473be783beccab841786f4e452dd1a",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/gifs/online-feature-prior-bce_seq_img_delayed_cue.gif": "1c7deae5a9ca90b18cc545a1e67705090ebc92d9d1df13e2465b01a3c12b0d8c",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/gifs/online-feature-prior-bce_seq_img_dwell_bars4.gif": "2d77166d3c42dd119baec9a07018b9b3e82a121c8230f9aa056b6194b97f9278",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/gifs/online-feature-prior-bce_seq_img_fork_rollout.gif": "26e0611b293dcec6f9a951c26e50e80b370002f4c79a80fd01b314a3d6b024a6",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/gifs/online-feature-prior-bce_seq_img_persistent_fork.gif": "85a1f3d59e8b08d1dbc739407e0e41321633acde29b2148a80dcce7b83a3646b",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/gifs/online-feature-prior-bce_seq_img_rare_mode_bars4.gif": "b6cb24847b10626d0a925dd8b50ced1b0c45c2ccb83c93cbf0d2dc3cf4fe8766",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/gifs/online-feature-prior-bce_seq_img_round_robin_bars4.gif": "a51e95b4e828c1dbc03d0790a1b77c750730daaafec933b0a91d5e3f924a06b4",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/gifs/online-feature-prior-bce_seq_img_translating_bar_next.gif": "23d4bfc71d75f7db5fc9379cb4f4247ac335b752972db4a1f7482293ece1b968",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/gifs/online-feature-prior-bce_seq_img_variable_dwell_bars4.gif": "7923087bc03e2f661528dd9fc78f049e5b481a93e2562371f19c8649aa9b7f9c",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/receipts/cuda/online-feature-prior-bce/seq_img_delayed_cue.json": "7aeec6c6ab825742273948f397bea1a95b219ca18d5d12a306933b574de0e54d",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/receipts/cuda/online-feature-prior-bce/seq_img_dwell_bars4.json": "81e1628b03b308108674c0f94b2b08f1ae59f3aa120ec30ae23ce372f2b45952",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/receipts/cuda/online-feature-prior-bce/seq_img_fork_rollout.json": "626ad838a5d9c208ea7efffe9a98ad3e3c914373f5150c34b873eaa96ad70336",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/receipts/cuda/online-feature-prior-bce/seq_img_persistent_fork.json": "17a884614424c884643eeac29e6109d9fcd039af09ac2ec6fa164a034ba7801f",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/receipts/cuda/online-feature-prior-bce/seq_img_rare_mode_bars4.json": "2da500fedcc4b3f5fb15681d6c400696b2be588bd696cc208b4a6f3280348ef5",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/receipts/cuda/online-feature-prior-bce/seq_img_round_robin_bars4.json": "72b0cdbcfc51c01d91afb1224580d35e73d4cd54c0b592de8b3d70505569fad4",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/receipts/cuda/online-feature-prior-bce/seq_img_translating_bar_next.json": "46df559b19f198ff505a451987c012ce98d1822e1cab3c6ffa727bf2b49adafa",
+  "reports/forge/cohorts/particlegan-0.9.6-view5/receipts/cuda/online-feature-prior-bce/seq_img_variable_dwell_bars4.json": "8b3b773e06039831ddb6dbcc1ab135c54110549b746ad19eacc2c25c5731eeae"
+}
