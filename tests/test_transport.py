@@ -139,7 +139,7 @@ def test_stochastic_routing_has_explicit_rng_and_checkpointed_configuration():
 
 
 @contextmanager
-def real_trainer(*, frozen=False):
+def real_trainer(*, frozen=False, router_class=CompetitiveReconstruction):
     streams = NamedStreams(seed=0)
     with streams.fork("init", component="models", purpose="construction"):
         generator = StreamImageGenerator(context_dim=16)
@@ -156,6 +156,7 @@ def real_trainer(*, frozen=False):
     recipe.apply_prior_policy(prior)
     trainer = TransportGANTrainer(
         recipe, generator, critic, prior=prior, transport={"usage_penalty": .01}, max_steps=2,
+        router_class=router_class,
         routing_generator=streams.generator("prior", component="routing", purpose="assignment"),
         latent_generator=streams.generator("prior", component="latent", purpose="indices"),
         penalty_generator=streams.generator("noise", component="penalty", purpose="training"),
@@ -219,3 +220,46 @@ def test_eval_history_clone_preserves_initialized_projection_coordinates():
     assert simulated.key_proj.weight.data_ptr() != memory.key_proj.weight.data_ptr()
     assert all(torch.equal(memory.state_dict()[key], value) for key, value in original.items())
     assert torch.equal(torch.random.get_rng_state(), rng)
+
+
+class AlternateRouter(CompetitiveReconstruction):
+    """A distinct declared router identity for checkpoint/factory checks."""
+
+
+def _assert_identical(left, right):
+    if isinstance(left, torch.Tensor):
+        assert torch.equal(left, right)
+    elif isinstance(left, dict):
+        assert left.keys() == right.keys()
+        for key in left:
+            _assert_identical(left[key], right[key])
+    elif isinstance(left, (list, tuple)):
+        assert len(left) == len(right)
+        for a, b in zip(left, right, strict=True):
+            _assert_identical(a, b)
+    else:
+        assert left == right
+
+
+def test_router_factory_binds_class_and_checkpoint_is_an_independent_snapshot():
+    from copy import deepcopy
+
+    with real_trainer(router_class=AlternateRouter) as (trainer, memory, streams):
+        assert type(trainer.transport) is AlternateRouter
+        assert trainer.transport.manipulator_spec()["class"].endswith("AlternateRouter")
+        trainer.step(bars4_templates()[:1])
+        checkpoint = trainer.state_dict()
+        independent_copy = deepcopy(checkpoint)
+        trainer.step(bars4_templates()[1:2])
+        assert trainer.transport.assignment_updates == 2
+        _assert_identical(checkpoint, independent_copy)
+
+
+def test_router_class_identity_cannot_silently_change_on_checkpoint_load():
+    with real_trainer(router_class=AlternateRouter) as (alternate, memory, streams):
+        checkpoint = alternate.state_dict()
+    with real_trainer() as (default, memory, streams):
+        before = default.state_dict()
+        with pytest.raises(ValueError, match="incompatible state"):
+            default.load_state_dict(checkpoint)
+        _assert_identical(default.state_dict(), before)
