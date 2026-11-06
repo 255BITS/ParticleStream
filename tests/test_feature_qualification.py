@@ -29,6 +29,7 @@ def test_feature_recipe_qualifies_all_eight_current_required_tasks():
         receipt = json.loads((workspace.reports_dir / "receipts/cuda" / CANDIDATE / f"{task_id}.json").read_text())
         assert receipt["binding"]["adapter_source_sha256"] == expected_source
         assert receipt["artifacts"]["implementation"] == IMPLEMENTATION
+        assert receipt["artifacts"]["particlegan_version"] == "0.9.7"
         assert receipt["seed"] == 0 and receipt["completed_steps"] == 480
         assert receipt["all_finite"] is True and receipt["unintended_rng_deviations"] == 0
         grade = grade_sustained_observations(
