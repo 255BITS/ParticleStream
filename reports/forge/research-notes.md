@@ -116,3 +116,98 @@ controls, real public-trainer smoke checks, source-bound family qualification,
 independent sustained-gate recomputation and historical artifact preservation.
 All **56** receipt/GIF pairs match SHA-256 and decode as **1,344** total frames
 (24 frames per 900×300 GIF). Logs remain untracked under `runs/forge/`.
+
+
+## Strict online Tier 1
+
+The batch-size-1 requirement now applies to real and fake optimizer inputs,
+chronological arrival order and serving while learning. Historical replay
+receipts and GIFs remain unchanged and no longer qualify against this contract.
+The new `online-*` recipes copy their historical parents' complete optimization
+settings and explicitly disable replay, including stored-frame substitution.
+
+Both temporal training paths now reveal one frame at a time. Predictions precede
+the target arrival; the arriving target trains using the preceding detached
+context. Predictive tasks declare one warm-up arrival, so 480 updates consume
+481 frames; marginal image tasks use 480 arrivals. Serving is serialized with
+training and uses an isolated RNG. Extra serving calls are tested to leave
+subsequent parameters, optimizer states and non-evaluation RNG states unchanged.
+
+View revision 4 keeps the four original requirements and adds variable dwell,
+rare-mode retention, delayed cue and persistent fork as four held challenges.
+They all execute and retain their failures. A held task returns to counted
+qualification only when one global recipe passes it with every counted task,
+under a separately archived view revision. Holding never cures a counted failure.
+
+The fork law is an explicit task delta: each branch is an independent fair draw
+when its first frame arrives. Previous episodes therefore cannot determine the
+next outcome. Evaluation separately checks both attainable previous-branch to
+stem histories and takes the worst state. The three-step fork keeps both the
+particle index and its Gaussian latent perturbation fixed, feeds generated
+frames into per-particle cloned memory, and never reads real future frames.
+These declarations change task fingerprints and require fresh receipts.
+
+### Strict cohort results — 2026-11-05
+
+Ran **24 full-budget CUDA tasks** (three global recipes × eight tasks), with
+protocol seed 0, **11,520 training updates**, **11,532 chronological arrivals**
+and **11,520 live predictions**. Aggregate attempt time was 219.3156 seconds,
+including evaluation and GIF rendering. Every run completed all 24 observations,
+recorded real/fake training batches of one, remained finite, and reported zero
+replay, gradient accumulation and evaluation RNG deviations. Each produced a
+24-frame, 900×300 actual-training GIF: 576 new animation frames in total.
+
+**None of the three recipes qualifies:** every counted task fails its sustained
+window, and every held challenge also fails. Failures remain in the canonical
+[leaderboard](technique-inventory.md); no gates or budgets were relaxed. All 56
+historical receipt/GIF pairs remain byte-identical, verified by the frozen
+112-file manifest in `tests/fixtures/pre_online_artifacts.json`.
+
+- **Acquisition and retention:** BISPF round-robin reaches final quality 0.90625,
+  four modes and TV 0.09375, but passes only the last of five terminal checks.
+  It is correctly FAIL. BCAP round-robin has four modes but quality 0.78125 and
+  TV 0.25; mode count alone is insufficient. Final quality on fixed/variable
+  dwell is zero for BCAP and BISPF, and 0.09375 for KA2.
+- **Rare modes:** BISPF and KA2 have no valid rare-mode particles at the final
+  checkpoint. BCAP retains one rare particle among 32 and all four supports,
+  but overall quality 0.53125 and TV 0.46875 still fail. Rare support alone
+  cannot establish a correct distribution.
+- **Motion:** final direction accuracy is 0.96875 for BISPF and KA2, yet RMSE is
+  0.182882 and 0.169249 respectively, above the 0.12 gate. BCAP remains at
+  direction accuracy 0.5 and RMSE 0.33884. Correct direction can coexist with
+  inaccurate predicted images.
+- **Branching:** BCAP's one-step fork has final quality 1.0 but only one branch
+  and TV 0.5. The scorer catches sharp mode collapse. All three persistent-fork
+  recipes have final trajectory consistency 0 and fail the per-depth gates.
+- **Delayed cue:** final accuracy is 0.5–0.515625 and RMSE is about 0.299.
+  After four identical distractors the current reader's last-frame difference
+  contains no cue information; its accumulated matrix is still not read. This
+  does not establish that an actual associative-memory read would fail.
+  BCAP's last live prequential error is only 0.11045 because the stream includes
+  many easy distractors, illustrating why balanced outcome gates remain separate
+  from average live error.
+
+### Interpretation and next work
+
+The bar comparisons jointly remove historical examples and reduce the effective
+real/fake batch from eight to one. They do not isolate replay's retention effect
+from batch stabilization. Motion and fork did not use replay in the old adapter;
+their regressions additionally involve chronological target timing, observation
+noise, training every arrival, and, for forks, independent branch choices plus
+attainable-state evaluation. Do not attribute those regressions to replay removal.
+
+Keep all three strict recipes as failed reference points. The next useful global
+recipe change should stabilize acquisition and retention with one observation
+per update; every candidate must still run the whole eight-task suite. A separate
+memory ablation should actually query the accumulated state and retain the cue
+through distractors, with memory-erasure controls. Neither result is established
+by this cohort. Preserve seed 0, the fixed gates, and the one-recipe-across-tasks
+rule rather than selecting task-specific fixes.
+
+### Strict cohort verification
+
+The complete regression suite passes **312 tests**, including oracle/destructive
+controls, serving/training concurrency, bitwise trajectory invariance under extra
+serving calls, public-trainer batch guards, independent receipt grading and
+historical artifact preservation. Every new GIF hash matches its receipt and all
+576 frames decode. The independent protocol audit found no remaining blocker.

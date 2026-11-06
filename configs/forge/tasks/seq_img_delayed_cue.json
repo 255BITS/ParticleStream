@@ -1,0 +1,73 @@
+{
+  "adapter": "seq_image",
+  "description": "Predict a cue-dependent outcome after four pixel-identical intervening observations.",
+  "evaluation": {
+    "eval_output_noise": "clean",
+    "kind": "sustained_window",
+    "minimum_stable_checks": 5,
+    "observations": 24,
+    "sampling_contract_version": 1,
+    "sampling_law": "enumerated_prior_clean",
+    "scoring_weights": "live",
+    "thresholds": [
+      [
+        "outcome_accuracy",
+        ">=",
+        0.9
+      ],
+      [
+        "prediction_rmse",
+        "<=",
+        0.12
+      ]
+    ]
+  },
+  "execution": {
+    "host_definition": {
+      "context_dim": 16,
+      "delay": 4,
+      "implementation": {
+        "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+        "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+        "challenge_adapter.py": "a32424a40e182d6ad63798a975b9bbd6a891eabb63afa250a1a348ecc8c4c9c1",
+        "challenges.py": "40d2fb42b56bcc7ab747542a4c1c1d145ccab87cd238a18a61b9aa814750d9b5",
+        "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+        "online.py": "58acea8f398faa4d1307c05620e8b302a59adf856bc07a323d50744b51c2c774",
+        "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6"
+      },
+      "mode": "delayed_cue",
+      "online_contract": {
+        "arrival_batch": 1,
+        "gradient_accumulation_steps": 1,
+        "optimizer_batch": 1,
+        "replay": "none",
+        "target_timing": "train_on_arrival_with_preceding_context",
+        "version": 1,
+        "warmup_arrivals": 1
+      },
+      "online_protocol": "causal_single_arrival_v1",
+      "width": 16
+    },
+    "initializer": "deterministic_orthogonal",
+    "prior": {
+      "kind": "mog",
+      "sigma": 0.025,
+      "standardize": false
+    },
+    "prior_contract": "recipe_owned_v1",
+    "resources": {
+      "batch_size": 1,
+      "num_particles": 32,
+      "z_dim": 8
+    },
+    "steps": 480
+  },
+  "id": "seq_img_delayed_cue",
+  "namespace": "particlegan_forge",
+  "resources": {
+    "cpu_threads": 1,
+    "gpus": 1,
+    "timeout_seconds": 300
+  },
+  "schema_version": 1
+}

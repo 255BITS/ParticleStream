@@ -1,5 +1,6 @@
 """ParticleStream: single-stream (batch_size=1) sequential image and memory-GAN benchmark."""
 from .models import FastWeightMemory, StreamImageCritic, StreamImageGenerator
+from .online import OnlineSession
 from .streams import (
     ForkStream,
     SequentialBarsStream,
@@ -14,6 +15,7 @@ from .streams import (
 
 __all__ = [
     "FastWeightMemory",
+    "OnlineSession",
     "ForkStream",
     "SequentialBarsStream",
     "StreamImageCritic",

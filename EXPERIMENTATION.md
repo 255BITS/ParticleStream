@@ -38,69 +38,127 @@ python -m particlestream.forge bootstrap
 python -m particlestream.forge --root . validate
 
 # Run a candidate across Tier 1 and update the single leaderboard + goal.gif artifacts
-python -m particlestream.forge --root . run stream-bispf-early --view single_stream_stability --through-tier 1 --device cpu
+python -m particlestream.forge --root . run online-bispf-early --view single_stream_stability --through-tier 1 --device cpu
 
 # Tail live execution events
 tail -F runs/forge/events.jsonl
 tail -F runs/forge/<candidate>/<task>/run.log
 ```
 
-## Current engine and trainer families
+## Strict online execution
 
-ParticleGAN is pinned to **0.9.6**. Tests import the installed wheel, never the
-adjacent source checkout. `particlestream.forge.StreamWorkspace` extends the
-public `particlegan_forge.ForgeWorkspace` with this repository's established
-paths and canonical `technique-inventory.md` filename. Use the project CLI above;
-the upstream CLI uses different default directories and can validate an empty
-workspace. Project validation rejects an empty gauntlet.
+ParticleGAN is pinned to **0.9.6**. Tests import its installed wheel, never the
+adjacent source checkout. `StreamWorkspace` extends the public
+`particlegan_forge.ForgeWorkspace`; use the project CLI so validation checks the
+actual `configs/forge` workspace.
 
-| Candidate | Trainer family / public preset | Shared memory |
-| --- | --- | --- |
-| `stream-bcap-adam` | BCAP / `bcap_adam` | 64-frame FIFO, 7 replay samples, velocity context |
-| `stream-bcap` | BCAP / `bcap` (DualNorm) | same |
-| `stream-ka2` | KA2 / `ka2` | same |
-| `stream-bispf` | BISPF / `bispf` | same |
-| `stream-bispf-optimized` | BISPF / `bispf_optimized` | same |
+Every new run uses chronological, single-frame arrivals and **real and fake
+training batches of one**. The online executor has no replay concatenation,
+stored-frame substitution, extra replay updates, or gradient accumulation.
+Replay is an explicit recipe policy: executable candidates declare
+`replay_policy=none` and `rehearsal_batch=0`. Historical replay recipes remain
+visible but execution rejects them before touching their saved receipts.
 
-All five candidates declare non-saturating loss and cosine annealing from the
-halfway point to a 0.05 floor. Adam/formulation variants use lr=0.005 and
-betas=(0,0.999); DualNorm variants retain preset rates. BISPF explicitly disables
-SBNP (`prior_regularizer=none`, `prior_reg=0`) for discrete-mode clustering and
-uses float32. These are declared recipe deltas, not unchanged upstream defaults.
-The optimized BISPF candidate retains its BISPF critic and DualNorm optimizer.
+`OnlineSession` supports serving and training throughout the same session.
+`predict()` serves from current learned weights and detached context; `observe()`
+accepts the next observation and trains. Calls are serialized so inference and
+training can share state safely. Serving uses a dedicated evaluation RNG and
+must not alter future training, model modes, memory, or training RNG streams.
+This permits interleaved inference and learning; it does not promise parallel
+GPU kernels or a throughput target.
 
-The arriving stream emits one observation per step. Replay candidates concatenate
-up to seven stored observations into the training tensor; the optimizer's real
-batch can therefore contain eight frames. This distinction is part of the recipe.
-Network architecture is task-owned and identical across candidates; stateless
-candidates use zero context in the same conditional network.
+With an initialized public ParticleGAN trainer, networks and named RNG streams,
+the same API used by the experiment adapter is available to an application:
 
-Qualification requires fresh source-bound receipts. Historical receipts and GIFs
-remain in place but cannot qualify against the upgraded engine. See
-[research notes](reports/forge/research-notes.md) for the previous cohort and
-interpretation. Never promote a shortened software check to qualification.
+```python
+from particlestream import OnlineSession
 
-## Qualified representatives (ParticleGAN 0.9.6, CUDA, seed 0)
-
-- **BISPF:** `stream-bispf-early`, all four tasks passing. Relative to
-  `stream-bispf`, annealing starts at 0.25 instead of 0.5 of the fixed budget.
-- **BCAP:** `stream-bcap-adam`, all four tasks passing.
-- **KA2:** `stream-ka2-ready`, all four tasks passing. Relative to `stream-ka2`,
-  auxiliary training noise, serving EMA, critic guard and latent damping are
-  disabled; critic betas are (0,0.99). Generator/prior betas remain (0,0.999).
-  The KA2 penalty and native formulation optimizer remain in use.
-
-These are three separate global recipes, each passing all five terminal checks
-on every task. See the single current [leaderboard](reports/forge/technique-inventory.md)
-for all successes and failures. The original and optimized BISPF presets have
-separate candidate identities; optimized DualNorm BISPF has not qualified here.
-
-Variant declarations live in `configs/forge/ideas/*.json`; bootstrap preserves
-additional declared variants. Reproduce selected comparisons with:
-
-```sh
-particlestream compare --device cuda --candidate stream-bispf-early --candidate stream-bcap-adam --candidate stream-ka2-ready
+session = OnlineSession(trainer, generator, critic, memory,
+                        predictive=True, serving_generator=serving_rng)
+first_frame, _ = stream.next_frame(data_rng)
+session.observe(first_frame)  # declared warm-up, no optimizer update
+prediction = session.predict()  # serve before fetching the target
+next_frame, _ = stream.next_frame(data_rng)
+stats = session.observe(next_frame)  # learn using the preceding context
 ```
 
-Omitting `--candidate` runs all declared `stream-*` candidates, including failed
-variants. Always retain those failures in the leaderboard.
+For prediction tasks, the first frame is a declared warm-up. A prediction is
+made before the next frame is fetched, then that newly arrived frame trains
+against the context saved from the preceding arrival. Memory is updated only
+after that training update. Thus 480 predictive updates consume 481 arrivals;
+unconditional image tasks consume 480 arrivals for 480 updates. Receipts record
+arrivals, updates, warm-up, serving calls, batch sizes and prequential errors.
+
+The three new global recipes inherit their parents' optimizer, loss, prior,
+annealing and context policies unchanged; their declared delta disables replay:
+
+| New recipe | Historical parent | Trainer preset |
+| --- | --- | --- |
+| `online-bcap-adam` | `stream-bcap-adam` | `bcap_adam` |
+| `online-bispf-early` | `stream-bispf-early` | `bispf` |
+| `online-ka2-ready` | `stream-ka2-ready` | `ka2` |
+
+The 32 prior particles remain task-owned capacity and evaluation samples.
+They are not a training minibatch. Architectures remain task-owned: all
+candidates use the same network for a given task, and stateless recipes use
+zero context. Do not tune a separate recipe for each task.
+
+## Additional Tier 1 challenges
+
+All challenges retain 8×8 images, 32 particles, 480 updates, 24 observations and
+five required terminal checks. The original four numerical gates stay unchanged.
+
+| Task | Stream | Numerical gates |
+| --- | --- | --- |
+| `seq_img_variable_dwell_bars4` | Balanced rotating dwell lengths 4, 8, 16 and 32 | `hq>=0.85`, `modes==4`, `finite_template_tv<=0.20` |
+| `seq_img_rare_mode_bars4` | Four templates in exact 5:5:5:1 proportions | `hq>=0.85`, distribution TV `<=0.15`, `support_modes==4`, `1/32<=rare_mass<=3/32` |
+| `seq_img_delayed_cue` | Cue, four identical distractors, cue-dependent outcome | `outcome_accuracy>=0.90`, `prediction_rmse<=0.12` |
+| `seq_img_persistent_fork` | Stem and a three-frame left/right future | At every depth: `hq>=0.85`, `within_state_modes==2`, `branch_tv<=0.20`; `trajectory_consistency>=0.95` |
+
+Rare-mode TV uses the declared nonuniform target and includes invalid mass.
+Support means at least one valid particle per mode, not the uniform task's
+minimum-frequency rule. Delayed-cue evaluation balances both cue histories;
+cue labels, stream indices and future frames are never model inputs. Persistent
+fork evaluation keeps each particle's latent identity and Gaussian perturbation,
+then feeds its generated frames through a cloned memory state. It receives no
+real future frames. Both fork streams draw independent fair branches when the
+branch arrives; evaluation checks both attainable previous-branch-to-stem
+histories separately and requires the worst state to meet every gate.
+
+The four new challenges start **held**, with explicit explanations and reentry
+criteria in the view. They still run and their failures remain visible. Existing
+counted failures also remain failures; holding does not make a recipe qualify.
+Promoting a challenge requires one global recipe passing it with every counted
+requirement, under a separately archived view revision.
+
+Every task has oracle PASS and destructive FAIL controls. New controls include
+latest-mode-only output, rare-mode removal, cue erasure and branch switching
+with otherwise perfect per-frame marginals. The historical fast-weight context
+only uses the last frame difference; delayed recall is an experiment, not an
+assumed capability. The accumulated fast-weight matrix is not currently read.
+
+## Evidence and reproduction
+
+Run the complete new comparison with:
+
+```sh
+particlestream bootstrap
+particlestream validate
+particlestream compare --device cuda
+```
+
+Select an individual global recipe with:
+
+```sh
+particlestream run online-bcap-adam --device cuda
+```
+
+The default comparison selects the three `online-*` recipes. Historical
+`stream-*` receipts and GIFs are preserved and cannot qualify against the
+revised execution contract. Changing the adapter or dependent source requires
+fresh source-bound receipts. Short software checks never qualify a candidate.
+
+Results, including failures, are generated into the single
+[leaderboard](reports/forge/technique-inventory.md). See
+[research notes](reports/forge/research-notes.md) for historical interpretation
+and current measurements. `goal.gif` frames come from actual training snapshots.

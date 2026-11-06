@@ -27,6 +27,10 @@ from particlegan_forge import (
 
 from .models import FastWeightMemory, StreamImageCritic, StreamImageGenerator
 from .forge import StreamWorkspace
+from .challenge_adapter import (
+    CHALLENGE_TASKS, CHALLENGE_MODES, PREDICTIVE_CHALLENGE_MODES,
+    make_challenge_stream, challenge_target_bank, evaluate_challenge, evaluate_original_fork,
+)
 from .online import OnlineSession, validate_execution_policy
 from .streams import (
     ForkStream,
@@ -109,21 +113,30 @@ TIER1_TASKS: list[TaskSpec] = [
     ),
 ]
 
+BASE_TASK_IDS = [task.id for task in TIER1_TASKS]
+TIER1_TASKS.extend(CHALLENGE_TASKS)
+PREDICTIVE_MODES = {"translating_next", "fork_rollout"} | PREDICTIVE_CHALLENGE_MODES
+
 # Bind dependency code as well as the adapter body into each task fingerprint.
 IMPLEMENTATION = {
     name: file_hash(Path(__file__).with_name(name))
-    for name in ("models.py", "streams.py", "online.py")
+    for name in ("models.py", "streams.py", "online.py", "challenges.py", "challenge_adapter.py")
 }
 
 PRIMARY_VIEW = TierView.from_tiers(
     id="single_stream_stability",
     goal="single_stream_stability",
-    revision=3,
-    policy_change_reason="Strict chronological batch-size-1 online training, explicit replay prohibition and causal single-arrival predictive targets; unchanged gates and update budgets.",
+    revision=4,
+    policy_change_reason="Strict online execution with four additional held challenges and independent stochastic forks evaluated from attainable histories.",
     tiers=[
         TierSpec(
             tier=1,
-            required=[t.id for t in TIER1_TASKS],
+            required=BASE_TASK_IDS,
+            held={task.id: {
+                "reason": "unsolved", "summary": "No global recipe has qualified this newly declared strict online challenge.",
+                "explanation": "reports/forge/research-notes.md#strict-online-tier-1",
+                "reentry": "Restore as required after one global recipe passes this task together with every counted requirement under the fixed protocol.",
+            } for task in CHALLENGE_TASKS},
         )
     ],
 )
@@ -291,9 +304,12 @@ for task in TIER1_TASKS:
     task.host_definition["online_contract"] = {
         "version": 1, "arrival_batch": 1, "optimizer_batch": 1,
         "replay": "none", "gradient_accumulation_steps": 1,
-        "warmup_arrivals": int(task.host_definition["mode"] != "bars4"),
+        "warmup_arrivals": int(task.host_definition["mode"] in PREDICTIVE_MODES),
         "target_timing": "train_on_arrival_with_preceding_context",
     }
+    if task.host_definition["mode"] == "fork_rollout":
+        task.host_definition.update(branch_law="independent_fair_on_arrival",
+                                    evaluation_histories="previous_branch_then_stem")
 
 
 @REGISTRY.adapter("seq_image")
@@ -376,6 +392,9 @@ def run_seq_image_task(
     elif mode == "fork_rollout":
         stream = ForkStream(device=device)
         target_bank = stream.templates[1:3]
+    elif mode in CHALLENGE_MODES:
+        stream = make_challenge_stream(mode, device)
+        target_bank = challenge_target_bank(mode, stream)
     else:
         raise ValueError(f"unknown seq_image host mode: {mode!r}")
 
@@ -391,7 +410,7 @@ def run_seq_image_task(
     unintended_rng = 0
     all_finite = True
     session = OnlineSession(
-        trainer, g, d, memory, predictive=(mode != "bars4"),
+        trainer, g, d, memory, predictive=(mode in PREDICTIVE_MODES),
         serving_generator=streams.generator("eval", component="serving", purpose="prediction", device=device),
     )
     if session.predictive:
@@ -451,16 +470,10 @@ def run_seq_image_task(
                         pred_l = trainer.sample(task.num_particles, fixed_first_n=True, generator=eval_gen)
                     metrics = score_translating_next(pred_r, pred_l, stream.positions)
                     samples = torch.cat([pred_r[:16], pred_l[:16]], dim=0)
-                else:  # fork_rollout
-                    if memory is not None:
-                        saved_g_ctx = g.active_context.clone()
-                        memory.reset_state()
-                        ctx_stem = memory.write(stream.templates[0:1])
-                        g.set_context(ctx_stem)
-                    samples = trainer.sample(task.num_particles, fixed_first_n=True, generator=eval_gen)
-                    if memory is not None:
-                        g.active_context.copy_(saved_g_ctx)
-                    metrics = score_fork_rollout(samples, stream.templates)
+                elif mode == "fork_rollout":
+                    metrics, samples = evaluate_original_fork(trainer, g, d, memory, stream, task.num_particles, eval_gen)
+                else:
+                    metrics, samples = evaluate_challenge(mode, trainer, g, d, memory, stream, task.num_particles, eval_gen)
 
             unintended_rng += streams.last_eval_audit["unintended_rng_deviations"]
             metrics["live_prequential_rmse"] = round(sum(prequential_errors) / len(prequential_errors), 6)
