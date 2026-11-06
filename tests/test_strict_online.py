@@ -47,7 +47,6 @@ def test_online_recipe_changes_only_replay_declaration(parent_id):
 
 @pytest.mark.parametrize("stream_type,expected", [
     (TranslatingBarStream, [0, 1, 2, 3, 2, 1, 0, 1]),
-    (ForkStream, [0, 1, 0, 2, 0, 1, 0, 2]),
 ])
 def test_temporal_stream_reveals_one_chronological_frame(stream_type, expected):
     stream = stream_type(noise_std=0)
@@ -58,6 +57,33 @@ def test_temporal_stream_reveals_one_chronological_frame(stream_type, expected):
         assert mode == target_id
         assert frame.shape == (1, 1, 8, 8)
         assert not frame.requires_grad
+
+
+def test_fork_draws_independent_branches_only_on_branch_arrival():
+    from particlegan_forge import NamedStreams
+    streams = [ForkStream(noise_std=0.01), ForkStream(noise_std=0.01)]
+    generators = [NamedStreams(seed=0).generator(
+        "data", component="stream", purpose="training") for _ in streams]
+    branches = []
+    real_randint = torch.randint
+    with patch("particlestream.streams.torch.randint", wraps=real_randint) as draws:
+        for arrival in range(128):
+            before = draws.call_count
+            results = [stream.next_frame(rng) for stream, rng in zip(streams, generators)]
+            assert draws.call_count - before == (0 if arrival % 2 == 0 else 2)
+            frame, mode = results[0]
+            assert frame.shape == (1, 1, 8, 8)
+            assert not frame.requires_grad
+            assert torch.equal(frame, results[1][0])
+            assert mode == results[1][1]
+            if arrival % 2 == 0:
+                assert mode == 0
+            else:
+                assert mode in (1, 2)
+                branches.append(mode)
+    assert set(branches) == {1, 2}
+    assert any(left == right for left, right in zip(branches, branches[1:])), "branch law must not alternate"
+    assert all(stream.cursor == 128 for stream in streams)
 
 
 @pytest.mark.parametrize("candidate_id", ONLINE_IDS)

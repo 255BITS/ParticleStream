@@ -93,7 +93,11 @@ class TranslatingBarStream:
 
 
 class ForkStream:
-    """Alternates 2-step episodes: stem (0) -> Left branch (1) vs. stem (0) -> Right branch (2)."""
+    """Single-arrival episodes with a fresh fair branch draw after each stem.
+
+    ``next_transition`` retains the old alternating paired law for historical
+    helpers; strict training calls only ``next_frame``.
+    """
 
     def __init__(self, noise_std: float = 0.01, device: str | torch.device = "cpu"):
         self.noise_std = float(noise_std)
@@ -102,10 +106,11 @@ class ForkStream:
         self.cursor = 0
 
     def next_frame(self, generator: torch.Generator) -> tuple[torch.Tensor, int]:
-        """Reveal stem, branch, stem, branch as separate real arrivals."""
+        """Reveal one frame; draw its branch only when that branch arrives."""
         with torch.no_grad():
-            episode, phase = divmod(self.cursor, 2)
-            mode = 0 if phase == 0 else 1 + episode % 2
+            phase = self.cursor % 2
+            mode = 0 if phase == 0 else int(torch.randint(
+                1, 3, (1,), device=self.device, generator=generator).item())
             self.cursor += 1
             base = self.templates[mode:mode + 1]
             noise = self.noise_std * torch.randn(base.shape, device=self.device, generator=generator)
