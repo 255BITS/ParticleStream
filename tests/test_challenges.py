@@ -1,5 +1,6 @@
 """Oracle/destructive controls for four chronological batch-size-one challenges."""
 from collections import Counter
+from unittest.mock import patch
 
 import pytest
 import torch
@@ -124,22 +125,59 @@ def test_delayed_cue_oracle_and_forgotten_cue_control():
     assert score_delayed_cue(blurred, blurred, stream.outcomes)["outcome_accuracy"] == 0.0
 
 
-def test_persistent_fork_single_frame_paths_and_balanced_branches():
+def test_persistent_fork_single_frame_paths_and_independent_branches():
     stream = PersistentForkStream(noise_std=0)
     generator = torch.Generator().manual_seed(0)
     branches = []
-    for _ in range(8):
+    for _ in range(32):
         frames, metadata = zip(*(stream.next_frame(generator) for _ in range(4)))
-        branch = metadata[0]["branch"]
+        assert metadata[0]["branch"] is None
+        branch = metadata[1]["branch"]
         branches.append(branch)
         assert torch.equal(frames[0], stream.stem)
         assert all(torch.equal(frames[depth + 1], stream.branch_paths[branch, depth:depth + 1])
                    for depth in range(3))
-        assert all(item["branch"] == branch for item in metadata)
+        assert all(item["branch"] == branch for item in metadata[1:])
         assert [item["depth"] for item in metadata] == [0, 1, 2, 3]
-    assert Counter(branches) == {0: 4, 1: 4}
+    assert set(branches) == {0, 1}
+    assert any(branches[i] == branches[i + 1] for i in range(0, 32, 2)), "paired episodes must not force opposite branches"
     flattened = stream.branch_paths.reshape(6, 64)
     assert torch.unique(flattened, dim=0).shape[0] == 6
+
+
+def test_fork_branch_draw_happens_at_first_branch_arrival_only():
+    stream = PersistentForkStream(noise_std=0)
+    generator = torch.Generator().manual_seed(0)
+    with patch("particlestream.challenges.torch.randint", wraps=torch.randint) as branch_draw:
+        _, stem_metadata = stream.next_frame(generator)
+        assert stem_metadata["branch"] is None
+        branch_draw.assert_not_called()
+        stream.next_frame(generator)
+        branch_draw.assert_called_once_with(2, (), device=torch.device("cpu"), generator=generator)
+        stream.next_frame(generator)
+        stream.next_frame(generator)
+        assert branch_draw.call_count == 1
+        _, stem_metadata = stream.next_frame(generator)
+        assert stem_metadata["branch"] is None
+        assert branch_draw.call_count == 1
+        stream.next_frame(generator)
+        assert branch_draw.call_count == 2
+
+
+def test_fork_future_draw_ignores_previous_branch_state():
+    outcomes = []
+    for previous_branch in (0, 1):
+        stream = PersistentForkStream(noise_std=0)
+        stream.cursor = 4  # The same next episode following different prior branches.
+        stream._branch = previous_branch
+        generator = torch.Generator().manual_seed(0)
+        stem, metadata = stream.next_frame(generator)
+        assert metadata["branch"] is None
+        branch, metadata = stream.next_frame(generator)
+        outcomes.append((stem, branch, metadata["branch"], generator.get_state()))
+    assert outcomes[0][2] == outcomes[1][2]
+    for index in (0, 1, 3):
+        assert torch.equal(outcomes[0][index], outcomes[1][index])
 
 
 def test_persistent_fork_oracle_and_collapsed_control():

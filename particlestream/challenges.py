@@ -128,7 +128,11 @@ def persistent_fork_templates(device: str | torch.device = "cpu") -> tuple[torch
 
 
 class PersistentForkStream:
-    """Shared stem -> three frames on one sampled branch; no future pair API."""
+    """Shared stem -> three frames on an independent fair branch per episode.
+
+    The branch is sampled only when its first frame arrives. Stem metadata has
+    no future branch, and earlier episodes do not constrain the next draw.
+    """
 
     horizon = 3
     episode_length = 4
@@ -138,18 +142,17 @@ class PersistentForkStream:
         self.noise_std = float(noise_std)
         self.stem, self.branch_paths = persistent_fork_templates(self.device)
         self.cursor = 0
-        self._branch_order: list[int] = []
-        self._branch = 0
+        self._branch: int | None = None
 
     def next_frame(self, generator: torch.Generator) -> tuple[torch.Tensor, dict]:
         phase = self.cursor % self.episode_length
         episode = self.cursor // self.episode_length
         if phase == 0:
-            if episode % 2 == 0:
-                self._branch_order = torch.randperm(2, device=self.device, generator=generator).tolist()
-            self._branch = self._branch_order[episode % 2]
+            self._branch = None
             base = self.stem
         else:
+            if phase == 1:
+                self._branch = int(torch.randint(2, (), device=self.device, generator=generator).item())
             base = self.branch_paths[self._branch, phase - 1:phase]
         self.cursor += 1
         return _noisy_frame(base, generator, self.noise_std), {
