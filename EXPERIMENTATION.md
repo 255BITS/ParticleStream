@@ -28,7 +28,7 @@ The ten required tasks retain their evidence and qualification contracts.
 
 ## Minimal capability proofs
 
-The current view adds five `stretch` tasks: arbitrary dense images and integer
+View 8 added five `stretch` tasks, retained in view 10: arbitrary dense images and integer
 tokens (Tier 1), held-out local kernel responses and addition pairs (Tier 2),
 and unseen-speed rollout (Tier 3). Their fixed training caps are 96, 96, 192,
 192 and 384 updates: 960 total for one unchanged `online-feature-prior-bce`

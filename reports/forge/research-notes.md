@@ -484,3 +484,24 @@ identical global configuration, target cleanup and the real decoder path. The
 complete regression suite passes 417 tests. Detailed verification is recorded in
 [`feature-prior-audit.json`](feature-prior-audit.json); current qualification
 remains in the single [leaderboard](technique-inventory.md).
+
+### Five real robotics dynamics tests (view 10)
+
+The unchanged `online-feature-prior-bce` recipe now runs sequentially on
+FetchReach, FetchPush, FetchSlide, FetchPickAndPlace and HandReach using real
+Gymnasium-Robotics/MuJoCo transitions. The five final 480-update runs pass 0/5
+robotics stretch tests; required qualification remains 10/10. Final physical
+errors are 5.53, 10.94, 7.61, 2.67 and 8.18 mm respectively. PickAndPlace passes
+four terminal checks but misses the direction gate at update 420. Every run
+stays finite, uses optimizer batches of one and records zero replay or evaluation
+RNG deviations. All five oracles pass and twenty destructive controls fail.
+
+These are one-step state/action prediction tests under fixed excitation, not
+learned robot-control policies. The initial capped affine target encoding failed
+on a 10.22 cm Slide transition; its attempts and source are archived before
+five fresh runs with one shared invertible encoding. No recipe, physical gate
+or update-budget change accompanies that repair. See the
+[protocol, measurements, training GIFs and recommendation](robotics-readout.md)
+and [machine-readable audit](robotics-audit.json). Retain these tests as stretch
+and test the next explicit global conditioning/stability ablation across all
+five, without selecting per-task recipes or extending individual budgets.

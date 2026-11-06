@@ -7,6 +7,68 @@ learned control policy, goal-reaching success, camera-image prediction or
 closed-loop rollout. Rewards and simulator success flags are recorded only as
 diagnostics and are never used by the learner or excitation policy.
 
+## Measured results
+
+The unchanged global recipe passes **0/5 robotics tests**. All five runs
+complete 480 updates with finite parameters and outputs, zero replay and zero
+evaluation RNG deviations. The existing required qualification stays **10/10**;
+the complete stretch score is **1/10**, including the earlier token proof.
+
+| Environment | Final error (mm) | Terminal error range (mm) | Final MSE / no motion | Final direction | Terminal checks | Result |
+| --- | --- | --- | --- | --- | --- | --- |
+| `FetchReach-v4` | 5.53 | 5.53–6.40 | 0.109 | 95.8% | 0/5 | **FAIL** · [goal.gif](gifs/online-feature-prior-bce_seq_robotics_fetch_reach.gif) |
+| `FetchPush-v4` | 10.94 | 10.94–11.65 | 0.798 | 74.4% | 0/5 | **FAIL** · [goal.gif](gifs/online-feature-prior-bce_seq_robotics_fetch_push.gif) |
+| `FetchSlide-v4` | 7.61 | 7.61–10.32 | 0.353 | 77.5% | 0/5 | **FAIL** · [goal.gif](gifs/online-feature-prior-bce_seq_robotics_fetch_slide.gif) |
+| `FetchPickAndPlace-v4` | 2.67 | 2.67–4.15 | 0.045 | 84.2% | 4/5 | **FAIL** · [goal.gif](gifs/online-feature-prior-bce_seq_robotics_fetch_pick_and_place.gif) |
+| `HandReach-v3` | 8.18 | 8.15–8.40 | 0.989 | 58.9% | 0/5 | **FAIL** · [goal.gif](gifs/online-feature-prior-bce_seq_robotics_hand_reach.gif) |
+
+![Held-out learning curves](robotics-learning-curves.png)
+
+Reach learns useful kinematics: its final MSE is 89.1% lower than no motion,
+and direction accuracy is 95.8%. Its terminal error remains 5.53–6.40 mm, so
+every terminal check misses the 5 mm gate. Push remains weak on object motion:
+final gripper error is 5.97 mm, versus 14.27 mm for the object. Slide improves
+over persistence but never meets the terminal physical-error gate.
+
+PickAndPlace has the lowest final error (2.67 mm) and passes every error,
+relative-MSE and finite-output gate in the terminal window. At update 420,
+moving-coordinate direction accuracy falls to 66.7%, so only four checks pass.
+HandReach stays near persistence (8.18 mm versus 8.22 mm), with 58.9% direction
+accuracy. A low final pixel loss would not establish either of these missing
+physical capabilities.
+
+The five current attempts use 2,400 optimizer updates, 7,200 counted arrivals,
+2,400 live serving forwards and 7,680 checkpoint generator forwards; every
+model forward has batch size one. Their summed task wall time is **165.12 s**,
+including setup, evaluation and rendering. Checkpoint evaluation accounts for
+**35.20 s**; the largest recorded CUDA allocation peak is **9.45 MiB**.
+These costs describe the final cohort; the superseded encoding attempts below
+are additional work and are not counted as completed runs in this cohort.
+
+## Interpretation and recommendation
+
+Keep all five as stretch tests and retain the existing global recipe as the
+baseline. Do not promote PickAndPlace on a final-check success or relax the
+five-check rule. The gap between useful reaching/lifting predictions and weak
+Push/HandReach results makes continuous state/action conditioning and stable
+motion direction the next useful global ablation. Declare one complete recipe
+delta and apply it to all five tasks, retaining these physical gates and
+fixed budgets. These measurements alone cannot isolate whether context
+compression, conditional-prior capacity or the image reconstruction objective
+causes the failures; increasing budgets or tuning each task would not answer
+that question.
+
+The finite held-out episodes, one-step horizon and fixed excitation policies
+limit the conclusion. These results establish runnable robot dynamics tests,
+not robust task solving or arbitrary control-policy coverage. All five oracle
+controls pass and all twenty destructive controls fail. Receipt, trace and GIF
+hashes, 24 frames per GIF, shared recipe identity, optimizer batch sizes, target
+cleanup and preserved required qualification were independently checked.
+Regression coverage is **510 unique passing tests**: the final suite process
+received SIGTERM after 396 passes, then all 115 resumed tests passed with one
+overlap. Workspace validation also passes for 20 tasks and 44 candidates.
+Machine-readable measurements are in [robotics-audit.json](robotics-audit.json).
+
 ## Frozen protocol
 
 - One global candidate: `online-feature-prior-bce`; recipe delta `{}` for all five.
@@ -84,7 +146,6 @@ and a SHA256-bound simulator trace under `reports/forge/traces/`. Training GIFs
 show actual checkpoint predictions and targets as coordinate rasters; they are
 not rendered camera reconstructions. Full traces also remain in each run folder.
 
-Measured results and recommendations will be added after the fixed-budget runs.
 
 ## Superseded encoding attempt
 
