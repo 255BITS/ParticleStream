@@ -25,49 +25,25 @@
       "task": "seq_img_fork_rollout"
     },
     {
-      "hold": {
-        "explanation": "reports/forge/research-notes.md#strict-online-tier-1",
-        "reason": "unsolved",
-        "reentry": "Restore as required after one global recipe passes this task together with every counted requirement under the fixed protocol.",
-        "summary": "No global recipe has qualified this newly declared strict online challenge."
-      },
-      "importance": "held",
+      "importance": "required",
       "order": 4,
       "qualification_tier": 1,
       "task": "seq_img_variable_dwell_bars4"
     },
     {
-      "hold": {
-        "explanation": "reports/forge/research-notes.md#strict-online-tier-1",
-        "reason": "unsolved",
-        "reentry": "Restore as required after one global recipe passes this task together with every counted requirement under the fixed protocol.",
-        "summary": "No global recipe has qualified this newly declared strict online challenge."
-      },
-      "importance": "held",
+      "importance": "required",
       "order": 5,
       "qualification_tier": 1,
       "task": "seq_img_rare_mode_bars4"
     },
     {
-      "hold": {
-        "explanation": "reports/forge/research-notes.md#strict-online-tier-1",
-        "reason": "unsolved",
-        "reentry": "Restore as required after one global recipe passes this task together with every counted requirement under the fixed protocol.",
-        "summary": "No global recipe has qualified this newly declared strict online challenge."
-      },
-      "importance": "held",
+      "importance": "required",
       "order": 6,
       "qualification_tier": 1,
       "task": "seq_img_delayed_cue"
     },
     {
-      "hold": {
-        "explanation": "reports/forge/research-notes.md#strict-online-tier-1",
-        "reason": "unsolved",
-        "reentry": "Restore as required after one global recipe passes this task together with every counted requirement under the fixed protocol.",
-        "summary": "No global recipe has qualified this newly declared strict online challenge."
-      },
-      "importance": "held",
+      "importance": "required",
       "order": 7,
       "qualification_tier": 1,
       "task": "seq_img_persistent_fork"
@@ -77,7 +53,7 @@
   "goal": "single_stream_stability",
   "id": "single_stream_stability",
   "namespace": "particlegan_forge",
-  "policy_change_reason": "Strict online execution with four additional held challenges and independent stochastic forks evaluated from attainable histories.",
-  "revision": 4,
+  "policy_change_reason": "One global strict online feature-prior recipe passes all eight tasks with every terminal check; restore the four solved challenges as required without changing their numerical gates.",
+  "revision": 5,
   "schema_version": 1
 }

@@ -1,6 +1,9 @@
 """ParticleStream: single-stream (batch_size=1) sequential image and memory-GAN benchmark."""
 from .models import FastWeightMemory, StreamImageCritic, StreamImageGenerator
 from .online import OnlineSession
+from .memory import CausalStateMemory, make_stream_memory
+from .transport import TransportGANTrainer
+from .feature_prior import FeatureConditionalReconstruction
 from .streams import (
     ForkStream,
     SequentialBarsStream,
@@ -16,6 +19,10 @@ from .streams import (
 __all__ = [
     "FastWeightMemory",
     "OnlineSession",
+    "CausalStateMemory",
+    "make_stream_memory",
+    "TransportGANTrainer",
+    "FeatureConditionalReconstruction",
     "ForkStream",
     "SequentialBarsStream",
     "StreamImageCritic",

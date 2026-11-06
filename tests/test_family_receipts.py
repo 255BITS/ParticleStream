@@ -7,7 +7,7 @@ import pytest
 from PIL import Image
 
 from particlegan import Recipe
-from particlegan_forge import grade_sustained_observations
+from particlegan_forge import TaskSpec, grade_sustained_observations
 from particlestream.forge import StreamWorkspace
 from particlestream.tier1 import REGISTRY
 
@@ -38,15 +38,17 @@ def test_historical_winners_cannot_qualify_against_online_protocol(historical_id
 
 
 @pytest.mark.parametrize("candidate_id,family", REPRESENTATIVES.items())
-def test_current_family_has_complete_truthfully_graded_evidence(candidate_id, family):
+def test_initial_online_family_preserves_truthfully_graded_evidence(candidate_id, family):
     workspace = StreamWorkspace(ROOT, registry=REGISTRY)
     qualification = workspace.qualify(candidate_id, "single_stream_stability", device="cuda")
     assert qualification["adapter_source_verified"] is True
-    tasks = workspace.load_tasks()
-    outcomes = qualification["tiers"][1]["tasks"]
+    archive = json.loads((ROOT / "reports/forge/cohorts/pre-recovery/tasks.json").read_text())
+    tasks = {name: TaskSpec.from_dict(declaration) for name, declaration in archive.items()}
+    current_tasks = workspace.load_tasks()
+    archived_reports = ROOT / "reports/forge/cohorts/pre-recovery"
     recipes = []
     for task in tasks.values():
-        receipt = json.loads((workspace.reports_dir / "receipts/cuda" / candidate_id / f"{task.id}.json").read_text())
+        receipt = json.loads((archived_reports / "receipts/cuda" / candidate_id / f"{task.id}.json").read_text())
         assert receipt["error"] is None
         assert receipt["all_finite"] is True
         assert receipt["unintended_rng_deviations"] == 0
@@ -55,7 +57,9 @@ def test_current_family_has_complete_truthfully_graded_evidence(candidate_id, fa
             unintended_rng_deviations=receipt["unintended_rng_deviations"],
             completed_steps=receipt["completed_steps"],
         )
-        assert grade["status"] == receipt["verdict"] == outcomes[task.id]["status"]
+        assert grade["status"] == receipt["verdict"]
+        assert receipt["artifacts"]["implementation"] == task.host_definition["implementation"]
+        assert receipt["artifacts"]["implementation"] != current_tasks[task.id].host_definition["implementation"]
         assert grade["terminal_passing"] == receipt["terminal_passing"]
         assert receipt["seed"] == 0
         assert receipt["completed_steps"] == task.steps == 480
@@ -72,7 +76,7 @@ def test_current_family_has_complete_truthfully_graded_evidence(candidate_id, fa
         assert online["max_real_batch"] == online["max_fake_batch"] == 1
         assert online["replayed_examples"] == 0
         assert online["gradient_accumulation_steps"] == 1
-        gif = workspace.reports_dir / receipt["artifacts"]["goal_gif"]
+        gif = archived_reports / receipt["artifacts"]["goal_gif"]
         assert hashlib.sha256(gif.read_bytes()).hexdigest() == receipt["artifacts"]["gif_sha256"]
         with Image.open(gif) as animation:
             assert animation.n_frames == 24

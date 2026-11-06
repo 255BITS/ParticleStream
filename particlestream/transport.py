@@ -12,6 +12,7 @@ import math
 import weakref
 
 import torch
+import torch.nn.functional as F
 
 from particlegan import GANTrainer
 from particlegan.priors import ManipulatedPrior, PriorManipulator, unwrap_prior
@@ -20,10 +21,11 @@ from particlegan.priors import ManipulatedPrior, PriorManipulator, unwrap_prior
 class CompetitiveReconstruction(PriorManipulator):
     """One uniform D draw, then one target-routed G draw per public update."""
 
-    config_fields = ("temperature", "usage_penalty", "usage_decay", "probe_law")
+    config_fields = ("temperature", "usage_penalty", "usage_decay", "probe_law", "reconstruction_loss")
 
     def __init__(self, generator, *, reconstruction_weight=10.0, temperature=0.0,
-                 usage_penalty=0.0, usage_decay=1.0, routing_generator=None):
+                 usage_penalty=0.0, usage_decay=1.0, routing_generator=None,
+                 reconstruction_loss="mse"):
         super().__init__(penalty_weight=reconstruction_weight)
         for name, value in (("temperature", temperature), ("usage_penalty", usage_penalty)):
             if isinstance(value, bool) or not math.isfinite(value) or value < 0:
@@ -32,6 +34,9 @@ class CompetitiveReconstruction(PriorManipulator):
             raise ValueError("usage_decay must be in (0,1]")
         if temperature > 0 and routing_generator is None:
             raise ValueError("stochastic routing requires an explicit routing_generator")
+        if reconstruction_loss not in ("mse", "binary_cross_entropy"):
+            raise ValueError("reconstruction_loss must be 'mse' or 'binary_cross_entropy'")
+        self.reconstruction_loss = reconstruction_loss
         self.temperature = float(temperature)
         self.usage_penalty = float(usage_penalty)
         self.usage_decay = float(usage_decay)
@@ -63,6 +68,9 @@ class CompetitiveReconstruction(PriorManipulator):
         if (not isinstance(frame, torch.Tensor) or tuple(frame.shape) != (1, 1, 8, 8)
                 or frame.requires_grad or not bool(torch.isfinite(frame).all())):
             raise ValueError("transport requires one detached finite arriving frame")
+        if self.reconstruction_loss == "binary_cross_entropy" and (
+                not frame.is_floating_point() or bool(((frame < 0) | (frame > 1)).any())):
+            raise ValueError("binary_cross_entropy targets must be floating values in [0,1]")
         self._target = frame.detach().clone()
         self._phase, self._selected = 0, None
         try:
@@ -131,7 +139,13 @@ class CompetitiveReconstruction(PriorManipulator):
             raise RuntimeError("reconstruction requires the active G-phase observation")
         if tuple(generated.shape) != tuple(self._target.shape):
             raise ValueError("reconstruction requires one generated image")
-        loss = (generated - self._target).square().mean()
+        if self.reconstruction_loss == "mse":
+            loss = (generated - self._target).square().mean()
+        else:
+            if not generated.is_floating_point() or not bool(torch.isfinite(generated).all()):
+                raise ValueError("binary_cross_entropy reconstruction requires finite floating predictions")
+            epsilon = torch.finfo(generated.dtype).eps
+            loss = F.binary_cross_entropy(generated.clamp(epsilon, 1 - epsilon), self._target)
         with torch.no_grad():
             self.last_reconstruction.copy_(loss.detach())
         return loss
@@ -143,7 +157,7 @@ class CompetitiveReconstruction(PriorManipulator):
             "probe_forwards": int(self.probe_forwards.item()),
             "assignment_updates": int(self.assignment_updates.item()),
             "assignment_mass": self.assignment_mass.detach().cpu().tolist(),
-            "last_reconstruction_mse": float(self.last_reconstruction.item()),
+            f"last_reconstruction_{self.reconstruction_loss}": float(self.last_reconstruction.item()),
             "target_retained": self._target is not None,
         }
 
@@ -157,12 +171,14 @@ class TransportGANTrainer(GANTrainer):
     """
 
     def __init__(self, recipe, generator, discriminator, *, prior, transport=None,
-                 routing_generator=None, **kwargs):
+                 routing_generator=None, router_class=CompetitiveReconstruction, **kwargs):
         if isinstance(prior, ManipulatedPrior):
             raise ValueError("transport currently requires an unwrapped storage prior")
         if recipe.batch_size != 1:
             raise ValueError("transport requires recipe.batch_size=1")
-        self.transport = CompetitiveReconstruction(
+        if not isinstance(router_class, type) or not issubclass(router_class, CompetitiveReconstruction):
+            raise ValueError("router_class must extend CompetitiveReconstruction")
+        self.transport = router_class(
             generator, routing_generator=routing_generator, **dict(transport or {}),
         )
         wrapped = ManipulatedPrior(unwrap_prior(prior), [self.transport])
