@@ -1,0 +1,101 @@
+{
+  "assignments": [
+    {
+      "importance": "required",
+      "order": 0,
+      "qualification_tier": 1,
+      "task": "seq_img_round_robin_bars4"
+    },
+    {
+      "importance": "required",
+      "order": 1,
+      "qualification_tier": 1,
+      "task": "seq_img_dwell_bars4"
+    },
+    {
+      "importance": "required",
+      "order": 2,
+      "qualification_tier": 1,
+      "task": "seq_img_translating_bar_next"
+    },
+    {
+      "importance": "required",
+      "order": 3,
+      "qualification_tier": 1,
+      "task": "seq_img_fork_rollout"
+    },
+    {
+      "importance": "required",
+      "order": 4,
+      "qualification_tier": 1,
+      "task": "seq_img_variable_dwell_bars4"
+    },
+    {
+      "importance": "required",
+      "order": 5,
+      "qualification_tier": 1,
+      "task": "seq_img_rare_mode_bars4"
+    },
+    {
+      "importance": "required",
+      "order": 6,
+      "qualification_tier": 1,
+      "task": "seq_img_delayed_cue"
+    },
+    {
+      "importance": "required",
+      "order": 7,
+      "qualification_tier": 1,
+      "task": "seq_img_persistent_fork"
+    },
+    {
+      "importance": "required",
+      "order": 8,
+      "qualification_tier": 1,
+      "task": "seq_img_circle_orbit"
+    },
+    {
+      "importance": "required",
+      "order": 9,
+      "qualification_tier": 1,
+      "task": "seq_img_square_circle_cycle"
+    },
+    {
+      "importance": "stretch",
+      "order": 10,
+      "qualification_tier": 1,
+      "task": "seq_minimal_dense4"
+    },
+    {
+      "importance": "stretch",
+      "order": 11,
+      "qualification_tier": 1,
+      "task": "seq_minimal_tokens4"
+    },
+    {
+      "importance": "stretch",
+      "order": 12,
+      "qualification_tier": 2,
+      "task": "seq_minimal_kernel2x2"
+    },
+    {
+      "importance": "stretch",
+      "order": 13,
+      "qualification_tier": 2,
+      "task": "seq_minimal_addition2bit"
+    },
+    {
+      "importance": "stretch",
+      "order": 14,
+      "qualification_tier": 3,
+      "task": "seq_minimal_velocity_extrapolation"
+    }
+  ],
+  "evidence_scope": "ordinary",
+  "goal": "single_stream_stability",
+  "id": "single_stream_stability",
+  "namespace": "particlegan_forge",
+  "policy_change_reason": "Add five bounded capability proofs as Tier 1/2/3 stretch tasks; preserve all ten required tasks and their original evidence contracts.",
+  "revision": 8,
+  "schema_version": 1
+}

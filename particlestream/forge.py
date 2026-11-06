@@ -32,11 +32,13 @@ class StreamWorkspace(ForgeWorkspace):
             raise ValueError("empty gauntlet; run particlestream bootstrap first")
         from .tier1 import IMPLEMENTATION, _build_recipe
         from .minimal_adapter import implementation
+        from .robotics_adapter import implementation as robotics_implementation
         for task in self.load_tasks().values():
             if task.batch_size != 1:
                 raise ValueError("every experiment requires sequential batch_size=1")
             self.registry.get_adapter(task.adapter)
-            expected = implementation(IMPLEMENTATION) if task.adapter == "minimal_probe" else IMPLEMENTATION
+            expected = (robotics_implementation(IMPLEMENTATION) if task.adapter == "gym_robotics" else
+                        implementation(IMPLEMENTATION) if task.adapter == "minimal_probe" else IMPLEMENTATION)
             if task.host_definition.get("implementation") != expected:
                 raise ValueError("stale task implementation; run particlestream bootstrap")
             for candidate in self.load_candidates().values():
@@ -73,17 +75,17 @@ class StreamWorkspace(ForgeWorkspace):
             content += "\nInterpretation and historical evidence: [research notes](research-notes.md).\n"
         atomic_text(memory, content)
         tier_guide = self.reports_dir / "EXPERIMENTS_BY_TIER.md"
-        minimal_tasks = [task for task in self.load_tasks().values() if task.adapter == "minimal_probe"]
-        if minimal_tasks and tier_guide.is_file():
+        probe_tasks = [task for task in self.load_tasks().values() if task.adapter in {"minimal_probe", "gym_robotics"}]
+        if probe_tasks and tier_guide.is_file():
             note = (
-                "\n## Minimal probe sampling\n\n"
+                "\n## Minimal and robotics probe sampling\n\n"
                 "ParticleGAN/Forge 0.9.7 writes the generic `enumerated_prior_clean` label "
                 "in its evaluation schema. For these probes, `host_definition.sampling` "
                 "and the matching receipt artifact specify the actual latent law. "
                 "All generated outputs omit additional output noise.\n\n"
                 "| Task | Latent law | Rows per case |\n| --- | --- | --- |\n"
             )
-            for task in minimal_tasks:
+            for task in probe_tasks:
                 sampling = task.host_definition["sampling"]
                 note += f"| `{task.id}` | `{sampling['law']}` | {len(sampling['rows'])} |\n"
             atomic_text(tier_guide, tier_guide.read_text().rstrip() + "\n" + note)
@@ -104,6 +106,10 @@ def main(argv=None):
     core = commands.add_parser("core")
     core.add_argument("--candidate", default="online-feature-prior-bce")
     core.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cpu")
+    robotics = commands.add_parser("robotics")
+    robotics.add_argument("--candidate", default="online-feature-prior-bce")
+    robotics.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cpu")
+    robotics.add_argument("--controls-only", action="store_true")
     retier = commands.add_parser("retier")
     retier.add_argument("view")
     retier.add_argument("--task", required=True)
@@ -127,6 +133,20 @@ def main(argv=None):
             result = workspace.validate()
         elif args.command == "validate":
             result = workspace.validate()
+        elif args.command == "robotics":
+            from .suite import ROBOTICS_TASKS
+            from .robotics_adapter import validate_controls
+            workspace.validate()
+            if args.controls_only:
+                result = validate_controls(ROBOTICS_TASKS)
+            else:
+                result = {}
+                for task in ROBOTICS_TASKS:
+                    receipt = workspace.run_task(args.candidate, task.id, device=args.device)
+                    result[task.id] = {name: receipt[name] for name in ("verdict", "terminal_passing", "cost", "live", "error")}
+                    workspace.compile_reports(view_id=PRIMARY_VIEW.id, device=args.device)
+                    if receipt["verdict"] in {"INVALID", "INCOMPLETE"}:
+                        raise RuntimeError(f"{task.id}: {receipt['verdict']}: {receipt['error']}; fix execution before continuing")
         elif args.command in {"controls", "core"}:
             from .suite import MINIMAL_TASKS
             from .minimal_adapter import validate_controls

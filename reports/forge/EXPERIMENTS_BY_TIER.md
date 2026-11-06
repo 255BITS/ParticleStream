@@ -16,6 +16,11 @@
 | `single_stream_stability` | 1 | `seq_minimal_tokens4` | `stretch` | 1 | 32 | 96 | `mog` (σ=0.025) | `valid_fraction==1.0`, `modes==4.0`, `mass_tv<=0.1` |
 | `single_stream_stability` | 2 | `seq_minimal_kernel2x2` | `stretch` | 1 | 32 | 192 | `mog` (σ=0.025) | `seen_response_rmse<=0.03`, `seen_max_abs_error<=0.05`, `heldout_response_rmse<=0.03`, `heldout_max_abs_error<=0.05` |
 | `single_stream_stability` | 2 | `seq_minimal_addition2bit` | `stretch` | 1 | 32 | 192 | `mog` (σ=0.025) | `seen_exact_accuracy==1.0`, `seen_min_bit_confidence>=0.9`, `heldout_exact_accuracy==1.0`, `heldout_min_bit_confidence>=0.9` |
+| `single_stream_stability` | 2 | `seq_robotics_fetch_reach` | `stretch` | 1 | 32 | 480 | `mog` (σ=0.025) | `position_delta_rmse_m<=0.005`, `relative_mse<=0.8`, `moving_direction_accuracy>=0.75`, `finite_fraction==1.0` |
+| `single_stream_stability` | 2 | `seq_robotics_fetch_push` | `stretch` | 1 | 32 | 480 | `mog` (σ=0.025) | `position_delta_rmse_m<=0.005`, `relative_mse<=0.8`, `moving_direction_accuracy>=0.75`, `finite_fraction==1.0` |
+| `single_stream_stability` | 2 | `seq_robotics_fetch_slide` | `stretch` | 1 | 32 | 480 | `mog` (σ=0.025) | `position_delta_rmse_m<=0.005`, `relative_mse<=0.8`, `moving_direction_accuracy>=0.75`, `finite_fraction==1.0` |
+| `single_stream_stability` | 2 | `seq_robotics_fetch_pick_and_place` | `stretch` | 1 | 32 | 480 | `mog` (σ=0.025) | `position_delta_rmse_m<=0.005`, `relative_mse<=0.8`, `moving_direction_accuracy>=0.75`, `finite_fraction==1.0` |
+| `single_stream_stability` | 2 | `seq_robotics_hand_reach` | `stretch` | 1 | 32 | 480 | `mog` (σ=0.025) | `position_delta_rmse_m<=0.005`, `relative_mse<=0.8`, `moving_direction_accuracy>=0.75`, `finite_fraction==1.0` |
 | `single_stream_stability` | 3 | `seq_minimal_velocity_extrapolation` | `stretch` | 1 | 32 | 384 | `mog` (σ=0.025) | `interpolation_centroid_rmse<=0.01`, `interpolation_speed_error<=0.01`, `interpolation_raw_rmse<=0.12`, `interpolation_point_validity==1.0`, `interpolation_direction_accuracy==1.0`, `extrapolation_centroid_rmse<=0.01`, `extrapolation_speed_error<=0.01`, `extrapolation_raw_rmse<=0.12`, `extrapolation_point_validity==1.0`, `extrapolation_direction_accuracy==1.0` |
 
 ## Declared Evaluation Contracts
@@ -37,8 +42,13 @@
 | `seq_minimal_kernel2x2` | `deterministic_orthogonal` | `enumerated_prior_clean` | 24 (8..192) | last 5: [160, 168, 176, 184, 192] | 300 |
 | `seq_minimal_tokens4` | `deterministic_orthogonal` | `enumerated_prior_clean` | 24 (4..96) | last 5: [80, 84, 88, 92, 96] | 300 |
 | `seq_minimal_velocity_extrapolation` | `deterministic_orthogonal` | `enumerated_prior_clean` | 24 (16..384) | last 5: [320, 336, 352, 368, 384] | 300 |
+| `seq_robotics_fetch_pick_and_place` | `deterministic_orthogonal` | `enumerated_prior_clean` | 24 (20..480) | last 5: [400, 420, 440, 460, 480] | 300 |
+| `seq_robotics_fetch_push` | `deterministic_orthogonal` | `enumerated_prior_clean` | 24 (20..480) | last 5: [400, 420, 440, 460, 480] | 300 |
+| `seq_robotics_fetch_reach` | `deterministic_orthogonal` | `enumerated_prior_clean` | 24 (20..480) | last 5: [400, 420, 440, 460, 480] | 300 |
+| `seq_robotics_fetch_slide` | `deterministic_orthogonal` | `enumerated_prior_clean` | 24 (20..480) | last 5: [400, 420, 440, 460, 480] | 300 |
+| `seq_robotics_hand_reach` | `deterministic_orthogonal` | `enumerated_prior_clean` | 24 (20..480) | last 5: [400, 420, 440, 460, 480] | 300 |
 
-## Minimal probe sampling
+## Minimal and robotics probe sampling
 
 ParticleGAN/Forge 0.9.7 writes the generic `enumerated_prior_clean` label in its evaluation schema. For these probes, `host_definition.sampling` and the matching receipt artifact specify the actual latent law. All generated outputs omit additional output noise.
 
@@ -49,3 +59,8 @@ ParticleGAN/Forge 0.9.7 writes the generic `enumerated_prior_clean` label in its
 | `seq_minimal_kernel2x2` | `four_clean_centers_v1` | 4 |
 | `seq_minimal_tokens4` | `stratified_rows_frozen_mog_eps_v1` | 32 |
 | `seq_minimal_velocity_extrapolation` | `four_clean_centers_v1` | 4 |
+| `seq_robotics_fetch_pick_and_place` | `four_clean_centers_v1` | 4 |
+| `seq_robotics_fetch_push` | `four_clean_centers_v1` | 4 |
+| `seq_robotics_fetch_reach` | `four_clean_centers_v1` | 4 |
+| `seq_robotics_fetch_slide` | `four_clean_centers_v1` | 4 |
+| `seq_robotics_hand_reach` | `four_clean_centers_v1` | 4 |

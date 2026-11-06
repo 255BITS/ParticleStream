@@ -10,16 +10,19 @@ from particlegan_forge import TierSpec, TierView, atomic_text
 from .forge import StreamWorkspace
 from .tier1 import CANDIDATES, IMPLEMENTATION, REGISTRY, TIER1_TASKS
 from .minimal_adapter import make_tasks, run_minimal_task
+from .robotics_adapter import make_tasks as make_robotics_tasks, run_robotics_task
 
 MINIMAL_TASKS = make_tasks(IMPLEMENTATION)
-ALL_TASKS = [*TIER1_TASKS, *MINIMAL_TASKS]
+ROBOTICS_TASKS = make_robotics_tasks(IMPLEMENTATION)
+ALL_TASKS = [*TIER1_TASKS, *MINIMAL_TASKS, *ROBOTICS_TASKS]
 REGISTRY.adapter("minimal_probe")(run_minimal_task)
+REGISTRY.adapter("gym_robotics")(run_robotics_task)
 PRIMARY_VIEW = TierView.from_tiers(
-    id="single_stream_stability", goal="single_stream_stability", revision=8,
-    policy_change_reason="Add five bounded capability proofs as Tier 1/2/3 stretch tasks; preserve all ten required tasks and their original evidence contracts.",
+    id="single_stream_stability", goal="single_stream_stability", revision=9,
+    policy_change_reason="Add five real Gymnasium-Robotics action-conditioned dynamics tests as Tier 2 stretch; preserve ten required tasks and five minimal probes unchanged.",
     tiers=[TierSpec(tier=tier,
                     required=[task.id for task in TIER1_TASKS] if tier == 1 else [],
-                    stretch=[task.id for task in MINIMAL_TASKS
+                    stretch=[task.id for task in [*MINIMAL_TASKS, *ROBOTICS_TASKS]
                              if task.host_definition["qualification_tier"] == tier])
            for tier in (1, 2, 3)],
 )
