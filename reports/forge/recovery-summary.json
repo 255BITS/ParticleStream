@@ -355,9 +355,9 @@
       }
     },
     "online-feature-prior-bce": {
-      "elapsed_seconds": 0.345,
+      "elapsed_seconds": 0.315,
       "passed_tasks": 8,
-      "source_revision": "536f78eb4d459733c4a44b637055321c55a21a4e",
+      "source_revision": "44241d712c80726746f98b72f8a0e0ddb6818f6d",
       "tasks": {
         "seq_img_delayed_cue": {
           "all_finite": true,

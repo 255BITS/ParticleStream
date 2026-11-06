@@ -337,7 +337,7 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "c9ea09f73c165b4e9b47d23d0f0c5b6d55bdd2e17664d433479ea7e09aacb36f",
+    "adapter_source_sha256": "232cf05891fff6f2b486ee3f0ecc11da63d13e666f0177164da39a29bbcd1936",
     "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
     "device": "cuda",
     "engine_source_sha256": "aaae50e38584b5397e4b8b55d7e69982049c5c93bf12d44c322d02e5424a4dd1",
@@ -348,13 +348,13 @@
   },
   "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
   "candidate_id": "online-feature-prior-bce",
-  "cohort_key": "6dc4724849261110e65703d01a8c0987302d79d6f1f968760a4b1826c430c2ae",
-  "completed_at": "2026-11-06T05:09:03.824+00:00",
+  "cohort_key": "a21b2c9f4d1815d8f70f7a1b0af3e18a9e33f807155e9ea346e45a95c5dc6dad",
+  "completed_at": "2026-11-06T05:21:56.532+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 8.5889
+    "wall_seconds": 8.8565
   },
   "device": "cuda",
   "error": null,
@@ -767,7 +767,7 @@
   "task_id": "seq_img_variable_dwell_bars4",
   "technique": "FeaturePrior-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-06T05:09:03.824+00:00",
+  "timestamp": "2026-11-06T05:21:56.532+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }
