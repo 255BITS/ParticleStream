@@ -130,17 +130,12 @@ IMPLEMENTATION = {
 PRIMARY_VIEW = TierView.from_tiers(
     id="single_stream_stability",
     goal="single_stream_stability",
-    revision=4,
-    policy_change_reason="Strict online execution with four additional held challenges and independent stochastic forks evaluated from attainable histories.",
+    revision=5,
+    policy_change_reason="One global strict online feature-prior recipe passes all eight tasks with every terminal check; restore the four solved challenges as required without changing their numerical gates.",
     tiers=[
         TierSpec(
             tier=1,
-            required=BASE_TASK_IDS,
-            held={task.id: {
-                "reason": "unsolved", "summary": "No global recipe has qualified this newly declared strict online challenge.",
-                "explanation": "reports/forge/research-notes.md#strict-online-tier-1",
-                "reentry": "Restore as required after one global recipe passes this task together with every counted requirement under the fixed protocol.",
-            } for task in CHALLENGE_TASKS},
+            required=[task.id for task in TIER1_TASKS],
         )
     ],
 )

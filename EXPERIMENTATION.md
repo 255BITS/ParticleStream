@@ -38,7 +38,7 @@ python -m particlestream.forge bootstrap
 python -m particlestream.forge --root . validate
 
 # Run a candidate across Tier 1 and update the single leaderboard + goal.gif artifacts
-python -m particlestream.forge --root . run online-bispf-early --view single_stream_stability --through-tier 1 --device cpu
+python -m particlestream.forge --root . run online-feature-prior-bce --view single_stream_stability --through-tier 1 --device cpu
 
 # Tail live execution events
 tail -F runs/forge/events.jsonl
@@ -125,11 +125,10 @@ real future frames. Both fork streams draw independent fair branches when the
 branch arrives; evaluation checks both attainable previous-branch-to-stem
 histories separately and requires the worst state to meet every gate.
 
-The four new challenges start **held**, with explicit explanations and reentry
-criteria in the view. They still run and their failures remain visible. Existing
-counted failures also remain failures; holding does not make a recipe qualify.
-Promoting a challenge requires one global recipe passing it with every counted
-requirement, under a separately archived view revision.
+The four challenges started **held** in view 4. View 5 restores all four as
+**required** after one global recipe passes every task with all five terminal
+checks. The exact previous view is archived. No numerical gate, architecture,
+stream law or training budget changes during this promotion.
 
 Every task has oracle PASS and destructive FAIL controls. New controls include
 latest-mode-only output, rare-mode removal, cue erasure and branch switching
@@ -195,3 +194,20 @@ Archived task declarations and unchanged receipt/GIF copies are stored under
 `reports/forge/cohorts/pre-recovery/`. The manifest also protects the original
 historical artifacts. Receipts from earlier implementations cannot qualify
 against new source fingerprints; the archive retains their measured outcomes.
+
+The qualified `online-feature-prior-bce` recipe uses a different declared prior
+mechanism. A fixed 8×64 orthogonal projection encodes each arriving image; its
+initialization comes from the named protocol `init` stream. Up to 32 feature
+means and 64 context/outcome summaries learn from successful arrivals. Critic
+and serving draws use empirical quantiles at the nearest observed context;
+every row preserves its original MoG perturbation. The generator's training
+posterior uses only the current arrived frame and BCE weight 10. Statistics
+commit after the update succeeds, and serving receives no target or stored
+image. The storage prior is frozen while this bounded conditional transform
+learns. It uses zero center probes and the same task-owned G/D networks.
+
+Reproduce the qualified recipe with `particlestream run online-feature-prior-bce
+--device cuda`. All eight tests are required in view 5. Promoting the view changes
+the full adapter-module digest, so the first passing view-4 cohort is archived
+in `reports/forge/cohorts/feature-prior-view4/` and fresh runs bind qualification
+to the final view-5 implementation. Receipts are never manually rebound.

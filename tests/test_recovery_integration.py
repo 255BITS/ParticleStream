@@ -19,6 +19,13 @@ def test_pre_recovery_evidence_is_preserved_byte_for_byte():
         assert hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == expected, relative
 
 
+def test_first_all_eight_passing_cohort_is_preserved_before_view_promotion():
+    manifest = json.loads((ROOT / "reports/forge/cohorts/feature-prior-view4/manifest.json").read_text())
+    assert len(manifest) == 16
+    for relative, expected in manifest.items():
+        assert hashlib.sha256((ROOT / relative).read_bytes()).hexdigest() == expected, relative
+
+
 def test_recovery_preserves_task_architectures_budgets_and_numerical_gates():
     archived = json.loads((ROOT / "reports/forge/cohorts/pre-recovery/tasks.json").read_text())
     for task in TIER1_TASKS:

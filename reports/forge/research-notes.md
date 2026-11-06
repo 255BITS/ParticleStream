@@ -277,3 +277,45 @@ paths can receive new source-bound measurements without discarding the archive.
 Source changes invalidate qualification of older receipts even when numerical
 gates and architectures are unchanged. Current qualification is generated only
 in the canonical [leaderboard](technique-inventory.md).
+
+### Qualified conditional-feature prior
+
+`online-feature-prior-bce` is the first single recipe to pass every task and
+every terminal check: 8/8 tasks, 40/40 checks. It keeps the task's 32×8 initial
+MoG storage table frozen and learns a bounded conditional transform over
+observed feature means. A fixed named orthogonal image projection supplies the
+current-frame training posterior. The unchanged generator learns image decoding
+with BCE weight 10; critic and serving samples use learned empirical quantiles
+from previous successful observations. The transform retains the original
+Gaussian perturbation and never emits images directly. No previous image is
+reused as a training target. This is a new memory/prior mechanism with a BCAP
+critic, rather than evidence that optimizer tuning alone repaired all failures.
+
+Across the initial passing terminal window, all density and branch quality
+metrics are 1. Motion accuracy is 1 with worst RMSE 0.009068. Delayed-cue accuracy
+is 1 with worst RMSE 0.026010. Rare-mode mass is exactly 2/32 and TV is zero.
+One-step fork TV is at most 0.03125; persistent-fork TV is at most 0.09375 and
+trajectory consistency is 1. Fixed/variable dwell TV is at most 0.03125. These
+margins satisfy the original gates without task-specific recipe choices.
+
+The same resolved recipe, memory policy, manipulator settings and named encoder
+initialization are used across all tasks. Independent tests confirm that extra
+serving leaves subsequent model, memory, optimizer and training RNG state
+bit-identical; feature counts commit from the preceding observed context;
+exceptions clear transient targets; and persistent evaluation writes generated
+frames only into cloned memory. Zeroing the decoder destroys output quality,
+confirming that latent feature statistics do not bypass actual training.
+
+View 5 promotes the four formerly held challenges to required tests, archiving
+the exact view 4 declaration. Since the public source digest covers the whole
+adapter module, the initial eight passing view-4 receipts/GIFs are preserved
+under `cohorts/feature-prior-view4/` before fresh full-budget view-5 qualification.
+No source binding is patched by hand. Numerical gates, budgets, stream laws,
+architectures and protocol seed are unchanged.
+
+Use this recipe as the Tier 1 reference. Its finite memory remains a measured
+limit: persistent fork fills all 64 context slots and records 173 evictions
+within 480 updates despite passing. A useful next tier should test longer
+streams, context churn and richer images with the same global recipe. This
+qualification establishes the declared eight-task protocol, not those untested
+settings. Earlier failed and alias recipes remain visible in history.
