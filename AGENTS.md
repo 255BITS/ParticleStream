@@ -9,3 +9,4 @@ Read [reports/forge/EXPERIMENT_MEMORY.md](reports/forge/EXPERIMENT_MEMORY.md) an
 - Summarize and give explanations, leaderboard, and recommendations after running experiments.
 - commit and push as you go
 - develop->master PR should always exist and have a link to the up to date develop/reports/forge/technique-inventory.md
+- every experiment should be batch size 1 sequential in this repo
