@@ -68,6 +68,15 @@ class TranslatingBarStream:
         self.positions, self.cycle = translating_bar_cycle(self.device)
         self.cursor = 0
 
+    def next_frame(self, generator: torch.Generator) -> tuple[torch.Tensor, int]:
+        """Reveal only the next chronological observation, never its future."""
+        with torch.no_grad():
+            position = self.cycle[self.cursor % len(self.cycle)]
+            self.cursor += 1
+            base = self.positions[position:position + 1]
+            noise = self.noise_std * torch.randn(base.shape, device=self.device, generator=generator)
+            return (base + noise).clamp(0.0, 1.0).detach(), position
+
     def next_pair(self, generator: torch.Generator) -> tuple[torch.Tensor, torch.Tensor, int, int]:
         """Return (x_t, x_{t+1}, pos_t, pos_{t+1}) with batch_size=1 and requires_grad=False."""
         with torch.no_grad():
@@ -91,6 +100,16 @@ class ForkStream:
         self.device = torch.device(device)
         self.templates = fork_templates(self.device)
         self.cursor = 0
+
+    def next_frame(self, generator: torch.Generator) -> tuple[torch.Tensor, int]:
+        """Reveal stem, branch, stem, branch as separate real arrivals."""
+        with torch.no_grad():
+            episode, phase = divmod(self.cursor, 2)
+            mode = 0 if phase == 0 else 1 + episode % 2
+            self.cursor += 1
+            base = self.templates[mode:mode + 1]
+            noise = self.noise_std * torch.randn(base.shape, device=self.device, generator=generator)
+            return (base + noise).clamp(0.0, 1.0).detach(), mode
 
     def next_transition(self, generator: torch.Generator) -> tuple[torch.Tensor, torch.Tensor, int]:
         """Return (stem_frame, branch_frame, branch_id in {1, 2}) with batch_size=1."""

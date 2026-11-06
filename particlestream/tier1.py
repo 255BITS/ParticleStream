@@ -27,6 +27,7 @@ from particlegan_forge import (
 
 from .models import FastWeightMemory, StreamImageCritic, StreamImageGenerator
 from .forge import StreamWorkspace
+from .online import OnlineSession, validate_execution_policy
 from .streams import (
     ForkStream,
     SequentialBarsStream,
@@ -111,14 +112,14 @@ TIER1_TASKS: list[TaskSpec] = [
 # Bind dependency code as well as the adapter body into each task fingerprint.
 IMPLEMENTATION = {
     name: file_hash(Path(__file__).with_name(name))
-    for name in ("models.py", "streams.py")
+    for name in ("models.py", "streams.py", "online.py")
 }
 
 PRIMARY_VIEW = TierView.from_tiers(
     id="single_stream_stability",
     goal="single_stream_stability",
-    revision=2,
-    policy_change_reason="ParticleGAN 0.9.6 source-bound family comparison with task-owned conditional architectures; unchanged gates and budgets.",
+    revision=3,
+    policy_change_reason="Strict chronological batch-size-1 online training, explicit replay prohibition and causal single-arrival predictive targets; unchanged gates and update budgets.",
     tiers=[
         TierSpec(
             tier=1,
@@ -231,6 +232,25 @@ for candidate_id, (family, preset) in FAMILY_PRESETS.items():
         ],
     ))
 
+# The historical representatives retain their original identities and evidence.
+# New identities declare the replay delta; all optimization overrides are copied.
+ONLINE_PARENTS = ("stream-bcap-adam", "stream-bispf-early", "stream-ka2-ready")
+for parent_id in ONLINE_PARENTS:
+    declaration = Path(__file__).resolve().parents[1] / "configs/forge/ideas" / f"{parent_id}.json"
+    parent = CandidateSpec.from_dict(json.loads(declaration.read_text()))
+    policy = dict(parent.memory_policy)
+    policy.update(replay_policy="none", rehearsal_batch=0)
+    CANDIDATES.append(CandidateSpec(
+        id=parent_id.replace("stream-", "online-", 1), technique=parent.technique,
+        parent=parent.id, recipe_preset=parent.recipe_preset,
+        recipe_overrides=dict(parent.recipe_overrides), memory_policy=policy,
+        changed_factors=[
+            *parent.changed_factors,
+            "Explicit replay_policy=none: train every arriving observation once, batch_size=1",
+            "Predict before arrival; learn next-frame targets from the preceding detached context",
+        ],
+    ))
+
 TIER1_CANDIDATES = {c.id: c for c in CANDIDATES}
 
 
@@ -268,6 +288,12 @@ for helper in (_build_recipe, _init_module):
     IMPLEMENTATION[helper.__name__] = hashlib.sha256(inspect.getsource(helper).encode()).hexdigest()
 for task in TIER1_TASKS:
     task.host_definition["implementation"] = dict(IMPLEMENTATION)
+    task.host_definition["online_contract"] = {
+        "version": 1, "arrival_batch": 1, "optimizer_batch": 1,
+        "replay": "none", "gradient_accumulation_steps": 1,
+        "warmup_arrivals": int(task.host_definition["mode"] != "bars4"),
+        "target_timing": "train_on_arrival_with_preceding_context",
+    }
 
 
 @REGISTRY.adapter("seq_image")
@@ -282,6 +308,9 @@ def run_seq_image_task(
     steps_override: int | None = None,
     log_event=None,
 ) -> dict:
+    validate_execution_policy(candidate)
+    if task.batch_size != 1:
+        raise ValueError("sequential task execution requires batch_size=1")
     steps = int(steps_override or task.steps)
     host = task.host_definition
     mode = host["mode"]
@@ -336,7 +365,6 @@ def run_seq_image_task(
     )
 
     data_gen = streams.generator("data", component="stream", purpose="training", device=device)
-    mem_gen = streams.generator("data", component="memory", purpose="reservoir", device=device)
     eval_gen = streams.generator("eval", component="live", purpose="enumerated_samples", device=device)
 
     if mode == "bars4":
@@ -362,49 +390,23 @@ def run_seq_image_task(
     gif_frames = []
     unintended_rng = 0
     all_finite = True
-    prev_frame = None
+    session = OnlineSession(
+        trainer, g, d, memory, predictive=(mode != "bars4"),
+        serving_generator=streams.generator("eval", component="serving", purpose="prediction", device=device),
+    )
+    if session.predictive:
+        initial_frame, _ = stream.next_frame(data_gen)
+        session.observe(initial_frame)
+    prequential_errors = []
 
     for step in range(1, steps + 1):
-        if mode == "bars4":
-            x_cur, _ = stream.next_frame(data_gen)
-            if memory is not None:
-                rehearsal_batch = int(candidate.memory_policy.get("rehearsal_batch", 0))
-                if rehearsal_batch > 0:
-                    ctx = memory.write(x_cur)
-                    recalled = memory.sample_reservoir(mem_gen, n=rehearsal_batch)
-                    train_real = torch.cat([x_cur, recalled], dim=0) if recalled is not None else x_cur
-                else:
-                    is_dwelling = (prev_frame is not None) and ((x_cur - prev_frame).abs().max().item() < 0.10)
-                    recalled = memory.sample_reservoir(mem_gen)
-                    ctx = memory.write(x_cur)
-                    prev_frame = x_cur.clone()
-                    if is_dwelling and (recalled is not None) and (int(memory.reservoir_count.item()) >= memory.reservoir_size):
-                        train_real = recalled
-                    else:
-                        train_real = x_cur
-                if task_context_dim > 0:
-                    g.set_context(ctx)
-                    d.set_context(ctx)
-            else:
-                train_real = x_cur
-        elif mode == "translating_next":
-            x_t, x_next, _, _ = stream.next_pair(data_gen)
-            if memory is not None:
-                ctx = memory.write(x_t)
-                g.set_context(ctx)
-                d.set_context(ctx)
-            x_cur = x_t
-            train_real = x_next
-        else:  # fork_rollout
-            stem, branch, _ = stream.next_transition(data_gen)
-            if memory is not None:
-                ctx = memory.write(stem)
-                g.set_context(ctx)
-                d.set_context(ctx)
-            x_cur = stem
-            train_real = branch
-
-        stats = trainer.step(train_real)
+        # Serving happens before the stream reveals its next real observation.
+        with streams.isolated_evaluation():
+            live_prediction = session.predict()
+        unintended_rng += streams.last_eval_audit["unintended_rng_deviations"]
+        x_cur, _ = stream.next_frame(data_gen)
+        prequential_errors.append(float((live_prediction - x_cur).square().mean().sqrt().item()))
+        stats = session.observe(x_cur)
         all_finite &= not has_nonfinite(stats)
         for module in (g, d, prior, memory):
             if module is not None:
@@ -413,7 +415,7 @@ def run_seq_image_task(
                                   for p in module.parameters() if p.grad is not None)
 
         if step in checkpoints:
-            with streams.isolated_evaluation():
+            with streams.isolated_evaluation(), session.isolated_state():
                 if mode == "bars4":
                     samples = trainer.sample(task.num_particles, fixed_first_n=True, generator=eval_gen)
                     metrics = score_multimodal_bars(samples, stream.templates)
@@ -452,7 +454,8 @@ def run_seq_image_task(
                 else:  # fork_rollout
                     if memory is not None:
                         saved_g_ctx = g.active_context.clone()
-                        ctx_stem = memory.read_context(stream.templates[0:1])
+                        memory.reset_state()
+                        ctx_stem = memory.write(stream.templates[0:1])
                         g.set_context(ctx_stem)
                     samples = trainer.sample(task.num_particles, fixed_first_n=True, generator=eval_gen)
                     if memory is not None:
@@ -460,6 +463,9 @@ def run_seq_image_task(
                     metrics = score_fork_rollout(samples, stream.templates)
 
             unintended_rng += streams.last_eval_audit["unintended_rng_deviations"]
+            metrics["live_prequential_rmse"] = round(sum(prequential_errors) / len(prequential_errors), 6)
+            metrics["live_predictions"] = float(session.predictions)
+            prequential_errors.clear()
             step_passed = all(b.check(metrics.get(b.metric, float("nan"))) for b in task.thresholds)
             observations.append({"step": step, "metrics": metrics})
             gif_frames.append(
@@ -520,7 +526,8 @@ def run_seq_image_task(
                       "torch_version": torch.__version__,
                       "resolved_recipe": asdict(recipe),
                       "implementation": IMPLEMENTATION,
-                      "memory_policy": candidate.memory_policy},
+                      "memory_policy": candidate.memory_policy,
+                      "online_execution": session.diagnostics()},
     }
 
 
