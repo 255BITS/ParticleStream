@@ -1,4 +1,31 @@
 {
+  "aggregate": {
+    "all_finite": true,
+    "arrivals": 34596,
+    "decoded_animation_frames": 1728,
+    "elapsed_cli_and_audit_seconds": 830.181,
+    "full_suite_passes": 0,
+    "live_predictions": 34560,
+    "observations": 1728,
+    "recipes": 9,
+    "runs": 72,
+    "task_passes": 1,
+    "training_gifs": 72,
+    "unintended_rng_deviations": 0,
+    "updates": 34560
+  },
+  "aliases": [
+    {
+      "candidates": [
+        "online-ka2-clean",
+        "online-ka2-light-anchor"
+      ],
+      "interpretation": "Exact observation curves; no independent improvement. Consistent with KA2 anchor inactivity at beta2=0.999 within 480 updates.",
+      "matching_observations_per_task": 24,
+      "matching_tasks": 8
+    }
+  ],
+  "archive_manifest": "reports/forge/cohorts/baselines-d19b9d4/manifest.json",
   "candidates": {
     "online-bcap": {
       "elapsed_seconds": 152.302,
@@ -1065,6 +1092,7 @@
   },
   "cohort_note": "Remaining nine strict baselines; training source is frozen at d19b9d4. Historical protected artifacts are not rerun or overwritten.",
   "deferred_candidates": [],
+  "immutable_archive": "reports/forge/cohorts/baselines-d19b9d4",
   "implementation": {
     "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
     "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
@@ -1076,10 +1104,22 @@
     "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
     "transport.py": "4e7ba19c4ec820c5935701dad13f8f41ff66c28010f1781df5325c1e3b1978a2"
   },
+  "interpretation": [
+    "All nine global recipes fail the complete eight-task suite; eight pass no task.",
+    "The original fast-weight BCAP recipe passes motion at all five terminal checks: final direction accuracy 1.0, next-frame RMSE 0.067943. It fails the other seven tasks.",
+    "No task-specific recipe selection is justified; the isolated motion success does not qualify a global recipe.",
+    "The earlier two additional recipes (online-bcap-stateless, online-fast-weight-bcap-ns) are recorded separately in unrun-baselines-summary.json. Together both cohorts exhaust all eleven previously unrun historical descendants: 88 full-budget task runs."
+  ],
   "known_alias_evidence": "Prior cohort online-fast-weight-bcap-ns observations exactly match online-bcap-adam on all eight tasks; treat as reproducibility evidence, not an independent improvement.",
   "protected_manifest": "reports/forge/cohorts/pre-recovery/manifest.json",
   "protected_manifest_sha256": "2a4771358fc7ba283df3e4cc9c7cceebdadbfe9d54ddde9f3a9f0c79791f96ae",
   "protocol_seed": 0,
+  "qualification_scope": "Frozen d19b9d4 implementation only. These are measured pre-feature negative comparisons; they cannot qualify against the later feature-prior implementation.",
+  "recommendations": [
+    "Preserve these frozen-source comparisons as historical evidence, including their one passing task and exact aliases.",
+    "Use fresh source-bound eight-task evidence for later feature-prior recipes; do not relabel these measurements as current qualification.",
+    "Keep protocol seed 0, batch size 1, unchanged gates and one global recipe across all tasks."
+  ],
   "source_revision": "d19b9d42503b70a454a6fb7b921d91cc597bc11b",
   "task_count": 8
 }
