@@ -1,0 +1,59 @@
+{
+  "changed_factors": [
+    "ParticleGAN 0.9.6 public bispf trainer preset",
+    "Shared 64-frame FIFO memory, seven replay samples and velocity context",
+    "Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)",
+    "SBNP disabled for discrete target modes; FP32 training",
+    "Anneal from step 120 (0.25 of budget) to settle before the sustained terminal window",
+    "Explicit replay_policy=none: train every arriving observation once, batch_size=1",
+    "Predict before arrival; learn next-frame targets from the preceding detached context",
+    "Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context",
+    "Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "online-bispf-transport-causal",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "age_horizon": 8.0,
+    "association_weight": 0.125,
+    "change_threshold": 0.04,
+    "context_scale": 3.0,
+    "contrast_threshold": 0.03,
+    "decay": 0.9,
+    "dim": 16,
+    "kind": "fast_weight",
+    "reader": "causal_state",
+    "rehearsal_batch": 0,
+    "replay_policy": "none",
+    "reservoir_size": 64,
+    "transport": {
+      "reconstruction_weight": 10.0,
+      "temperature": 0.0,
+      "usage_decay": 1.0,
+      "usage_penalty": 0.01
+    },
+    "write_lr": 0.35
+  },
+  "namespace": "particlegan_forge",
+  "parent": "online-bispf-early-causal",
+  "recipe_overrides": {
+    "betas": [
+      0.0,
+      0.999
+    ],
+    "loss": "non_saturating",
+    "lr": 0.005,
+    "lr_anneal_start": 0.25,
+    "lr_floor": 0.05,
+    "lr_schedule": "cosine",
+    "network_lr_floor": 0.05,
+    "prior_reg": 0.0,
+    "prior_regularizer": "none",
+    "training_precision": "float32"
+  },
+  "recipe_preset": "bispf",
+  "schema_version": 3,
+  "technique": "BISPF"
+}

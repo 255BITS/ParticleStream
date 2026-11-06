@@ -26,6 +26,10 @@ from particlegan_forge import (
 )
 
 from .models import FastWeightMemory, StreamImageCritic, StreamImageGenerator
+from .memory import make_stream_memory
+from .transport import TransportGANTrainer
+from .balanced_transport import ContextBalancedReconstruction
+from .feature_prior import FeatureConditionalReconstruction
 from .forge import StreamWorkspace
 from .challenge_adapter import (
     CHALLENGE_TASKS, CHALLENGE_MODES, PREDICTIVE_CHALLENGE_MODES,
@@ -120,23 +124,18 @@ PREDICTIVE_MODES = {"translating_next", "fork_rollout"} | PREDICTIVE_CHALLENGE_M
 # Bind dependency code as well as the adapter body into each task fingerprint.
 IMPLEMENTATION = {
     name: file_hash(Path(__file__).with_name(name))
-    for name in ("models.py", "streams.py", "online.py", "challenges.py", "challenge_adapter.py")
+    for name in ("models.py", "streams.py", "online.py", "challenges.py", "challenge_adapter.py", "memory.py", "transport.py", "balanced_transport.py", "feature_prior.py")
 }
 
 PRIMARY_VIEW = TierView.from_tiers(
     id="single_stream_stability",
     goal="single_stream_stability",
-    revision=4,
-    policy_change_reason="Strict online execution with four additional held challenges and independent stochastic forks evaluated from attainable histories.",
+    revision=5,
+    policy_change_reason="One global strict online feature-prior recipe passes all eight tasks with every terminal check; restore the four solved challenges as required without changing their numerical gates.",
     tiers=[
         TierSpec(
             tier=1,
-            required=BASE_TASK_IDS,
-            held={task.id: {
-                "reason": "unsolved", "summary": "No global recipe has qualified this newly declared strict online challenge.",
-                "explanation": "reports/forge/research-notes.md#strict-online-tier-1",
-                "reentry": "Restore as required after one global recipe passes this task together with every counted requirement under the fixed protocol.",
-            } for task in CHALLENGE_TASKS},
+            required=[task.id for task in TIER1_TASKS],
         )
     ],
 )
@@ -332,23 +331,14 @@ def run_seq_image_task(
     mode = host["mode"]
     width = int(host.get("width", 16))
     task_context_dim = int(host.get("context_dim", 0))
-    use_memory = candidate.memory_policy.get("kind") == "fast_weight"
-    mem_dim = int(candidate.memory_policy.get("dim", 16)) if use_memory else 0
     model_context_dim = task_context_dim
 
     with streams.fork("init", component="models", purpose="construction", device=device):
         g = StreamImageGenerator(z_dim=task.z_dim, width=width, context_dim=model_context_dim).to(device)
         d = StreamImageCritic(width=width, context_dim=model_context_dim).to(device)
-        memory = (
-            FastWeightMemory(
-                dim=mem_dim,
-                decay=float(candidate.memory_policy.get("decay", 0.90)),
-                write_lr=float(candidate.memory_policy.get("write_lr", 0.35)),
-                reservoir_size=int(candidate.memory_policy.get("reservoir_size", 64)),
-            ).to(device)
-            if use_memory
-            else None
-        )
+        memory = make_stream_memory(candidate.memory_policy)
+        if memory is not None:
+            memory = memory.to(device)
         _init_module(g, streams, "generator")
         _init_module(d, streams, "discriminator")
         if memory is not None:
@@ -363,7 +353,25 @@ def run_seq_image_task(
     _init_module(prior, streams, "prior")
     recipe.apply_prior_policy(prior)
 
-    trainer = GANTrainer(
+    transport_options = candidate.memory_policy.get("transport")
+    trainer_class = TransportGANTrainer if transport_options is not None else GANTrainer
+    trainer_options = {} if transport_options is None else {
+        "transport": dict(transport_options),
+        "routing_generator": streams.generator("prior", component="routing", purpose="assignment", device=device),
+    }
+    if transport_options is not None:
+        router = trainer_options["transport"].pop("router", "competitive")
+        if router == "context_balanced":
+            trainer_options["router_class"] = ContextBalancedReconstruction
+        elif router == "feature_conditional":
+            trainer_options["router_class"] = FeatureConditionalReconstruction
+            if "encoder_seed" in trainer_options["transport"]:
+                raise ValueError("feature encoder initialization uses the protocol's named init stream")
+            trainer_options["transport"]["encoder_seed"] = streams.seed_for(
+                "init", component="feature_encoder", purpose="projection")
+        elif router != "competitive":
+            raise ValueError(f"unknown transport router: {router}")
+    trainer = trainer_class(
         recipe,
         g,
         d,
@@ -378,6 +386,7 @@ def run_seq_image_task(
         model_generator=streams.generator("noise", component="models", purpose="stochastic_layers", device=device),
         prior_noise_generator=streams.generator("noise", component="prior", purpose="gaussian", device=device),
         require_latent_damping=recipe.latent_damping_max_rate > 0,
+        **trainer_options,
     )
 
     data_gen = streams.generator("data", component="stream", purpose="training", device=device)
@@ -529,6 +538,9 @@ def run_seq_image_task(
             shutil.copyfile(gif_out, tmp_gif)
             tmp_gif.replace(canonical_gif)
 
+    transport_artifacts = {} if transport_options is None else {
+        "transport": trainer.transport_diagnostics(),
+    }
     return {
         "observations": observations,
         "all_finite": all_finite,
@@ -540,7 +552,8 @@ def run_seq_image_task(
                       "resolved_recipe": asdict(recipe),
                       "implementation": IMPLEMENTATION,
                       "memory_policy": candidate.memory_policy,
-                      "online_execution": session.diagnostics()},
+                      "online_execution": session.diagnostics(),
+                      **transport_artifacts},
     }
 
 

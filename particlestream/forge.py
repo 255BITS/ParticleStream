@@ -97,7 +97,7 @@ def main(argv=None):
             command.add_argument("--through-tier", type=int, default=1)
         elif name == "compare":
             command.add_argument("--candidate", action="append",
-                                 help="Repeat to select candidates; default runs the three online recipes")
+                                 help="Repeat to select candidates; default runs all declared online recipes")
     args = parser.parse_args(argv)
     workspace = StreamWorkspace(args.root, registry=REGISTRY)
     try:

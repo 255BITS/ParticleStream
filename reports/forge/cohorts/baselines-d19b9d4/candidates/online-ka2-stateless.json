@@ -1,0 +1,23 @@
+{
+  "changed_factors": [
+    "KA2 critic EMA anchor on batch_size=1 sequential stream",
+    "Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe",
+    "One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "online-ka2-stateless",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "kind": "none",
+    "rehearsal_batch": 0,
+    "replay_policy": "none"
+  },
+  "namespace": "particlegan_forge",
+  "parent": "ka2",
+  "recipe_overrides": {},
+  "recipe_preset": "ka2",
+  "schema_version": 3,
+  "technique": "KA2"
+}
