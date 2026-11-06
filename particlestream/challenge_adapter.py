@@ -8,10 +8,12 @@ import torch
 from particlegan_forge import MetricBound, TaskSpec
 
 from .challenges import (
+    CircleOrbitStream,
     DelayedCueStream,
     PersistentForkStream,
     RareModeBarsStream,
     VariableDwellBarsStream,
+    score_circle_orbit,
     score_delayed_cue,
     score_persistent_fork,
     score_rare_mode_bars,
@@ -53,10 +55,18 @@ CHALLENGE_TASKS = [
         predictive=True, rollout_horizon=3, rollout_latent_policy="fixed_particle_and_noise_v1",
         branch_law="independent_fair_on_arrival", evaluation_histories="previous_terminal_then_stem",
     ),
+    _task(
+        "seq_img_circle_orbit", "Trace an 8-waypoint circular orbit in real time by predicting subsequent (x, y) point frames across a closed-loop 8-step rollout without teacher forcing.",
+        "circle_orbit", [("orbit_rmse", "<=", .12), ("xy_rmse", "<=", .15),
+                         ("step_accuracy", ">=", .90), ("orbit_completion", ">=", .90),
+                         ("waypoint_modes", "==", 8.)],
+        predictive=True, rollout_horizon=8, rollout_latent_policy="fixed_particle_and_noise_v1",
+        orbit_waypoints=8,
+    ),
 ]
 
 CHALLENGE_MODES = {task.host_definition["mode"] for task in CHALLENGE_TASKS}
-PREDICTIVE_CHALLENGE_MODES = {"delayed_cue", "persistent_fork"}
+PREDICTIVE_CHALLENGE_MODES = {"delayed_cue", "persistent_fork", "circle_orbit"}
 
 
 def make_challenge_stream(mode, device):
@@ -65,6 +75,7 @@ def make_challenge_stream(mode, device):
         "rare_mode": RareModeBarsStream,
         "delayed_cue": DelayedCueStream,
         "persistent_fork": PersistentForkStream,
+        "circle_orbit": CircleOrbitStream,
     }[mode](device=device)
 
 
@@ -134,6 +145,24 @@ def evaluate_challenge(mode, trainer, generator, critic, memory, stream, num_par
                 predictions.append(trainer.sample(num_particles, fixed_first_n=True, generator=eval_generator))
             metrics = score_delayed_cue(*predictions, stream.outcomes)
             return metrics, torch.cat([predictions[0][:16], predictions[1][:16]])
+        if mode == "circle_orbit":
+            paths = []
+            warmup = stream.clean_warmup(0)
+            for particle in range(num_particles):
+                simulated = _history_context(memory, warmup, generator, critic)
+                frames = []
+                latent_rng = eval_generator.get_state()
+                for step_idx in range(stream.period):
+                    eval_generator.set_state(latent_rng)
+                    image = trainer.sample(1, fixed_first_n=True, offset=particle, generator=eval_generator)
+                    frames.append(image[0])
+                    if simulated is not None and step_idx + 1 < stream.period:
+                        context = simulated.write(image)
+                        generator.set_context(context)
+                        critic.set_context(context)
+                paths.append(torch.stack(frames))
+            trajectories = torch.stack(paths)
+            return score_circle_orbit(trajectories, stream.templates), trajectories.reshape(-1, 1, 8, 8)[:num_particles]
 
         states, predictions = [], []
         for previous in (0, 1):

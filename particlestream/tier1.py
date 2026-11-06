@@ -35,6 +35,7 @@ from .challenge_adapter import (
     CHALLENGE_TASKS, CHALLENGE_MODES, PREDICTIVE_CHALLENGE_MODES,
     make_challenge_stream, challenge_target_bank, evaluate_challenge, evaluate_original_fork,
 )
+from .challenges import render_circle_orbit_gif
 from .online import OnlineSession, validate_execution_policy
 from .streams import (
     ForkStream,
@@ -130,8 +131,8 @@ IMPLEMENTATION = {
 PRIMARY_VIEW = TierView.from_tiers(
     id="single_stream_stability",
     goal="single_stream_stability",
-    revision=5,
-    policy_change_reason="One global strict online feature-prior recipe passes all eight tasks with every terminal check; restore the four solved challenges as required without changing their numerical gates.",
+    revision=6,
+    policy_change_reason="Add seq_img_circle_orbit as the ninth required Tier 1 task in single_stream_stability so one global strict online feature-prior recipe qualifies across all nine sequential tasks, including closed-loop 8-step circular-orbit point prediction.",
     tiers=[
         TierSpec(
             tier=1,
@@ -525,6 +526,16 @@ def run_seq_image_task(
         primary_metric=task.thresholds[0].metric if task.thresholds else None,
     )
     gif_sha256 = gif_meta["sha256"]
+    orbit_gif_meta = None
+    if mode == "circle_orbit":
+        orbit_gif_out = attempt_dir / "circle_orbit.gif"
+        orbit_gif_meta = render_circle_orbit_gif(
+            gif_frames,
+            orbit_gif_out,
+            task_id=task.id,
+            candidate_id=candidate.id,
+            verdict=verdict_str,
+        )
 
     root_dir = workspace_root if workspace_root is not None else None
     if root_dir is not None:
@@ -537,9 +548,18 @@ def run_seq_image_task(
             import shutil
             shutil.copyfile(gif_out, tmp_gif)
             tmp_gif.replace(canonical_gif)
+            if orbit_gif_meta is not None and is_production_root and candidate.id == "online-feature-prior-bce":
+                readme_gif = root_dir / "docs/media/readme/circle-orbit.gif"
+                readme_gif.parent.mkdir(parents=True, exist_ok=True)
+                tmp_readme_gif = readme_gif.with_suffix(".tmp")
+                shutil.copyfile(orbit_gif_out, tmp_readme_gif)
+                tmp_readme_gif.replace(readme_gif)
 
     transport_artifacts = {} if transport_options is None else {
         "transport": trainer.transport_diagnostics(),
+    }
+    orbit_artifacts = {} if orbit_gif_meta is None else {
+        "orbit_gif_sha256": orbit_gif_meta["sha256"],
     }
     return {
         "observations": observations,
@@ -553,6 +573,7 @@ def run_seq_image_task(
                       "implementation": IMPLEMENTATION,
                       "memory_policy": candidate.memory_policy,
                       "online_execution": session.diagnostics(),
+                      **orbit_artifacts,
                       **transport_artifacts},
     }
 
