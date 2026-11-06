@@ -1,0 +1,125 @@
+{
+  "candidates": {
+    "online-bcap-transport-causal": {
+      "elapsed_seconds": 0.363,
+      "passed_tasks": 0,
+      "source_revision": "d19b9d42503b70a454a6fb7b921d91cc597bc11b",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.163134,
+            "outcome_accuracy": 0.765625,
+            "prediction_rmse": 0.265376
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.53125,
+            "hq": 0.46875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.409596,
+            "mean_rmse": 0.142634,
+            "modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.53125,
+            "hq": 0.46875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.194442,
+            "mean_rmse": 0.128644,
+            "within_state_modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.3125,
+            "depth_1_hq": 0.6875,
+            "depth_1_modes": 2.0,
+            "depth_1_tv": 0.3125,
+            "depth_2_hq": 0.75,
+            "depth_2_modes": 1.0,
+            "depth_2_tv": 0.3125,
+            "depth_3_hq": 0.8125,
+            "depth_3_modes": 1.0,
+            "depth_3_tv": 0.3125,
+            "hq": 0.6875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.073763,
+            "mean_rmse": 0.086925,
+            "trajectory_consistency": 0.53125,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.40625,
+            "hq": 0.59375,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.4009,
+            "mean_rmse": 0.118166,
+            "rare_mass": 0.03125,
+            "support_modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.375,
+            "hq": 0.625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.461188,
+            "mean_rmse": 0.12589,
+            "modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.640625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.20241,
+            "next_frame_rmse": 0.29835
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.5,
+            "hq": 0.625,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.47876,
+            "mean_rmse": 0.131799,
+            "modes": 2.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    }
+  },
+  "deferred_candidates": [],
+  "protocol_seed": 0,
+  "task_count": 8
+}
