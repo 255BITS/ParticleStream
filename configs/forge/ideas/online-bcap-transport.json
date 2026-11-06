@@ -1,0 +1,47 @@
+{
+  "changed_factors": [
+    "ParticleGAN 0.9.6 public bcap_adam trainer preset",
+    "Shared 64-frame FIFO memory, seven replay samples and velocity context",
+    "Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)",
+    "Explicit replay_policy=none: train every arriving observation once, batch_size=1",
+    "Predict before arrival; learn next-frame targets from the preceding detached context",
+    "Public prior manipulator: uniform critic sampling; generator routes the current observation by sequential clean-center MSE plus 0.01 log row usage, adds weight-10 reconstruction on one generated image, and clears the target before serving"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "online-bcap-transport",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "decay": 0.9,
+    "dim": 16,
+    "kind": "fast_weight",
+    "rehearsal_batch": 0,
+    "replay_policy": "none",
+    "reservoir_size": 64,
+    "transport": {
+      "reconstruction_weight": 10.0,
+      "temperature": 0.0,
+      "usage_decay": 1.0,
+      "usage_penalty": 0.01
+    },
+    "write_lr": 0.35
+  },
+  "namespace": "particlegan_forge",
+  "parent": "online-bcap-adam",
+  "recipe_overrides": {
+    "betas": [
+      0.0,
+      0.999
+    ],
+    "loss": "non_saturating",
+    "lr": 0.005,
+    "lr_anneal_start": 0.5,
+    "lr_floor": 0.05,
+    "lr_schedule": "cosine",
+    "network_lr_floor": 0.05
+  },
+  "recipe_preset": "bcap_adam",
+  "schema_version": 3,
+  "technique": "BCAP"
+}
