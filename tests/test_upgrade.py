@@ -42,10 +42,14 @@ def test_unchanged_recipe_requires_fresh_engine_bound_receipts(tmp_path):
     shutil.copytree(source, target)
     result = workspace.qualify(candidate, PRIMARY_VIEW.id, device="cuda")
     assert result["eligible"] is False
+    archived_tasks = {p.stem for p in source.glob("*.json")}
     for tier in result["tiers"].values():
-        for outcome in tier["tasks"].values():
+        for task_id, outcome in tier["tasks"].items():
             assert outcome["status"] == "NOT_RUN"
-            assert "engine_source_sha256" in outcome["reason"]
+            if task_id in archived_tasks:
+                assert "engine_source_sha256" in outcome["reason"]
+            else:
+                assert outcome["reason"] == "no receipt"
     for receipt in source.glob("*.json"):
         binding = json.loads(receipt.read_text())["binding"]
         assert binding["engine_source_sha256"] != engine_source_digest()

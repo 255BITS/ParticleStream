@@ -47,13 +47,19 @@
       "order": 7,
       "qualification_tier": 1,
       "task": "seq_img_persistent_fork"
+    },
+    {
+      "importance": "required",
+      "order": 8,
+      "qualification_tier": 1,
+      "task": "seq_img_circle_orbit"
     }
   ],
   "evidence_scope": "ordinary",
   "goal": "single_stream_stability",
   "id": "single_stream_stability",
   "namespace": "particlegan_forge",
-  "policy_change_reason": "One global strict online feature-prior recipe passes all eight tasks with every terminal check; restore the four solved challenges as required without changing their numerical gates.",
-  "revision": 5,
+  "policy_change_reason": "Add seq_img_circle_orbit as the ninth required Tier 1 task in single_stream_stability so one global strict online feature-prior recipe qualifies across all nine sequential tasks, including closed-loop 8-step circular-orbit point prediction.",
+  "revision": 6,
   "schema_version": 1
 }

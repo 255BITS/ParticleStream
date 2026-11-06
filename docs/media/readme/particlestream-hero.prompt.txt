@@ -1,0 +1,5 @@
+Conceptual editorial banner illustration for "ParticleStream", a sequential batch_size=1 online generative modeling benchmark built on ParticleGAN.
+Dark slate/navy background (#0d1117 to #161b22) with clean technical aesthetics matching a modern machine learning systems paper.
+On the left, a chronological single-arrival stream of 8x8 pixel frames flows horizontally one frame at a time into a compact recurrent fast-weight memory matrix and feature-conditional particle router.
+In the center-right, a glowing luminous particle learns in real time to trace a crisp circular orbit: early faint exploratory trajectory arcs spiral inward and lock onto a bright, precise circular orbit ring marked by 8 glowing orbital waypoint nodes (N, NE, E, SE, S, SW, W, NW) with a bright cyan/emerald comet tail following the active particle around the circle.
+Subtle geometric coordinate grid, vector tangent arrows along the circular orbit, no text or watermarks, crisp high-contrast vector-art and data-visualization style, wide 3:1 banner composition.

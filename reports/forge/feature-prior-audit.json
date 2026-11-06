@@ -11,8 +11,8 @@
   },
   "archived_view4_adapter_module_sha256": "c9ea09f73c165b4e9b47d23d0f0c5b6d55bdd2e17664d433479ea7e09aacb36f",
   "candidate": "online-feature-prior-bce",
-  "checks": 192,
-  "current_adapter_module_sha256": "232cf05891fff6f2b486ee3f0ecc11da63d13e666f0177164da39a29bbcd1936",
+  "checks": 216,
+  "current_adapter_module_sha256": "79b4fd0956bff6f14635817f1c7bc04e4c8053c29931eeec0842481df942222a",
   "current_qualification_guard_tests_passed": 1,
   "decoder_output_path_validation": "Source review and public-runtime destructive decoder-zero control",
   "dependencies": {
@@ -28,7 +28,7 @@
   "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
   "evaluation_rng_deviations": 0,
   "extra_generator_assignment_probes": 0,
-  "gif_frames_decoded": 192,
+  "gif_frames_decoded": 216,
   "global_recipe_policy_manipulator_identical": true,
   "gradient_accumulation_steps": 1,
   "held_tasks": 0,
@@ -46,6 +46,52 @@
   "qualification": "PASS",
   "recipe_delta": "ParticleGAN/Forge 0.9.6 -> 0.9.7; no recipe, task, gate, architecture or budget changes",
   "records": [
+    {
+      "arrivals": 481,
+      "context_count": 64,
+      "context_evictions": 174,
+      "feature_count": 8,
+      "gates": [
+        {
+          "margin": 0.106562,
+          "metric": "orbit_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.013438
+        },
+        {
+          "margin": 0.145576,
+          "metric": "xy_rmse",
+          "operator": "<=",
+          "threshold": 0.15,
+          "worst_terminal": 0.004424
+        },
+        {
+          "margin": 0.1,
+          "metric": "step_accuracy",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.1,
+          "metric": "orbit_completion",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "waypoint_modes",
+          "operator": "==",
+          "threshold": 8.0,
+          "worst_terminal": 8.0
+        }
+      ],
+      "gif_sha256": "5c510a1a411a2722faacd648d8cf2bafa9942cfefa3b9919d4748fd22b3fd1df",
+      "task": "seq_img_circle_orbit",
+      "terminal_checks_passing": 5
+    },
     {
       "arrivals": 481,
       "context_count": 29,
@@ -311,25 +357,25 @@
     }
   ],
   "replayed_examples": 0,
-  "required_tasks": 8,
-  "runs": 8,
+  "required_tasks": 9,
+  "runs": 9,
   "runtime_delta": "Clean Python 3.13.15 environment resolved Torch 2.15.0+cu132; prior receipts used Torch 2.14.1+cu130",
   "software_validation": {
     "dependency_check": "46 installed packages compatible",
     "oracle_and_destructive_controls": "PASS",
     "pytest_command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q",
     "pytest_seconds": 40.99,
-    "tests_passed": 421,
+    "tests_passed": 435,
     "workspace_candidates_validated": 44,
-    "workspace_tasks_validated": 8
+    "workspace_tasks_validated": 9
   },
   "source_revision": "c2969bac4e69d6f9f1c3bfa2f9be610716bf21e8",
-  "stage": "particlegan_0.9.7_current_view5_qualification_verified",
+  "stage": "particlegan_0.9.7_current_view6_qualification_verified",
   "target_retained_after_update": false,
   "task_gates_budgets_initial_capacity_architectures_unchanged_from": "23736b6",
-  "terminal_checks_passing": 40,
-  "training_wall_seconds": 67.412,
-  "updates": 3840,
+  "terminal_checks_passing": 45,
+  "training_wall_seconds": 0.0,
+  "updates": 4320,
   "view4_archive_artifacts_verified": 16,
-  "view_revision": 5
+  "view_revision": 6
 }

@@ -17,8 +17,8 @@ def test_feature_recipe_qualifies_all_eight_current_required_tasks():
     workspace = StreamWorkspace(ROOT, registry=REGISTRY)
     workspace.validate()
     view = workspace.load_views()["single_stream_stability"]
-    assert view.revision >= 5
-    assert len(view.assignments) == 8
+    assert view.revision >= 6
+    assert len(view.assignments) == 9
     assert all(assignment.importance == "required" for assignment in view.assignments)
     result = workspace.qualify(CANDIDATE, view.id, device="cuda")
     assert result["status"] == "PASS" and result["eligible"] is True

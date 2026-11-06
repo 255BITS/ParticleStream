@@ -6,10 +6,17 @@ import pytest
 import torch
 
 from particlestream.challenges import (
+    CIRCLE_WAYPOINTS,
+    CircleOrbitStream,
     DelayedCueStream,
     PersistentForkStream,
     RareModeBarsStream,
     VariableDwellBarsStream,
+    circle_orbit_coords,
+    circle_orbit_templates,
+    extract_circle_coords,
+    render_circle_orbit_gif,
+    score_circle_orbit,
     score_delayed_cue,
     score_persistent_fork,
     score_rare_mode_bars,
@@ -18,7 +25,8 @@ from particlestream.streams import score_multimodal_bars
 
 
 @pytest.mark.parametrize("stream_cls", [VariableDwellBarsStream, RareModeBarsStream,
-                                        DelayedCueStream, PersistentForkStream])
+                                        DelayedCueStream, PersistentForkStream,
+                                        CircleOrbitStream])
 def test_single_arrival_detached_reproducible_stream(stream_cls):
     first, second = stream_cls(), stream_cls()
     first_rng = torch.Generator().manual_seed(0)
@@ -230,3 +238,128 @@ def test_bad_fork_outputs_safely_fail(bad_trajectories):
     score = score_persistent_fork(bad_trajectories, stream.branch_paths)
     assert score["hq"] == 0 and score["trajectory_consistency"] == 0
     assert score["branch_tv"] == 1
+
+
+def test_circle_orbit_geometry_and_chronological_cycle():
+    stream = CircleOrbitStream(noise_std=0.0)
+    generator = torch.Generator().manual_seed(0)
+    assert stream.period == 8
+    assert len(CIRCLE_WAYPOINTS) == 8
+    coords = circle_orbit_coords()
+    assert coords.shape == (8, 2)
+    radii = coords.square().sum(dim=-1).sqrt()
+    assert torch.all((radii >= 0.90) & (radii <= 1.01))
+    warmup = stream.clean_warmup(0)
+    assert warmup.shape == (2, 1, 8, 8)
+    assert torch.equal(warmup[0], stream.templates[6])
+    assert torch.equal(warmup[1], stream.templates[7])
+    for step in range(16):
+        frame, meta = stream.next_frame(generator)
+        phase = step % 8
+        assert meta["phase"] == phase
+        assert meta["orbit"] == step // 8
+        assert torch.equal(frame, stream.templates[phase:phase + 1])
+        extracted = extract_circle_coords(frame)[0]
+        assert torch.allclose(extracted, coords[phase], atol=1e-5)
+
+
+def test_circle_orbit_oracle_and_destructive_controls():
+    templates = circle_orbit_templates()
+    oracle = templates.unsqueeze(0).repeat(32, 1, 1, 1, 1)
+    oracle_score = score_circle_orbit(oracle, templates)
+    assert oracle_score == {
+        "orbit_rmse": 0.0,
+        "xy_rmse": 0.0,
+        "step_accuracy": 1.0,
+        "orbit_completion": 1.0,
+        "waypoint_modes": 8.0,
+    }
+
+    # Stuck particle at waypoint 0
+    stuck = templates[0:1].unsqueeze(0).repeat(32, 8, 1, 1, 1)
+    stuck_score = score_circle_orbit(stuck, templates)
+    assert stuck_score["step_accuracy"] == 1 / 8
+    assert stuck_score["orbit_completion"] == 0.0
+    assert stuck_score["waypoint_modes"] == 1.0
+    assert stuck_score["orbit_rmse"] > 0.12
+    assert stuck_score["xy_rmse"] > 0.15
+
+    # Reversed (counter-clockwise) orbit
+    reversed_orbit = templates.flip(0).unsqueeze(0).repeat(32, 1, 1, 1, 1)
+    rev_score = score_circle_orbit(reversed_orbit, templates)
+    assert rev_score["orbit_completion"] == 0.0
+    assert rev_score["step_accuracy"] < 0.90
+
+    # Phase-lagged orbit (shifted by 1 step)
+    lagged = templates.roll(1, dims=0).unsqueeze(0).repeat(32, 1, 1, 1, 1)
+    lag_score = score_circle_orbit(lagged, templates)
+    assert lag_score["step_accuracy"] == 0.0
+    assert lag_score["orbit_completion"] == 0.0
+
+    # Incomplete 7/8 arc (last waypoint repeats waypoint 6)
+    incomplete = oracle.clone()
+    incomplete[:, 7] = templates[6]
+    inc_score = score_circle_orbit(incomplete, templates)
+    assert inc_score["step_accuracy"] == 7 / 8
+    assert inc_score["orbit_completion"] == 0.0
+    assert inc_score["waypoint_modes"] == 7.0
+
+    # Blurred average of all 8 waypoints
+    blurred = templates.mean(dim=0, keepdim=True).unsqueeze(0).repeat(32, 8, 1, 1, 1)
+    blur_score = score_circle_orbit(blurred, templates)
+    assert blur_score["step_accuracy"] == 0.0
+    assert blur_score["orbit_completion"] == 0.0
+    assert blur_score["xy_rmse"] > 0.90
+
+
+@pytest.mark.parametrize(
+    "bad_trajectories",
+    [
+        torch.empty(0, 8, 1, 8, 8),
+        torch.zeros(32, 3, 1, 8, 8),
+        torch.zeros(32, 8, 1, 8, 8, dtype=torch.long),
+        torch.full((32, 8, 1, 8, 8), float("nan")),
+    ],
+)
+def test_bad_circle_orbit_outputs_safely_fail(bad_trajectories):
+    templates = circle_orbit_templates()
+    score = score_circle_orbit(bad_trajectories, templates)
+    assert score["step_accuracy"] == 0.0
+    assert score["orbit_completion"] == 0.0
+    assert score["waypoint_modes"] == 0.0
+    assert score["orbit_rmse"] == 1e6
+    assert score["xy_rmse"] == 1e6
+
+
+def test_render_circle_orbit_gif_produces_valid_animation(tmp_path):
+    from PIL import Image
+
+    templates = circle_orbit_templates()
+    samples = templates.repeat(4, 1, 1, 1).numpy()
+    frames = [
+        {
+            "step": step,
+            "passed": step >= 120,
+            "metrics": {
+                "orbit_rmse": 0.02 if step >= 120 else 0.22,
+                "xy_rmse": 0.01 if step >= 120 else 0.45,
+                "step_accuracy": 1.0 if step >= 120 else 0.375,
+                "orbit_completion": 1.0 if step >= 120 else 0.0,
+                "waypoint_modes": 8.0 if step >= 120 else 3.0,
+            },
+            "current_stream_image": templates[0:1].numpy(),
+            "target_images": templates.numpy(),
+            "sample_images": samples,
+        }
+        for step in (40, 120, 240, 480)
+    ]
+    out_gif = tmp_path / "circle_orbit.gif"
+    meta = render_circle_orbit_gif(frames, out_gif, substeps_per_checkpoint=1)
+    assert out_gif.is_file()
+    assert len(meta["sha256"]) == 64
+    with Image.open(out_gif) as img:
+        assert img.size == (920, 400)
+        assert img.n_frames >= len(frames)
+    with pytest.raises(ValueError, match="at least one frame"):
+        render_circle_orbit_gif([], tmp_path / "empty.gif")
+

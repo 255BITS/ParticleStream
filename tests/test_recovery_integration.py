@@ -28,9 +28,10 @@ def test_first_all_eight_passing_cohort_is_preserved_before_view_promotion():
 
 def test_recovery_preserves_task_architectures_budgets_and_numerical_gates():
     archived = json.loads((ROOT / "reports/forge/cohorts/pre-recovery/tasks.json").read_text())
-    for task in TIER1_TASKS:
-        current = task.to_dict()
-        previous = archived[task.id]
+    by_id = {task.id: task for task in TIER1_TASKS}
+    assert set(archived) <= set(by_id)
+    for task_id, previous in archived.items():
+        current = by_id[task_id].to_dict()
         current["execution"]["host_definition"].pop("implementation")
         previous["execution"]["host_definition"].pop("implementation")
         assert current == previous

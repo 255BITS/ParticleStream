@@ -1,5 +1,46 @@
 # ParticleStream research notes
 
+## Circular-Orbit Real-Time Point Prediction (`seq_img_circle_orbit`) and View 6 Qualification, 2026-11-06
+
+Added `seq_img_circle_orbit` as the ninth required task in `single_stream_stability`
+revision 6 (`configs/forge/view-history/single_stream_stability-v5.json` is archived).
+In `seq_img_circle_orbit`, a point particle (`2×2` patch of intensity `0.9` on a `0.1`
+background) steps clockwise around eight disjoint circular waypoints
+`CIRCLE_WAYPOINTS = ((0, 3), (1, 5), (3, 6), (5, 5), (6, 3), (5, 1), (3, 0), (1, 1))`
+(corresponding to 45° increments `N, NE, E, SE, S, SW, W, NW` around `(3.5, 3.5)`),
+revealing one frame per chronological arrival (`batch_size=1`, no replay, protocol seed `0`).
+
+Before each arrival is revealed, `OnlineSession.predict()` serves a next-point prediction
+conditioned on the preceding detached context, and `OnlineSession.observe()` updates once
+(`real_batch=1`, `fake_batch=1`, `replayed_examples=0`). At each of the 24 checkpoints
+(`steps 20, 40, ..., 480`), all 32 particles are warm-started with two preceding waypoints
+(`W -> NW`) and rolled out in **closed loop for 8 consecutive steps (`N .. NW`) without
+teacher forcing**, feeding each particle's generated frame back into a cloned memory state.
+
+The numerical gates require simultaneous pixel accuracy (`orbit_rmse <= 0.12`),
+normalized 2D coordinate accuracy (`xy_rmse <= 0.15`), per-step waypoint accuracy
+(`step_accuracy >= 0.90`), complete 8-step closed-loop revolution (`orbit_completion >= 0.90`),
+and full phase support (`waypoint_modes == 8.0`) across all five terminal checks (`400..480`).
+Oracle and destructive controls verify that stuck particles, counter-clockwise orbits,
+1-step phase-lagged orbits, incomplete `7/8` arcs, and center-blurred outputs all fail.
+
+Without changing any recipe hyperparameter, architecture, or task-owned resource budget,
+the single global `online-feature-prior-bce` recipe qualifies **`9/9` required tasks (`PASS`,
+`45/45` terminal checks)** across 4,320 training updates and 216 observations:
+- On `seq_img_circle_orbit`, `online-feature-prior-bce` reaches `100%` closed-loop
+  `orbit_completion` by step 120 and holds `orbit_completion = 1.0`, `step_accuracy = 1.0`,
+  `waypoint_modes = 8.0`, `xy_rmse = 0.0036..0.0045` (`<= 0.15`), and
+  `orbit_rmse = 0.0126..0.0135` (`<= 0.12`) across all five terminal checks (`400..480`),
+  with final live prequential RMSE `0.015725`.
+- Unrouted strict-online baselines (`online-bcap-adam`, `online-bispf-early`,
+  `online-ka2-ready`) fail `seq_img_circle_orbit` (`orbit_completion = 0.0312`, `0.1602`,
+  and `0.5156` across the terminal window) because open-loop errors compound over the
+  8-step self-fed rollout without feature-conditional particle routing.
+- In addition to the canonical Forge checkpoint strip
+  (`reports/forge/gifs/online-feature-prior-bce_seq_img_circle_orbit.gif`),
+  `render_circle_orbit_gif` renders a 3-panel circular-orbit training animation
+  (`docs/media/readme/circle-orbit.gif`) directly from actual training checkpoints.
+
 ## ParticleGAN and Forge 0.9.7 compatibility, 2026-11-06
 
 Upgraded the published `particlegan` wheel from 0.9.6 to 0.9.7, including its
