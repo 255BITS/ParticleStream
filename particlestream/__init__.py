@@ -6,12 +6,18 @@ from .transport import TransportGANTrainer
 from .feature_prior import FeatureConditionalReconstruction
 from .challenges import (
     CIRCLE_WAYPOINTS,
+    SQUARE_WAYPOINTS,
     CircleOrbitStream,
+    SquareCircleCycleStream,
     circle_orbit_coords,
     circle_orbit_templates,
     extract_circle_coords,
     render_circle_orbit_gif,
+    render_square_circle_cycle_gif,
     score_circle_orbit,
+    score_square_circle_cycle,
+    square_orbit_coords,
+    square_orbit_templates,
 )
 from .streams import (
     ForkStream,
@@ -27,7 +33,9 @@ from .streams import (
 
 __all__ = [
     "CIRCLE_WAYPOINTS",
+    "SQUARE_WAYPOINTS",
     "CircleOrbitStream",
+    "SquareCircleCycleStream",
     "FastWeightMemory",
     "OnlineSession",
     "CausalStateMemory",
@@ -45,9 +53,13 @@ __all__ = [
     "extract_circle_coords",
     "fork_templates",
     "render_circle_orbit_gif",
+    "render_square_circle_cycle_gif",
     "score_circle_orbit",
     "score_fork_rollout",
     "score_multimodal_bars",
+    "score_square_circle_cycle",
     "score_translating_next",
+    "square_orbit_coords",
+    "square_orbit_templates",
     "translating_bar_cycle",
 ]

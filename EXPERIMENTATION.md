@@ -115,6 +115,7 @@ five required terminal checks. The original four numerical gates stay unchanged.
 | `seq_img_delayed_cue` | Cue, four identical distractors, cue-dependent outcome | `outcome_accuracy>=0.90`, `prediction_rmse<=0.12` |
 | `seq_img_persistent_fork` | Stem and a three-frame left/right future | At every depth: `hq>=0.85`, `within_state_modes==2`, `branch_tv<=0.20`; `trajectory_consistency>=0.95` |
 | `seq_img_circle_orbit` | Clockwise 8-waypoint circular orbit (`N, NE, E, SE, S, SW, W, NW`), one point frame per step | Closed-loop 8-step rollout without teacher forcing: `orbit_rmse<=0.12`, `xy_rmse<=0.15`, `step_accuracy>=0.90`, `orbit_completion>=0.90`, `waypoint_modes==8` |
+| `seq_img_square_circle_cycle` | Clockwise 8-waypoint Square perimeter $\leftrightarrow$ Circle orbit (`N, NE, E, SE, S, SW, W, NW`), bidirectional CycleGAN $(G_{S\to C}, D_C) + (G_{C\to S}, D_S)$ | Cross-fed closed-loop 8-step rollout without teacher forcing: `cycle_rmse<=0.12`, `s2c_rmse<=0.12`, `c2s_rmse<=0.12`, `xy_rmse<=0.15`, `step_accuracy>=0.90`, `cycle_completion>=0.90`, `waypoint_modes==8` |
 
 Rare-mode TV uses the declared nonuniform target and includes invalid mass.
 Support means at least one valid particle per mode, not the uniform task's
@@ -208,9 +209,9 @@ image. The storage prior is frozen while this bounded conditional transform
 learns. It uses zero center probes and the same task-owned G/D networks.
 
 Reproduce the qualified recipe with `particlestream run online-feature-prior-bce
---device cuda`. All nine tests are required in view 6 (`single_stream_stability-v5.json`
-is archived in `configs/forge/view-history/`). Promoting the view changes
+--device cuda`. All ten tests are required in view 7 (`single_stream_stability-v5.json`
+and `single_stream_stability-v6.json` are archived in `configs/forge/view-history/`). Promoting the view changes
 the full adapter-module digest, so the first passing view-4 cohort is archived
 in `reports/forge/cohorts/feature-prior-view4/`, the view-5 cohort is archived
 in `reports/forge/cohorts/particlegan-0.9.6-view5/`, and fresh runs bind qualification
-to the view-6 implementation. Receipts are never manually rebound.
+to the view-7 implementation. Receipts are never manually rebound.

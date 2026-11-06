@@ -5,7 +5,7 @@
 [![ParticleGAN](https://img.shields.io/badge/particlegan-0.9.7-blue.svg)](pyproject.toml)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.6%2B-ee4c2c.svg)](pyproject.toml)
-[![Tier 1 Qualification](https://img.shields.io/badge/Tier%201%20single__stream__stability-9%2F9%20PASS-2ea043.svg)](reports/forge/technique-inventory.md)
+[![Tier 1 Qualification](https://img.shields.io/badge/Tier%201%20single__stream__stability-10%2F10%20PASS-2ea043.svg)](reports/forge/technique-inventory.md)
 
 **ParticleStream** is a strict online (`batch_size=1`, zero replay) sequential generative modeling and short-horizon world-model memory benchmark built on [`particlegan`](https://pypi.org/project/particlegan/) and `particlegan_forge`.
 
@@ -40,6 +40,29 @@ To see what ParticleStream does at a glance, consider a point particle learning 
 Standard Forge 24-checkpoint evaluation strip for `seq_img_circle_orbit`:
 
 ![Forge Goal GIF — seq_img_circle_orbit](reports/forge/gifs/online-feature-prior-bce_seq_img_circle_orbit.gif)
+
+---
+
+## Bidirectional Square $\leftrightarrow$ Circle CycleGAN (`seq_img_square_circle_cycle`)
+
+Extending circular orbit learning to bidirectional domain translation, `seq_img_square_circle_cycle` couples two `ParticleGAN` trainers—forward $(G_{S\to C}, D_C, M_S)$ and backward $(G_{C\to S}, D_S, M_C)$—to translate online (`batch_size=1`, zero replay) between an 8-waypoint unit $L_\infty$ **Square Perimeter** ($\max(|x|, |y|) = 1$) and an 8-waypoint unit $L_2$ **Circular Orbit** ($\sqrt{x^2 + y^2} \approx 1$):
+
+1. **Geometric Domain Translation**: At the 4 diagonal phases ($\text{NE}, \text{SE}, \text{SW}, \text{NW}$), $G_{S\to C}$ maps the sharp square corners $(\pm 1, \pm 1)$ radially inward onto the circular arc $(\pm \tfrac{2}{3}, \pm \tfrac{2}{3})$, while $G_{C\to S}$ inflates the circular diagonals back out to the sharp square corners.
+2. **Cross-Fed Closed-Loop Cycle Rollout ($S \leftrightarrow C$)**: At each evaluation checkpoint, both translators are rolled out for 8 steps **without teacher forcing** by cross-feeding each generator's translated frame into the opposite domain's cloned causal memory ($s_{t-1} \xrightarrow{M_S} G_{S\to C} \to \hat{c}_t \xrightarrow{M_C} G_{C\to S} \to \hat{s}_{t+1}$ and $c_{t-1} \xrightarrow{M_C} G_{C\to S} \to \hat{s}_t \xrightarrow{M_S} G_{S\to C} \to \hat{c}_{t+1}$).
+
+![Square <-> Circle CycleGAN Training](docs/media/readme/square-circle-cycle.gif)
+
+| Metric | Gate | `online-feature-prior-bce` (Terminal Window `400..480`) | What It Verifies |
+| --- | --- | --- | --- |
+| `cycle_completion` | `>= 0.90` | **`1.0000`** (`100%` of particles) | Complete 8-step cross-fed bidirectional $S \leftrightarrow C$ cycle without teacher forcing |
+| `step_accuracy` | `>= 0.90` | **`1.0000`** (`100%` of steps) | Joint per-step validity + source-vs-target corner discrimination in both directions |
+| `waypoint_modes` | `== 8.0` | **`8.0`** (`8/8` waypoints) | Full coverage of all 8 clockwise phases in both Square and Circle domains |
+| `xy_rmse` | `<= 0.15` | **`0.0038 .. 0.0044`** | Mean 2D coordinate error across $S \to C$ and $C \to S$ rollouts |
+| `cycle_rmse` | `<= 0.12` | **`0.0127 .. 0.0134`** | Mean $8\times 8$ pixel RMSE across $S \to C$ (`0.0117`) and $C \to S$ (`0.0136`) |
+
+Standard Forge 24-checkpoint evaluation strip for `seq_img_square_circle_cycle`:
+
+![Forge Goal GIF — seq_img_square_circle_cycle](reports/forge/gifs/online-feature-prior-bce_seq_img_square_circle_cycle.gif)
 
 ---
 
@@ -123,9 +146,9 @@ for step in range(1, 9):
 
 ---
 
-## Tier 1 Gauntlet (`single_stream_stability` v6)
+## Tier 1 Gauntlet (`single_stream_stability` v7)
 
-Every candidate is evaluated with **one global recipe across all 9 required tasks** (`steps=480`, `batch_size=1`, `num_particles=32`, `z_dim=8`, `MoGParticlePrior` with $\sigma=0.025$, protocol seed `0`). A task passes only if **all 5 terminal checkpoints (`steps 400, 420, 440, 460, 480`)** pass every numerical gate simultaneously, training remains finite, and evaluation causes zero unintended RNG deviations.
+Every candidate is evaluated with **one global recipe across all 10 required tasks** (`steps=480`, `batch_size=1`, `num_particles=32`, `z_dim=8`, `MoGParticlePrior` with $\sigma=0.025$, protocol seed `0`). A task passes only if **all 5 terminal checkpoints (`steps 400, 420, 440, 460, 480`)** pass every numerical gate simultaneously, training remains finite, and evaluation causes zero unintended RNG deviations.
 
 | Task ID | Stream & Challenge (`batch_size=1`, no replay) | Numerical Gates | `online-feature-prior-bce` Status | Actual-Training GIF |
 | --- | --- | --- | --- | --- |
@@ -138,6 +161,7 @@ Every candidate is evaluated with **one global recipe across all 9 required task
 | `seq_img_delayed_cue` | Left/Right cue followed by 4 pixel-identical distractors before outcome | `outcome_accuracy >= 0.90`, `prediction_rmse <= 0.12` | **PASS** (`5/5`, `acc=1.0`, `rmse=0.0242`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_delayed_cue.gif) |
 | `seq_img_persistent_fork` | 3-step closed-loop rollout on Left/Right fork without teacher forcing | `hq >= 0.85`, `within_state_modes == 2`, `branch_tv <= 0.20`, `trajectory_consistency >= 0.95` | **PASS** (`5/5`, `consistency=1.0`, `tv=0.0312`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_persistent_fork.gif) |
 | `seq_img_circle_orbit` | 8-waypoint clockwise circular orbit; 8-step closed-loop rollout without teacher forcing | `orbit_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.90`, `orbit_completion >= 0.90`, `waypoint_modes == 8` | **PASS** (`5/5`, `completion=1.0`, `xy_rmse=0.0036`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_circle_orbit.gif) · [circle-orbit.gif](docs/media/readme/circle-orbit.gif) |
+| `seq_img_square_circle_cycle` | Bidirectional 8-waypoint Square $\leftrightarrow$ Circle CycleGAN; 8-step cross-fed closed-loop rollout | `cycle_rmse <= 0.12`, `s2c_rmse <= 0.12`, `c2s_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.90`, `cycle_completion >= 0.90`, `waypoint_modes == 8` | **PASS** (`5/5`, `completion=1.0`, `xy_rmse=0.0038`) | [goal.gif](reports/forge/gifs/online-feature-prior-bce_seq_img_square_circle_cycle.gif) · [square-circle-cycle.gif](docs/media/readme/square-circle-cycle.gif) |
 
 ---
 
@@ -145,12 +169,12 @@ Every candidate is evaluated with **one global recipe across all 9 required task
 
 ParticleStream evaluates recipes built on the public `ParticleGAN` trainer formulations (`BCAP`, `BISPF`, and `KA2`) under strict single-arrival execution (`replay_policy="none"`, `rehearsal_batch=0`):
 
-1. **`FeaturePrior-BCAP` (`online-feature-prior-bce`) — `9/9 PASS` (`45/45` terminal checks)**:
+1. **`FeaturePrior-BCAP` (`online-feature-prior-bce`) — `10/10 PASS` (`50/50` terminal checks)**:
    - Combines `bcap_adam` with the causal state reader (`reader="causal_state"`) and `FeatureConditionalReconstruction` (`router="feature_conditional"`, `reconstruction_loss="binary_cross_entropy"`, weight `10.0`).
    - Encodes each arriving frame via a fixed $8\times 64$ orthogonal projection initialized from the protocol `init` RNG stream, maintains bounded empirical feature/context transition counts (`32` features, `64` contexts), and maps particle rows via empirical quantiles at the nearest observed context while keeping the storage table frozen.
-   - Uses **zero generator probe forwards** (`probe_forwards = 0`), retains no target or observation state after each update, and passes all 9 Tier 1 tasks—including 8-step closed-loop circular orbit generation (`100%` orbit completion, `xy_rmse = 0.0036`).
-2. **Unrouted Strict Online Baselines (`online-bcap-adam`, `online-bispf-early`, `online-ka2-ready`) — `0/9 FAIL`**:
-   - Without feature-conditional routing, single-arrival `batch_size=1` updates without replay chase the currently arriving mode during long dwell blocks (`dwell=16..32`), lose rare modes, and drift during multi-step closed-loop rollouts (`seq_img_persistent_fork` and `seq_img_circle_orbit`).
+   - Uses **zero generator probe forwards** (`probe_forwards = 0`), retains no target or observation state after each update, and passes all 10 Tier 1 tasks—including 8-step closed-loop circular orbit generation (`100%` orbit completion, `xy_rmse = 0.0036`) and 8-step cross-fed bidirectional Square $\leftrightarrow$ Circle CycleGAN translation (`100%` cycle completion, `xy_rmse = 0.0038`, `cycle_rmse = 0.0127`).
+2. **Unrouted Strict Online Baselines (`online-bcap-adam`, `online-bispf-early`, `online-ka2-ready`) — `0/10 FAIL`**:
+   - Without feature-conditional routing, single-arrival `batch_size=1` updates without replay chase the currently arriving mode during long dwell blocks (`dwell=16..32`), lose rare modes, and drift during multi-step closed-loop rollouts (`seq_img_persistent_fork`, `seq_img_circle_orbit`, and `seq_img_square_circle_cycle`).
 3. **Competitive & Context-Balanced Transport (`online-bcap-transport-causal`, `online-bcap-balanced`)**:
    - Context-balanced transport recovers `seq_img_round_robin_bars4` and `seq_img_rare_mode_bars4` (`2/8` on the 8-task cohort) by maintaining per-context transport duals, but requires 32 inference probes per update and does not solve variable dwell or closed-loop trajectory rollouts.
 

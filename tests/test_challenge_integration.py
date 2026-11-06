@@ -7,7 +7,7 @@ from particlestream.challenge_adapter import (
     CHALLENGE_TASKS, evaluate_challenge, make_challenge_stream,
 )
 from particlestream.challenges import (
-    score_circle_orbit, score_delayed_cue, score_persistent_fork, score_rare_mode_bars,
+    score_circle_orbit, score_delayed_cue, score_persistent_fork, score_rare_mode_bars, score_square_circle_cycle,
 )
 from particlestream.models import FastWeightMemory, StreamImageCritic, StreamImageGenerator
 from particlestream.streams import score_multimodal_bars
@@ -32,6 +32,13 @@ def _controls(task):
         incomplete = oracle.clone()
         incomplete[:, -1] = stream.templates[0]
         return score_circle_orbit(oracle, stream.templates), score_circle_orbit(incomplete, stream.templates)
+    if mode == "square_circle_cycle":
+        oracle_s2c = stream.circle_templates.unsqueeze(0).repeat(32, 1, 1, 1, 1)
+        oracle_c2s = stream.square_templates.unsqueeze(0).repeat(32, 1, 1, 1, 1)
+        return (
+            score_square_circle_cycle(oracle_s2c, oracle_c2s, stream.square_templates, stream.circle_templates),
+            score_square_circle_cycle(oracle_c2s, oracle_s2c, stream.square_templates, stream.circle_templates),
+        )
     oracle = stream.branch_paths.repeat(16, 1, 1, 1, 1)
     switching = oracle.clone()
     switching[:, 1] = oracle.flip(0)[:, 1]
@@ -122,3 +129,64 @@ def test_closed_loop_circle_orbit_keeps_particle_identity_and_live_memory_unchan
     assert all(torch.equal(value, before[name]) for name, value in memory.state_dict().items())
     assert torch.equal(generator.active_context, contexts[0])
     assert torch.equal(critic.active_context, contexts[1])
+
+
+def test_closed_loop_square_circle_cycle_keeps_particle_identity_and_live_memory_unchanged():
+    stream = make_challenge_stream("square_circle_cycle", "cpu")
+    g_s2c = StreamImageGenerator(context_dim=16)
+    d_c = StreamImageCritic(context_dim=16)
+    mem_s = FastWeightMemory()
+    mem_s.write(torch.full((1, 1, 8, 8), .2))
+    g_c2s = StreamImageGenerator(context_dim=16)
+    d_s = StreamImageCritic(context_dim=16)
+    mem_c = FastWeightMemory()
+    mem_c.write(torch.full((1, 1, 8, 8), .3))
+    before_s = {name: value.clone() for name, value in mem_s.state_dict().items()}
+    before_c = {name: value.clone() for name, value in mem_c.state_dict().items()}
+    contexts_s = (g_s2c.active_context.clone(), d_c.active_context.clone())
+    contexts_c = (g_c2s.active_context.clone(), d_s.active_context.clone())
+
+    class OracleDomainSampler:
+        def __init__(self, target_templates):
+            self.target_templates = target_templates
+            self.calls = []
+            self.draws = []
+            self.cycle_partner = None
+
+        def sample(self, count, *, fixed_first_n, offset, generator):
+            assert count == 1 and fixed_first_n
+            phase = len(self.calls) % 8
+            self.calls.append(offset)
+            self.draws.append(torch.rand(1, generator=generator).item())
+            return self.target_templates[phase:phase + 1].clone()
+
+    s2c_sampler = OracleDomainSampler(stream.circle_templates)
+    c2s_sampler = OracleDomainSampler(stream.square_templates)
+    s2c_sampler.cycle_partner = {
+        "trainer": c2s_sampler,
+        "generator": g_c2s,
+        "critic": d_s,
+        "memory": mem_c,
+    }
+    metrics, samples = evaluate_challenge(
+        "square_circle_cycle", s2c_sampler, g_s2c, d_c, mem_s, stream, 32,
+        torch.Generator().manual_seed(0),
+    )
+    assert metrics["cycle_completion"] == 1.0
+    assert metrics["step_accuracy"] == 1.0
+    assert metrics["waypoint_modes"] == 8.0
+    assert metrics["cycle_rmse"] == 0.0
+    assert metrics["s2c_rmse"] == 0.0
+    assert metrics["c2s_rmse"] == 0.0
+    assert metrics["xy_rmse"] == 0.0
+    assert s2c_sampler.calls == [particle for particle in range(32) for _ in range(8)]
+    assert c2s_sampler.calls == [particle for particle in range(32) for _ in range(8)]
+    assert all(len(set(s2c_sampler.draws[i:i + 8])) == 1 for i in range(0, 256, 8))
+    assert all(len(set(c2s_sampler.draws[i:i + 8])) == 1 for i in range(0, 256, 8))
+    assert samples.shape == (32, 1, 8, 8)
+    assert all(torch.equal(value, before_s[name]) for name, value in mem_s.state_dict().items())
+    assert all(torch.equal(value, before_c[name]) for name, value in mem_c.state_dict().items())
+    assert torch.equal(g_s2c.active_context, contexts_s[0])
+    assert torch.equal(d_c.active_context, contexts_s[1])
+    assert torch.equal(g_c2s.active_context, contexts_c[0])
+    assert torch.equal(d_s.active_context, contexts_c[1])

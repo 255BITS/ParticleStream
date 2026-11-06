@@ -35,7 +35,7 @@ from .challenge_adapter import (
     CHALLENGE_TASKS, CHALLENGE_MODES, PREDICTIVE_CHALLENGE_MODES,
     make_challenge_stream, challenge_target_bank, evaluate_challenge, evaluate_original_fork,
 )
-from .challenges import render_circle_orbit_gif
+from .challenges import render_circle_orbit_gif, render_square_circle_cycle_gif
 from .online import OnlineSession, validate_execution_policy
 from .streams import (
     ForkStream,
@@ -131,8 +131,8 @@ IMPLEMENTATION = {
 PRIMARY_VIEW = TierView.from_tiers(
     id="single_stream_stability",
     goal="single_stream_stability",
-    revision=6,
-    policy_change_reason="Add seq_img_circle_orbit as the ninth required Tier 1 task in single_stream_stability so one global strict online feature-prior recipe qualifies across all nine sequential tasks, including closed-loop 8-step circular-orbit point prediction.",
+    revision=7,
+    policy_change_reason="Add seq_img_square_circle_cycle as the tenth required Tier 1 task in single_stream_stability so one global strict online feature-prior recipe qualifies across all ten sequential tasks, including bidirectional Square <-> Circle CycleGAN orbit translation.",
     tiers=[
         TierSpec(
             tier=1,
@@ -423,28 +423,101 @@ def run_seq_image_task(
         trainer, g, d, memory, predictive=(mode in PREDICTIVE_MODES),
         serving_generator=streams.generator("eval", component="serving", purpose="prediction", device=device),
     )
+    reverse_trainer = None
+    reverse_session = None
+    g_c2s = d_s = prior_c2s = memory_c = None
+    if mode == "square_circle_cycle":
+        with streams.fork("init", component="models_c2s", purpose="construction", device=device):
+            g_c2s = StreamImageGenerator(z_dim=task.z_dim, width=width, context_dim=model_context_dim).to(device)
+            d_s = StreamImageCritic(width=width, context_dim=model_context_dim).to(device)
+            memory_c = make_stream_memory(candidate.memory_policy)
+            if memory_c is not None:
+                memory_c = memory_c.to(device)
+            _init_module(g_c2s, streams, "generator_c2s")
+            _init_module(d_s, streams, "discriminator_c2s")
+            if memory_c is not None:
+                _init_module(memory_c, streams, "memory_c2s")
+        prior_c2s_init = streams.generator("init", component="prior_c2s", purpose="locations", device=device)
+        prior_c2s_opts = {"device": device, "dtype": torch.float32, "generator": prior_c2s_init, "init_std": 1.0}
+        if task.prior_kind == "mog":
+            prior_c2s_opts["sigma"] = task.prior_sigma
+        prior_c2s = recipe.replace(prior_update="learned").make_prior(**prior_c2s_opts)
+        _init_module(prior_c2s, streams, "prior_c2s")
+        recipe.apply_prior_policy(prior_c2s)
+        rev_trainer_options = {} if transport_options is None else {
+            "transport": dict(trainer_options["transport"]),
+            "routing_generator": streams.generator("prior", component="routing_c2s", purpose="assignment", device=device),
+            **({"router_class": trainer_options["router_class"]} if "router_class" in trainer_options else {}),
+        }
+        reverse_trainer = trainer_class(
+            recipe,
+            g_c2s,
+            d_s,
+            prior=prior_c2s,
+            seed=streams.seed,
+            max_steps=steps,
+            latent_generator=streams.generator("prior", component="latent_c2s", purpose="indices", device=device),
+            penalty_generator=streams.generator("noise", component="penalty_c2s", purpose="training", device=device),
+            noise_generator=streams.generator("noise", component="generator_c2s", purpose="output", device=device),
+            input_noise_generator=streams.generator("noise", component="critic_c2s", purpose="input", device=device),
+            eval_generator=streams.generator("eval", component="sampler_c2s", purpose="samples", device=device),
+            model_generator=streams.generator("noise", component="models_c2s", purpose="stochastic_layers", device=device),
+            prior_noise_generator=streams.generator("noise", component="prior_c2s", purpose="gaussian", device=device),
+            require_latent_damping=recipe.latent_damping_max_rate > 0,
+            **rev_trainer_options,
+        )
+        reverse_session = OnlineSession(
+            reverse_trainer, g_c2s, d_s, memory_c, predictive=True,
+            serving_generator=streams.generator("eval", component="serving_c2s", purpose="prediction", device=device),
+        )
+        trainer.cycle_partner = {
+            "trainer": reverse_trainer,
+            "generator": g_c2s,
+            "critic": d_s,
+            "memory": memory_c,
+            "session": reverse_session,
+        }
+
     if session.predictive:
-        initial_frame, _ = stream.next_frame(data_gen)
-        session.observe(initial_frame)
+        if mode == "square_circle_cycle":
+            s_init, c_init, _ = stream.next_pair(data_gen)
+            session.observe(c_init, context_frame=s_init)
+            reverse_session.observe(s_init, context_frame=c_init)
+        else:
+            initial_frame, _ = stream.next_frame(data_gen)
+            session.observe(initial_frame)
     prequential_errors = []
 
     for step in range(1, steps + 1):
         # Serving happens before the stream reveals its next real observation.
         with streams.isolated_evaluation():
             live_prediction = session.predict()
+            live_rev_prediction = reverse_session.predict() if reverse_session is not None else None
         unintended_rng += streams.last_eval_audit["unintended_rng_deviations"]
-        x_cur, _ = stream.next_frame(data_gen)
-        prequential_errors.append(float((live_prediction - x_cur).square().mean().sqrt().item()))
-        stats = session.observe(x_cur)
-        all_finite &= not has_nonfinite(stats)
-        for module in (g, d, prior, memory):
+        if mode == "square_circle_cycle":
+            s_cur, c_cur, _ = stream.next_pair(data_gen)
+            x_cur = c_cur
+            s2c_err = float((live_prediction - c_cur).square().mean().sqrt().item())
+            c2s_err = float((live_rev_prediction - s_cur).square().mean().sqrt().item())
+            prequential_errors.append(0.5 * (s2c_err + c2s_err))
+            stats = session.observe(c_cur, context_frame=s_cur)
+            rev_stats = reverse_session.observe(s_cur, context_frame=c_cur)
+            all_finite &= not has_nonfinite(stats) and not has_nonfinite(rev_stats)
+        else:
+            x_cur, _ = stream.next_frame(data_gen)
+            prequential_errors.append(float((live_prediction - x_cur).square().mean().sqrt().item()))
+            stats = session.observe(x_cur)
+            all_finite &= not has_nonfinite(stats)
+        for module in (g, d, prior, memory, g_c2s, d_s, prior_c2s, memory_c):
             if module is not None:
                 all_finite &= all(bool(torch.isfinite(p).all()) for p in module.parameters())
                 all_finite &= all(bool(torch.isfinite(p.grad).all())
                                   for p in module.parameters() if p.grad is not None)
 
         if step in checkpoints:
-            with streams.isolated_evaluation(), session.isolated_state():
+            from contextlib import nullcontext
+            rev_ctx = reverse_session.isolated_state() if reverse_session is not None else nullcontext()
+            with streams.isolated_evaluation(), session.isolated_state(), rev_ctx:
                 if mode == "bars4":
                     samples = trainer.sample(task.num_particles, fixed_first_n=True, generator=eval_gen)
                     metrics = score_multimodal_bars(samples, stream.templates)
@@ -536,6 +609,16 @@ def run_seq_image_task(
             candidate_id=candidate.id,
             verdict=verdict_str,
         )
+    cycle_gif_meta = None
+    if mode == "square_circle_cycle":
+        cycle_gif_out = attempt_dir / "square_circle_cycle.gif"
+        cycle_gif_meta = render_square_circle_cycle_gif(
+            gif_frames,
+            cycle_gif_out,
+            task_id=task.id,
+            candidate_id=candidate.id,
+            verdict=verdict_str,
+        )
 
     root_dir = workspace_root if workspace_root is not None else None
     if root_dir is not None:
@@ -554,12 +637,27 @@ def run_seq_image_task(
                 tmp_readme_gif = readme_gif.with_suffix(".tmp")
                 shutil.copyfile(orbit_gif_out, tmp_readme_gif)
                 tmp_readme_gif.replace(readme_gif)
+            if cycle_gif_meta is not None and is_production_root and candidate.id == "online-feature-prior-bce":
+                readme_cycle_gif = root_dir / "docs/media/readme/square-circle-cycle.gif"
+                readme_cycle_gif.parent.mkdir(parents=True, exist_ok=True)
+                tmp_readme_cycle = readme_cycle_gif.with_suffix(".tmp")
+                shutil.copyfile(cycle_gif_out, tmp_readme_cycle)
+                tmp_readme_cycle.replace(readme_cycle_gif)
 
     transport_artifacts = {} if transport_options is None else {
         "transport": trainer.transport_diagnostics(),
     }
     orbit_artifacts = {} if orbit_gif_meta is None else {
         "orbit_gif_sha256": orbit_gif_meta["sha256"],
+    }
+    cycle_artifacts = {} if cycle_gif_meta is None else {
+        "cycle_gif_sha256": cycle_gif_meta["sha256"],
+        "cyclegan": {
+            "forward_direction": "square_to_circle",
+            "backward_direction": "circle_to_square",
+            "reverse_online_execution": reverse_session.diagnostics(),
+            **({"reverse_transport": reverse_trainer.transport_diagnostics()} if transport_options is not None else {}),
+        },
     }
     return {
         "observations": observations,
@@ -574,6 +672,7 @@ def run_seq_image_task(
                       "memory_policy": candidate.memory_policy,
                       "online_execution": session.diagnostics(),
                       **orbit_artifacts,
+                      **cycle_artifacts,
                       **transport_artifacts},
     }
 

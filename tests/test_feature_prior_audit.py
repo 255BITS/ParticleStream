@@ -7,7 +7,7 @@ import torch
 from particlegan import GANTrainer, get_recipe
 from particlegan_forge import NamedStreams
 from particlestream.challenge_adapter import evaluate_challenge
-from particlestream.challenges import CircleOrbitStream, DelayedCueStream, PersistentForkStream
+from particlestream.challenges import CircleOrbitStream, DelayedCueStream, PersistentForkStream, SquareCircleCycleStream
 from particlestream.feature_prior import FeatureConditionalReconstruction
 from particlestream.memory import CausalStateMemory
 from particlestream.models import StreamImageCritic, StreamImageGenerator
@@ -225,3 +225,50 @@ def test_closed_loop_circle_orbit_writes_generated_frames_only_to_cloned_history
         assert all(torch.all(step_frame == .37) for _, step_frame in history[2:])
     assert_equal(trainer.prior.state_dict(), prior_state)
     assert_equal(session.memory.state_dict(), memory_state)
+
+
+def test_closed_loop_square_circle_cycle_writes_generated_frames_only_to_cloned_history(monkeypatch):
+    trainer, session, streams = runtime()
+    rev_trainer, rev_session, _ = runtime()
+    trainer.cycle_partner = {
+        "trainer": rev_trainer,
+        "generator": rev_trainer.G,
+        "critic": rev_trainer.D,
+        "memory": rev_session.memory,
+        "session": rev_session,
+    }
+    stream = SquareCircleCycleStream(noise_std=0)
+    s0, c0, _ = stream.next_pair(streams.generator("data", component="stream", purpose="audit"))
+    session.observe(c0, context_frame=s0)
+    rev_session.observe(s0, context_frame=c0)
+    prior_state = deepcopy(trainer.prior.state_dict())
+    rev_prior_state = deepcopy(rev_trainer.prior.state_dict())
+    memory_state = deepcopy(session.memory.state_dict())
+    rev_memory_state = deepcopy(rev_session.memory.state_dict())
+    writes = []
+    original_write = CausalStateMemory.write
+
+    def track_write(memory, frame):
+        writes.append((id(memory), frame.detach().clone()))
+        return original_write(memory, frame)
+
+    monkeypatch.setattr(CausalStateMemory, "write", track_write)
+    monkeypatch.setattr(trainer.G, "forward", lambda codes: codes.new_full((len(codes), 1, 8, 8), .37))
+    monkeypatch.setattr(rev_trainer.G, "forward", lambda codes: codes.new_full((len(codes), 1, 8, 8), .43))
+    with streams.isolated_evaluation(), session.isolated_state(), rev_session.isolated_state():
+        metrics, samples = evaluate_challenge(
+            "square_circle_cycle", trainer, trainer.G, trainer.D, session.memory, stream, 32,
+            streams.generator("eval", component="rollout", purpose="audit_cycle"),
+        )
+    assert streams.last_eval_audit["unintended_rng_deviations"] == 0
+    assert metrics["cycle_completion"] == 0.0 and metrics["step_accuracy"] == 0.0
+    assert samples.shape == (32, 1, 8, 8)
+    assert torch.all(samples[:16] == .37) and torch.all(samples[16:] == .43)
+    # 32 particles * 2 domains * (2 warmup frames + 7 cross-fed rollout steps) = 576 writes to cloned memories
+    assert len(writes) == 32 * 18
+    live_ids = {id(session.memory), id(rev_session.memory)}
+    assert all(identifier not in live_ids for identifier, _ in writes)
+    assert_equal(trainer.prior.state_dict(), prior_state)
+    assert_equal(rev_trainer.prior.state_dict(), rev_prior_state)
+    assert_equal(session.memory.state_dict(), memory_state)
+    assert_equal(rev_session.memory.state_dict(), rev_memory_state)

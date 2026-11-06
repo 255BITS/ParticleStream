@@ -564,8 +564,8 @@ def test_adversarial_rng_leakage_invalidates_task_run(tmp_path: Path):
 
 
 def test_tier1_24_observation_cadence_and_terminal_window():
-    """Verify all 9 Tier 1 tasks have 24 observation checkpoints with a sustained 5-check terminal window."""
-    assert len(TIER1_TASKS) == 9
+    """Verify all 10 Tier 1 tasks have 24 observation checkpoints with a sustained 5-check terminal window."""
+    assert len(TIER1_TASKS) == 10
     expected_cadence = [i * 20 for i in range(1, 25)]  # [20, 40, ..., 480]
     expected_window = [400, 420, 440, 460, 480]
 

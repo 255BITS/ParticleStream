@@ -93,12 +93,18 @@ class OnlineSession:
             self.predictions += 1
             return result.detach().clone()
 
-    def observe(self, frame):
-        """Consume exactly one arriving frame; return update stats or warm-up None."""
+    def observe(self, frame, *, context_frame=None):
+        """Consume one arriving target frame (and optional source context frame); return stats or warm-up None."""
         if not isinstance(frame, torch.Tensor) or tuple(frame.shape) != (1, 1, 8, 8):
             raise ValueError("observe requires one frame with shape (1,1,8,8)")
         if frame.requires_grad or not bool(torch.isfinite(frame).all()):
             raise ValueError("observations must be detached and finite")
+        memory_frame = frame if context_frame is None else context_frame
+        if context_frame is not None:
+            if not isinstance(context_frame, torch.Tensor) or tuple(context_frame.shape) != (1, 1, 8, 8):
+                raise ValueError("observe requires context_frame with shape (1,1,8,8)")
+            if context_frame.requires_grad or not bool(torch.isfinite(context_frame).all()):
+                raise ValueError("observations must be detached and finite")
         with self._lock:
             stats = None
             if not self.predictive or self.arrivals:
@@ -125,7 +131,7 @@ class OnlineSession:
                 self.updates += 1
             self.arrivals += 1
             if self.memory is not None:
-                self.pending_context = self.memory.write(frame).detach().clone()
+                self.pending_context = self.memory.write(memory_frame).detach().clone()
                 self._set_context(self.pending_context)
             return stats
 

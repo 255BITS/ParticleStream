@@ -11,8 +11,8 @@
   },
   "archived_view4_adapter_module_sha256": "c9ea09f73c165b4e9b47d23d0f0c5b6d55bdd2e17664d433479ea7e09aacb36f",
   "candidate": "online-feature-prior-bce",
-  "checks": 216,
-  "current_adapter_module_sha256": "79b4fd0956bff6f14635817f1c7bc04e4c8053c29931eeec0842481df942222a",
+  "checks": 240,
+  "current_adapter_module_sha256": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
   "current_qualification_guard_tests_passed": 1,
   "decoder_output_path_validation": "Source review and public-runtime destructive decoder-zero control",
   "dependencies": {
@@ -28,14 +28,14 @@
   "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
   "evaluation_rng_deviations": 0,
   "extra_generator_assignment_probes": 0,
-  "gif_frames_decoded": 216,
+  "gif_frames_decoded": 240,
   "global_recipe_policy_manipulator_identical": true,
   "gradient_accumulation_steps": 1,
   "held_tasks": 0,
   "historical_artifacts_unchanged": 112,
   "limitations": [
     "Qualification covers the fixed seed-0 Tier 1 streams and 480-update budgets.",
-    "Persistent-fork and circle-orbit context states reached their 64-slot capacity and evicted 173 and 174 entries respectively despite passing all gates.",
+    "Persistent-fork, circle-orbit, and square-circle-cycle context states reached their 64-slot capacity and evicted 173, 174, and 126/130 entries respectively despite passing all gates.",
     "This is an observed-feature conditional-prior and reconstruction recipe; its pass is not a pure adversarial-loss-only BCAP claim."
   ],
   "optimizer_fake_batch": 1,
@@ -44,8 +44,68 @@
   "public_decoder_used_for_all_outputs": true,
   "python_version": "3.13.15",
   "qualification": "PASS",
-  "recipe_delta": "ParticleGAN/Forge 0.9.6 -> 0.9.7; view 5 -> view 6 adds seq_img_circle_orbit as 9th required task; no recipe, existing task gate, architecture or budget changes",
+  "recipe_delta": "ParticleGAN/Forge 0.9.6 -> 0.9.7; view 5 -> view 7 adds seq_img_circle_orbit and seq_img_square_circle_cycle as 9th and 10th required tasks; no recipe, existing task gate, architecture or budget changes",
   "records": [
+    {
+      "arrivals": 481,
+      "context_count": 64,
+      "context_evictions": 126,
+      "feature_count": 8,
+      "gates": [
+        {
+          "margin": 0.105833,
+          "metric": "cycle_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.014167
+        },
+        {
+          "margin": 0.107546,
+          "metric": "s2c_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.012454
+        },
+        {
+          "margin": 0.104119,
+          "metric": "c2s_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.015881
+        },
+        {
+          "margin": 0.144978,
+          "metric": "xy_rmse",
+          "operator": "<=",
+          "threshold": 0.15,
+          "worst_terminal": 0.005022
+        },
+        {
+          "margin": 0.1,
+          "metric": "step_accuracy",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.1,
+          "metric": "cycle_completion",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "waypoint_modes",
+          "operator": "==",
+          "threshold": 8.0,
+          "worst_terminal": 8.0
+        }
+      ],
+      "gif_sha256": "c6be180202d9eff7d3ce5164fcc96441682c0ab365460cf684e8b542e79b69d5",
+      "task": "seq_img_square_circle_cycle",
+      "terminal_checks_passing": 5
+    },
     {
       "arrivals": 481,
       "context_count": 64,
@@ -357,25 +417,25 @@
     }
   ],
   "replayed_examples": 0,
-  "required_tasks": 9,
-  "runs": 9,
+  "required_tasks": 10,
+  "runs": 10,
   "runtime_delta": "Clean Python 3.13.15 environment resolved Torch 2.15.0+cu132; prior receipts used Torch 2.14.1+cu130",
   "software_validation": {
     "dependency_check": "46 installed packages compatible",
     "oracle_and_destructive_controls": "PASS",
     "pytest_command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q",
-    "pytest_seconds": 45.12,
-    "tests_passed": 436,
+    "pytest_seconds": 53.84,
+    "tests_passed": 451,
     "workspace_candidates_validated": 44,
-    "workspace_tasks_validated": 9
+    "workspace_tasks_validated": 10
   },
-  "source_revision": "37c2022800595daeb6f8eb9017b0d0424fe7a2ec",
-  "stage": "particlegan_0.9.7_current_view6_qualification_verified",
+  "source_revision": "8e553563d92686e3b5bfcf926736348992e819bd",
+  "stage": "particlegan_0.9.7_current_view7_qualification_verified",
   "target_retained_after_update": false,
   "task_gates_budgets_initial_capacity_architectures_unchanged_from": "23736b6",
-  "terminal_checks_passing": 45,
-  "training_wall_seconds": 140.1123,
-  "updates": 4320,
+  "terminal_checks_passing": 50,
+  "training_wall_seconds": 170.2512,
+  "updates": 4800,
   "view4_archive_artifacts_verified": 16,
-  "view_revision": 6
+  "view_revision": 7
 }

@@ -12,11 +12,13 @@ from .challenges import (
     DelayedCueStream,
     PersistentForkStream,
     RareModeBarsStream,
+    SquareCircleCycleStream,
     VariableDwellBarsStream,
     score_circle_orbit,
     score_delayed_cue,
     score_persistent_fork,
     score_rare_mode_bars,
+    score_square_circle_cycle,
 )
 from .streams import score_fork_rollout, score_multimodal_bars
 
@@ -63,10 +65,19 @@ CHALLENGE_TASKS = [
         predictive=True, rollout_horizon=8, rollout_latent_policy="fixed_particle_and_noise_v1",
         orbit_waypoints=8,
     ),
+    _task(
+        "seq_img_square_circle_cycle", "Translate bidirectionally between an 8-waypoint square perimeter and an 8-waypoint circular orbit in closed loop without teacher forcing (CycleGAN S<->C).",
+        "square_circle_cycle", [("cycle_rmse", "<=", .12), ("s2c_rmse", "<=", .12),
+                                ("c2s_rmse", "<=", .12), ("xy_rmse", "<=", .15),
+                                ("step_accuracy", ">=", .90), ("cycle_completion", ">=", .90),
+                                ("waypoint_modes", "==", 8.)],
+        predictive=True, rollout_horizon=8, rollout_latent_policy="fixed_particle_and_noise_v1",
+        orbit_waypoints=8, cycle_domains=["square", "circle"],
+    ),
 ]
 
 CHALLENGE_MODES = {task.host_definition["mode"] for task in CHALLENGE_TASKS}
-PREDICTIVE_CHALLENGE_MODES = {"delayed_cue", "persistent_fork", "circle_orbit"}
+PREDICTIVE_CHALLENGE_MODES = {"delayed_cue", "persistent_fork", "circle_orbit", "square_circle_cycle"}
 
 
 def make_challenge_stream(mode, device):
@@ -76,6 +87,7 @@ def make_challenge_stream(mode, device):
         "delayed_cue": DelayedCueStream,
         "persistent_fork": PersistentForkStream,
         "circle_orbit": CircleOrbitStream,
+        "square_circle_cycle": SquareCircleCycleStream,
     }[mode](device=device)
 
 
@@ -163,6 +175,55 @@ def evaluate_challenge(mode, trainer, generator, critic, memory, stream, num_par
                 paths.append(torch.stack(frames))
             trajectories = torch.stack(paths)
             return score_circle_orbit(trajectories, stream.templates), trajectories.reshape(-1, 1, 8, 8)[:num_particles]
+        if mode == "square_circle_cycle":
+            partner = getattr(trainer, "cycle_partner", None) or {}
+            c2s_trainer = partner.get("trainer", trainer)
+            c2s_generator = partner.get("generator", generator)
+            c2s_critic = partner.get("critic", critic)
+            c2s_memory = partner.get("memory", memory)
+            s2c_paths, c2s_paths = [], []
+            sq_warmup = stream.clean_square_warmup(0)
+            ci_warmup = stream.clean_circle_warmup(0)
+            with _saved_context(c2s_generator, c2s_critic):
+                for particle in range(num_particles):
+                    sim_s = _history_context(memory, sq_warmup, generator, critic)
+                    sim_c = _history_context(c2s_memory, ci_warmup, c2s_generator, c2s_critic)
+                    s2c_frames, c2s_frames = [], []
+                    latent_rng = eval_generator.get_state()
+                    for step_idx in range(stream.period):
+                        eval_generator.set_state(latent_rng)
+                        c_img = trainer.sample(1, fixed_first_n=True, offset=particle, generator=eval_generator)
+                        eval_generator.set_state(latent_rng)
+                        s_img = c2s_trainer.sample(1, fixed_first_n=True, offset=particle, generator=eval_generator)
+                        s2c_frames.append(c_img[0])
+                        c2s_frames.append(s_img[0])
+                        if step_idx + 1 < stream.period:
+                            # Cross-domain CycleGAN closed-loop feedback:
+                            # C->S translated Square frame drives S->C; S->C translated Circle frame drives C->S.
+                            if sim_s is not None:
+                                ctx_s = sim_s.write(s_img)
+                                generator.set_context(ctx_s)
+                                critic.set_context(ctx_s)
+                            if sim_c is not None:
+                                ctx_c = sim_c.write(c_img)
+                                c2s_generator.set_context(ctx_c)
+                                c2s_critic.set_context(ctx_c)
+                    s2c_paths.append(torch.stack(s2c_frames))
+                    c2s_paths.append(torch.stack(c2s_frames))
+            s2c_trajectories = torch.stack(s2c_paths)
+            c2s_trajectories = torch.stack(c2s_paths)
+            metrics = score_square_circle_cycle(
+                s2c_trajectories, c2s_trajectories, stream.square_templates, stream.circle_templates
+            )
+            half = max(1, num_particles // 2)
+            samples = torch.cat(
+                [
+                    s2c_trajectories.reshape(-1, 1, 8, 8)[:half],
+                    c2s_trajectories.reshape(-1, 1, 8, 8)[: num_particles - half],
+                ],
+                dim=0,
+            )
+            return metrics, samples
 
         states, predictions = [], []
         for previous in (0, 1):
