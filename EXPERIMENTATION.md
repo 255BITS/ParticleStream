@@ -7,6 +7,7 @@ Start with:
 - [Current technique leaderboard](reports/forge/technique-inventory.md)
 - [Experiments by tier](reports/forge/EXPERIMENTS_BY_TIER.md)
 - [Compiled experiment memory](reports/forge/EXPERIMENT_MEMORY.md)
+- [Proposed minimal Tier 1 to Tier 3 targets](reports/forge/minimal-tier-expansion-plan.md)
 
 ## Protocol and Ownership
 
