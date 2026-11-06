@@ -103,7 +103,7 @@ def _assert_valid_receipt_contract(rec: dict, *, expected_task: str, expected_ca
     "seq_img_translating_bar_next",
     "seq_img_fork_rollout",
 ])
-@pytest.mark.parametrize("candidate_id", ["fast-weight-bcap", "bcap", "ka2"])
+@pytest.mark.parametrize("candidate_id", ["online-bcap-adam", "online-bispf-early", "online-ka2-ready"])
 def test_receipt_top_level_keys_across_tasks_and_candidates(tmp_path: Path, task_id: str, candidate_id: str):
     ws = bootstrap_workspace(tmp_path)
     steps_override = 4
@@ -288,14 +288,14 @@ def test_injected_nan_in_real_training_loop_reveals_nan_metric_crash(tmp_path: P
         return stats
 
     with patch.object(GANTrainer, "step", corrupting_step):
-        rec = ws.run_task("fast-weight-bcap", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
+        rec = ws.run_task("online-bcap-adam", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
         assert rec["all_finite"] is False
         assert rec["verdict"] == "FAIL"
         assert rec["terminal_passing"] == 0
         assert any(o["metrics"].get("mean_rmse") is None for o in rec["observations"])
         assert rec["observations"][-1]["metrics"]["mean_rmse"] is None
 
-        disk_path = tmp_path / "runs/forge/fast-weight-bcap/seq_img_round_robin_bars4/receipt.json"
+        disk_path = tmp_path / "runs/forge/online-bcap-adam/seq_img_round_robin_bars4/receipt.json"
         assert disk_path.is_file()
         disk_rec = json.loads(disk_path.read_text(encoding="utf-8"))
         assert disk_rec["all_finite"] is False
@@ -388,7 +388,7 @@ def test_diverging_generator_in_real_training_loop_seq_img_translating_bar_next(
         return stats
 
     with patch.object(GANTrainer, "step", corrupt_g):
-        rec = ws.run_task("fast-weight-bcap", "seq_img_translating_bar_next", device="cpu", steps_override=4)
+        rec = ws.run_task("online-bcap-adam", "seq_img_translating_bar_next", device="cpu", steps_override=4)
 
     assert rec["all_finite"] is False
     assert rec["verdict"] == "FAIL"
@@ -396,7 +396,7 @@ def test_diverging_generator_in_real_training_loop_seq_img_translating_bar_next(
     assert rec["terminal_passing"] == 0
 
     # Verify attempt receipt persisted to disk
-    receipt_path = tmp_path / "runs/forge/fast-weight-bcap/seq_img_translating_bar_next/receipt.json"
+    receipt_path = tmp_path / "runs/forge/online-bcap-adam/seq_img_translating_bar_next/receipt.json"
     assert receipt_path.is_file(), f"Receipt missing at {receipt_path}"
     disk_rec = json.loads(receipt_path.read_text(encoding="utf-8"))
     assert disk_rec["all_finite"] is False
@@ -472,7 +472,7 @@ def test_empirical_rng_leakage_during_evaluation(tmp_path: Path):
             yield self
 
     with patch.object(NamedStreams, "isolated_evaluation", leaky_isolated_evaluation):
-        rec = ws.run_task("fast-weight-bcap", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
+        rec = ws.run_task("online-bcap-adam", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
 
     assert rec["unintended_rng_deviations"] > 0
     assert rec["verdict"] == "INVALID"
@@ -565,12 +565,12 @@ def test_missing_adapter_evidence_is_invalid(tmp_path: Path):
 def test_downstream_board_and_compile_compatibility(tmp_path: Path, capsys):
     ws = bootstrap_workspace(tmp_path)
     # Run a short task
-    ws.run_task("fast-weight-bcap", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
+    ws.run_task("online-bcap-adam", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
 
     # Qualify method on ForgeWorkspace
-    q = ws.qualify("fast-weight-bcap", "single_stream_stability", device="cpu")
+    q = ws.qualify("online-bcap-adam", "single_stream_stability", device="cpu")
     assert "candidate_id" in q
-    assert q["candidate_id"] == "fast-weight-bcap"
+    assert q["candidate_id"] == "online-bcap-adam"
     assert "view_id" in q
     assert q["view_id"] == "single_stream_stability"
     assert "tiers" in q
@@ -585,8 +585,8 @@ def test_downstream_board_and_compile_compatibility(tmp_path: Path, capsys):
     assert ret == 0
     captured = capsys.readouterr()
     board_data = json.loads(captured.out)
-    assert "fast-weight-bcap" in board_data
-    assert "tiers" in board_data["fast-weight-bcap"]
+    assert "online-bcap-adam" in board_data
+    assert "tiers" in board_data["online-bcap-adam"]
 
 
 def test_cli_error_handling_and_retier_safety(tmp_path: Path, capsys):

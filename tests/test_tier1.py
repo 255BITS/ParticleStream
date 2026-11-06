@@ -553,7 +553,7 @@ def test_adversarial_rng_leakage_invalidates_task_run(tmp_path: Path):
             yield self
 
     with patch.object(NamedStreams, "isolated_evaluation", leaky_isolated_eval):
-        rec = ws.run_task("fast-weight-bcap", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
+        rec = ws.run_task("online-bcap-adam", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
 
     assert rec["unintended_rng_deviations"] > 0
     assert rec["verdict"] == "INVALID"
@@ -678,7 +678,7 @@ def test_tier_api_bootstrap_retier_and_short_run(tmp_path: Path):
     assert val["candidates"] == len(CANDIDATES)
 
     # Test short 12-step run with RNG isolation check and GIF generation (grades INCOMPLETE vs full budget)
-    rec = ws.run_task("fast-weight-bcap", "seq_img_round_robin_bars4", device="cpu", steps_override=12)
+    rec = ws.run_task("online-bcap-adam", "seq_img_round_robin_bars4", device="cpu", steps_override=12)
     assert rec["grade"]["status"] == "INCOMPLETE"
     assert rec["unintended_rng_deviations"] == 0
     assert rec["terminal_passing"] == 0
