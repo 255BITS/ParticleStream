@@ -8,7 +8,7 @@
       "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
       "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
       "challenge_adapter.py": "e21bd79de0d83109f56f81666379eb888bc5b6a2ccb880e5c2971f214f43802d",
-      "challenges.py": "d588e433b541e7639144f74b414f7952f26ad7f0aad96d626abecb884e60d10e",
+      "challenges.py": "5eaadf8f98f97a993a50db1c6a5eca425b414c1e5e8a4ce2d207a7569b543477",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
       "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
@@ -589,17 +589,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "4beef84cd540c73341cdb9aa2287aae437b6b2c485d4d0db735426dacf827f30"
+    "task_fingerprint": "8b0b654216f1a2d9ffe0b5bae594eff79acf8177aca19378d3d0d0eaf69b605d"
   },
   "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
   "candidate_id": "online-feature-prior-bce",
-  "cohort_key": "eef5cb0480f9cd302babe8cfe713273cf8fd3f8e1dd562f5719ebc8ff056a4cc",
-  "completed_at": "2026-11-06T13:52:53.682+00:00",
+  "cohort_key": "a0886d8eadcef37d6c33044928e6e23ae13c1689a8ffbe4b6d6c80adb555d17d",
+  "completed_at": "2026-11-06T14:13:09.948+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 7.6985
+    "wall_seconds": 13.3716
   },
   "device": "cuda",
   "error": null,
@@ -1008,11 +1008,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "4beef84cd540c73341cdb9aa2287aae437b6b2c485d4d0db735426dacf827f30",
+  "task_fingerprint": "8b0b654216f1a2d9ffe0b5bae594eff79acf8177aca19378d3d0d0eaf69b605d",
   "task_id": "seq_img_fork_rollout",
   "technique": "FeaturePrior-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-06T13:52:53.682+00:00",
+  "timestamp": "2026-11-06T14:13:09.948+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

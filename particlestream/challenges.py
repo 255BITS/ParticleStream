@@ -302,15 +302,22 @@ def extract_circle_coords(images: torch.Tensor, *, background: float = 0.1) -> t
     """Extract normalized 2D (x, y) point coordinates in [-1, 1]^2 from 8x8 frames.
 
     Uses squared excess intensity above `background` so soft sigmoid background
-    residuals do not pull the extracted point toward the canvas center.
+    residuals do not pull the extracted point toward the canvas center. Blank or
+    sub-background frames fall back to uniform weights, yielding the canvas center (0, 0).
     """
     if not isinstance(images, torch.Tensor) or images.ndim < 2 or tuple(images.shape[-2:]) != (8, 8):
         raise ValueError("images must be a Tensor ending with shape (8, 8)")
     frames = images[..., 0, :, :] if images.ndim >= 3 and images.shape[-3] == 1 else images
+    if not frames.is_floating_point():
+        frames = frames.float()
     weights = (frames - float(background)).clamp_min(0.0).square()
-    total = weights.sum(dim=(-2, -1), keepdim=True).clamp_min(1e-6)
-    probs = weights / total
-    coords = torch.arange(8, device=images.device, dtype=images.dtype)
+    total = weights.sum(dim=(-2, -1), keepdim=True)
+    probs = torch.where(
+        total > 1e-6,
+        weights / total.clamp_min(1e-6),
+        torch.full_like(weights, 1.0 / 64.0),
+    )
+    coords = torch.arange(8, device=frames.device, dtype=frames.dtype)
     col_exp = (probs.sum(dim=-2) * coords).sum(dim=-1)
     row_exp = (probs.sum(dim=-1) * coords).sum(dim=-1)
     x = (col_exp - 3.5) / 3.0
@@ -360,12 +367,14 @@ def score_circle_orbit(
     templates: torch.Tensor,
     *,
     quality_rmse: float = 0.12,
+    quality_xy: float = 0.15,
 ) -> dict[str, float]:
     """Score closed-loop 8-step circular-orbit rollouts (N, 8, 1, 8, 8) against (8, 1, 8, 8).
 
     Every particle must step through all 8 clockwise circular waypoints (0..7) without
     teacher forcing. `orbit_completion` is the fraction of particles whose entire 8-step
-    closed-loop rollout hits every waypoint in order with RMSE <= `quality_rmse`.
+    closed-loop rollout hits every waypoint in order with RMSE <= `quality_rmse` and
+    normalized coordinate error <= `quality_xy`.
     """
     failure = {
         "orbit_rmse": 1e6,
@@ -393,10 +402,9 @@ def score_circle_orbit(
         safe_rmses = torch.nan_to_num(rmses, nan=1e6, posinf=1e6, neginf=1e6)
         step_idx = torch.arange(8, device=trajectories.device)
         target_rmses = safe_rmses[:, step_idx, step_idx]
-        _, nearest = safe_rmses.min(dim=2)
-        step_valid = finite & (nearest == step_idx[None, :]) & (target_rmses <= quality_rmse)
-        full_orbit = step_valid.all(dim=1)
-        waypoint_modes = float((step_valid.sum(dim=0) > 0).sum().item())
+        other_rmses = safe_rmses.clone()
+        other_rmses[:, step_idx, step_idx] = float("inf")
+        strictly_nearest = (target_rmses + 1e-6) < other_rmses.min(dim=2).values
 
         pred_xy = extract_circle_coords(trajectories)
         target_xy = extract_circle_coords(templates)[None, :, :]
@@ -406,6 +414,9 @@ def score_circle_orbit(
             torch.nan_to_num(xy_err, nan=1e6, posinf=1e6, neginf=1e6),
             torch.full_like(xy_err, 1e6),
         )
+        step_valid = finite & strictly_nearest & (target_rmses <= quality_rmse) & (xy_err <= quality_xy)
+        full_orbit = step_valid.all(dim=1)
+        waypoint_modes = float((step_valid.sum(dim=0) > 0).sum().item())
         return {
             "orbit_rmse": round(float(target_rmses.mean().item()), 6),
             "xy_rmse": round(float(xy_err.mean().item()), 6),
@@ -502,6 +513,7 @@ def render_circle_orbit_gif(
             step_rmses = (
                 (mean_rollout - target_templates).square().mean(dim=(1, 2, 3)).sqrt().numpy()
             )
+            step_xy_err = np.linalg.norm(pred_xy - target_xy, axis=-1)
             _, nearest_idx = (
                 (mean_rollout[:, None] - target_templates[None])
                 .square()
@@ -509,7 +521,7 @@ def render_circle_orbit_gif(
                 .sqrt()
                 .min(dim=1)
             )
-            step_hits = (nearest_idx.numpy() == np.arange(8)) & (step_rmses <= 0.12)
+            step_hits = (nearest_idx.numpy() == np.arange(8)) & (step_rmses <= 0.12) & (step_xy_err <= 0.15)
 
         for sub in range(substeps):
             active_phase = (idx * substeps + sub) % 8

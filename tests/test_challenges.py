@@ -311,6 +311,51 @@ def test_circle_orbit_oracle_and_destructive_controls():
     assert blur_score["orbit_completion"] == 0.0
     assert blur_score["xy_rmse"] > 0.90
 
+    # Blank / sub-background frames map to canvas center (0, 0) in [-1, 1]^2
+    blank = torch.full((32, 8, 1, 8, 8), 0.1)
+    blank_coords = extract_circle_coords(blank[0, 0])
+    assert torch.allclose(blank_coords, torch.zeros(2), atol=1e-6)
+    blank_score = score_circle_orbit(blank, templates)
+    assert blank_score["step_accuracy"] == 0.0
+    assert blank_score["orbit_completion"] == 0.0
+    assert blank_score["waypoint_modes"] == 0.0
+    assert blank_score["orbit_rmse"] > 0.12
+    assert blank_score["xy_rmse"] > 0.90
+    # Even with a relaxed quality_rmse >= 0.20, tied RMSE across all 8 waypoints must not credit index 0
+    assert score_circle_orbit(blank, templates, quality_rmse=0.25, quality_xy=2.0)["step_accuracy"] == 0.0
+
+    # Bimodal symmetric two-patch frames (opposite and adjacent waypoints both active at 0.9)
+    bimodal_opp = torch.maximum(templates, templates.roll(4, dims=0)).unsqueeze(0).repeat(32, 1, 1, 1, 1)
+    opp_score = score_circle_orbit(bimodal_opp, templates)
+    assert opp_score["orbit_rmse"] > 0.12 and opp_score["xy_rmse"] > 0.90
+    assert opp_score["step_accuracy"] == 0.0 and opp_score["orbit_completion"] == 0.0
+
+    bimodal_adj = torch.maximum(templates, templates.roll(1, dims=0)).unsqueeze(0).repeat(32, 1, 1, 1, 1)
+    adj_score = score_circle_orbit(bimodal_adj, templates)
+    assert adj_score["orbit_rmse"] > 0.12 and adj_score["xy_rmse"] > 0.30
+    assert adj_score["step_accuracy"] == 0.0 and adj_score["orbit_completion"] == 0.0
+
+    # Asymmetric bimodal perturbation: target waypoint at 0.85, opposite waypoint at 0.50
+    # Pixel RMSE is ~0.1008 <= 0.12, but 2D centroid error is ~0.4302 > 0.15 -> must fail step_valid!
+    bimodal_asym = torch.full((8, 1, 8, 8), 0.1)
+    for i in range(8):
+        bimodal_asym[i] = torch.where(templates[i] > 0.5, 0.85, bimodal_asym[i])
+        bimodal_asym[i] = torch.where(templates[(i + 4) % 8] > 0.5, 0.50, bimodal_asym[i])
+    asym_score = score_circle_orbit(bimodal_asym.unsqueeze(0).repeat(32, 1, 1, 1, 1), templates)
+    assert asym_score["orbit_rmse"] <= 0.12
+    assert asym_score["xy_rmse"] > 0.15
+    assert asym_score["step_accuracy"] == 0.0
+    assert asym_score["orbit_completion"] == 0.0
+    assert asym_score["waypoint_modes"] == 0.0
+
+    # Mixed rollout where 4/32 (12.5%) of particles are bimodal_asym: mean xy_rmse <= 0.15,
+    # but only 28/32 (87.5% < 90%) complete a valid orbit within quality_xy <= 0.15.
+    mixed = oracle.clone()
+    mixed[:4] = bimodal_asym
+    mixed_score = score_circle_orbit(mixed, templates)
+    assert mixed_score["orbit_completion"] == 28 / 32 < 0.90
+    assert mixed_score["step_accuracy"] == 28 / 32 < 0.90
+
 
 @pytest.mark.parametrize(
     "bad_trajectories",

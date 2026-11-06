@@ -1,14 +1,14 @@
 {
   "all_finite": true,
   "artifacts": {
-    "gif_sha256": "5c510a1a411a2722faacd648d8cf2bafa9942cfefa3b9919d4748fd22b3fd1df",
+    "gif_sha256": "30cdcf0e60184aa49dc4ea15ec055e93986bcb693a92d130514d185f76d5fbb4",
     "goal_gif": "gifs/online-feature-prior-bce_seq_img_circle_orbit.gif",
     "implementation": {
       "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
       "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
       "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
       "challenge_adapter.py": "e21bd79de0d83109f56f81666379eb888bc5b6a2ccb880e5c2971f214f43802d",
-      "challenges.py": "d588e433b541e7639144f74b414f7952f26ad7f0aad96d626abecb884e60d10e",
+      "challenges.py": "5eaadf8f98f97a993a50db1c6a5eca425b414c1e5e8a4ce2d207a7569b543477",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
       "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
@@ -55,7 +55,7 @@
       "updates": 480,
       "warmup_arrivals": 1
     },
-    "orbit_gif_sha256": "3fd339dd62fb15b0c066ac65e3d0bbb4cb2068640cdb4c763027fc9c401a7c90",
+    "orbit_gif_sha256": "f76b49280b3bf61c09dce73fcd1279f4bfe1029d0d885824b0a5eaf1b2204c82",
     "particlegan_version": "0.9.7",
     "resolved_recipe": {
       "adam_variant": "pytorch",
@@ -2550,17 +2550,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "cc3f96ec6af77e38eff9a6ac5b5a4a5bc03cf803522687701097f9cff165befb"
+    "task_fingerprint": "37779c46fa4141eade99823a523e4e924b6bac3dc4d8f858c60919856b9a18bd"
   },
   "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
   "candidate_id": "online-feature-prior-bce",
-  "cohort_key": "181a6d389b2b1cdc90c6abf354379b83d7614061f9144838db4fa32e54782f16",
-  "completed_at": "2026-11-06T13:53:47.744+00:00",
+  "cohort_key": "cd878cf2f3a336d1b8f38567cb28f3973468d225c3424a41b06b70717be06d83",
+  "completed_at": "2026-11-06T14:14:30.558+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 17.6673
+    "wall_seconds": 17.6946
   },
   "device": "cuda",
   "error": null,
@@ -2642,10 +2642,10 @@
       "metrics": {
         "live_predictions": 100.0,
         "live_prequential_rmse": 0.078154,
-        "orbit_completion": 1.0,
+        "orbit_completion": 0.0,
         "orbit_rmse": 0.075277,
-        "step_accuracy": 1.0,
-        "waypoint_modes": 8.0,
+        "step_accuracy": 0.75,
+        "waypoint_modes": 6.0,
         "xy_rmse": 0.107295
       },
       "step": 100
@@ -2666,10 +2666,10 @@
       "metrics": {
         "live_predictions": 140.0,
         "live_prequential_rmse": 0.045623,
-        "orbit_completion": 1.0,
+        "orbit_completion": 0.0,
         "orbit_rmse": 0.05943,
-        "step_accuracy": 1.0,
-        "waypoint_modes": 8.0,
+        "step_accuracy": 0.875,
+        "waypoint_modes": 7.0,
         "xy_rmse": 0.088178
       },
       "step": 140
@@ -2678,10 +2678,10 @@
       "metrics": {
         "live_predictions": 160.0,
         "live_prequential_rmse": 0.064264,
-        "orbit_completion": 1.0,
+        "orbit_completion": 0.0,
         "orbit_rmse": 0.077514,
-        "step_accuracy": 1.0,
-        "waypoint_modes": 8.0,
+        "step_accuracy": 0.75,
+        "waypoint_modes": 6.0,
         "xy_rmse": 0.123273
       },
       "step": 160
@@ -2690,10 +2690,10 @@
       "metrics": {
         "live_predictions": 180.0,
         "live_prequential_rmse": 0.055786,
-        "orbit_completion": 1.0,
+        "orbit_completion": 0.0,
         "orbit_rmse": 0.04704,
-        "step_accuracy": 1.0,
-        "waypoint_modes": 8.0,
+        "step_accuracy": 0.875,
+        "waypoint_modes": 7.0,
         "xy_rmse": 0.054872
       },
       "step": 180
@@ -2995,11 +2995,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "cc3f96ec6af77e38eff9a6ac5b5a4a5bc03cf803522687701097f9cff165befb",
+  "task_fingerprint": "37779c46fa4141eade99823a523e4e924b6bac3dc4d8f858c60919856b9a18bd",
   "task_id": "seq_img_circle_orbit",
   "technique": "FeaturePrior-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-06T13:53:47.744+00:00",
+  "timestamp": "2026-11-06T14:14:30.558+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

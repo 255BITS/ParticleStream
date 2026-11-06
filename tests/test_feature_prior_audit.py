@@ -7,7 +7,7 @@ import torch
 from particlegan import GANTrainer, get_recipe
 from particlegan_forge import NamedStreams
 from particlestream.challenge_adapter import evaluate_challenge
-from particlestream.challenges import DelayedCueStream, PersistentForkStream
+from particlestream.challenges import CircleOrbitStream, DelayedCueStream, PersistentForkStream
 from particlestream.feature_prior import FeatureConditionalReconstruction
 from particlestream.memory import CausalStateMemory
 from particlestream.models import StreamImageCritic, StreamImageGenerator
@@ -187,5 +187,41 @@ def test_closed_loop_fork_writes_generated_frames_only_to_cloned_history(monkeyp
         assert torch.equal(history[0][1], stream.branch_paths[previous, -1:])
         assert torch.equal(history[1][1], stream.stem)
         assert torch.all(history[2][1] == .37) and torch.all(history[3][1] == .37)
+    assert_equal(trainer.prior.state_dict(), prior_state)
+    assert_equal(session.memory.state_dict(), memory_state)
+
+
+def test_closed_loop_circle_orbit_writes_generated_frames_only_to_cloned_history(monkeypatch):
+    trainer, session, streams = runtime()
+    stream = CircleOrbitStream(noise_std=0)
+    session.observe(stream.templates[:1])
+    prior_state = deepcopy(trainer.prior.state_dict())
+    memory_state = deepcopy(session.memory.state_dict())
+    writes = []
+    original_write = CausalStateMemory.write
+
+    def track_write(memory, frame):
+        writes.append((id(memory), frame.detach().clone()))
+        return original_write(memory, frame)
+
+    monkeypatch.setattr(CausalStateMemory, "write", track_write)
+    monkeypatch.setattr(trainer.G, "forward", lambda codes: codes.new_full((len(codes), 1, 8, 8), .37))
+    with streams.isolated_evaluation(), session.isolated_state():
+        metrics, samples = evaluate_challenge(
+            "circle_orbit", trainer, trainer.G, trainer.D, session.memory, stream, 32,
+            streams.generator("eval", component="rollout", purpose="audit"),
+        )
+    assert streams.last_eval_audit["unintended_rng_deviations"] == 0
+    assert metrics["orbit_completion"] == 0.0 and metrics["step_accuracy"] == 0.0
+    assert samples.shape == (32, 1, 8, 8) and torch.all(samples == .37)
+    # 32 particles * (2 warmup frames + 7 self-fed rollout steps) = 288 writes to cloned memory
+    assert len(writes) == 32 * 9
+    warmup = stream.clean_warmup(0)
+    for particle in range(32):
+        history = writes[9 * particle:9 * particle + 9]
+        assert all(identifier != id(session.memory) for identifier, _ in history)
+        assert torch.equal(history[0][1], warmup[0:1])
+        assert torch.equal(history[1][1], warmup[1:2])
+        assert all(torch.all(step_frame == .37) for _, step_frame in history[2:])
     assert_equal(trainer.prior.state_dict(), prior_state)
     assert_equal(session.memory.state_dict(), memory_state)

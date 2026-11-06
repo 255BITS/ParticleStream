@@ -27,11 +27,11 @@ Oracle and destructive controls verify that stuck particles, counter-clockwise o
 Without changing any recipe hyperparameter, architecture, or task-owned resource budget,
 the single global `online-feature-prior-bce` recipe qualifies **`9/9` required tasks (`PASS`,
 `45/45` terminal checks)** across 4,320 training updates and 216 observations:
-- On `seq_img_circle_orbit`, `online-feature-prior-bce` reaches `100%` closed-loop
-  `orbit_completion` by step 120 and holds `orbit_completion = 1.0`, `step_accuracy = 1.0`,
-  `waypoint_modes = 8.0`, `xy_rmse = 0.0036..0.0045` (`<= 0.15`), and
-  `orbit_rmse = 0.0126..0.0135` (`<= 0.12`) across all five terminal checks (`400..480`),
-  with final live prequential RMSE `0.015725`.
+- On `seq_img_circle_orbit`, `online-feature-prior-bce` first reaches `100%` closed-loop
+  `orbit_completion` at step 120, settles permanently at `100%` from step 200 through step 480,
+  and holds `orbit_completion = 1.0`, `step_accuracy = 1.0`, `waypoint_modes = 8.0`,
+  `xy_rmse = 0.0036..0.0044` (`<= 0.15`), and `orbit_rmse = 0.0126..0.0134` (`<= 0.12`)
+  across all five terminal checks (`400..480`), with final live prequential RMSE `0.015725`.
 - Unrouted strict-online baselines (`online-bcap-adam`, `online-bispf-early`,
   `online-ka2-ready`) fail `seq_img_circle_orbit` (`orbit_completion = 0.0312`, `0.1602`,
   and `0.5156` across the terminal window) because open-loop errors compound over the
