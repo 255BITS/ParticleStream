@@ -6,26 +6,30 @@ from pathlib import Path
 from particlegan_forge import NamedStreams, grade_sustained_observations
 from particlegan_forge.tiers import adapter_source_digest
 from particlestream.forge import StreamWorkspace
-from particlestream.tier1 import IMPLEMENTATION, REGISTRY, run_seq_image_task
+from particlestream.tier1 import IMPLEMENTATION, run_seq_image_task
+from particlestream.suite import REGISTRY
 
 
 ROOT = Path(__file__).resolve().parents[1]
 CANDIDATE = "online-feature-prior-bce"
 
 
-def test_feature_recipe_qualifies_all_eight_current_required_tasks():
+def test_feature_recipe_qualifies_all_ten_current_required_tasks():
     workspace = StreamWorkspace(ROOT, registry=REGISTRY)
     workspace.validate()
     view = workspace.load_views()["single_stream_stability"]
     assert view.revision >= 7
-    assert len(view.assignments) == 10
-    assert all(assignment.importance == "required" for assignment in view.assignments)
+    required = {assignment.task for assignment in view.assignments if assignment.importance == "required"}
+    assert len(required) == 10
+    assert len([a for a in view.assignments if a.importance == "stretch"]) == 5
     result = workspace.qualify(CANDIDATE, view.id, device="cuda")
     assert result["status"] == "PASS" and result["eligible"] is True
     assert result["adapter_source_verified"] is True
     expected_source = adapter_source_digest(run_seq_image_task)
     shared = []
     for task_id, task in workspace.load_tasks().items():
+        if task_id not in required:
+            continue
         receipt = json.loads((workspace.reports_dir / "receipts/cuda" / CANDIDATE / f"{task_id}.json").read_text())
         assert receipt["binding"]["adapter_source_sha256"] == expected_source
         assert receipt["artifacts"]["implementation"] == IMPLEMENTATION

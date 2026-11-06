@@ -59,13 +59,43 @@
       "order": 9,
       "qualification_tier": 1,
       "task": "seq_img_square_circle_cycle"
+    },
+    {
+      "importance": "stretch",
+      "order": 10,
+      "qualification_tier": 1,
+      "task": "seq_minimal_dense4"
+    },
+    {
+      "importance": "stretch",
+      "order": 11,
+      "qualification_tier": 1,
+      "task": "seq_minimal_tokens4"
+    },
+    {
+      "importance": "stretch",
+      "order": 12,
+      "qualification_tier": 2,
+      "task": "seq_minimal_kernel2x2"
+    },
+    {
+      "importance": "stretch",
+      "order": 13,
+      "qualification_tier": 2,
+      "task": "seq_minimal_addition2bit"
+    },
+    {
+      "importance": "stretch",
+      "order": 14,
+      "qualification_tier": 3,
+      "task": "seq_minimal_velocity_extrapolation"
     }
   ],
   "evidence_scope": "ordinary",
   "goal": "single_stream_stability",
   "id": "single_stream_stability",
   "namespace": "particlegan_forge",
-  "policy_change_reason": "Add seq_img_square_circle_cycle as the tenth required Tier 1 task in single_stream_stability so one global strict online feature-prior recipe qualifies across all ten sequential tasks, including bidirectional Square <-> Circle CycleGAN orbit translation.",
-  "revision": 7,
+  "policy_change_reason": "Add five bounded capability proofs as Tier 1/2/3 stretch tasks; preserve all ten required tasks and their original evidence contracts.",
+  "revision": 8,
   "schema_version": 1
 }

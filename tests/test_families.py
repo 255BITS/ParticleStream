@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 
 from particlestream.forge import StreamWorkspace, main
+from particlestream.suite import ALL_TASKS
 from particlestream.tier1 import (
     FAMILY_PRESETS, PRIMARY_VIEW, TIER1_CANDIDATES, TIER1_TASKS,
     _build_recipe, bootstrap_workspace,
@@ -41,7 +42,7 @@ def test_project_cli_rejects_empty_workspace_and_finds_bootstrap(tmp_path, capsy
     assert "empty gauntlet" in capsys.readouterr().err
     assert main(["--root", str(tmp_path), "bootstrap"]) == 0
     result = json.loads(capsys.readouterr().out)
-    assert result["tasks"] == len(TIER1_TASKS)
+    assert result["tasks"] == len(ALL_TASKS)
     assert result["views"] == [PRIMARY_VIEW.id]
     assert result["candidates"] == len(TIER1_CANDIDATES)
     workspace = StreamWorkspace(tmp_path)

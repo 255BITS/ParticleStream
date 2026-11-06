@@ -1,0 +1,188 @@
+{
+  "adapter": "minimal_probe",
+  "description": "Serve four integer token IDs with strict raw one-hot confidence.",
+  "evaluation": {
+    "eval_output_noise": "clean",
+    "kind": "sustained_window",
+    "minimum_stable_checks": 5,
+    "observations": 24,
+    "sampling_contract_version": 1,
+    "sampling_law": "enumerated_prior_clean",
+    "scoring_weights": "live",
+    "thresholds": [
+      [
+        "valid_fraction",
+        "==",
+        1.0
+      ],
+      [
+        "modes",
+        "==",
+        4.0
+      ],
+      [
+        "mass_tv",
+        "<=",
+        0.1
+      ]
+    ]
+  },
+  "execution": {
+    "host_definition": {
+      "context_dim": 0,
+      "data_manifest": {
+        "batch_size": 1,
+        "bounds": [
+          [
+            "valid_fraction",
+            "==",
+            1.0
+          ],
+          [
+            "modes",
+            "==",
+            4.0
+          ],
+          [
+            "mass_tv",
+            "<=",
+            0.1
+          ]
+        ],
+        "chronological_order": "ascending_key_round_robin",
+        "decoder": "whole_code_max_abs_error_le_0.10_or_INVALID",
+        "encoding": "one_hot_blocks_zero_padding",
+        "frame_shape": [
+          1,
+          1,
+          8,
+          8
+        ],
+        "invalid_id": -1,
+        "mode": "tokens4",
+        "schema_version": 1,
+        "slot_shape": [
+          2,
+          2
+        ],
+        "slots": [
+          [
+            1,
+            1
+          ],
+          [
+            1,
+            5
+          ],
+          [
+            5,
+            1
+          ],
+          [
+            5,
+            5
+          ]
+        ],
+        "steps": 96,
+        "target_mass": [
+          0.25,
+          0.25,
+          0.25,
+          0.25
+        ],
+        "task_id": "seq_minimal_tokens4"
+      },
+      "implementation": {
+        "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+        "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+        "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
+        "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+        "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
+        "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+        "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
+        "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+        "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+        "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
+        "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
+        "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+        "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
+        "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+        "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+      },
+      "mode": "tokens4",
+      "online_contract": {
+        "arrival_batch": 1,
+        "gradient_accumulation_steps": 1,
+        "observation_unit": "target_frame",
+        "optimizer_batch": 1,
+        "replay": "none",
+        "source_only_arrivals": 0,
+        "target_timing": "predict_before_target_arrival"
+      },
+      "protocol": "minimal_capability_proofs_v1",
+      "qualification_tier": 1,
+      "sampling": {
+        "best_of_n": false,
+        "eval_output_noise": "none",
+        "law": "stratified_rows_frozen_mog_eps_v1",
+        "rows": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31
+        ],
+        "weights": "live"
+      },
+      "width": 16
+    },
+    "initializer": "deterministic_orthogonal",
+    "prior": {
+      "kind": "mog",
+      "sigma": 0.025,
+      "standardize": false
+    },
+    "prior_contract": "recipe_owned_v1",
+    "resources": {
+      "batch_size": 1,
+      "num_particles": 32,
+      "z_dim": 8
+    },
+    "steps": 96
+  },
+  "id": "seq_minimal_tokens4",
+  "namespace": "particlegan_forge",
+  "resources": {
+    "cpu_threads": 1,
+    "gpus": 1,
+    "timeout_seconds": 300
+  },
+  "schema_version": 1
+}

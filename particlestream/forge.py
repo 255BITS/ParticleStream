@@ -31,11 +31,13 @@ class StreamWorkspace(ForgeWorkspace):
         if not result["tasks"] or not result["views"] or not result["candidates"]:
             raise ValueError("empty gauntlet; run particlestream bootstrap first")
         from .tier1 import IMPLEMENTATION, _build_recipe
+        from .minimal_adapter import implementation
         for task in self.load_tasks().values():
             if task.batch_size != 1:
                 raise ValueError("every experiment requires sequential batch_size=1")
             self.registry.get_adapter(task.adapter)
-            if task.host_definition.get("implementation") != IMPLEMENTATION:
+            expected = implementation(IMPLEMENTATION) if task.adapter == "minimal_probe" else IMPLEMENTATION
+            if task.host_definition.get("implementation") != expected:
                 raise ValueError("stale task implementation; run particlestream bootstrap")
             for candidate in self.load_candidates().values():
                 _build_recipe(task, candidate, task.steps)
@@ -70,11 +72,26 @@ class StreamWorkspace(ForgeWorkspace):
         if (self.reports_dir / "research-notes.md").is_file():
             content += "\nInterpretation and historical evidence: [research notes](research-notes.md).\n"
         atomic_text(memory, content)
+        tier_guide = self.reports_dir / "EXPERIMENTS_BY_TIER.md"
+        minimal_tasks = [task for task in self.load_tasks().values() if task.adapter == "minimal_probe"]
+        if minimal_tasks and tier_guide.is_file():
+            note = (
+                "\n## Minimal probe sampling\n\n"
+                "ParticleGAN/Forge 0.9.7 writes the generic `enumerated_prior_clean` label "
+                "in its evaluation schema. For these probes, `host_definition.sampling` "
+                "and the matching receipt artifact specify the actual latent law. "
+                "All generated outputs omit additional output noise.\n\n"
+                "| Task | Latent law | Rows per case |\n| --- | --- | --- |\n"
+            )
+            for task in minimal_tasks:
+                sampling = task.host_definition["sampling"]
+                note += f"| `{task.id}` | `{sampling['law']}` | {len(sampling['rows'])} |\n"
+            atomic_text(tier_guide, tier_guide.read_text().rstrip() + "\n" + note)
         return paths
 
 
 def main(argv=None):
-    from .tier1 import PRIMARY_VIEW, REGISTRY, bootstrap_workspace
+    from .suite import PRIMARY_VIEW, REGISTRY, bootstrap_workspace
 
     parser = argparse.ArgumentParser(description="ParticleStream gauntlet (particlegan_forge)")
     parser.add_argument("--root", type=Path, default=Path(__file__).resolve().parents[1])
@@ -83,6 +100,10 @@ def main(argv=None):
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("bootstrap")
     commands.add_parser("validate")
+    commands.add_parser("controls")
+    core = commands.add_parser("core")
+    core.add_argument("--candidate", default="online-feature-prior-bce")
+    core.add_argument("--device", choices=("cpu", "cuda", "auto"), default="cpu")
     retier = commands.add_parser("retier")
     retier.add_argument("view")
     retier.add_argument("--task", required=True)
@@ -106,6 +127,23 @@ def main(argv=None):
             result = workspace.validate()
         elif args.command == "validate":
             result = workspace.validate()
+        elif args.command in {"controls", "core"}:
+            from .suite import MINIMAL_TASKS
+            from .minimal_adapter import validate_controls
+            workspace.validate()
+            controls = validate_controls(MINIMAL_TASKS)
+            result = {task_id: {name: value["verdict"] for name, value in outcomes.items()}
+                      for task_id, outcomes in controls.items()}
+            if args.command == "core":
+                result = {}
+                for task in MINIMAL_TASKS:
+                    receipt = workspace.run_task(args.candidate, task.id, device=args.device)
+                    result[task.id] = {"verdict": receipt["verdict"],
+                        "terminal_passing": receipt["terminal_passing"], "cost": receipt["cost"],
+                        "live": receipt["live"], "error": receipt["error"]}
+                    workspace.compile_reports(view_id=PRIMARY_VIEW.id, device=args.device)
+                    if receipt["verdict"] in {"INVALID", "INCOMPLETE"}:
+                        raise RuntimeError(f"{task.id}: {receipt['verdict']}: {receipt['error']}; fix execution before continuing")
         elif args.command == "board":
             result = {cid: workspace.qualify(cid, args.view, device=args.device)
                       for cid in sorted(workspace.load_candidates())}

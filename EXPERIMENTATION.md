@@ -7,6 +7,52 @@ Start with:
 - [Current technique leaderboard](reports/forge/technique-inventory.md)
 - [Experiments by tier](reports/forge/EXPERIMENTS_BY_TIER.md)
 - [Compiled experiment memory](reports/forge/EXPERIMENT_MEMORY.md)
+- [Proposed minimal Tier 1 to Tier 3 targets](reports/forge/minimal-tier-expansion-plan.md)
+
+## Minimal capability proofs
+
+The current view adds five `stretch` tasks: arbitrary dense images and integer
+tokens (Tier 1), held-out local kernel responses and addition pairs (Tier 2),
+and unseen-speed rollout (Tier 3). Their fixed training caps are 96, 96, 192,
+192 and 384 updates: 960 total for one unchanged `online-feature-prior-bce`
+recipe. The other twelve proposed tests remain a backlog.
+
+The [first measured readout](reports/forge/minimal-core-readout.md) records one
+new pass (tokens), four numerical failures, 51.35 seconds of complete run time,
+and an unchanged 10/10 required qualification.
+
+```sh
+particlestream bootstrap
+particlestream controls                 # oracle PASS / destructive FAIL; no training
+particlestream core --device cuda       # five bounded runs, sequentially
+```
+
+`core` continues after numerical FAIL so every independent proof is measured;
+it stops on INVALID or INCOMPLETE execution. It performs no parameter search,
+budget extension or seed variation. Each task records 24 observations, requires
+all last five checks to pass, and produces an actual-training `goal.gif`.
+Events remain at `runs/forge/events.jsonl` and results use the existing leaderboard.
+
+Independent kernel/addition pairs have one source-only arrival before serving,
+then one target arrival and optimizer update. Source memory resets between pairs;
+targets never become conditioning. Velocity has 128 six-frame episodes, each
+with three source-only prefix frames and three target updates: 384 warm-up
+arrivals plus 384 trained arrivals. These source-only prefixes are explicit task
+contracts and are counted separately from optimization.
+
+Token serving uses an integer decoder that rejects ambiguous raw images. The
+32 distribution probes preserve one frozen MoG perturbation per prior row;
+deterministic conditional tests use four declared clean centers. These sampling
+contracts and finite held-out splits are stored in each task's host definition.
+Learned parameters, feature/prior statistics, memory, modes and training RNGs
+remain unchanged during evaluation. Compute receipts distinguish optimizer
+updates, evaluation/serving forwards, elapsed time and peak memory.
+
+View 8 archives view 7 exactly and retains its ten required tasks. The original
+adapter source stays unchanged so their existing source-bound receipts remain
+compatible. New policy and execution live in `particlestream.suite` and the
+`minimal_*` modules. Stretch failures do not qualify Tier 2 or Tier 3 and do not
+erase the established Tier 1 result.
 
 ## Protocol and Ownership
 
@@ -209,9 +255,11 @@ image. The storage prior is frozen while this bounded conditional transform
 learns. It uses zero center probes and the same task-owned G/D networks.
 
 Reproduce the qualified recipe with `particlestream run online-feature-prior-bce
---device cuda`. All ten tests are required in view 7 (`single_stream_stability-v5.json`
-and `single_stream_stability-v6.json` are archived in `configs/forge/view-history/`). Promoting the view changes
-the full adapter-module digest, so the first passing view-4 cohort is archived
+--device cuda`. All ten original tests remain required in view 8; views 5, 6 and 7
+are archived in `configs/forge/view-history/`. Earlier promotions changed the
+full adapter-module digest, so the first passing view-4 cohort is archived
 in `reports/forge/cohorts/feature-prior-view4/`, the view-5 cohort is archived
 in `reports/forge/cohorts/particlegan-0.9.6-view5/`, and fresh runs bind qualification
-to the view-7 implementation. Receipts are never manually rebound.
+to the view-7 implementation. View 8 keeps that adapter source unchanged and
+adds the minimal probes through a separate suite module. Receipts are never
+manually rebound.
