@@ -87,6 +87,36 @@
     {
       "importance": "stretch",
       "order": 14,
+      "qualification_tier": 2,
+      "task": "seq_robotics_fetch_reach"
+    },
+    {
+      "importance": "stretch",
+      "order": 15,
+      "qualification_tier": 2,
+      "task": "seq_robotics_fetch_push"
+    },
+    {
+      "importance": "stretch",
+      "order": 16,
+      "qualification_tier": 2,
+      "task": "seq_robotics_fetch_slide"
+    },
+    {
+      "importance": "stretch",
+      "order": 17,
+      "qualification_tier": 2,
+      "task": "seq_robotics_fetch_pick_and_place"
+    },
+    {
+      "importance": "stretch",
+      "order": 18,
+      "qualification_tier": 2,
+      "task": "seq_robotics_hand_reach"
+    },
+    {
+      "importance": "stretch",
+      "order": 19,
       "qualification_tier": 3,
       "task": "seq_minimal_velocity_extrapolation"
     }
@@ -95,7 +125,7 @@
   "goal": "single_stream_stability",
   "id": "single_stream_stability",
   "namespace": "particlegan_forge",
-  "policy_change_reason": "Add five bounded capability proofs as Tier 1/2/3 stretch tasks; preserve all ten required tasks and their original evidence contracts.",
-  "revision": 8,
+  "policy_change_reason": "Replace the robotics tasks' capped affine target encoding with one shared invertible arctangent map after a fast Slide transition exceeded the range; preserve all recipes, physical gates, budgets, required tasks and minimal probes.",
+  "revision": 10,
   "schema_version": 1
 }

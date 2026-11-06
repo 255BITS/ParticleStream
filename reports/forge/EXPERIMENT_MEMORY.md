@@ -1,6 +1,6 @@
 # Experiment Memory
 
-- **Primary view**: [`single_stream_stability`](technique-inventory.md) (revision 8)
+- **Primary view**: [`single_stream_stability`](technique-inventory.md) (revision 10)
 - **Tasks by tier**: [`EXPERIMENTS_BY_TIER.md`](EXPERIMENTS_BY_TIER.md)
 - **Cohort**: device `cuda`, seed 0
 
@@ -24,6 +24,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **PASS** — terminal 5/5 · invalid_fraction=0.0000, live_prequential_rmse=0.1765, mass_tv=0.0000, modes=4.0000, valid_fraction=1.0000
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **FAIL** — terminal 0/5 · failed `heldout_max_abs_error <= 0.05`; `heldout_response_rmse <= 0.03`; `seen_max_abs_error <= 0.05`; `seen_response_rmse <= 0.03` · heldout_max_abs_error=0.4325, heldout_response_rmse=0.2614, live_prequential_rmse=0.0441, seen_max_abs_error=0.1660, seen_response_rmse=0.0427
   - Tier 2 `seq_minimal_addition2bit` (stretch): **FAIL** — terminal 0/5 · failed `heldout_exact_accuracy == 1.0`; `heldout_min_bit_confidence >= 0.9` · heldout_carry_accuracy=0.0000, heldout_exact_accuracy=0.0000, heldout_invalid_fraction=0.0000, heldout_min_bit_confidence=0.0000, live_prequential_rmse=0.0020, seen_carry_accuracy=1.0000, seen_exact_accuracy=1.0000, seen_invalid_fraction=0.0000, seen_min_bit_confidence=0.9791
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **FAIL** — terminal 0/5 · failed `position_delta_rmse_m <= 0.005` · finite_fraction=1.0000, live_prequential_rmse_m=0.0053, moving_coordinate_fraction=1.0000, moving_direction_accuracy=0.9583, persistence_rmse_m=0.0168, position_delta_rmse_m=0.0055, relative_mse=0.1087
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **FAIL** — terminal 0/5 · failed `moving_direction_accuracy >= 0.75`; `position_delta_rmse_m <= 0.005`; `relative_mse <= 0.8` · finite_fraction=1.0000, gripper_delta_rmse_m=0.0060, live_prequential_rmse_m=0.0037, moving_coordinate_fraction=0.4479, moving_direction_accuracy=0.7442, object_delta_rmse_m=0.0143, object_motion_rms_m=0.0148, persistence_rmse_m=0.0123, position_delta_rmse_m=0.0109, relative_mse=0.7976
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **FAIL** — terminal 0/5 · failed `moving_direction_accuracy >= 0.75`; `position_delta_rmse_m <= 0.005` · finite_fraction=1.0000, gripper_delta_rmse_m=0.0060, live_prequential_rmse_m=0.0052, moving_coordinate_fraction=0.5312, moving_direction_accuracy=0.7745, object_delta_rmse_m=0.0089, object_motion_rms_m=0.0149, persistence_rmse_m=0.0128, position_delta_rmse_m=0.0076, relative_mse=0.3526
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **FAIL** — terminal 4/5 · failed `moving_direction_accuracy >= 0.75` · finite_fraction=1.0000, gripper_delta_rmse_m=0.0025, live_prequential_rmse_m=0.0021, moving_coordinate_fraction=0.5938, moving_direction_accuracy=0.8421, object_delta_rmse_m=0.0028, object_motion_rms_m=0.0126, persistence_rmse_m=0.0125, position_delta_rmse_m=0.0027, relative_mse=0.0453
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **FAIL** — terminal 0/5 · failed `moving_direction_accuracy >= 0.75`; `position_delta_rmse_m <= 0.005`; `relative_mse <= 0.8` · finite_fraction=1.0000, live_prequential_rmse_m=0.0084, moving_coordinate_fraction=0.8917, moving_direction_accuracy=0.5888, persistence_rmse_m=0.0082, position_delta_rmse_m=0.0082, relative_mse=0.9895
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **FAIL** — terminal 0/5 · failed `extrapolation_centroid_rmse <= 0.01`; `extrapolation_direction_accuracy == 1.0`; `extrapolation_point_validity == 1.0`; `extrapolation_speed_error <= 0.01`; `interpolation_centroid_rmse <= 0.01`; `interpolation_direction_accuracy == 1.0`; `interpolation_point_validity == 1.0`; `interpolation_speed_error <= 0.01` · centroid_rmse=0.0833, direction_accuracy=0.9583, extrapolation_centroid_rmse=0.0833, extrapolation_direction_accuracy=1.0000, extrapolation_point_validity=0.5833, extrapolation_raw_rmse=0.0536, extrapolation_speed_error=0.0740, interpolation_centroid_rmse=0.0300, interpolation_direction_accuracy=0.9167, interpolation_point_validity=0.8333, interpolation_raw_rmse=0.0261, interpolation_speed_error=0.0393, live_prequential_rmse=0.0091, point_validity=0.7083, raw_rmse=0.0536, speed_error=0.0740
 
 ### `bcap` (`BCAP`)
@@ -43,6 +48,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `fast-weight-bcap` (`FastWeight-BCAP`)
@@ -63,6 +73,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `fast-weight-bcap-ns` (`Global-Stream-BCAP`)
@@ -83,6 +98,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `ka2` (`KA2`)
@@ -102,6 +122,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap` (`BCAP`)
@@ -122,6 +147,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-adam` (`BCAP`)
@@ -142,6 +172,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-adam-causal` (`BCAP`)
@@ -162,6 +197,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-balanced` (`BCAP`)
@@ -182,6 +222,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-balanced-bce` (`BCAP`)
@@ -202,6 +247,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-balanced-frozen` (`BCAP`)
@@ -222,6 +272,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-stateless` (`BCAP`)
@@ -242,6 +297,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-transport` (`BCAP`)
@@ -262,6 +322,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-transport-causal` (`BCAP`)
@@ -282,6 +347,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bcap-transport-fit` (`BCAP`)
@@ -302,6 +372,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf` (`BISPF`)
@@ -322,6 +397,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-early` (`BISPF`)
@@ -342,6 +422,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-early-causal` (`BISPF`)
@@ -362,6 +447,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-frozen` (`BISPF`)
@@ -382,6 +472,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-momentum` (`BISPF`)
@@ -402,6 +497,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-optimized` (`BISPF`)
@@ -422,6 +522,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-optimized-cool` (`BISPF`)
@@ -442,6 +547,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-slow-critic` (`BISPF`)
@@ -462,6 +572,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-slow-prior` (`BISPF`)
@@ -482,6 +597,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-bispf-transport-causal` (`BISPF`)
@@ -502,6 +622,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-fast-weight-bcap` (`FastWeight-BCAP`)
@@ -522,6 +647,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-fast-weight-bcap-ns` (`Global-Stream-BCAP`)
@@ -542,6 +672,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2` (`KA2`)
@@ -562,6 +697,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-clean` (`KA2`)
@@ -582,6 +722,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-light-anchor` (`KA2`)
@@ -602,6 +747,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-ready` (`KA2`)
@@ -622,6 +772,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-ready-causal` (`KA2`)
@@ -642,6 +797,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-stateless` (`KA2`)
@@ -662,6 +822,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `online-ka2-transport-causal` (`KA2`)
@@ -682,6 +847,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bcap` (`BCAP`)
@@ -701,6 +871,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bcap-adam` (`BCAP`)
@@ -720,6 +895,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bispf` (`BISPF`)
@@ -739,6 +919,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bispf-early` (`BISPF`)
@@ -759,6 +944,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bispf-optimized` (`BISPF`)
@@ -778,6 +968,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-bispf-optimized-cool` (`BISPF`)
@@ -798,6 +993,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-ka2` (`KA2`)
@@ -817,6 +1017,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-ka2-clean` (`KA2`)
@@ -837,6 +1042,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-ka2-light-anchor` (`KA2`)
@@ -857,6 +1067,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 ### `stream-ka2-ready` (`KA2`)
@@ -877,6 +1092,11 @@
   - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
 
 

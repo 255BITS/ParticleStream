@@ -1,0 +1,290 @@
+{
+  "candidate": "online-feature-prior-bce",
+  "checkpoint_g_forwards": 7680,
+  "checks": {
+    "archived_cohort_hashes": "PASS",
+    "gif_frames_per_task": 24,
+    "no_replay_or_target_retention": "PASS",
+    "receipt_source_bindings": "PASS",
+    "recipe_identity": "PASS",
+    "sequential_batches_of_one": "PASS",
+    "trace_and_gif_hashes": "PASS",
+    "zero_evaluation_rng_deviations": "PASS"
+  },
+  "completed_optimizer_updates": 2400,
+  "counted_arrivals": 7200,
+  "destructive_controls_failing": 20,
+  "device": "cuda",
+  "live_serving_forwards": 2400,
+  "oracle_controls_passing": 5,
+  "protocol": "gym_robotics_action_dynamics_v2",
+  "protocol_seed": 0,
+  "recipe_delta": {},
+  "regression": {
+    "first_resumed_node": "tests/test_recovery_integration.py::test_public_recovery_execution_uses_causal_reader_and_single_image_transport[seq_img_circle_orbit]",
+    "initial_exit_code": 143,
+    "note": "The final full-suite process received SIGTERM after 396 passing markers; the remaining collected nodes were rerun with one overlap and all passed.",
+    "overlap": 1,
+    "passed_before_sigterm": 396,
+    "resume_exit_code": 0,
+    "resume_seconds": 45.26,
+    "resumed_passed": 115,
+    "unique_tests_passed": 510
+  },
+  "required_qualification": "10/10 PASS",
+  "results": [
+    {
+      "compute": {
+        "critic_parameters": 9473,
+        "cuda_peak_allocated_bytes": 9494528,
+        "evaluation_d_forwards": 0,
+        "evaluation_g_forwards": 1536,
+        "evaluation_seconds": 7.244465864008816,
+        "generator_parameters": 6385,
+        "optimizer_updates": 480,
+        "process_peak_rss_kib": 2159120,
+        "serving_d_forwards": 0,
+        "serving_g_forwards": 480,
+        "training_and_evaluation_seconds": 31.643673346006835,
+        "training_d_forwards": 2880,
+        "training_g_forwards": 960
+      },
+      "cost": {
+        "completed_steps": 480,
+        "timeout_seconds": 300,
+        "wall_seconds": 35.6776
+      },
+      "environment": "FetchReach-v4",
+      "final": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.005271595589478517,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.9583333333333333,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.005526095335063552,
+        "relative_mse": 0.1086636418819652
+      },
+      "gif": "gifs/online-feature-prior-bce_seq_robotics_fetch_reach.gif",
+      "task": "seq_robotics_fetch_reach",
+      "terminal_direction": [
+        0.9583333333333333,
+        0.9791666666666666
+      ],
+      "terminal_error_mm": [
+        5.526095335063553,
+        6.397274423224467
+      ],
+      "terminal_passing": 0,
+      "terminal_relative_mse": [
+        0.1086636418819652,
+        0.14562551438192906
+      ],
+      "verdict": "FAIL"
+    },
+    {
+      "compute": {
+        "critic_parameters": 9473,
+        "cuda_peak_allocated_bytes": 9907200,
+        "evaluation_d_forwards": 0,
+        "evaluation_g_forwards": 1536,
+        "evaluation_seconds": 7.033794875002059,
+        "generator_parameters": 6385,
+        "optimizer_updates": 480,
+        "process_peak_rss_kib": 2182220,
+        "serving_d_forwards": 0,
+        "serving_g_forwards": 480,
+        "training_and_evaluation_seconds": 30.517978627001867,
+        "training_d_forwards": 2880,
+        "training_g_forwards": 960
+      },
+      "cost": {
+        "completed_steps": 480,
+        "timeout_seconds": 300,
+        "wall_seconds": 33.6243
+      },
+      "environment": "FetchPush-v4",
+      "final": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.00597142410647553,
+        "live_prequential_rmse_m": 0.0036589494470937235,
+        "moving_coordinate_fraction": 0.44791666666666663,
+        "moving_direction_accuracy": 0.7441860465116279,
+        "object_delta_rmse_m": 0.014274124859906784,
+        "object_motion_rms_m": 0.014813667399236622,
+        "persistence_rmse_m": 0.012250844632995897,
+        "position_delta_rmse_m": 0.010940944803251819,
+        "relative_mse": 0.7975861242058514
+      },
+      "gif": "gifs/online-feature-prior-bce_seq_robotics_fetch_push.gif",
+      "task": "seq_robotics_fetch_push",
+      "terminal_direction": [
+        0.6511627906976745,
+        0.7441860465116279
+      ],
+      "terminal_error_mm": [
+        10.93730858912452,
+        11.649161979937174
+      ],
+      "terminal_passing": 0,
+      "terminal_relative_mse": [
+        0.7970560581016584,
+        0.9041850124422433
+      ],
+      "verdict": "FAIL"
+    },
+    {
+      "compute": {
+        "critic_parameters": 9473,
+        "cuda_peak_allocated_bytes": 9907200,
+        "evaluation_d_forwards": 0,
+        "evaluation_g_forwards": 1536,
+        "evaluation_seconds": 7.308445027993002,
+        "generator_parameters": 6385,
+        "optimizer_updates": 480,
+        "process_peak_rss_kib": 2190476,
+        "serving_d_forwards": 0,
+        "serving_g_forwards": 480,
+        "training_and_evaluation_seconds": 30.296838483998727,
+        "training_d_forwards": 2880,
+        "training_g_forwards": 960
+      },
+      "cost": {
+        "completed_steps": 480,
+        "timeout_seconds": 300,
+        "wall_seconds": 32.9736
+      },
+      "environment": "FetchSlide-v4",
+      "final": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.006017213553838246,
+        "live_prequential_rmse_m": 0.005176968619528889,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.7745098039215687,
+        "object_delta_rmse_m": 0.00892445745982229,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.0076109394920953225,
+        "relative_mse": 0.35257079178259354
+      },
+      "gif": "gifs/online-feature-prior-bce_seq_robotics_fetch_slide.gif",
+      "task": "seq_robotics_fetch_slide",
+      "terminal_direction": [
+        0.6274509803921569,
+        0.8431372549019608
+      ],
+      "terminal_error_mm": [
+        7.610939492095323,
+        10.317200132147024
+      ],
+      "terminal_passing": 0,
+      "terminal_relative_mse": [
+        0.35257079178259354,
+        0.6478784022477525
+      ],
+      "verdict": "FAIL"
+    },
+    {
+      "compute": {
+        "critic_parameters": 9473,
+        "cuda_peak_allocated_bytes": 9907200,
+        "evaluation_d_forwards": 0,
+        "evaluation_g_forwards": 1536,
+        "evaluation_seconds": 6.687643522003782,
+        "generator_parameters": 6385,
+        "optimizer_updates": 480,
+        "process_peak_rss_kib": 2205260,
+        "serving_d_forwards": 0,
+        "serving_g_forwards": 480,
+        "training_and_evaluation_seconds": 29.3432817829962,
+        "training_d_forwards": 2880,
+        "training_g_forwards": 960
+      },
+      "cost": {
+        "completed_steps": 480,
+        "timeout_seconds": 300,
+        "wall_seconds": 31.9642
+      },
+      "environment": "FetchPickAndPlace-v4",
+      "final": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.0024684234759877735,
+        "live_prequential_rmse_m": 0.0020627751527214746,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.8421052631578947,
+        "object_delta_rmse_m": 0.002848972958763337,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.0026654982063933456,
+        "relative_mse": 0.04526547446613721
+      },
+      "gif": "gifs/online-feature-prior-bce_seq_robotics_fetch_pick_and_place.gif",
+      "task": "seq_robotics_fetch_pick_and_place",
+      "terminal_direction": [
+        0.6666666666666666,
+        0.8421052631578947
+      ],
+      "terminal_error_mm": [
+        2.6654982063933454,
+        4.153648593678457
+      ],
+      "terminal_passing": 4,
+      "terminal_relative_mse": [
+        0.04526547446613721,
+        0.10991824634780976
+      ],
+      "verdict": "FAIL"
+    },
+    {
+      "compute": {
+        "critic_parameters": 9473,
+        "cuda_peak_allocated_bytes": 9907200,
+        "evaluation_d_forwards": 0,
+        "evaluation_g_forwards": 1536,
+        "evaluation_seconds": 6.927050876009162,
+        "generator_parameters": 6385,
+        "optimizer_updates": 480,
+        "process_peak_rss_kib": 2216396,
+        "serving_d_forwards": 0,
+        "serving_g_forwards": 480,
+        "training_and_evaluation_seconds": 28.183491833005974,
+        "training_d_forwards": 2880,
+        "training_g_forwards": 960
+      },
+      "cost": {
+        "completed_steps": 480,
+        "timeout_seconds": 300,
+        "wall_seconds": 30.8819
+      },
+      "environment": "HandReach-v3",
+      "final": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.00838958205313191,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.5887850467289719,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.008179031268229778,
+        "relative_mse": 0.9894909889335282
+      },
+      "gif": "gifs/online-feature-prior-bce_seq_robotics_hand_reach.gif",
+      "task": "seq_robotics_hand_reach",
+      "terminal_direction": [
+        0.5700934579439252,
+        0.5934579439252337
+      ],
+      "terminal_error_mm": [
+        8.150786611728654,
+        8.396016783189214
+      ],
+      "terminal_passing": 0,
+      "terminal_relative_mse": [
+        0.9826687685411497,
+        1.0426887856791287
+      ],
+      "verdict": "FAIL"
+    }
+  ],
+  "robotics_qualification": "0/5 FAIL",
+  "summed_task_wall_seconds": 165.1216,
+  "tasks": 5,
+  "total_stretch": "1/10"
+}

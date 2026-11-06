@@ -9,9 +9,26 @@ Start with:
 - [Compiled experiment memory](reports/forge/EXPERIMENT_MEMORY.md)
 - [Proposed minimal Tier 1 to Tier 3 targets](reports/forge/minimal-tier-expansion-plan.md)
 
+## Gymnasium-Robotics expansion
+
+View 10 adds five real simulator tasks as Tier 2 stretch: FetchReach, FetchPush,
+FetchSlide, FetchPickAndPlace and HandReach. They measure action-conditioned
+one-step physical motion on held-out episodes with the unchanged global
+`online-feature-prior-bce` recipe: 480 updates each, sequential batches of one,
+24 checks and five terminal passes required. Gates require <=5 mm RMS error,
+at least 20% MSE improvement over no motion, >=75% moving-coordinate direction
+accuracy and finite outputs. Oracle and four destructive controls validate
+each scorer. These tests do not measure learned robot-control success.
+
+Install `.[robotics]`, then run `particlestream bootstrap`,
+`particlestream robotics --controls-only`, and `particlestream robotics --device cuda`.
+The [robotics protocol and readout](reports/forge/robotics-readout.md) explains
+state/action encoding, excitation, held-out splits, evidence and interpretation.
+The ten required tasks retain their evidence and qualification contracts.
+
 ## Minimal capability proofs
 
-The current view adds five `stretch` tasks: arbitrary dense images and integer
+View 8 added five `stretch` tasks, retained in view 10: arbitrary dense images and integer
 tokens (Tier 1), held-out local kernel responses and addition pairs (Tier 2),
 and unseen-speed rollout (Tier 3). Their fixed training caps are 96, 96, 192,
 192 and 384 updates: 960 total for one unchanged `online-feature-prior-bce`
