@@ -32,12 +32,26 @@ class StreamWorkspace(ForgeWorkspace):
             raise ValueError("empty gauntlet; run particlestream bootstrap first")
         from .tier1 import IMPLEMENTATION, _build_recipe
         for task in self.load_tasks().values():
+            if task.batch_size != 1:
+                raise ValueError("every experiment requires sequential batch_size=1")
             self.registry.get_adapter(task.adapter)
             if task.host_definition.get("implementation") != IMPLEMENTATION:
                 raise ValueError("stale task implementation; run particlestream bootstrap")
             for candidate in self.load_candidates().values():
                 _build_recipe(task, candidate, task.steps)
         return result
+
+    def run_task(self, candidate_id, task_id, *, device="cpu", seed=0, steps_override=None):
+        # Reject historical replay declarations before the upstream executor can
+        # replace their preserved receipts with an INVALID execution attempt.
+        from .online import validate_execution_policy
+        validate_execution_policy(self.load_candidates()[candidate_id])
+        if self.load_tasks()[task_id].batch_size != 1:
+            raise ValueError("every experiment requires sequential batch_size=1")
+        if seed != 0:
+            raise ValueError("the experiment protocol requires seed 0")
+        return super().run_task(candidate_id, task_id, device=device, seed=seed,
+                                steps_override=steps_override)
 
     def compile_reports(self, **kwargs):
         paths = super().compile_reports(**kwargs)
@@ -83,7 +97,7 @@ def main(argv=None):
             command.add_argument("--through-tier", type=int, default=1)
         elif name == "compare":
             command.add_argument("--candidate", action="append",
-                                 help="Repeat to select candidates; default runs all families, BISPF first")
+                                 help="Repeat to select candidates; default runs the three online recipes")
     args = parser.parse_args(argv)
     workspace = StreamWorkspace(args.root, registry=REGISTRY)
     try:
@@ -103,7 +117,7 @@ def main(argv=None):
         elif args.command == "compare":
             workspace.validate()
             selected = args.candidate or sorted(
-                (cid for cid in workspace.load_candidates() if cid.startswith("stream-")),
+                (cid for cid in workspace.load_candidates() if cid.startswith("online-")),
                 key=lambda cid: ("bispf" not in cid, cid),
             )
             result = {}
