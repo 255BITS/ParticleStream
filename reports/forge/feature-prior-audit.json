@@ -1,0 +1,441 @@
+{
+  "adapter_source_verified": true,
+  "all_gifs_identical_to_archived_0.9.6": true,
+  "all_observations_and_gifs_identical_to_archived_view4": true,
+  "all_observations_identical_to_archived_0.9.6": true,
+  "archive_manifests_verified": {
+    "reports/forge/cohorts/feature-prior-view4/manifest.json": 16,
+    "reports/forge/cohorts/particlegan-0.9.6-view5/manifest.json": 17,
+    "reports/forge/cohorts/pre-recovery/manifest.json": 256,
+    "tests/fixtures/pre_online_artifacts.json": 112
+  },
+  "archived_view4_adapter_module_sha256": "c9ea09f73c165b4e9b47d23d0f0c5b6d55bdd2e17664d433479ea7e09aacb36f",
+  "candidate": "online-feature-prior-bce",
+  "checks": 240,
+  "current_adapter_module_sha256": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+  "current_qualification_guard_tests_passed": 1,
+  "decoder_output_path_validation": "Source review and public-runtime destructive decoder-zero control",
+  "dependencies": {
+    "Pillow": "13.0.0",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.4",
+    "particlegan": "0.9.7",
+    "pytest": "9.2.0",
+    "torch": "2.15.0"
+  },
+  "eligible": true,
+  "encoder_seed": 77676876021444575,
+  "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
+  "evaluation_rng_deviations": 0,
+  "extra_generator_assignment_probes": 0,
+  "gif_frames_decoded": 240,
+  "global_recipe_policy_manipulator_identical": true,
+  "gradient_accumulation_steps": 1,
+  "held_tasks": 0,
+  "historical_artifacts_unchanged": 112,
+  "limitations": [
+    "Qualification covers the fixed seed-0 Tier 1 streams and 480-update budgets.",
+    "Persistent-fork, circle-orbit, and square-circle-cycle context states reached their 64-slot capacity and evicted 173, 174, and 126/130 entries respectively despite passing all gates.",
+    "This is an observed-feature conditional-prior and reconstruction recipe; its pass is not a pure adversarial-loss-only BCAP claim."
+  ],
+  "optimizer_fake_batch": 1,
+  "optimizer_real_batch": 1,
+  "prior_cohort": "reports/forge/cohorts/particlegan-0.9.6-view5",
+  "public_decoder_used_for_all_outputs": true,
+  "python_version": "3.13.15",
+  "qualification": "PASS",
+  "recipe_delta": "ParticleGAN/Forge 0.9.6 -> 0.9.7; view 5 -> view 7 adds seq_img_circle_orbit and seq_img_square_circle_cycle as 9th and 10th required tasks; no recipe, existing task gate, architecture or budget changes",
+  "records": [
+    {
+      "arrivals": 481,
+      "context_count": 64,
+      "context_evictions": 126,
+      "feature_count": 8,
+      "gates": [
+        {
+          "margin": 0.105833,
+          "metric": "cycle_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.014167
+        },
+        {
+          "margin": 0.107546,
+          "metric": "s2c_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.012454
+        },
+        {
+          "margin": 0.104119,
+          "metric": "c2s_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.015881
+        },
+        {
+          "margin": 0.144978,
+          "metric": "xy_rmse",
+          "operator": "<=",
+          "threshold": 0.15,
+          "worst_terminal": 0.005022
+        },
+        {
+          "margin": 0.1,
+          "metric": "step_accuracy",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.1,
+          "metric": "cycle_completion",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "waypoint_modes",
+          "operator": "==",
+          "threshold": 8.0,
+          "worst_terminal": 8.0
+        }
+      ],
+      "gif_sha256": "c6be180202d9eff7d3ce5164fcc96441682c0ab365460cf684e8b542e79b69d5",
+      "task": "seq_img_square_circle_cycle",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 481,
+      "context_count": 64,
+      "context_evictions": 174,
+      "feature_count": 8,
+      "gates": [
+        {
+          "margin": 0.106562,
+          "metric": "orbit_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.013438
+        },
+        {
+          "margin": 0.145576,
+          "metric": "xy_rmse",
+          "operator": "<=",
+          "threshold": 0.15,
+          "worst_terminal": 0.004424
+        },
+        {
+          "margin": 0.1,
+          "metric": "step_accuracy",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.1,
+          "metric": "orbit_completion",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "waypoint_modes",
+          "operator": "==",
+          "threshold": 8.0,
+          "worst_terminal": 8.0
+        }
+      ],
+      "gif_sha256": "30cdcf0e60184aa49dc4ea15ec055e93986bcb693a92d130514d185f76d5fbb4",
+      "task": "seq_img_circle_orbit",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 481,
+      "context_count": 29,
+      "context_evictions": 0,
+      "feature_count": 5,
+      "gates": [
+        {
+          "margin": 0.1,
+          "metric": "outcome_accuracy",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.09399,
+          "metric": "prediction_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.02601
+        }
+      ],
+      "gif_sha256": "1c7deae5a9ca90b18cc545a1e67705090ebc92d9d1df13e2465b01a3c12b0d8c",
+      "task": "seq_img_delayed_cue",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 480,
+      "context_count": 1,
+      "context_evictions": 0,
+      "feature_count": 4,
+      "gates": [
+        {
+          "margin": 0.15,
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "modes",
+          "operator": "==",
+          "threshold": 4.0,
+          "worst_terminal": 4.0
+        },
+        {
+          "margin": 0.16875,
+          "metric": "finite_template_tv",
+          "operator": "<=",
+          "threshold": 0.2,
+          "worst_terminal": 0.03125
+        }
+      ],
+      "gif_sha256": "2d77166d3c42dd119baec9a07018b9b3e82a121c8230f9aa056b6194b97f9278",
+      "task": "seq_img_dwell_bars4",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 481,
+      "context_count": 8,
+      "context_evictions": 0,
+      "feature_count": 3,
+      "gates": [
+        {
+          "margin": 0.15,
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "within_state_modes",
+          "operator": "==",
+          "threshold": 2.0,
+          "worst_terminal": 2.0
+        },
+        {
+          "margin": 0.16875,
+          "metric": "branch_tv",
+          "operator": "<=",
+          "threshold": 0.2,
+          "worst_terminal": 0.03125
+        }
+      ],
+      "gif_sha256": "26e0611b293dcec6f9a951c26e50e80b370002f4c79a80fd01b314a3d6b024a6",
+      "task": "seq_img_fork_rollout",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 481,
+      "context_count": 64,
+      "context_evictions": 173,
+      "feature_count": 7,
+      "gates": [
+        {
+          "margin": 0.15,
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "within_state_modes",
+          "operator": "==",
+          "threshold": 2.0,
+          "worst_terminal": 2.0
+        },
+        {
+          "margin": 0.10625,
+          "metric": "branch_tv",
+          "operator": "<=",
+          "threshold": 0.2,
+          "worst_terminal": 0.09375
+        },
+        {
+          "margin": 0.05,
+          "metric": "trajectory_consistency",
+          "operator": ">=",
+          "threshold": 0.95,
+          "worst_terminal": 1.0
+        }
+      ],
+      "gif_sha256": "85a1f3d59e8b08d1dbc739407e0e41321633acde29b2148a80dcce7b83a3646b",
+      "task": "seq_img_persistent_fork",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 480,
+      "context_count": 1,
+      "context_evictions": 0,
+      "feature_count": 4,
+      "gates": [
+        {
+          "margin": 0.15,
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.15,
+          "metric": "finite_template_tv",
+          "operator": "<=",
+          "threshold": 0.15,
+          "worst_terminal": 0.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "support_modes",
+          "operator": "==",
+          "threshold": 4.0,
+          "worst_terminal": 4.0
+        },
+        {
+          "margin": 0.03125,
+          "metric": "rare_mass",
+          "operator": ">=",
+          "threshold": 0.03125,
+          "worst_terminal": 0.0625
+        },
+        {
+          "margin": 0.03125,
+          "metric": "rare_mass",
+          "operator": "<=",
+          "threshold": 0.09375,
+          "worst_terminal": 0.0625
+        }
+      ],
+      "gif_sha256": "b6cb24847b10626d0a925dd8b50ced1b0c45c2ccb83c93cbf0d2dc3cf4fe8766",
+      "task": "seq_img_rare_mode_bars4",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 480,
+      "context_count": 1,
+      "context_evictions": 0,
+      "feature_count": 4,
+      "gates": [
+        {
+          "margin": 0.1,
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "modes",
+          "operator": "==",
+          "threshold": 4.0,
+          "worst_terminal": 4.0
+        },
+        {
+          "margin": 0.15,
+          "metric": "finite_template_tv",
+          "operator": "<=",
+          "threshold": 0.15,
+          "worst_terminal": 0.0
+        }
+      ],
+      "gif_sha256": "a51e95b4e828c1dbc03d0790a1b77c750730daaafec933b0a91d5e3f924a06b4",
+      "task": "seq_img_round_robin_bars4",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 481,
+      "context_count": 7,
+      "context_evictions": 0,
+      "feature_count": 4,
+      "gates": [
+        {
+          "margin": 0.110932,
+          "metric": "next_frame_rmse",
+          "operator": "<=",
+          "threshold": 0.12,
+          "worst_terminal": 0.009068
+        },
+        {
+          "margin": 0.1,
+          "metric": "direction_acc",
+          "operator": ">=",
+          "threshold": 0.9,
+          "worst_terminal": 1.0
+        }
+      ],
+      "gif_sha256": "23d4bfc71d75f7db5fc9379cb4f4247ac335b752972db4a1f7482293ece1b968",
+      "task": "seq_img_translating_bar_next",
+      "terminal_checks_passing": 5
+    },
+    {
+      "arrivals": 480,
+      "context_count": 1,
+      "context_evictions": 0,
+      "feature_count": 4,
+      "gates": [
+        {
+          "margin": 0.15,
+          "metric": "hq",
+          "operator": ">=",
+          "threshold": 0.85,
+          "worst_terminal": 1.0
+        },
+        {
+          "margin": 0.0,
+          "metric": "modes",
+          "operator": "==",
+          "threshold": 4.0,
+          "worst_terminal": 4.0
+        },
+        {
+          "margin": 0.16875,
+          "metric": "finite_template_tv",
+          "operator": "<=",
+          "threshold": 0.2,
+          "worst_terminal": 0.03125
+        }
+      ],
+      "gif_sha256": "7923087bc03e2f661528dd9fc78f049e5b481a93e2562371f19c8649aa9b7f9c",
+      "task": "seq_img_variable_dwell_bars4",
+      "terminal_checks_passing": 5
+    }
+  ],
+  "replayed_examples": 0,
+  "required_tasks": 10,
+  "runs": 10,
+  "runtime_delta": "Clean Python 3.13.15 environment resolved Torch 2.15.0+cu132; prior receipts used Torch 2.14.1+cu130",
+  "software_validation": {
+    "dependency_check": "46 installed packages compatible",
+    "oracle_and_destructive_controls": "PASS",
+    "pytest_command": "OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 python -m pytest -q",
+    "pytest_seconds": 53.84,
+    "tests_passed": 451,
+    "workspace_candidates_validated": 44,
+    "workspace_tasks_validated": 10
+  },
+  "source_revision": "8e553563d92686e3b5bfcf926736348992e819bd",
+  "stage": "particlegan_0.9.7_current_view7_qualification_verified",
+  "target_retained_after_update": false,
+  "task_gates_budgets_initial_capacity_architectures_unchanged_from": "23736b6",
+  "terminal_checks_passing": 50,
+  "training_wall_seconds": 170.2512,
+  "updates": 4800,
+  "view4_archive_artifacts_verified": 16,
+  "view_revision": 7
+}

@@ -324,10 +324,11 @@ class TestConcatenatedTrainRealShapeAndDeviceInvariance:
 
     @pytest.mark.parametrize("device", DEVICES)
     @pytest.mark.parametrize("rehearsal_batch", [0, 1, 7, 64])
-    def test_gantrainer_step_with_concatenated_train_real(self, device: str, rehearsal_batch: int):
-        """GANTrainer.step must execute cleanly and update parameters with train_real of any batch size."""
+    def test_online_session_rejects_concatenated_train_real(self, device: str, rehearsal_batch: int):
+        """Historical replay tensors cannot enter the strict optimizer path."""
+        from particlestream.online import OnlineSession
         task = {t.id: t for t in TIER1_TASKS}["seq_img_round_robin_bars4"]
-        cand = TIER1_CANDIDATES["fast-weight-bcap-ns"]
+        cand = TIER1_CANDIDATES["online-bcap-adam"]
 
         streams = NamedStreams(seed=0, device=device)
         g = StreamImageGenerator(z_dim=task.z_dim, width=16, context_dim=0).to(device)
@@ -364,7 +365,8 @@ class TestConcatenatedTrainRealShapeAndDeviceInvariance:
 
         mem_gen = streams.generator("eval", component="memory", purpose="reservoir", device=device)
 
-        # Step 5 times replicating tier1 loop
+        session = OnlineSession(trainer, g, d, serving_generator=streams.generator(
+            "eval", component="serving", purpose="prediction", device=device))
         for step in range(5):
             x_cur = torch.randn(1, 1, 8, 8, device=device)
             ctx = mem.write(x_cur)
@@ -374,8 +376,13 @@ class TestConcatenatedTrainRealShapeAndDeviceInvariance:
             else:
                 train_real = x_cur
 
-            trainer.step(train_real)
-            assert trainer.policy.completed_steps == step + 1
+            if rehearsal_batch:
+                with pytest.raises(ValueError, match="one frame"):
+                    session.observe(train_real)
+                assert trainer.policy.completed_steps == 0
+            else:
+                session.observe(train_real)
+                assert trainer.policy.completed_steps == step + 1
             assert all(torch.isfinite(p).all() for p in g.parameters())
             assert all(torch.isfinite(p).all() for p in d.parameters())
             assert all(torch.isfinite(p).all() for p in prior.parameters())

@@ -418,7 +418,8 @@ def test_task4_fork_rollout_oracle_and_destructive_controls():
 
 def test_tier1_grade_sustained_observations_contract():
     """Verify sustained 24-observation gate evaluates PASS for oracles and FAIL for destructive controls."""
-    tasks = {t.id: t for t in TIER1_TASKS}
+    # The new challenge controls are checked in test_challenge_integration.
+    tasks = {t.id: t for t in TIER1_TASKS[:4]}
     bars = bars4_templates()
     positions, _ = translating_bar_cycle()
     ft = fork_templates()
@@ -553,7 +554,7 @@ def test_adversarial_rng_leakage_invalidates_task_run(tmp_path: Path):
             yield self
 
     with patch.object(NamedStreams, "isolated_evaluation", leaky_isolated_eval):
-        rec = ws.run_task("fast-weight-bcap", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
+        rec = ws.run_task("online-bcap-adam", "seq_img_round_robin_bars4", device="cpu", steps_override=4)
 
     assert rec["unintended_rng_deviations"] > 0
     assert rec["verdict"] == "INVALID"
@@ -563,8 +564,8 @@ def test_adversarial_rng_leakage_invalidates_task_run(tmp_path: Path):
 
 
 def test_tier1_24_observation_cadence_and_terminal_window():
-    """Verify all 4 Tier 1 tasks have 24 observation checkpoints with a sustained 5-check terminal window."""
-    assert len(TIER1_TASKS) == 4
+    """Verify all 10 Tier 1 tasks have 24 observation checkpoints with a sustained 5-check terminal window."""
+    assert len(TIER1_TASKS) == 10
     expected_cadence = [i * 20 for i in range(1, 25)]  # [20, 40, ..., 480]
     expected_window = [400, 420, 440, 460, 480]
 
@@ -674,11 +675,11 @@ def test_tier_api_bootstrap_retier_and_short_run(tmp_path: Path):
     ws = bootstrap_workspace(tmp_path)
     val = ws.validate()
     assert val["status"] == "valid"
-    assert val["tasks"] == 4
+    assert val["tasks"] == len(TIER1_TASKS)
     assert val["candidates"] == len(CANDIDATES)
 
     # Test short 12-step run with RNG isolation check and GIF generation (grades INCOMPLETE vs full budget)
-    rec = ws.run_task("fast-weight-bcap", "seq_img_round_robin_bars4", device="cpu", steps_override=12)
+    rec = ws.run_task("online-bcap-adam", "seq_img_round_robin_bars4", device="cpu", steps_override=12)
     assert rec["grade"]["status"] == "INCOMPLETE"
     assert rec["unintended_rng_deviations"] == 0
     assert rec["terminal_passing"] == 0

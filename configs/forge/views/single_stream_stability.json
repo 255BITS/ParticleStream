@@ -23,13 +23,49 @@
       "order": 3,
       "qualification_tier": 1,
       "task": "seq_img_fork_rollout"
+    },
+    {
+      "importance": "required",
+      "order": 4,
+      "qualification_tier": 1,
+      "task": "seq_img_variable_dwell_bars4"
+    },
+    {
+      "importance": "required",
+      "order": 5,
+      "qualification_tier": 1,
+      "task": "seq_img_rare_mode_bars4"
+    },
+    {
+      "importance": "required",
+      "order": 6,
+      "qualification_tier": 1,
+      "task": "seq_img_delayed_cue"
+    },
+    {
+      "importance": "required",
+      "order": 7,
+      "qualification_tier": 1,
+      "task": "seq_img_persistent_fork"
+    },
+    {
+      "importance": "required",
+      "order": 8,
+      "qualification_tier": 1,
+      "task": "seq_img_circle_orbit"
+    },
+    {
+      "importance": "required",
+      "order": 9,
+      "qualification_tier": 1,
+      "task": "seq_img_square_circle_cycle"
     }
   ],
   "evidence_scope": "ordinary",
   "goal": "single_stream_stability",
   "id": "single_stream_stability",
   "namespace": "particlegan_forge",
-  "policy_change_reason": "ParticleGAN 0.9.6 source-bound family comparison with task-owned conditional architectures; unchanged gates and budgets.",
-  "revision": 2,
+  "policy_change_reason": "Add seq_img_square_circle_cycle as the tenth required Tier 1 task in single_stream_stability so one global strict online feature-prior recipe qualifies across all ten sequential tasks, including bidirectional Square <-> Circle CycleGAN orbit translation.",
+  "revision": 7,
   "schema_version": 1
 }

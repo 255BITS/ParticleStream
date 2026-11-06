@@ -68,6 +68,15 @@ class TranslatingBarStream:
         self.positions, self.cycle = translating_bar_cycle(self.device)
         self.cursor = 0
 
+    def next_frame(self, generator: torch.Generator) -> tuple[torch.Tensor, int]:
+        """Reveal only the next chronological observation, never its future."""
+        with torch.no_grad():
+            position = self.cycle[self.cursor % len(self.cycle)]
+            self.cursor += 1
+            base = self.positions[position:position + 1]
+            noise = self.noise_std * torch.randn(base.shape, device=self.device, generator=generator)
+            return (base + noise).clamp(0.0, 1.0).detach(), position
+
     def next_pair(self, generator: torch.Generator) -> tuple[torch.Tensor, torch.Tensor, int, int]:
         """Return (x_t, x_{t+1}, pos_t, pos_{t+1}) with batch_size=1 and requires_grad=False."""
         with torch.no_grad():
@@ -84,13 +93,28 @@ class TranslatingBarStream:
 
 
 class ForkStream:
-    """Alternates 2-step episodes: stem (0) -> Left branch (1) vs. stem (0) -> Right branch (2)."""
+    """Single-arrival episodes with a fresh fair branch draw after each stem.
+
+    ``next_transition`` retains the old alternating paired law for historical
+    helpers; strict training calls only ``next_frame``.
+    """
 
     def __init__(self, noise_std: float = 0.01, device: str | torch.device = "cpu"):
         self.noise_std = float(noise_std)
         self.device = torch.device(device)
         self.templates = fork_templates(self.device)
         self.cursor = 0
+
+    def next_frame(self, generator: torch.Generator) -> tuple[torch.Tensor, int]:
+        """Reveal one frame; draw its branch only when that branch arrives."""
+        with torch.no_grad():
+            phase = self.cursor % 2
+            mode = 0 if phase == 0 else int(torch.randint(
+                1, 3, (1,), device=self.device, generator=generator).item())
+            self.cursor += 1
+            base = self.templates[mode:mode + 1]
+            noise = self.noise_std * torch.randn(base.shape, device=self.device, generator=generator)
+            return (base + noise).clamp(0.0, 1.0).detach(), mode
 
     def next_transition(self, generator: torch.Generator) -> tuple[torch.Tensor, torch.Tensor, int]:
         """Return (stem_frame, branch_frame, branch_id in {1, 2}) with batch_size=1."""

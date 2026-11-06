@@ -1,0 +1,50 @@
+{
+  "changed_factors": [
+    "ParticleGAN 0.9.6 public ka2 trainer preset",
+    "Shared 64-frame FIFO memory, seven replay samples and velocity context",
+    "Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)",
+    "Disable auxiliary noise, EMA serving, critic guard and latent damping; retain KA2 critic EMA anchor weight=1",
+    "Critic beta2=0.99 (other optimizer betas unchanged) engages KA2 readiness around step 80 within the fixed 480-step budget"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "stream-ka2-ready",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "decay": 0.9,
+    "dim": 16,
+    "kind": "fast_weight",
+    "rehearsal_batch": 7,
+    "reservoir_size": 64,
+    "write_lr": 0.35
+  },
+  "namespace": "particlegan_forge",
+  "parent": "stream-ka2-clean",
+  "recipe_overrides": {
+    "betas": [
+      0.0,
+      0.999
+    ],
+    "d_betas": [
+      0.0,
+      0.99
+    ],
+    "d_guard_ratio": 0.0,
+    "direct_particle_gain": false,
+    "ema_decay": 0.0,
+    "input_noise_std": 0.0,
+    "latent_damping_max_rate": 0.0,
+    "loss": "non_saturating",
+    "lr": 0.005,
+    "lr_anneal_start": 0.5,
+    "lr_floor": 0.05,
+    "lr_schedule": "cosine",
+    "network_lr_floor": 0.05,
+    "output_noise_std": 0.0,
+    "output_noise_warmup": 0.0
+  },
+  "recipe_preset": "ka2",
+  "schema_version": 3,
+  "technique": "KA2"
+}
