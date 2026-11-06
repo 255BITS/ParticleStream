@@ -1,0 +1,43 @@
+{
+  "changed_factors": [
+    "ParticleGAN 0.9.6 public bispf_optimized trainer preset",
+    "Shared 64-frame FIFO memory, seven replay samples and velocity context",
+    "Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)",
+    "SBNP disabled for discrete target modes; FP32 training",
+    "Conservative global DualNorm rates: lr=0.003, D multiplier=1, prior multiplier=2; annealing starts at 0.25",
+    "Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe",
+    "One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "online-bispf-optimized-cool",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "decay": 0.9,
+    "dim": 16,
+    "kind": "fast_weight",
+    "rehearsal_batch": 0,
+    "replay_policy": "none",
+    "reservoir_size": 64,
+    "write_lr": 0.35
+  },
+  "namespace": "particlegan_forge",
+  "parent": "stream-bispf-optimized-cool",
+  "recipe_overrides": {
+    "d_lr_mult": 1.0,
+    "loss": "non_saturating",
+    "lr": 0.003,
+    "lr_anneal_start": 0.25,
+    "lr_floor": 0.05,
+    "lr_schedule": "cosine",
+    "network_lr_floor": 0.05,
+    "prior_lr_mult": 2.0,
+    "prior_reg": 0.0,
+    "prior_regularizer": "none",
+    "training_precision": "float32"
+  },
+  "recipe_preset": "bispf_optimized",
+  "schema_version": 3,
+  "technique": "BISPF"
+}

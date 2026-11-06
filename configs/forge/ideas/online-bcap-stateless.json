@@ -1,0 +1,23 @@
+{
+  "changed_factors": [
+    "Stateless BCAP baseline on batch_size=1 sequential stream",
+    "Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe",
+    "One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "online-bcap-stateless",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "kind": "none",
+    "rehearsal_batch": 0,
+    "replay_policy": "none"
+  },
+  "namespace": "particlegan_forge",
+  "parent": "bcap",
+  "recipe_overrides": {},
+  "recipe_preset": "bcap_adam",
+  "schema_version": 3,
+  "technique": "BCAP"
+}
