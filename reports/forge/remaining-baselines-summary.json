@@ -1,16 +1,134 @@
 {
-  "candidates": {},
+  "candidates": {
+    "online-bispf": {
+      "elapsed_seconds": 78.137,
+      "passed_tasks": 0,
+      "source_revision": "c16172a4584a11d001a3f0e649c5b8a9833c8abe",
+      "tasks": {
+        "seq_img_delayed_cue": {
+          "all_finite": true,
+          "final_metrics": {
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.116584,
+            "outcome_accuracy": 0.5,
+            "prediction_rmse": 0.30088
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.360235,
+            "mean_rmse": 0.274285,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_fork_rollout": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.5,
+            "hq": 1.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.17614,
+            "mean_rmse": 0.04334,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_persistent_fork": {
+          "all_finite": true,
+          "final_metrics": {
+            "branch_tv": 0.96875,
+            "depth_1_hq": 0.25,
+            "depth_1_modes": 1.0,
+            "depth_1_tv": 0.75,
+            "depth_2_hq": 0.75,
+            "depth_2_modes": 1.0,
+            "depth_2_tv": 0.5,
+            "depth_3_hq": 0.03125,
+            "depth_3_modes": 1.0,
+            "depth_3_tv": 0.96875,
+            "hq": 0.03125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.180186,
+            "mean_rmse": 0.15078,
+            "trajectory_consistency": 0.0,
+            "within_state_modes": 1.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_rare_mode_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.1875,
+            "hq": 0.8125,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.419396,
+            "mean_rmse": 0.096579,
+            "rare_mass": 0.0,
+            "support_modes": 3.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_round_robin_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 0.15625,
+            "hq": 0.875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.409042,
+            "mean_rmse": 0.075273,
+            "modes": 4.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_translating_bar_next": {
+          "all_finite": true,
+          "final_metrics": {
+            "direction_acc": 0.96875,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.154907,
+            "next_frame_rmse": 0.132983
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        },
+        "seq_img_variable_dwell_bars4": {
+          "all_finite": true,
+          "final_metrics": {
+            "finite_template_tv": 1.0,
+            "hq": 0.0,
+            "live_predictions": 480.0,
+            "live_prequential_rmse": 0.470947,
+            "mean_rmse": 0.285624,
+            "modes": 0.0
+          },
+          "status": "FAIL",
+          "terminal_passing": 0
+        }
+      }
+    }
+  },
   "cohort_note": "Remaining nine strict baselines; training source is frozen at d19b9d4. Historical protected artifacts are not rerun or overwritten.",
   "deferred_candidates": [
-    "online-fast-weight-bcap",
-    "online-ka2-stateless",
     "online-bcap",
-    "online-bispf-optimized-cool",
     "online-bispf-optimized",
-    "online-bispf",
+    "online-bispf-optimized-cool",
+    "online-fast-weight-bcap",
+    "online-ka2",
     "online-ka2-clean",
     "online-ka2-light-anchor",
-    "online-ka2"
+    "online-ka2-stateless"
   ],
   "implementation": {
     "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
