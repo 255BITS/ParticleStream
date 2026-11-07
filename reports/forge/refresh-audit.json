@@ -1533,6 +1533,24 @@
       "verdict": "FAIL",
       "wall_seconds": 4.8714
     },
+    "online-bcap-balanced-frozen/seq_minimal_velocity_extrapolation": {
+      "completed_at": "2026-11-07T16:45:10.947+00:00",
+      "completed_steps": 384,
+      "gif_sha256": "3cdf6bbcb07c4ac17665028f13bd1f0c29f8c254250777375d4a265aafc7de21",
+      "goal_gif": "gifs/online-bcap-balanced-frozen_seq_minimal_velocity_extrapolation.gif",
+      "receipt_sha256": "e7b6642db59dfd7c28f7ee5ad8b6b5fb4e30957ef0cbbd5417fc3679c1c090ae",
+      "verdict": "FAIL",
+      "wall_seconds": 39.979
+    },
+    "online-bcap-balanced-frozen/seq_robotics_fetch_pick_and_place": {
+      "completed_at": "2026-11-07T16:43:50.015+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "06a477075e51a3b5ad5f9215475f8b3e6ea3423312cba1cadd4b4351fa5a3bc5",
+      "goal_gif": "gifs/online-bcap-balanced-frozen_seq_robotics_fetch_pick_and_place.gif",
+      "receipt_sha256": "f08fc2107516533950beee881460af4ea32898715ed8488b600b1d489863e09b",
+      "verdict": "FAIL",
+      "wall_seconds": 40.9282
+    },
     "online-bcap-balanced-frozen/seq_robotics_fetch_push": {
       "completed_at": "2026-11-07T16:42:27.995+00:00",
       "completed_steps": 480,
@@ -1550,6 +1568,24 @@
       "receipt_sha256": "8d35c7d65397cda46f8ca8eea1419bbc72cc3ac0b3dfdea3e849d2c6b8f3c4c5",
       "verdict": "FAIL",
       "wall_seconds": 24.7624
+    },
+    "online-bcap-balanced-frozen/seq_robotics_fetch_slide": {
+      "completed_at": "2026-11-07T16:43:09.025+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "56ed243bae945937bb763955db12f77ae65dfa3df5153388c2150d98b0004b72",
+      "goal_gif": "gifs/online-bcap-balanced-frozen_seq_robotics_fetch_slide.gif",
+      "receipt_sha256": "b82798bb48e9ad9e2fb12fee96efe82507eb5e9cd046dada2e6d45264961598a",
+      "verdict": "FAIL",
+      "wall_seconds": 40.97
+    },
+    "online-bcap-balanced-frozen/seq_robotics_hand_reach": {
+      "completed_at": "2026-11-07T16:44:30.908+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "bcf9a9801625fde82d685215db44b2c51c674ad2e96abaab488b875ee051d729",
+      "goal_gif": "gifs/online-bcap-balanced-frozen_seq_robotics_hand_reach.gif",
+      "receipt_sha256": "3af24bcba534df9bd339cb10a8b76ca7108d913914f4107228ef4a2d536ec1ce",
+      "verdict": "FAIL",
+      "wall_seconds": 40.8267
     },
     "online-bcap-balanced/seq_img_circle_orbit": {
       "completed_at": "2026-11-07T16:24:57.841+00:00",
@@ -1730,6 +1766,492 @@
       "receipt_sha256": "8e430e9b6a2f23b13210c9cef55ae7a67406fde87eb28082ce5f558f06d9630d",
       "verdict": "FAIL",
       "wall_seconds": 25.9684
+    },
+    "online-bcap-stateless/seq_img_circle_orbit": {
+      "completed_at": "2026-11-07T16:48:11.154+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a00e63cb5089c473e185989faec7b5b86a5b132f913a21d87ae68e3b15d8d14e",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_circle_orbit.gif",
+      "receipt_sha256": "3343897aa4534df7c117e0c93263230b8682c9efaec4a324753a221c3a9314ad",
+      "verdict": "FAIL",
+      "wall_seconds": 24.4378
+    },
+    "online-bcap-stateless/seq_img_delayed_cue": {
+      "completed_at": "2026-11-07T16:47:23.937+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "cb8d83ca5d44ba8b5343724b79f4a7349c21f7e0180fdfd179d72a859d34773c",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_delayed_cue.gif",
+      "receipt_sha256": "5cead660cd97b8467cd2cf0ecd1bd1fe9774227e360d5b5100e56927d3413cdb",
+      "verdict": "FAIL",
+      "wall_seconds": 20.2054
+    },
+    "online-bcap-stateless/seq_img_dwell_bars4": {
+      "completed_at": "2026-11-07T16:45:47.631+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "ca29941198ac05387a7e434f05583da2db998afe919cbae1df5b02eb28a92489",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_dwell_bars4.gif",
+      "receipt_sha256": "db8b3c0f4ff8ad1474a1a7e969ec534e8c45070c2bef2b9a51b39f2b5dc71cef",
+      "verdict": "FAIL",
+      "wall_seconds": 17.9302
+    },
+    "online-bcap-stateless/seq_img_fork_rollout": {
+      "completed_at": "2026-11-07T16:46:27.743+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "2b7d07a5947ec97bc1dce1595bbfb4599b9d82a905e05b4320939c2421187b6c",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_fork_rollout.gif",
+      "receipt_sha256": "b598df80e5082be4913413a590f8c99ff1e705bccfedb716dacf53e6693b9830",
+      "verdict": "FAIL",
+      "wall_seconds": 20.2096
+    },
+    "online-bcap-stateless/seq_img_persistent_fork": {
+      "completed_at": "2026-11-07T16:47:46.659+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "57abea804a3224524e08956dc77ec5c5b44ce4310cb4f5c16343771a68cb53a1",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_persistent_fork.gif",
+      "receipt_sha256": "b11fb64263410eacb13b115d625a5e55c61566a852172b85f9a8d268eea16dc7",
+      "verdict": "FAIL",
+      "wall_seconds": 22.6668
+    },
+    "online-bcap-stateless/seq_img_rare_mode_bars4": {
+      "completed_at": "2026-11-07T16:47:03.677+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f69692734813a169ed045e92146de3705613dc28ae935b475d3f288dcdce5d87",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_rare_mode_bars4.gif",
+      "receipt_sha256": "f4dae47ddaf2034c787d9db6293a068ceb5c2cf9eb7cfdc1348beba143c50eb7",
+      "verdict": "FAIL",
+      "wall_seconds": 18.1091
+    },
+    "online-bcap-stateless/seq_img_round_robin_bars4": {
+      "completed_at": "2026-11-07T16:45:29.685+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "cbc02dafd81eda41596bf8190617fac249b7da716c717566d36e203a29b592ab",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_round_robin_bars4.gif",
+      "receipt_sha256": "0c217c36428e0c3e2f38c3846ac14ba50e47ca0385ed9fd4f7fe219eb542674f",
+      "verdict": "FAIL",
+      "wall_seconds": 17.9105
+    },
+    "online-bcap-stateless/seq_img_square_circle_cycle": {
+      "completed_at": "2026-11-07T16:48:55.070+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a4e67c2f60beb08248d2aeb99d3d5eca8403f993f8550bc8fdeef4d5b5a48cf1",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_square_circle_cycle.gif",
+      "receipt_sha256": "cece3e024321af3b54970b5d2dbcac65e88d5de4241698181890624d9ad78682",
+      "verdict": "FAIL",
+      "wall_seconds": 43.8873
+    },
+    "online-bcap-stateless/seq_img_translating_bar_next": {
+      "completed_at": "2026-11-07T16:46:07.478+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "e66771852dad85624a33caef7b1efef06a1843a0b3cd0507b861bdb8a9a26363",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_translating_bar_next.gif",
+      "receipt_sha256": "626a0ed2b5f9bd375ec949c9834fb731b9b0a08cac2937ad86e9378dccf16406",
+      "verdict": "FAIL",
+      "wall_seconds": 19.8313
+    },
+    "online-bcap-stateless/seq_img_variable_dwell_bars4": {
+      "completed_at": "2026-11-07T16:46:45.551+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "e4ef2b1b0d99c35a816e7e14eac07f50edf18fcb2902272fb8af574ed54baf4a",
+      "goal_gif": "gifs/online-bcap-stateless_seq_img_variable_dwell_bars4.gif",
+      "receipt_sha256": "a934b724f588fad28e69a8572b14433f3faea2e3b3ef67b1036c3f53d1b90ae6",
+      "verdict": "FAIL",
+      "wall_seconds": 17.7951
+    },
+    "online-bcap-stateless/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T16:49:19.584+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "389d2b739b47735460088ca9b8166589377eeffbca6fa1599399f266273887bc",
+      "goal_gif": "gifs/online-bcap-stateless_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "6dcba88f7971a10a822c2b76d0eb54bc46cee9e7bab772aa056421e42bc995d4",
+      "verdict": "FAIL",
+      "wall_seconds": 6.5483
+    },
+    "online-bcap-stateless/seq_minimal_dense4": {
+      "completed_at": "2026-11-07T16:48:59.812+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "984d33a6b9a25e2350a375bc1b7ce82167910c9366124fd76bffaac9455517b7",
+      "goal_gif": "gifs/online-bcap-stateless_seq_minimal_dense4.gif",
+      "receipt_sha256": "df069a6a593ac2990167e06d077ebc7804f30a3eca527d94b0db4321db10bd0f",
+      "verdict": "FAIL",
+      "wall_seconds": 4.6869
+    },
+    "online-bcap-stateless/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T16:49:13.019+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "fe5e26f01f2e863a6623a8be595bb8db4a5f7ceaa308f4a726a5d6c86f3a972f",
+      "goal_gif": "gifs/online-bcap-stateless_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "b483ba9938a56dd303fdf3b9a338277bad300b9b8a4c7d81bcef4d6d80d52ed8",
+      "verdict": "FAIL",
+      "wall_seconds": 8.4139
+    },
+    "online-bcap-stateless/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T16:49:04.547+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "e030fbed61ad7d05c736ff4543da61cb0fd20abf747194faa31f1ab65a4489b4",
+      "goal_gif": "gifs/online-bcap-stateless_seq_minimal_tokens4.gif",
+      "receipt_sha256": "479f57fc8f51808fc29e4a151672917e9c35d8bae7e4ae0ae7b0c81ee138174c",
+      "verdict": "FAIL",
+      "wall_seconds": 4.6773
+    },
+    "online-bcap-stateless/seq_minimal_velocity_extrapolation": {
+      "completed_at": "2026-11-07T16:50:36.842+00:00",
+      "completed_steps": 384,
+      "gif_sha256": "1148e397cbe87f2d274dcb13039eaa2aa925cfad3226d5d7051a3bfd5404c1a2",
+      "goal_gif": "gifs/online-bcap-stateless_seq_minimal_velocity_extrapolation.gif",
+      "receipt_sha256": "1a0ec55c489e78bb0b90cc18f33fc089b935b9dd089ed751530639cec6e6cf42",
+      "verdict": "FAIL",
+      "wall_seconds": 9.8713
+    },
+    "online-bcap-stateless/seq_robotics_fetch_pick_and_place": {
+      "completed_at": "2026-11-07T16:50:13.389+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "b7f2b040f8653c86d32d2a44bd842497c0fc3423ffabd48c21512abbe3e5c29a",
+      "goal_gif": "gifs/online-bcap-stateless_seq_robotics_fetch_pick_and_place.gif",
+      "receipt_sha256": "7e04ecbe11b18e7e12032783cfc5604b683f5ac813d189a2eef247ab4456b617",
+      "verdict": "FAIL",
+      "wall_seconds": 13.3206
+    },
+    "online-bcap-stateless/seq_robotics_fetch_push": {
+      "completed_at": "2026-11-07T16:49:46.515+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "834dbeadfeb25800fe7ebd60ab99997e5ad227451a46faf3e8cbee31804e5ee5",
+      "goal_gif": "gifs/online-bcap-stateless_seq_robotics_fetch_push.gif",
+      "receipt_sha256": "e8f7007877b608a0451be8a6328bce250217fba5805ee468066df732ba0632fc",
+      "verdict": "FAIL",
+      "wall_seconds": 13.5221
+    },
+    "online-bcap-stateless/seq_robotics_fetch_reach": {
+      "completed_at": "2026-11-07T16:49:32.976+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "b06217e1aa13f44ee980c8ce08600def9b3bb63dbf7dfccfa6ee15b8c77d6fd5",
+      "goal_gif": "gifs/online-bcap-stateless_seq_robotics_fetch_reach.gif",
+      "receipt_sha256": "79a1593432c85c41172816e568f54ee7ab908dda6956da221f9de8035413d6dc",
+      "verdict": "FAIL",
+      "wall_seconds": 13.3294
+    },
+    "online-bcap-stateless/seq_robotics_fetch_slide": {
+      "completed_at": "2026-11-07T16:50:00.005+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "26d32d886565ef3618b89f3bdd01c6142fa3b75974dacb757f3eb6b22af6a17d",
+      "goal_gif": "gifs/online-bcap-stateless_seq_robotics_fetch_slide.gif",
+      "receipt_sha256": "c7331b38273a2e9fbef6d2471a6ce1250ccf2999ac7a1ffe8e0815961e0c9b7b",
+      "verdict": "FAIL",
+      "wall_seconds": 13.4604
+    },
+    "online-bcap-stateless/seq_robotics_hand_reach": {
+      "completed_at": "2026-11-07T16:50:26.913+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "0d27fafba813d8f08af46971e615d3b0518eba8d4d92bd4603343b90300c39fb",
+      "goal_gif": "gifs/online-bcap-stateless_seq_robotics_hand_reach.gif",
+      "receipt_sha256": "44301ba1f32ceb7eab5636bddcc9d4f40c5b9bf8a12a65724293bf9ff9fb5978",
+      "verdict": "FAIL",
+      "wall_seconds": 13.4657
+    },
+    "online-bcap-transport-causal/seq_img_circle_orbit": {
+      "completed_at": "2026-11-07T16:57:14.751+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "799b111de9436d4f813dbb4a11e31d57471b2708a5e60bd505e7961ceedd3311",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_circle_orbit.gif",
+      "receipt_sha256": "9ff44a3103e4b57b804004bfe6c085404df28c94443a8fe0697f53e4351aa042",
+      "verdict": "FAIL",
+      "wall_seconds": 19.8341
+    },
+    "online-bcap-transport-causal/seq_img_delayed_cue": {
+      "completed_at": "2026-11-07T16:56:37.446+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "3b6195bc7fae77f26fc0a4d7d83e8e74221c7cbc7552e6f6fc6b4c9fe781862b",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_delayed_cue.gif",
+      "receipt_sha256": "11047383e31d071c8605467587d5a7eb2db70889bd95ee2637ea567b8c74607f",
+      "verdict": "FAIL",
+      "wall_seconds": 11.5772
+    },
+    "online-bcap-transport-causal/seq_img_dwell_bars4": {
+      "completed_at": "2026-11-07T16:55:42.404+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "62053f900c57beaa2ff2e4e2a859770aa606743d8071edcaaaf588a5171e8574",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_dwell_bars4.gif",
+      "receipt_sha256": "e2ece23a6fcdd181344b31253138be4ea04d0906f92935ceac6694e27adaac77",
+      "verdict": "FAIL",
+      "wall_seconds": 10.141
+    },
+    "online-bcap-transport-causal/seq_img_fork_rollout": {
+      "completed_at": "2026-11-07T16:56:05.068+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "cc9460ec79e469e754da8debdc462ca42b31f6f47d52065cc0023923d44e026d",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_fork_rollout.gif",
+      "receipt_sha256": "a9a33ed88ba302bd2eb2d9f459735cb8a6c4e2eb219f03f84366815365cc844b",
+      "verdict": "FAIL",
+      "wall_seconds": 11.1634
+    },
+    "online-bcap-transport-causal/seq_img_persistent_fork": {
+      "completed_at": "2026-11-07T16:56:54.901+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "bdfb8589acd3b50405d834c534cab1cb4c85365d0b0befb7cb28b9aea337b7b6",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_persistent_fork.gif",
+      "receipt_sha256": "634c369d676fae36c6188cb3b81a1169cdcb1513dc03ea6b19bccf2dd39863c0",
+      "verdict": "FAIL",
+      "wall_seconds": 17.4412
+    },
+    "online-bcap-transport-causal/seq_img_rare_mode_bars4": {
+      "completed_at": "2026-11-07T16:56:25.844+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f6f50932a4098c6e98973ab733d491a890afaae50d8e233aecd846e751c93efb",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_rare_mode_bars4.gif",
+      "receipt_sha256": "118172c40b750cfb72d0cdc1fa6312141f53b2bb2f07821ca8b55164d6e064a2",
+      "verdict": "FAIL",
+      "wall_seconds": 10.3648
+    },
+    "online-bcap-transport-causal/seq_img_round_robin_bars4": {
+      "completed_at": "2026-11-07T16:55:32.248+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a558a950ea390dd7159a40b7c489f2ff176cab117fcb038ae350f0b5f12b5d54",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_round_robin_bars4.gif",
+      "receipt_sha256": "97eee7a4d87a5ece7140be4cac701cca1b5b7bec6f0485a80d43401ee6b60262",
+      "verdict": "FAIL",
+      "wall_seconds": 10.4408
+    },
+    "online-bcap-transport-causal/seq_img_square_circle_cycle": {
+      "completed_at": "2026-11-07T16:57:50.534+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f5a78b4765e00cc3a56f67925f731b2cbd2380bc3616154401c90c477a5c85d6",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_square_circle_cycle.gif",
+      "receipt_sha256": "1898d83dc7838f1060b7b0db2fb6e75e9085a33b409fa4067a77f7c8691f895d",
+      "verdict": "FAIL",
+      "wall_seconds": 35.7257
+    },
+    "online-bcap-transport-causal/seq_img_translating_bar_next": {
+      "completed_at": "2026-11-07T16:55:53.891+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "680ca6dd4cdd90163fce96edf2b598893797a0f64c7f160a534f3678862a13bc",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_translating_bar_next.gif",
+      "receipt_sha256": "c9c01410038728cee0fc1b0910a516d223a334a816a15aa96bea47e81dba750d",
+      "verdict": "FAIL",
+      "wall_seconds": 11.4746
+    },
+    "online-bcap-transport-causal/seq_img_variable_dwell_bars4": {
+      "completed_at": "2026-11-07T16:56:15.465+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "0da32a10a11aa2573f621caef4793d64d765bf6a3cdc50a14453c40bff9c6c2a",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_img_variable_dwell_bars4.gif",
+      "receipt_sha256": "c978c057691c6ac2794755320062935c253499c05cd0c7c36f717cd8004d3edd",
+      "verdict": "FAIL",
+      "wall_seconds": 10.3794
+    },
+    "online-bcap-transport-causal/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T16:58:10.811+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "122b290fe63fb451296e447c3b8d8a1e777f653997fae88b044f1d2233a0d7cb",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "9dbc5aa9483fd36f007c61ea3d59c88dcf6fee83c1dd1b15a87af2d985e45574",
+      "verdict": "FAIL",
+      "wall_seconds": 6.1267
+    },
+    "online-bcap-transport-causal/seq_minimal_dense4": {
+      "completed_at": "2026-11-07T16:57:54.477+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "8c47dd2b6adb75cb725a32febeb5ca09a64800a8fdfc2be44b409c99d39e9a20",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_minimal_dense4.gif",
+      "receipt_sha256": "aec5f9ef52b640b6ede40d6b5bacb304c81abe3f31566202c117394915b73934",
+      "verdict": "FAIL",
+      "wall_seconds": 3.9267
+    },
+    "online-bcap-transport-causal/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T16:58:04.669+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "360c2b28b889169a65caa950a78477375057e76264d5780be2807d0d6bf8c3e9",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "dc67b96951fb5923f8494ad3bbb0bfb5f5032506b69df72931469ab173f4eca1",
+      "verdict": "FAIL",
+      "wall_seconds": 6.3567
+    },
+    "online-bcap-transport-causal/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T16:57:58.254+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "0809dc55ddbf9294d321da2daba1791b0eb624570f73451d48365b05143c6353",
+      "goal_gif": "gifs/online-bcap-transport-causal_seq_minimal_tokens4.gif",
+      "receipt_sha256": "b886653b4fa6ce38686b2000d7fc23ef9ae9df1bb9035ce16f60380358161d0b",
+      "verdict": "FAIL",
+      "wall_seconds": 3.752
+    },
+    "online-bcap-transport/seq_img_circle_orbit": {
+      "completed_at": "2026-11-07T16:53:04.849+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "b65b3ca38e897edf2742f632c34a08711ee042d52d928b7cd52b31a67e574b7c",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_circle_orbit.gif",
+      "receipt_sha256": "14631a05b4fd3411ca0be0d6882d13611e7cab8ab38420b96868bbc8fd6f9564",
+      "verdict": "FAIL",
+      "wall_seconds": 19.8052
+    },
+    "online-bcap-transport/seq_img_delayed_cue": {
+      "completed_at": "2026-11-07T16:52:22.437+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "237027fca6edc8449c055fbb10eab870a341e4918169142d12fd11f03a141b23",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_delayed_cue.gif",
+      "receipt_sha256": "a09dfb6c3d7c82b1ce2644c16b4e36e4fe8bc9e39a97b6687f275efa0b1bf91a",
+      "verdict": "FAIL",
+      "wall_seconds": 15.8727
+    },
+    "online-bcap-transport/seq_img_dwell_bars4": {
+      "completed_at": "2026-11-07T16:51:06.142+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "8d8b4bbc63bcaefa1e701d5d227d0f7d5e4416da753fd9d24cb0dc27e961b4c3",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_dwell_bars4.gif",
+      "receipt_sha256": "3231d9a8803b75529e55722ff54e73fe8bc46035770f06883963e41aa39d74bc",
+      "verdict": "FAIL",
+      "wall_seconds": 14.2127
+    },
+    "online-bcap-transport/seq_img_fork_rollout": {
+      "completed_at": "2026-11-07T16:51:37.766+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "71f32d6c5b0042a1c72f72130bf6ab3e4d79abadbc27b0a6b81bfab8a15eee3f",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_fork_rollout.gif",
+      "receipt_sha256": "4a4388e9cd17eec660aa086bc6fe0eb02df16f3b97f0236142bbc05a23173b75",
+      "verdict": "FAIL",
+      "wall_seconds": 16.0835
+    },
+    "online-bcap-transport/seq_img_persistent_fork": {
+      "completed_at": "2026-11-07T16:52:44.979+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "062cb810377e4e26179893364b21710729beda7d3c111b4cc02a366df3289f39",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_persistent_fork.gif",
+      "receipt_sha256": "0905b07955c15fc7582fb268a2f0ed7dafef1bdff152130b1491f0f302ef641b",
+      "verdict": "FAIL",
+      "wall_seconds": 22.5291
+    },
+    "online-bcap-transport/seq_img_rare_mode_bars4": {
+      "completed_at": "2026-11-07T16:52:06.507+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "808b8924e4fc0a55d76363e08b06e28f923b0b0665b17fd24096621ac9462b79",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_rare_mode_bars4.gif",
+      "receipt_sha256": "0bf330805940f0da7a55d626243cb41ed2d23dd58e7a8b98d10ece6e4f1b7396",
+      "verdict": "FAIL",
+      "wall_seconds": 14.3552
+    },
+    "online-bcap-transport/seq_img_round_robin_bars4": {
+      "completed_at": "2026-11-07T16:50:51.872+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "0b229e8eeeb55e846c7e49dc61b1bc1e1f68440a1ce434e8e213bc0507fb37fc",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_round_robin_bars4.gif",
+      "receipt_sha256": "8bbbf365b6a0ddcee9c63c0df98bffe8c40b4b23671bd2b96ccbbbefb00fcbaf",
+      "verdict": "FAIL",
+      "wall_seconds": 14.1881
+    },
+    "online-bcap-transport/seq_img_square_circle_cycle": {
+      "completed_at": "2026-11-07T16:53:37.896+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "559eb1fe5eff3bfdae9f75b4f0c2e2e0324de152e9da41ac426fac596cdd48aa",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_square_circle_cycle.gif",
+      "receipt_sha256": "4d29cd32f2c3b9e76ec91bdcf364fb3d610aee1eb6f2b34e584269e84cb841b1",
+      "verdict": "FAIL",
+      "wall_seconds": 32.9912
+    },
+    "online-bcap-transport/seq_img_translating_bar_next": {
+      "completed_at": "2026-11-07T16:51:21.667+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a6e32eee36f74fb25cc445d3e88ad828049706ac574b23d5fa040748c838f280",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_translating_bar_next.gif",
+      "receipt_sha256": "86eeadc0497831b1705a3957577a739bfd203f18ba30a1db66c4c0e17c531759",
+      "verdict": "FAIL",
+      "wall_seconds": 15.4606
+    },
+    "online-bcap-transport/seq_img_variable_dwell_bars4": {
+      "completed_at": "2026-11-07T16:51:52.095+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "ef90d6e862a0d8e9ca968ecbee4918f328f9d4969417a2a4d34199d0a01b7c29",
+      "goal_gif": "gifs/online-bcap-transport_seq_img_variable_dwell_bars4.gif",
+      "receipt_sha256": "836ec19d347b90d5f1effdda027417cb1544c717c0dd7b7a670515ae8803f281",
+      "verdict": "FAIL",
+      "wall_seconds": 14.3126
+    },
+    "online-bcap-transport/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T16:53:58.208+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "c017861728240b0f4777ba3713f0cda98affb81fb3f132b3893b7b95fafd1543",
+      "goal_gif": "gifs/online-bcap-transport_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "467d677ae08807c45d502781d5570f4cdb7a984ffbd319245c7ae713fddaf70a",
+      "verdict": "FAIL",
+      "wall_seconds": 6.3192
+    },
+    "online-bcap-transport/seq_minimal_dense4": {
+      "completed_at": "2026-11-07T16:53:41.716+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "8a9bea2f6399f2cc2f35d3c53a21473aac00cc585ed9c2224ec0494c7b341b9a",
+      "goal_gif": "gifs/online-bcap-transport_seq_minimal_dense4.gif",
+      "receipt_sha256": "3b4f159440e4f00eccf2d98cfa866c453e2979735eb9e7ac09d3718da4c2cb64",
+      "verdict": "FAIL",
+      "wall_seconds": 3.7627
+    },
+    "online-bcap-transport/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T16:53:51.875+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "2ed517cfb10b6dd8ebac83c323ffdd74e9ce3913462eb77cc7d6ae09af8e0f07",
+      "goal_gif": "gifs/online-bcap-transport_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "97fc512f315993036bb3b0a008bbf5d12ae220a8f3e30fb0368e834cd19be0e7",
+      "verdict": "FAIL",
+      "wall_seconds": 6.1266
+    },
+    "online-bcap-transport/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T16:53:45.691+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "5e2f2ca60fed4d75d62a20673abbd089ba292bda2208aa481243f8c4c0771011",
+      "goal_gif": "gifs/online-bcap-transport_seq_minimal_tokens4.gif",
+      "receipt_sha256": "eec2acd2a79dd4c7d96215e8b91f75efacb244699f0a3cc6a462dbb7a2dadc9b",
+      "verdict": "FAIL",
+      "wall_seconds": 3.9172
+    },
+    "online-bcap-transport/seq_minimal_velocity_extrapolation": {
+      "completed_at": "2026-11-07T16:55:20.986+00:00",
+      "completed_steps": 384,
+      "gif_sha256": "4b8d594583d7151d6bb1b3591ece2d7a99ebaaacdfaecd34d8458f7e4a7cd057",
+      "goal_gif": "gifs/online-bcap-transport_seq_minimal_velocity_extrapolation.gif",
+      "receipt_sha256": "55b06c034ca7ef238409092db016a0d1826fc2fb9d3335866d94ccf209d1c813",
+      "verdict": "FAIL",
+      "wall_seconds": 12.9562
+    },
+    "online-bcap-transport/seq_robotics_fetch_pick_and_place": {
+      "completed_at": "2026-11-07T16:54:53.852+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "4fa18ab6705ee69256febfafbefdadfe5bb431a60c60db099e6e5c6d340891e9",
+      "goal_gif": "gifs/online-bcap-transport_seq_robotics_fetch_pick_and_place.gif",
+      "receipt_sha256": "025035d24caff2841eadff15b8627214575de2facdd9e1d0355e1deef93b8f26",
+      "verdict": "FAIL",
+      "wall_seconds": 13.8995
+    },
+    "online-bcap-transport/seq_robotics_fetch_push": {
+      "completed_at": "2026-11-07T16:54:25.808+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "c86231c1051d50843374ec421461e4a402e5729b6f96c43c1c9f1f838c408554",
+      "goal_gif": "gifs/online-bcap-transport_seq_robotics_fetch_push.gif",
+      "receipt_sha256": "31307dde80876b82ba19ac26759eb607168d0e091690468b744b048b8a00485b",
+      "verdict": "FAIL",
+      "wall_seconds": 13.896
+    },
+    "online-bcap-transport/seq_robotics_fetch_reach": {
+      "completed_at": "2026-11-07T16:54:11.856+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "6ca2e0af838cf765d71be60cc179f82f4819efd66a3ac1e2b2ddc3bb8eb4ecd0",
+      "goal_gif": "gifs/online-bcap-transport_seq_robotics_fetch_reach.gif",
+      "receipt_sha256": "7f6d934881676ca74e0a1bbd18d585bc8b189540ff944c846e4b1615cf365a1e",
+      "verdict": "FAIL",
+      "wall_seconds": 13.6314
+    },
+    "online-bcap-transport/seq_robotics_fetch_slide": {
+      "completed_at": "2026-11-07T16:54:39.924+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "5b7147bc3dc9f466f59e20348ae6bcf65bd2d05e16a5cf0ed680405b956cf921",
+      "goal_gif": "gifs/online-bcap-transport_seq_robotics_fetch_slide.gif",
+      "receipt_sha256": "a3a6be533a7fe6aab436289fe6a7a6e1a3c6049991c533f25c46a8a7cae04681",
+      "verdict": "FAIL",
+      "wall_seconds": 14.0989
+    },
+    "online-bcap-transport/seq_robotics_hand_reach": {
+      "completed_at": "2026-11-07T16:55:07.972+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "000952032d012fcb46a095d337349f3b4bfa94f16750586c150c770d0d522e13",
+      "goal_gif": "gifs/online-bcap-transport_seq_robotics_hand_reach.gif",
+      "receipt_sha256": "f8a369892dfd175eee98380ff3f5fb6f74708f6d3bbb6df66a78a6ade28c582a",
+      "verdict": "FAIL",
+      "wall_seconds": 14.0629
     },
     "online-bcap/seq_img_circle_orbit": {
       "completed_at": "2026-11-07T16:08:37.960+00:00",

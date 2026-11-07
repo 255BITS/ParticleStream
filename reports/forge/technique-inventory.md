@@ -4,7 +4,7 @@ Generated from `particlegan_forge` qualification of receipts under `reports/forg
 
 Click a technique for its explanation, a recipe for its exact configuration and parent delta, or a score for gates, measurements, source-bound receipts and actual-training GIFs. One global recipe supplies every score in a row. Stretch results do not grant qualification credit.
 
-**Latest refresh: in progress, 116/600 runs recorded.** Started 2026-11-07T16:02:10.829072+00:00. Controls: 20 oracle PASS, 45 destructive FAIL. [Refresh audit and artifact hashes](refresh-audit.json).
+**Latest refresh: in progress, 174/600 runs recorded.** Started 2026-11-07T16:02:10.829072+00:00. Controls: 20 oracle PASS, 45 destructive FAIL. [Refresh audit and artifact hashes](refresh-audit.json).
 
 `*` means at least one current task result is missing. A displayed zero counts passes; the measured column distinguishes an observed failure from missing or stale evidence. Historical recipes are listed separately and receive no current score.
 
@@ -31,10 +31,10 @@ One complete recipe per technique, ordered by required qualification and passes,
 | [BCAP](families/bcap.md) | [`online-bcap`](families/bcap.md#online-bcap) | [0/10](families/bcap.md#online-bcap-tier-1-required) | — | — | [0/10](families/bcap.md#online-bcap-required) | 20/20 | `FAIL` |
 | [BCAP](families/bcap.md) | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | [0/10](families/bcap.md#online-bcap-adam-tier-1-required) | — | — | [0/10](families/bcap.md#online-bcap-adam-required) | 20/20 | `FAIL` |
 | [BCAP](families/bcap.md) | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | [0/10](families/bcap.md#online-bcap-adam-causal-tier-1-required) | — | — | [0/10](families/bcap.md#online-bcap-adam-causal-required) | 20/20 | `FAIL` |
-| [BCAP](families/bcap.md) | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | [0/10](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) | — | — | [0/10](families/bcap.md#online-bcap-balanced-frozen-required) | 16/20 | `FAIL` |
-| [BCAP](families/bcap.md) | [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | [0/10*](families/bcap.md#online-bcap-stateless-tier-1-required) | — | — | [0/10*](families/bcap.md#online-bcap-stateless-required) | 0/20 | `INCOMPLETE` |
-| [BCAP](families/bcap.md) | [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | [0/10*](families/bcap.md#online-bcap-transport-tier-1-required) | — | — | [0/10*](families/bcap.md#online-bcap-transport-required) | 0/20 | `INCOMPLETE` |
-| [BCAP](families/bcap.md) | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | [0/10*](families/bcap.md#online-bcap-transport-causal-tier-1-required) | — | — | [0/10*](families/bcap.md#online-bcap-transport-causal-required) | 0/20 | `INCOMPLETE` |
+| [BCAP](families/bcap.md) | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | [0/10](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) | — | — | [0/10](families/bcap.md#online-bcap-balanced-frozen-required) | 20/20 | `FAIL` |
+| [BCAP](families/bcap.md) | [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | [0/10](families/bcap.md#online-bcap-stateless-tier-1-required) | — | — | [0/10](families/bcap.md#online-bcap-stateless-required) | 20/20 | `FAIL` |
+| [BCAP](families/bcap.md) | [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | [0/10](families/bcap.md#online-bcap-transport-tier-1-required) | — | — | [0/10](families/bcap.md#online-bcap-transport-required) | 20/20 | `FAIL` |
+| [BCAP](families/bcap.md) | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | [0/10](families/bcap.md#online-bcap-transport-causal-tier-1-required) | — | — | [0/10](families/bcap.md#online-bcap-transport-causal-required) | 14/20 | `FAIL` |
 | [BCAP](families/bcap.md) | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | [0/10*](families/bcap.md#online-bcap-transport-fit-tier-1-required) | — | — | [0/10*](families/bcap.md#online-bcap-transport-fit-required) | 0/20 | `INCOMPLETE` |
 | [BISPF](families/bispf.md) | [`online-bispf`](families/bispf.md#online-bispf) | [0/10*](families/bispf.md#online-bispf-tier-1-required) | — | — | [0/10*](families/bispf.md#online-bispf-required) | 0/20 | `INCOMPLETE` |
 | [BISPF](families/bispf.md) | [`online-bispf-early`](families/bispf.md#online-bispf-early) | [0/10*](families/bispf.md#online-bispf-early-tier-1-required) | — | — | [0/10*](families/bispf.md#online-bispf-early-required) | 0/20 | `INCOMPLETE` |
@@ -68,10 +68,10 @@ These measurements retain their declared gates and budgets even when a required 
 | [BCAP](families/bcap.md) | [`online-bcap`](families/bcap.md#online-bcap) | [0/2](families/bcap.md#online-bcap-tier-1-stretch) | [0/7](families/bcap.md#online-bcap-tier-2-stretch) | [0/1](families/bcap.md#online-bcap-tier-3-stretch) | [0/10](families/bcap.md#online-bcap-stretch) | 10/10 |
 | [BCAP](families/bcap.md) | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | [0/2](families/bcap.md#online-bcap-adam-tier-1-stretch) | [0/7](families/bcap.md#online-bcap-adam-tier-2-stretch) | [0/1](families/bcap.md#online-bcap-adam-tier-3-stretch) | [0/10](families/bcap.md#online-bcap-adam-stretch) | 10/10 |
 | [BCAP](families/bcap.md) | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | [0/2](families/bcap.md#online-bcap-adam-causal-tier-1-stretch) | [0/7](families/bcap.md#online-bcap-adam-causal-tier-2-stretch) | [0/1](families/bcap.md#online-bcap-adam-causal-tier-3-stretch) | [0/10](families/bcap.md#online-bcap-adam-causal-stretch) | 10/10 |
-| [BCAP](families/bcap.md) | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | [0/2](families/bcap.md#online-bcap-balanced-frozen-tier-1-stretch) | [0/7*](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) | [0/1*](families/bcap.md#online-bcap-balanced-frozen-tier-3-stretch) | [0/10*](families/bcap.md#online-bcap-balanced-frozen-stretch) | 6/10 |
-| [BCAP](families/bcap.md) | [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | [0/2*](families/bcap.md#online-bcap-stateless-tier-1-stretch) | [0/7*](families/bcap.md#online-bcap-stateless-tier-2-stretch) | [0/1*](families/bcap.md#online-bcap-stateless-tier-3-stretch) | [0/10*](families/bcap.md#online-bcap-stateless-stretch) | 0/10 |
-| [BCAP](families/bcap.md) | [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | [0/2*](families/bcap.md#online-bcap-transport-tier-1-stretch) | [0/7*](families/bcap.md#online-bcap-transport-tier-2-stretch) | [0/1*](families/bcap.md#online-bcap-transport-tier-3-stretch) | [0/10*](families/bcap.md#online-bcap-transport-stretch) | 0/10 |
-| [BCAP](families/bcap.md) | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | [0/2*](families/bcap.md#online-bcap-transport-causal-tier-1-stretch) | [0/7*](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) | [0/1*](families/bcap.md#online-bcap-transport-causal-tier-3-stretch) | [0/10*](families/bcap.md#online-bcap-transport-causal-stretch) | 0/10 |
+| [BCAP](families/bcap.md) | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | [0/2](families/bcap.md#online-bcap-balanced-frozen-tier-1-stretch) | [0/7](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) | [0/1](families/bcap.md#online-bcap-balanced-frozen-tier-3-stretch) | [0/10](families/bcap.md#online-bcap-balanced-frozen-stretch) | 10/10 |
+| [BCAP](families/bcap.md) | [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | [0/2](families/bcap.md#online-bcap-stateless-tier-1-stretch) | [0/7](families/bcap.md#online-bcap-stateless-tier-2-stretch) | [0/1](families/bcap.md#online-bcap-stateless-tier-3-stretch) | [0/10](families/bcap.md#online-bcap-stateless-stretch) | 10/10 |
+| [BCAP](families/bcap.md) | [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | [0/2](families/bcap.md#online-bcap-transport-tier-1-stretch) | [0/7](families/bcap.md#online-bcap-transport-tier-2-stretch) | [0/1](families/bcap.md#online-bcap-transport-tier-3-stretch) | [0/10](families/bcap.md#online-bcap-transport-stretch) | 10/10 |
+| [BCAP](families/bcap.md) | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | [0/2](families/bcap.md#online-bcap-transport-causal-tier-1-stretch) | [0/7*](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) | [0/1*](families/bcap.md#online-bcap-transport-causal-tier-3-stretch) | [0/10*](families/bcap.md#online-bcap-transport-causal-stretch) | 4/10 |
 | [BCAP](families/bcap.md) | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | [0/2*](families/bcap.md#online-bcap-transport-fit-tier-1-stretch) | [0/7*](families/bcap.md#online-bcap-transport-fit-tier-2-stretch) | [0/1*](families/bcap.md#online-bcap-transport-fit-tier-3-stretch) | [0/10*](families/bcap.md#online-bcap-transport-fit-stretch) | 0/10 |
 | [BISPF](families/bispf.md) | [`online-bispf`](families/bispf.md#online-bispf) | [0/2*](families/bispf.md#online-bispf-tier-1-stretch) | [0/7*](families/bispf.md#online-bispf-tier-2-stretch) | [0/1*](families/bispf.md#online-bispf-tier-3-stretch) | [0/10*](families/bispf.md#online-bispf-stretch) | 0/10 |
 | [BISPF](families/bispf.md) | [`online-bispf-early`](families/bispf.md#online-bispf-early) | [0/2*](families/bispf.md#online-bispf-early-tier-1-stretch) | [0/7*](families/bispf.md#online-bispf-early-tier-2-stretch) | [0/1*](families/bispf.md#online-bispf-early-tier-3-stretch) | [0/10*](families/bispf.md#online-bispf-early-stretch) | 0/10 |
@@ -138,9 +138,9 @@ Gates: `hq >= 0.9`, `modes == 4.0`, `finite_template_tv <= 0.15`. Budget: 480 up
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_round_robin_bars4.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_round_robin_bars4.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 4/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_round_robin_bars4.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_round_robin_bars4.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_round_robin_bars4.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_round_robin_bars4.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -178,9 +178,9 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_dwell_bars4.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_dwell_bars4.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_dwell_bars4.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_dwell_bars4.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_dwell_bars4.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_dwell_bars4.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -218,9 +218,9 @@ Gates: `next_frame_rmse <= 0.12`, `direction_acc >= 0.9`. Budget: 480 updates; 2
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_translating_bar_next.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_translating_bar_next.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_translating_bar_next.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_translating_bar_next.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_translating_bar_next.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_translating_bar_next.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -258,9 +258,9 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`. Budget: 48
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_fork_rollout.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_fork_rollout.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_fork_rollout.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_fork_rollout.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_fork_rollout.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_fork_rollout.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -298,9 +298,9 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_variable_dwell_bars4.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_variable_dwell_bars4.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_variable_dwell_bars4.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_variable_dwell_bars4.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_variable_dwell_bars4.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_variable_dwell_bars4.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -338,9 +338,9 @@ Gates: `hq >= 0.85`, `finite_template_tv <= 0.15`, `support_modes == 4.0`, `rare
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_rare_mode_bars4.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_rare_mode_bars4.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 4/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_rare_mode_bars4.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_rare_mode_bars4.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_rare_mode_bars4.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_rare_mode_bars4.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -378,9 +378,9 @@ Gates: `outcome_accuracy >= 0.9`, `prediction_rmse <= 0.12`. Budget: 480 updates
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_delayed_cue.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_delayed_cue.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_delayed_cue.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_delayed_cue.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_delayed_cue.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_delayed_cue.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -418,9 +418,9 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`, `trajector
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_persistent_fork.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_persistent_fork.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_persistent_fork.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_persistent_fork.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_persistent_fork.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_persistent_fork.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -458,9 +458,9 @@ Gates: `orbit_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.9`, `orbit_c
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_circle_orbit.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_circle_orbit.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_circle_orbit.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_circle_orbit.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_circle_orbit.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_circle_orbit.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -498,9 +498,9 @@ Gates: `cycle_rmse <= 0.12`, `s2c_rmse <= 0.12`, `c2s_rmse <= 0.12`, `xy_rmse <=
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-required) · [goal.gif](gifs/online-bcap-adam_seq_img_square_circle_cycle.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-required) · [goal.gif](gifs/online-bcap-adam-causal_seq_img_square_circle_cycle.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-required) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_img_square_circle_cycle.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-required) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-required) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-required) · [goal.gif](gifs/online-bcap-stateless_seq_img_square_circle_cycle.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-required) · [goal.gif](gifs/online-bcap-transport_seq_img_square_circle_cycle.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-required) · [goal.gif](gifs/online-bcap-transport-causal_seq_img_square_circle_cycle.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-required) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-required) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-required) |
@@ -538,9 +538,9 @@ Gates: `valid_fraction >= 0.9`, `modes == 4.0`, `mass_tv <= 0.15`. Budget: 96 up
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-stretch) · [goal.gif](gifs/online-bcap-adam_seq_minimal_dense4.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_minimal_dense4.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_minimal_dense4.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-stretch) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-stretch) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_minimal_dense4.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-stretch) · [goal.gif](gifs/online-bcap-transport_seq_minimal_dense4.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-stretch) · [goal.gif](gifs/online-bcap-transport-causal_seq_minimal_dense4.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-stretch) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-stretch) |
@@ -578,9 +578,9 @@ Gates: `valid_fraction == 1.0`, `modes == 4.0`, `mass_tv <= 0.1`. Budget: 96 upd
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-1-stretch) · [goal.gif](gifs/online-bcap-adam_seq_minimal_tokens4.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-1-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_minimal_tokens4.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-1-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_minimal_tokens4.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-1-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-1-stretch) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-1-stretch) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-1-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_minimal_tokens4.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-1-stretch) · [goal.gif](gifs/online-bcap-transport_seq_minimal_tokens4.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-1-stretch) · [goal.gif](gifs/online-bcap-transport-causal_seq_minimal_tokens4.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-1-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-1-stretch) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-1-stretch) |
@@ -618,9 +618,9 @@ Gates: `seen_response_rmse <= 0.03`, `seen_max_abs_error <= 0.05`, `heldout_resp
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam_seq_minimal_kernel2x2.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_minimal_kernel2x2.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_minimal_kernel2x2.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_minimal_kernel2x2.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport_seq_minimal_kernel2x2.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport-causal_seq_minimal_kernel2x2.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-2-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-2-stretch) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-2-stretch) |
@@ -658,9 +658,9 @@ Gates: `seen_exact_accuracy == 1.0`, `seen_min_bit_confidence >= 0.9`, `heldout_
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam_seq_minimal_addition2bit.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_minimal_addition2bit.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_minimal_addition2bit.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) |
-| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_minimal_addition2bit.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport_seq_minimal_addition2bit.gif) |
+| [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport-causal_seq_minimal_addition2bit.gif) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-2-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-2-stretch) |
 | [`online-bispf-early`](families/bispf.md#online-bispf-early) | NOT_RUN | — | [details](families/bispf.md#online-bispf-early-tier-2-stretch) |
@@ -698,8 +698,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam_seq_robotics_fetch_reach.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_robotics_fetch_reach.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_robotics_fetch_reach.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_robotics_fetch_reach.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport_seq_robotics_fetch_reach.gif) |
 | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-2-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-2-stretch) |
@@ -738,8 +738,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam_seq_robotics_fetch_push.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_robotics_fetch_push.gif) |
 | [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_robotics_fetch_push.gif) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_robotics_fetch_push.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport_seq_robotics_fetch_push.gif) |
 | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-2-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-2-stretch) |
@@ -777,9 +777,9 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bcap`](families/bcap.md#online-bcap) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-tier-2-stretch) · [goal.gif](gifs/online-bcap_seq_robotics_fetch_slide.gif) |
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam_seq_robotics_fetch_slide.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_robotics_fetch_slide.gif) |
-| [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | NOT_RUN | — | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) |
+| [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_robotics_fetch_slide.gif) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_robotics_fetch_slide.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport_seq_robotics_fetch_slide.gif) |
 | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-2-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-2-stretch) |
@@ -817,9 +817,9 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bcap`](families/bcap.md#online-bcap) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-tier-2-stretch) · [goal.gif](gifs/online-bcap_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_robotics_fetch_pick_and_place.gif) |
-| [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | NOT_RUN | — | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) |
+| [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_robotics_fetch_pick_and_place.gif) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_robotics_fetch_pick_and_place.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-2-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-2-stretch) |
@@ -857,9 +857,9 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bcap`](families/bcap.md#online-bcap) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-tier-2-stretch) · [goal.gif](gifs/online-bcap_seq_robotics_hand_reach.gif) |
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam_seq_robotics_hand_reach.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-2-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_robotics_hand_reach.gif) |
-| [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | NOT_RUN | — | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) |
+| [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-2-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_robotics_hand_reach.gif) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-2-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_robotics_hand_reach.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-2-stretch) · [goal.gif](gifs/online-bcap-transport_seq_robotics_hand_reach.gif) |
 | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-2-stretch) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-2-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-2-stretch) |
@@ -897,9 +897,9 @@ Gates: `interpolation_centroid_rmse <= 0.01`, `interpolation_speed_error <= 0.01
 | [`online-bcap`](families/bcap.md#online-bcap) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-tier-3-stretch) · [goal.gif](gifs/online-bcap_seq_minimal_velocity_extrapolation.gif) |
 | [`online-bcap-adam`](families/bcap.md#online-bcap-adam) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-tier-3-stretch) · [goal.gif](gifs/online-bcap-adam_seq_minimal_velocity_extrapolation.gif) |
 | [`online-bcap-adam-causal`](families/bcap.md#online-bcap-adam-causal) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-adam-causal-tier-3-stretch) · [goal.gif](gifs/online-bcap-adam-causal_seq_minimal_velocity_extrapolation.gif) |
-| [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | NOT_RUN | — | [details](families/bcap.md#online-bcap-balanced-frozen-tier-3-stretch) |
-| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | NOT_RUN | — | [details](families/bcap.md#online-bcap-stateless-tier-3-stretch) |
-| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-tier-3-stretch) |
+| [`online-bcap-balanced-frozen`](families/bcap.md#online-bcap-balanced-frozen) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-balanced-frozen-tier-3-stretch) · [goal.gif](gifs/online-bcap-balanced-frozen_seq_minimal_velocity_extrapolation.gif) |
+| [`online-bcap-stateless`](families/bcap.md#online-bcap-stateless) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-stateless-tier-3-stretch) · [goal.gif](gifs/online-bcap-stateless_seq_minimal_velocity_extrapolation.gif) |
+| [`online-bcap-transport`](families/bcap.md#online-bcap-transport) | FAIL | 0/5 | [details](families/bcap.md#online-bcap-transport-tier-3-stretch) · [goal.gif](gifs/online-bcap-transport_seq_minimal_velocity_extrapolation.gif) |
 | [`online-bcap-transport-causal`](families/bcap.md#online-bcap-transport-causal) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-causal-tier-3-stretch) |
 | [`online-bcap-transport-fit`](families/bcap.md#online-bcap-transport-fit) | NOT_RUN | — | [details](families/bcap.md#online-bcap-transport-fit-tier-3-stretch) |
 | [`online-bispf`](families/bispf.md#online-bispf) | NOT_RUN | — | [details](families/bispf.md#online-bispf-tier-3-stretch) |
