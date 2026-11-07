@@ -1,0 +1,1297 @@
+{
+  "candidates": [
+    "online-bcap",
+    "online-bcap-adam",
+    "online-bcap-adam-causal",
+    "online-bcap-balanced",
+    "online-bcap-balanced-bce",
+    "online-bcap-balanced-frozen",
+    "online-bcap-stateless",
+    "online-bcap-transport",
+    "online-bcap-transport-causal",
+    "online-bcap-transport-fit",
+    "online-bispf",
+    "online-bispf-early",
+    "online-bispf-early-causal",
+    "online-bispf-frozen",
+    "online-bispf-momentum",
+    "online-bispf-optimized",
+    "online-bispf-optimized-cool",
+    "online-bispf-slow-critic",
+    "online-bispf-slow-prior",
+    "online-bispf-transport-causal",
+    "online-fast-weight-bcap",
+    "online-fast-weight-bcap-ns",
+    "online-feature-prior-bce",
+    "online-ka2",
+    "online-ka2-clean",
+    "online-ka2-light-anchor",
+    "online-ka2-ready",
+    "online-ka2-ready-causal",
+    "online-ka2-stateless",
+    "online-ka2-transport-causal"
+  ],
+  "completed_at": null,
+  "contract_sha256": "6868bca42aa279388ca4c3b95a48b69942061cccdf00a24eafa14bfc69d1863a",
+  "controls": {
+    "seq_img_circle_orbit": {
+      "destructive": {
+        "metrics": {
+          "orbit_completion": 0.0,
+          "orbit_rmse": 0.035355,
+          "step_accuracy": 0.875,
+          "waypoint_modes": 7.0,
+          "xy_rmse": 0.09317
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "orbit_completion": 1.0,
+          "orbit_rmse": 0.0,
+          "step_accuracy": 1.0,
+          "waypoint_modes": 8.0,
+          "xy_rmse": 0.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_delayed_cue": {
+      "destructive": {
+        "metrics": {
+          "outcome_accuracy": 0.5,
+          "prediction_rmse": 0.212132
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "outcome_accuracy": 1.0,
+          "prediction_rmse": 0.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_dwell_bars4": {
+      "destructive": {
+        "metrics": {
+          "finite_template_tv": 0.75,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "modes": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_template_tv": 0.0,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "modes": 4.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_fork_rollout": {
+      "destructive": {
+        "metrics": {
+          "branch_tv": 0.5,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "within_state_modes": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "branch_tv": 0.0,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "within_state_modes": 2.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_persistent_fork": {
+      "destructive": {
+        "metrics": {
+          "branch_tv": 0.0,
+          "depth_1_hq": 1.0,
+          "depth_1_modes": 2.0,
+          "depth_1_tv": 0.0,
+          "depth_2_hq": 1.0,
+          "depth_2_modes": 2.0,
+          "depth_2_tv": 0.0,
+          "depth_3_hq": 1.0,
+          "depth_3_modes": 2.0,
+          "depth_3_tv": 0.0,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "trajectory_consistency": 0.0,
+          "within_state_modes": 2.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "branch_tv": 0.0,
+          "depth_1_hq": 1.0,
+          "depth_1_modes": 2.0,
+          "depth_1_tv": 0.0,
+          "depth_2_hq": 1.0,
+          "depth_2_modes": 2.0,
+          "depth_2_tv": 0.0,
+          "depth_3_hq": 1.0,
+          "depth_3_modes": 2.0,
+          "depth_3_tv": 0.0,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "trajectory_consistency": 1.0,
+          "within_state_modes": 2.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_rare_mode_bars4": {
+      "destructive": {
+        "metrics": {
+          "finite_template_tv": 0.0625,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "rare_mass": 0.0,
+          "support_modes": 3.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_template_tv": 0.0,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "rare_mass": 0.0625,
+          "support_modes": 4.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_round_robin_bars4": {
+      "destructive": {
+        "metrics": {
+          "finite_template_tv": 0.75,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "modes": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_template_tv": 0.0,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "modes": 4.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_square_circle_cycle": {
+      "destructive": {
+        "metrics": {
+          "c2s_rmse": 0.122474,
+          "cycle_completion": 0.0,
+          "cycle_rmse": 0.122474,
+          "s2c_rmse": 0.122474,
+          "step_accuracy": 0.5,
+          "waypoint_modes": 4.0,
+          "xy_rmse": 0.235702
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "c2s_rmse": 0.0,
+          "cycle_completion": 1.0,
+          "cycle_rmse": 0.0,
+          "s2c_rmse": 0.0,
+          "step_accuracy": 1.0,
+          "waypoint_modes": 8.0,
+          "xy_rmse": 0.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_translating_bar_next": {
+      "destructive": {
+        "metrics": {
+          "direction_acc": 0.0,
+          "next_frame_rmse": 0.565685
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "direction_acc": 1.0,
+          "next_frame_rmse": 0.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_img_variable_dwell_bars4": {
+      "destructive": {
+        "metrics": {
+          "finite_template_tv": 0.75,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "modes": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_template_tv": 0.0,
+          "hq": 1.0,
+          "mean_rmse": 0.0,
+          "modes": 4.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_minimal_addition2bit": {
+      "carry_removed": {
+        "metrics": {
+          "heldout_carry_accuracy": 0.0,
+          "heldout_exact_accuracy": 0.5,
+          "heldout_invalid_fraction": 0.0,
+          "heldout_min_bit_confidence": 0.0,
+          "seen_carry_accuracy": 0.0,
+          "seen_exact_accuracy": 0.6666666865348816,
+          "seen_invalid_fraction": 0.0,
+          "seen_min_bit_confidence": 0.0
+        },
+        "verdict": "FAIL"
+      },
+      "ignored_operand": {
+        "metrics": {
+          "heldout_carry_accuracy": 0.0,
+          "heldout_exact_accuracy": 0.25,
+          "heldout_invalid_fraction": 0.0,
+          "heldout_min_bit_confidence": 0.0,
+          "seen_carry_accuracy": 0.0,
+          "seen_exact_accuracy": 0.25,
+          "seen_invalid_fraction": 0.0,
+          "seen_min_bit_confidence": 0.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "heldout_carry_accuracy": 1.0,
+          "heldout_exact_accuracy": 1.0,
+          "heldout_invalid_fraction": 0.0,
+          "heldout_min_bit_confidence": 1.0,
+          "seen_carry_accuracy": 1.0,
+          "seen_exact_accuracy": 1.0,
+          "seen_invalid_fraction": 0.0,
+          "seen_min_bit_confidence": 1.0
+        },
+        "verdict": "PASS"
+      },
+      "shuffled_condition": {
+        "metrics": {
+          "heldout_carry_accuracy": 0.0,
+          "heldout_exact_accuracy": 0.0,
+          "heldout_invalid_fraction": 0.0,
+          "heldout_min_bit_confidence": 0.0,
+          "seen_carry_accuracy": 0.0,
+          "seen_exact_accuracy": 0.0833333358168602,
+          "seen_invalid_fraction": 0.0,
+          "seen_min_bit_confidence": 0.0
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "seq_minimal_dense4": {
+      "blurred_mean": {
+        "metrics": {
+          "invalid_fraction": 1.0,
+          "mass_tv": 1.0,
+          "modes": 0.0,
+          "valid_fraction": 0.0
+        },
+        "verdict": "FAIL"
+      },
+      "collapsed_mode": {
+        "metrics": {
+          "invalid_fraction": 0.0,
+          "mass_tv": 0.75,
+          "modes": 1.0,
+          "valid_fraction": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "invalid_fraction": 0.0,
+          "mass_tv": 0.0,
+          "modes": 4.0,
+          "valid_fraction": 1.0
+        },
+        "verdict": "PASS"
+      }
+    },
+    "seq_minimal_kernel2x2": {
+      "copied_input_pixel": {
+        "metrics": {
+          "heldout_max_abs_error": 0.699999988079071,
+          "heldout_response_rmse": 0.6519201993942261,
+          "seen_max_abs_error": 0.8999999761581421,
+          "seen_response_rmse": 0.4743416905403137
+        },
+        "verdict": "FAIL"
+      },
+      "horizontal_flip": {
+        "metrics": {
+          "heldout_max_abs_error": 0.20000001788139343,
+          "heldout_response_rmse": 0.1414213627576828,
+          "seen_max_abs_error": 0.10000000149011612,
+          "seen_response_rmse": 0.08164964616298676
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "heldout_max_abs_error": 0.0,
+          "heldout_response_rmse": 0.0,
+          "seen_max_abs_error": 0.0,
+          "seen_response_rmse": 0.0
+        },
+        "verdict": "PASS"
+      },
+      "vertical_flip": {
+        "metrics": {
+          "heldout_max_abs_error": 0.3999999761581421,
+          "heldout_response_rmse": 0.2828426957130432,
+          "seen_max_abs_error": 0.20000001788139343,
+          "seen_response_rmse": 0.1632993072271347
+        },
+        "verdict": "FAIL"
+      },
+      "zero": {
+        "metrics": {
+          "heldout_max_abs_error": 0.699999988079071,
+          "heldout_response_rmse": 0.5244044661521912,
+          "seen_max_abs_error": 1.0,
+          "seen_response_rmse": 0.5845226049423218
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "seq_minimal_tokens4": {
+      "collapsed_mode": {
+        "metrics": {
+          "invalid_fraction": 0.0,
+          "mass_tv": 0.75,
+          "modes": 1.0,
+          "valid_fraction": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "invalid_fraction": 0.0,
+          "mass_tv": 0.0,
+          "modes": 4.0,
+          "valid_fraction": 1.0
+        },
+        "verdict": "PASS"
+      },
+      "soft_one_hot": {
+        "metrics": {
+          "invalid_fraction": 1.0,
+          "mass_tv": 1.0,
+          "modes": 0.0,
+          "valid_fraction": 0.0
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "seq_minimal_velocity_extrapolation": {
+      "blank": {
+        "metrics": {
+          "centroid_rmse": 0.9880536794662476,
+          "direction_accuracy": 0.1666666716337204,
+          "extrapolation_centroid_rmse": 0.9880536794662476,
+          "extrapolation_direction_accuracy": 0.1666666716337204,
+          "extrapolation_point_validity": 0.0,
+          "extrapolation_raw_rmse": 0.07066462188959122,
+          "extrapolation_speed_error": 0.7749999761581421,
+          "interpolation_centroid_rmse": 0.8607772588729858,
+          "interpolation_direction_accuracy": 0.1666666716337204,
+          "interpolation_point_validity": 0.0,
+          "interpolation_raw_rmse": 0.07369745522737503,
+          "interpolation_speed_error": 0.6625000238418579,
+          "point_validity": 0.0,
+          "raw_rmse": 0.07369745522737503,
+          "speed_error": 0.7749999761581421
+        },
+        "verdict": "FAIL"
+      },
+      "diffuse": {
+        "metrics": {
+          "centroid_rmse": 0.35531672835350037,
+          "direction_accuracy": 0.0,
+          "extrapolation_centroid_rmse": 0.35531672835350037,
+          "extrapolation_direction_accuracy": 0.0,
+          "extrapolation_point_validity": 0.0,
+          "extrapolation_raw_rmse": 0.06891551613807678,
+          "extrapolation_speed_error": 0.2749999761581421,
+          "interpolation_centroid_rmse": 0.20233017206192017,
+          "interpolation_direction_accuracy": 0.0,
+          "interpolation_point_validity": 0.0,
+          "interpolation_raw_rmse": 0.07202204316854477,
+          "interpolation_speed_error": 0.16249999403953552,
+          "point_validity": 0.0,
+          "raw_rmse": 0.07202204316854477,
+          "speed_error": 0.2749999761581421
+        },
+        "verdict": "FAIL"
+      },
+      "nearest_training_speed": {
+        "metrics": {
+          "centroid_rmse": 0.0540061891078949,
+          "direction_accuracy": 1.0,
+          "extrapolation_centroid_rmse": 0.0540061891078949,
+          "extrapolation_direction_accuracy": 1.0,
+          "extrapolation_point_validity": 1.0,
+          "extrapolation_raw_rmse": 0.043150655925273895,
+          "extrapolation_speed_error": 0.025000110268592834,
+          "interpolation_centroid_rmse": 0.027003124356269836,
+          "interpolation_direction_accuracy": 1.0,
+          "interpolation_point_validity": 1.0,
+          "interpolation_raw_rmse": 0.02362770028412342,
+          "interpolation_speed_error": 0.012500084936618805,
+          "point_validity": 1.0,
+          "raw_rmse": 0.043150655925273895,
+          "speed_error": 0.025000110268592834
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "centroid_rmse": 0.0,
+          "direction_accuracy": 1.0,
+          "extrapolation_centroid_rmse": 0.0,
+          "extrapolation_direction_accuracy": 1.0,
+          "extrapolation_point_validity": 1.0,
+          "extrapolation_raw_rmse": 0.0,
+          "extrapolation_speed_error": 7.450580596923828e-08,
+          "interpolation_centroid_rmse": 0.0,
+          "interpolation_direction_accuracy": 1.0,
+          "interpolation_point_validity": 1.0,
+          "interpolation_raw_rmse": 0.0,
+          "interpolation_speed_error": 8.195638656616211e-08,
+          "point_validity": 1.0,
+          "raw_rmse": 0.0,
+          "speed_error": 8.195638656616211e-08
+        },
+        "verdict": "PASS"
+      },
+      "zero_velocity": {
+        "metrics": {
+          "centroid_rmse": 0.1620185524225235,
+          "direction_accuracy": 0.0,
+          "extrapolation_centroid_rmse": 0.1620185524225235,
+          "extrapolation_direction_accuracy": 0.0,
+          "extrapolation_point_validity": 0.5,
+          "extrapolation_raw_rmse": 0.09203288704156876,
+          "extrapolation_speed_error": 0.07500006258487701,
+          "interpolation_centroid_rmse": 0.08100929111242294,
+          "interpolation_direction_accuracy": 0.0,
+          "interpolation_point_validity": 0.5,
+          "interpolation_raw_rmse": 0.05863019451498985,
+          "interpolation_speed_error": 0.03750003129243851,
+          "point_validity": 0.5,
+          "raw_rmse": 0.09203288704156876,
+          "speed_error": 0.07500006258487701
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "seq_robotics_fetch_pick_and_place": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.02316298269386598,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 0.2631578947368421,
+          "object_delta_rmse_m": 0.015106394526941161,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 0.01955411622753548,
+          "relative_mse": 2.43605266012844
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 4.58733469572011e-09,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 1.0,
+          "object_delta_rmse_m": 4.204019432437843e-09,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 4.39985334976477e-09,
+          "relative_mse": 1.233351000515505e-13
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.012504146196726948,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.012552563482017305,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 0.012528378228629502,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.025008293287378698,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.025105127872990362,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 0.02505675735871212,
+          "relative_mse": 4.000000287811596
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.012169203283690472,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 0.6491228070175439,
+          "object_delta_rmse_m": 0.012615541926623558,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 0.012394381926142582,
+          "relative_mse": 0.9787235464162146
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "seq_robotics_fetch_push": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.020250134042710307,
+          "moving_coordinate_fraction": 0.4479166666666667,
+          "moving_direction_accuracy": 0.32558139534883723,
+          "object_delta_rmse_m": 0.0036928669968745048,
+          "object_motion_rms_m": 0.014813667399236624,
+          "persistence_rmse_m": 0.012250844632995897,
+          "position_delta_rmse_m": 0.014555157082703364,
+          "relative_mse": 1.411567756141157
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 4.557208463181207e-09,
+          "moving_coordinate_fraction": 0.4479166666666667,
+          "moving_direction_accuracy": 1.0,
+          "object_delta_rmse_m": 4.095479845159604e-09,
+          "object_motion_rms_m": 0.014813667399236624,
+          "persistence_rmse_m": 0.012250844632995897,
+          "position_delta_rmse_m": 4.332499517541747e-09,
+          "relative_mse": 1.2506764775914162e-13
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.008984522615498435,
+          "moving_coordinate_fraction": 0.4479166666666667,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.014813667399236626,
+          "object_motion_rms_m": 0.014813667399236624,
+          "persistence_rmse_m": 0.012250844632995897,
+          "position_delta_rmse_m": 0.012250844632995897,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.017969044898210242,
+          "moving_coordinate_fraction": 0.4479166666666667,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.029627336135023316,
+          "object_motion_rms_m": 0.014813667399236624,
+          "persistence_rmse_m": 0.012250844632995897,
+          "position_delta_rmse_m": 0.024501689952037532,
+          "relative_mse": 4.000000223999493
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.011719895360397862,
+          "moving_coordinate_fraction": 0.4479166666666667,
+          "moving_direction_accuracy": 0.4883720930232558,
+          "object_delta_rmse_m": 0.020422839251259532,
+          "object_motion_rms_m": 0.014813667399236624,
+          "persistence_rmse_m": 0.012250844632995897,
+          "position_delta_rmse_m": 0.01665004970475257,
+          "relative_mse": 1.8471365605467334
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "seq_robotics_fetch_reach": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 0.08333333333333333,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 0.033332071630872796,
+          "relative_mse": 3.9534124290780053
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 1.0,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 4.52500945972402e-09,
+          "relative_mse": 7.285955146004134e-14
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 0.0,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 0.016763945675317568,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 0.0,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 0.03352788939838995,
+          "relative_mse": 3.9999995341800396
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 0.5,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 0.02170617436292645,
+          "relative_mse": 1.6765406387345876
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "seq_robotics_fetch_slide": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.023811754778635567,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 0.39215686274509803,
+          "object_delta_rmse_m": 5.3179829661148e-09,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 0.016837453275924806,
+          "relative_mse": 1.7255303386617464
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 4.765972845819211e-09,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 1.0,
+          "object_delta_rmse_m": 5.3179829661148e-09,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 5.049526710245884e-09,
+          "relative_mse": 1.5519264679941782e-13
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.01038811336787164,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.014855353749949535,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 0.012817847603632467,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.02077622614148775,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.029710706794610502,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 0.025635694557760217,
+          "relative_mse": 3.9999997973123955
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.012792400165727743,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 0.6862745098039216,
+          "object_delta_rmse_m": 0.016151688292272776,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 0.01456918900781462,
+          "relative_mse": 1.2919346534033367
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "seq_robotics_hand_reach": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 0.3037383177570093,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 0.015441867947986238,
+          "relative_mse": 3.527018803690148
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 1.0,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 4.308731716838189e-09,
+          "relative_mse": 2.7460409779401215e-13
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 0.0,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 0.008222349759750829,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 0.0,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 0.016444699266501512,
+          "relative_mse": 3.999999876920759
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 0.48130841121495327,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 0.011912764348180145,
+          "relative_mse": 2.0991003852671506
+        },
+        "verdict": "FAIL"
+      }
+    }
+  },
+  "device": "cuda",
+  "historical_read_only": [
+    "bcap",
+    "fast-weight-bcap",
+    "fast-weight-bcap-ns",
+    "ka2",
+    "stream-bcap",
+    "stream-bcap-adam",
+    "stream-bispf",
+    "stream-bispf-early",
+    "stream-bispf-optimized",
+    "stream-bispf-optimized-cool",
+    "stream-ka2",
+    "stream-ka2-clean",
+    "stream-ka2-light-anchor",
+    "stream-ka2-ready"
+  ],
+  "planned_runs": 600,
+  "runs": {
+    "online-bcap-adam/seq_img_circle_orbit": {
+      "completed_at": "2026-11-07T16:17:04.049+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "db7aaa6f382771f4ac4bfce05b6fad488b6b3693925b7deeff2dfb1b0a43482f",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_circle_orbit.gif",
+      "receipt_sha256": "4463ae6118351eda3526d0f8ef8f63c3dc01b44b2bcdc7913fa888536ccf6502",
+      "verdict": "FAIL",
+      "wall_seconds": 18.6508
+    },
+    "online-bcap-adam/seq_img_delayed_cue": {
+      "completed_at": "2026-11-07T16:16:28.910+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "3b60a1baab14b7f699c1b728a3c821514a5f2afd3fa8d18609630c904c278b57",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_delayed_cue.gif",
+      "receipt_sha256": "e37e9976a89df3ad9a8fa0c8b9ef8736f31da394b7a92e40be9b2412675c5b82",
+      "verdict": "FAIL",
+      "wall_seconds": 10.5047
+    },
+    "online-bcap-adam/seq_img_dwell_bars4": {
+      "completed_at": "2026-11-07T16:15:39.015+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "dc3798bd25958069f576c50954ae1abdad5ba4babd462bef9eec4d3fde52161c",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_dwell_bars4.gif",
+      "receipt_sha256": "175be5a21f976a8088d460b4c239ae9c5be27853784774aae0403a426a4deff5",
+      "verdict": "FAIL",
+      "wall_seconds": 9.8633
+    },
+    "online-bcap-adam/seq_img_fork_rollout": {
+      "completed_at": "2026-11-07T16:15:59.741+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "33f8196ef1d7e6119dbe9253981305c22a97d78b30df7527549995774e3ff85d",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_fork_rollout.gif",
+      "receipt_sha256": "462288cfd19847a896a0d84b38de26e7565e34233d04c8516cadf741e6c4f11c",
+      "verdict": "FAIL",
+      "wall_seconds": 10.2553
+    },
+    "online-bcap-adam/seq_img_persistent_fork": {
+      "completed_at": "2026-11-07T16:16:45.384+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "b0b5e2a6d69ff02c180b73fab042bf937da989d6a165313dacb4529b26f073b3",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_persistent_fork.gif",
+      "receipt_sha256": "45bd278aada0ad5aba23588c9a54f7b3f6f8435338358d726c83a8424d4274c3",
+      "verdict": "FAIL",
+      "wall_seconds": 16.4606
+    },
+    "online-bcap-adam/seq_img_rare_mode_bars4": {
+      "completed_at": "2026-11-07T16:16:18.351+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a781e127b81f5c1e783d4d6238f30574a9c8a054b6bfd6ae08374c6400be31ee",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_rare_mode_bars4.gif",
+      "receipt_sha256": "7d6cdc088432b4bf993780e941bae83343939664bdbaf702f50e34609a1fd05b",
+      "verdict": "FAIL",
+      "wall_seconds": 9.1864
+    },
+    "online-bcap-adam/seq_img_round_robin_bars4": {
+      "completed_at": "2026-11-07T16:15:29.138+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "ab44c98d0206a3beb9cd19f8214aa2d4a63756ebbc716a895c605baf07bc3106",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_round_robin_bars4.gif",
+      "receipt_sha256": "e070ea356bb634374a9d4a9a471ccad503ef8cb5754d030545024f6b6089278c",
+      "verdict": "FAIL",
+      "wall_seconds": 10.1071
+    },
+    "online-bcap-adam/seq_img_square_circle_cycle": {
+      "completed_at": "2026-11-07T16:17:38.865+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "88dd7b915066984be41575fc19c2340b842c7e4d501641895befbc64369456cb",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_square_circle_cycle.gif",
+      "receipt_sha256": "bb6cde65cd5560133ac26a37c098f1fe9af2c46522ed96179ccde5783ecb65d9",
+      "verdict": "FAIL",
+      "wall_seconds": 34.8006
+    },
+    "online-bcap-adam/seq_img_translating_bar_next": {
+      "completed_at": "2026-11-07T16:15:49.472+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "96cce3efb99fa976bd28190d9af3254b143ffdc4cf4aeaa6d59af78a06d84ec4",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_translating_bar_next.gif",
+      "receipt_sha256": "93f1b98b6000eb217eca20948f9f9e74924a171d7fc4fadb1bdc6ec84c3c53b7",
+      "verdict": "FAIL",
+      "wall_seconds": 10.4043
+    },
+    "online-bcap-adam/seq_img_variable_dwell_bars4": {
+      "completed_at": "2026-11-07T16:16:09.111+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "81ce7bcf9b9ff1b3f0da6f3b9b9dabb3e2cdfef3c152fec1349217ea967a5908",
+      "goal_gif": "gifs/online-bcap-adam_seq_img_variable_dwell_bars4.gif",
+      "receipt_sha256": "d02f4188415dbda14aec7f4526e87bbea04b4e7d6b15eaa22519614334b4e2fc",
+      "verdict": "FAIL",
+      "wall_seconds": 9.3555
+    },
+    "online-bcap-adam/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T16:17:56.665+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "4ccce10b5cfea0012ce54b790c55a16bd89bee99eddd88b08b55f98a424ce53c",
+      "goal_gif": "gifs/online-bcap-adam_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "c771a6d61653de67aac5d7765b0b6d33d1e9ea25c4c58cf8f279f8d4a0bdb4bf",
+      "verdict": "FAIL",
+      "wall_seconds": 5.295
+    },
+    "online-bcap-adam/seq_minimal_dense4": {
+      "completed_at": "2026-11-07T16:17:42.387+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "16eec56965dfc883187aabc902ce61c0405df53f3f25ad17795aaff3ca0866b8",
+      "goal_gif": "gifs/online-bcap-adam_seq_minimal_dense4.gif",
+      "receipt_sha256": "cb1e0ed657ae452c3a5e99166a8058c8c459885ce0a4a1e3076218993ad2cc25",
+      "verdict": "FAIL",
+      "wall_seconds": 3.5075
+    },
+    "online-bcap-adam/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T16:17:51.356+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "eda51d7614d1bdfd9a363d5d29ad65050591782c0f57f771b52e2ac304a76283",
+      "goal_gif": "gifs/online-bcap-adam_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "60e9c5a2bd065d5242500d9ae0c4ceec0f1e5cc8c5ab7f2085deaef9fee3420e",
+      "verdict": "FAIL",
+      "wall_seconds": 5.508
+    },
+    "online-bcap-adam/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T16:17:45.792+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "2e91964c984d462ae1e68aa35b970636e9d53599b6da116179add5087d7ea9b7",
+      "goal_gif": "gifs/online-bcap-adam_seq_minimal_tokens4.gif",
+      "receipt_sha256": "63891d2f5ad7a750352d41532e54fa56025521dcacd6bb2ecb031659ff62b4bf",
+      "verdict": "FAIL",
+      "wall_seconds": 3.3476
+    },
+    "online-bcap-adam/seq_minimal_velocity_extrapolation": {
+      "completed_at": "2026-11-07T16:19:01.015+00:00",
+      "completed_steps": 384,
+      "gif_sha256": "ed08cb6abac233776d2ce75ed4bdd2d29606f08ad4fa322732778c722ad8417f",
+      "goal_gif": "gifs/online-bcap-adam_seq_minimal_velocity_extrapolation.gif",
+      "receipt_sha256": "fa49c1e101ffd6617249fde77c682303c4b096bb2e96e501e01718222a44d5d8",
+      "verdict": "FAIL",
+      "wall_seconds": 9.6132
+    },
+    "online-bcap-adam/seq_robotics_fetch_pick_and_place": {
+      "completed_at": "2026-11-07T16:18:41.844+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "49ff0be64c405db61be03da625814ba33a509b4befd63207760bf415ab07ad74",
+      "goal_gif": "gifs/online-bcap-adam_seq_robotics_fetch_pick_and_place.gif",
+      "receipt_sha256": "d97914c128f976f4d24b6b5c60a43df07abd53162b973a69610f3484a2bb0723",
+      "verdict": "FAIL",
+      "wall_seconds": 9.3972
+    },
+    "online-bcap-adam/seq_robotics_fetch_push": {
+      "completed_at": "2026-11-07T16:18:22.859+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a92d92e8c0107cf0571e2c950e4aad6642e82516aac776a98d3b4259d92398e7",
+      "goal_gif": "gifs/online-bcap-adam_seq_robotics_fetch_push.gif",
+      "receipt_sha256": "fac7210134925888fd1edaa062d1b9f0ab74f7dce069547c721f42c762ce5b80",
+      "verdict": "FAIL",
+      "wall_seconds": 12.1499
+    },
+    "online-bcap-adam/seq_robotics_fetch_reach": {
+      "completed_at": "2026-11-07T16:18:10.692+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "416c6be1f2cb6b34feb99889d466737ed531969d26bc675a433a1fb8f43ad6c0",
+      "goal_gif": "gifs/online-bcap-adam_seq_robotics_fetch_reach.gif",
+      "receipt_sha256": "146b8f87279c460cd4909b78411af345c27bd9567a0726a5040fd659c2882bac",
+      "verdict": "FAIL",
+      "wall_seconds": 14.013
+    },
+    "online-bcap-adam/seq_robotics_fetch_slide": {
+      "completed_at": "2026-11-07T16:18:32.429+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "c504722eac1b51fccf0b1b71886d76f10768491231817b84642440e048a21dbb",
+      "goal_gif": "gifs/online-bcap-adam_seq_robotics_fetch_slide.gif",
+      "receipt_sha256": "ad4c1ae06e72cf1cc5760bf1cb42272a3b417f9e0db6e77b8ac77e1acf4587a4",
+      "verdict": "FAIL",
+      "wall_seconds": 9.5541
+    },
+    "online-bcap-adam/seq_robotics_hand_reach": {
+      "completed_at": "2026-11-07T16:18:51.345+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "c655e6941c16b42c49472681aec5d102d2a72b4660c1dc99f45f91d7fe949325",
+      "goal_gif": "gifs/online-bcap-adam_seq_robotics_hand_reach.gif",
+      "receipt_sha256": "a27ebad0b9f444f2a052d0eeef7f0737ca1774da907053fcdc4d3fd4e057bbae",
+      "verdict": "FAIL",
+      "wall_seconds": 9.4857
+    },
+    "online-bcap/seq_img_circle_orbit": {
+      "completed_at": "2026-11-07T16:08:37.960+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "151cda6064a6adab75b30f60de8196e7f2ea1072568b2382e44798280323783e",
+      "goal_gif": "gifs/online-bcap_seq_img_circle_orbit.gif",
+      "receipt_sha256": "8448aba081460d0bdc3158ecd8ade2f93e665f4126c20b0efa0bb3f254063077",
+      "verdict": "FAIL",
+      "wall_seconds": 44.2003
+    },
+    "online-bcap/seq_img_delayed_cue": {
+      "completed_at": "2026-11-07T16:07:06.795+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a008bd08fcdf5ccd3f45d9253cb36b8fdf30b2e9d62ff5d8a85bb98d0b4e3d73",
+      "goal_gif": "gifs/online-bcap_seq_img_delayed_cue.gif",
+      "receipt_sha256": "4f1a56250ea4d9a5dc666647826369bbc51d7d694da68267c0a764675751f74d",
+      "verdict": "FAIL",
+      "wall_seconds": 38.5234
+    },
+    "online-bcap/seq_img_dwell_bars4": {
+      "completed_at": "2026-11-07T16:03:21.276+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "1bf1905149ec1af59920f749dbab6d0a18644391426e8b0f6fa80cf8aa80f4f4",
+      "goal_gif": "gifs/online-bcap_seq_img_dwell_bars4.gif",
+      "receipt_sha256": "53e30cb0e9c235f62b6becce38383bcb017161331c6dce0bfbf15f770709f42f",
+      "verdict": "FAIL",
+      "wall_seconds": 33.8287
+    },
+    "online-bcap/seq_img_fork_rollout": {
+      "completed_at": "2026-11-07T16:04:35.742+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "ac62177c68590f55fe5bdce28858974317f6560a98511b32ae396c084b174b42",
+      "goal_gif": "gifs/online-bcap_seq_img_fork_rollout.gif",
+      "receipt_sha256": "53614f61dc27eef5d163a72a20d16f0c1ecd2c0c9f9bef941e1cad3b43601754",
+      "verdict": "FAIL",
+      "wall_seconds": 37.7044
+    },
+    "online-bcap/seq_img_persistent_fork": {
+      "completed_at": "2026-11-07T16:07:53.744+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "0c9e7c5e537e8a751b0754bbde032bd1d1a9346ff913f32b0485559b56aecf62",
+      "goal_gif": "gifs/online-bcap_seq_img_persistent_fork.gif",
+      "receipt_sha256": "1b49ea87338f17865ce11f59e75a52e92346fd4c9a7734f3c3d8337ac48d5c00",
+      "verdict": "FAIL",
+      "wall_seconds": 46.8963
+    },
+    "online-bcap/seq_img_rare_mode_bars4": {
+      "completed_at": "2026-11-07T16:05:48.349+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a229c342e003555eea92dd66ea0cf37083e08c9240f0f32f4cad82959ee6f097",
+      "goal_gif": "gifs/online-bcap_seq_img_rare_mode_bars4.gif",
+      "receipt_sha256": "cdea1cc797b86daf453b0267bb7739e7f09edcec60c10c1a4276786a369606db",
+      "verdict": "FAIL",
+      "wall_seconds": 35.7713
+    },
+    "online-bcap/seq_img_round_robin_bars4": {
+      "completed_at": "2026-11-07T16:02:47.434+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "97769fec5309c7881f8123f88857a63c057adcca4fc3184dfbd4a10a22fed089",
+      "goal_gif": "gifs/online-bcap_seq_img_round_robin_bars4.gif",
+      "receipt_sha256": "71ed04ca07c4286e5f05b7b11d883443aea0261fc40ad43972cc388673f0acc7",
+      "verdict": "FAIL",
+      "wall_seconds": 35.3412
+    },
+    "online-bcap/seq_img_square_circle_cycle": {
+      "completed_at": "2026-11-07T16:10:04.548+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f713320908856afdd9a47a8cb400172a6c622e1cbfcf623bb69c1ebb9fd87083",
+      "goal_gif": "gifs/online-bcap_seq_img_square_circle_cycle.gif",
+      "receipt_sha256": "e1a4a696e370fa00699e96057fd78f6ba89db9ef8fedd9bafa463bc74b4b20c4",
+      "verdict": "FAIL",
+      "wall_seconds": 86.5732
+    },
+    "online-bcap/seq_img_translating_bar_next": {
+      "completed_at": "2026-11-07T16:03:58.024+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "4db4e026e841a59fe57cc87b7781dd726ea896f79a33c5722164b363bde97113",
+      "goal_gif": "gifs/online-bcap_seq_img_translating_bar_next.gif",
+      "receipt_sha256": "98137467804114f4e35a3d1af8e3a280ad8f30345f445be80339228caeb43f2f",
+      "verdict": "FAIL",
+      "wall_seconds": 36.7336
+    },
+    "online-bcap/seq_img_variable_dwell_bars4": {
+      "completed_at": "2026-11-07T16:05:12.563+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a2a2eaea05834870cfd051f1b7ecd3b08f7680a015b2f3dc5e5d399b05486525",
+      "goal_gif": "gifs/online-bcap_seq_img_variable_dwell_bars4.gif",
+      "receipt_sha256": "7f7026571259f0621951d313f9cca4776330e8800606428d5c493d9e90ef7b43",
+      "verdict": "FAIL",
+      "wall_seconds": 36.8073
+    },
+    "online-bcap/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T16:10:52.450+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "0c4418174a7233c03cceb0c210d468314c0d592c70753cf7cc6289746d098539",
+      "goal_gif": "gifs/online-bcap_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "d7a0ca092adf6f9ef0ccc9a2b9a9781e13af8c2a49f931e50e96269ee5aa9a82",
+      "verdict": "FAIL",
+      "wall_seconds": 15.2719
+    },
+    "online-bcap/seq_minimal_dense4": {
+      "completed_at": "2026-11-07T16:10:13.123+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "a7f90e3b8c844ef8e3a8a9b5b5977a5c2983eb47173b9fb4b54307eda536d4d1",
+      "goal_gif": "gifs/online-bcap_seq_minimal_dense4.gif",
+      "receipt_sha256": "9a5b34b94e535e7de178cd78f6e6295d0a41a843146b16be7026d286920b4300",
+      "verdict": "FAIL",
+      "wall_seconds": 8.5168
+    },
+    "online-bcap/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T16:10:37.117+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "e1c85024d693dfcf7ab5136119610c4a8bac4a08aea7a49b1d91e8e1977ece5c",
+      "goal_gif": "gifs/online-bcap_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "dba93b774cb3e530744e6df9d1376acb3c8efb07c29807747e33eb1e591f9b74",
+      "verdict": "FAIL",
+      "wall_seconds": 15.3308
+    },
+    "online-bcap/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T16:10:21.770+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "9991795f25dd66c8b2919004fc7c8d30b1d1cefa29547edc61b6f22266f2fea2",
+      "goal_gif": "gifs/online-bcap_seq_minimal_tokens4.gif",
+      "receipt_sha256": "6f8def8bfc86e4a30f78833a128fbf46d404b40ba178d286e9b687ab2cb8e8ca",
+      "verdict": "FAIL",
+      "wall_seconds": 8.6308
+    },
+    "online-bcap/seq_minimal_velocity_extrapolation": {
+      "completed_at": "2026-11-07T16:15:18.322+00:00",
+      "completed_steps": 384,
+      "gif_sha256": "2baa90a18fe8e4eee1522dc64b65ebbb326515e6381c8efefd017a52eac74c56",
+      "goal_gif": "gifs/online-bcap_seq_minimal_velocity_extrapolation.gif",
+      "receipt_sha256": "f5429bfe87522f3d069ac793af1b0e84d510897915f4bccf4d62ad2e306ff152",
+      "verdict": "FAIL",
+      "wall_seconds": 35.6759
+    },
+    "online-bcap/seq_robotics_fetch_pick_and_place": {
+      "completed_at": "2026-11-07T16:14:04.528+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "d309f64d3450c7abd2fa053a9f1fd47ceeea73aa8040c45abfd84de6f038e758",
+      "goal_gif": "gifs/online-bcap_seq_robotics_fetch_pick_and_place.gif",
+      "receipt_sha256": "8df3695233446b54dd47e80a2c22401ea0dc5486da2c826ef9a675e06048c4b7",
+      "verdict": "FAIL",
+      "wall_seconds": 40.9697
+    },
+    "online-bcap/seq_robotics_fetch_push": {
+      "completed_at": "2026-11-07T16:12:45.256+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f4ac246fc9f74a0f43f0e8e5eccad285754d88dc22cf3b90ff60430e87600af3",
+      "goal_gif": "gifs/online-bcap_seq_robotics_fetch_push.gif",
+      "receipt_sha256": "a74ebbe7156aea15ebca2c3942828c40e79ac2fd81a151b52098286ec29543dc",
+      "verdict": "FAIL",
+      "wall_seconds": 38.7487
+    },
+    "online-bcap/seq_robotics_fetch_reach": {
+      "completed_at": "2026-11-07T16:12:06.492+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "98784c4500ac3aa655b4d3df2953b6fed4c45a37ac58f0101175580e7777740f",
+      "goal_gif": "gifs/online-bcap_seq_robotics_fetch_reach.gif",
+      "receipt_sha256": "89303eeea17df1a7d2af57b7f2d27eb92f2eb429a2c1293c4328470e037701ce",
+      "verdict": "FAIL",
+      "wall_seconds": 45.8378
+    },
+    "online-bcap/seq_robotics_fetch_slide": {
+      "completed_at": "2026-11-07T16:13:23.540+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "0bca0e65f2a7a8e8564e71375b81090429571d0a3c9aeee4d5970b44a59002ba",
+      "goal_gif": "gifs/online-bcap_seq_robotics_fetch_slide.gif",
+      "receipt_sha256": "a995003a272d9fc7b9c2dddd5ea2183d1c4a18bd955e31b6e7cc04236febd53d",
+      "verdict": "FAIL",
+      "wall_seconds": 38.2279
+    },
+    "online-bcap/seq_robotics_hand_reach": {
+      "completed_at": "2026-11-07T16:14:42.630+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "3ecc656ed208857204cdfeca56165a226ee3843879979b48035e178340cd690b",
+      "goal_gif": "gifs/online-bcap_seq_robotics_hand_reach.gif",
+      "receipt_sha256": "d27a3a79b776e6896650811b4aff98a84a12af0e03b06815a8aef6fff275b8fd",
+      "verdict": "FAIL",
+      "wall_seconds": 38.0889
+    }
+  },
+  "seed": 0,
+  "sessions": [
+    {
+      "completed_run_range": [
+        1,
+        6
+      ],
+      "cuda_visible_devices": null,
+      "device_name": "NVIDIA RTX A6000",
+      "ended_reason": "SIGINT to move to identical less busy GPU",
+      "particlegan_version": "0.9.7",
+      "physical_gpu_index": 0,
+      "python_version": "3.13.15",
+      "requested_device": "cuda",
+      "started_at": "2026-11-07T16:02:10.829072+00:00",
+      "torch_version": "2.15.0+cu132"
+    },
+    {
+      "completed_run_range": [
+        7,
+        14
+      ],
+      "cuda_visible_devices": "1",
+      "device_name": "NVIDIA RTX A6000",
+      "ended_reason": "SIGINT to load completed reporting and resume implementation",
+      "particlegan_version": "0.9.7",
+      "physical_gpu_index": 1,
+      "python_version": "3.13.15",
+      "requested_device": "cuda",
+      "start_time_precision": "approximate; exact attempt times retained in events.jsonl",
+      "started_at": "2026-11-07T16:06:30+00:00",
+      "torch_version": "2.15.0+cu132"
+    },
+    {
+      "cuda_visible_devices": "1",
+      "device_name": "NVIDIA RTX A6000",
+      "particlegan_version": "0.9.7",
+      "python_version": "3.13.15",
+      "requested_device": "cuda",
+      "started_at": "2026-11-07T16:11:20.630552+00:00",
+      "torch_version": "2.15.0+cu132"
+    }
+  ],
+  "started_at": "2026-11-07T16:02:10.829072+00:00",
+  "tasks": [
+    "seq_img_round_robin_bars4",
+    "seq_img_dwell_bars4",
+    "seq_img_translating_bar_next",
+    "seq_img_fork_rollout",
+    "seq_img_variable_dwell_bars4",
+    "seq_img_rare_mode_bars4",
+    "seq_img_delayed_cue",
+    "seq_img_persistent_fork",
+    "seq_img_circle_orbit",
+    "seq_img_square_circle_cycle",
+    "seq_minimal_dense4",
+    "seq_minimal_tokens4",
+    "seq_minimal_kernel2x2",
+    "seq_minimal_addition2bit",
+    "seq_robotics_fetch_reach",
+    "seq_robotics_fetch_push",
+    "seq_robotics_fetch_slide",
+    "seq_robotics_fetch_pick_and_place",
+    "seq_robotics_hand_reach",
+    "seq_minimal_velocity_extrapolation"
+  ]
+}
