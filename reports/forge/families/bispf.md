@@ -60,7 +60,7 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **FAIL**, 1/10 required passes (10 measured), 0/10 stretch passes (2 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 1/10 required passes (10 measured), 0/10 stretch passes (10 measured); qualified tier 0.
 
 Receipt identity: candidate_fingerprint `02f098fcb214f4f7874f82ef83f6629ce8cfc85c2c3f3ac28b84ec45b7803676`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
@@ -99,20 +99,20 @@ Receipt identity: candidate_fingerprint `02f098fcb214f4f7874f82ef83f6629ce8cfc85
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.40169`; `seen_max_abs_error=0.97481`; `heldout_response_rmse=0.30771`; `heldout_max_abs_error=0.67481`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-bispf-frozen/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-bispf-frozen_seq_minimal_kernel2x2.gif) | 2026-11-07T17:15:52.084+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=0.14583`; `seen_min_bit_confidence=3.9127e-16`; `heldout_exact_accuracy=0.1875`; `heldout_min_bit_confidence=3.9127e-16`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9; seen_exact_accuracy == 1.0; seen_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-bispf-frozen/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-bispf-frozen_seq_minimal_addition2bit.gif) | 2026-11-07T17:15:56.788+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.017424`; `relative_mse=1.0803`; `moving_direction_accuracy=0.45312`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-frozen/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-bispf-frozen_seq_robotics_fetch_reach.gif) | 2026-11-07T17:16:07.254+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.014819`; `relative_mse=1.4632`; `moving_direction_accuracy=0.44767`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-frozen/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-bispf-frozen_seq_robotics_fetch_push.gif) | 2026-11-07T17:16:18.748+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.011903`; `relative_mse=0.86238`; `moving_direction_accuracy=0.67157`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-frozen/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-bispf-frozen_seq_robotics_fetch_slide.gif) | 2026-11-07T17:16:29.651+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 0/5 | `position_delta_rmse_m=0.010651`; `relative_mse=0.72274`; `moving_direction_accuracy=0.69298`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-frozen/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-bispf-frozen_seq_robotics_fetch_pick_and_place.gif) | 2026-11-07T17:16:40.467+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0098418`; `relative_mse=1.4327`; `moving_direction_accuracy=0.51285`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-frozen/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-bispf-frozen_seq_robotics_hand_reach.gif) | 2026-11-07T17:16:51.581+00:00 |
 
 <a id="online-bispf-frozen-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.81049`; `interpolation_speed_error=0.7724`; `interpolation_raw_rmse=0.073697`; `interpolation_point_validity=0`; `interpolation_direction_accuracy=0.47917`; `extrapolation_centroid_rmse=0.95761`; `extrapolation_speed_error=0.873`; `extrapolation_raw_rmse=0.070665`; `extrapolation_point_validity=0`; `extrapolation_direction_accuracy=0.5`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-bispf-frozen/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-bispf-frozen_seq_minimal_velocity_extrapolation.gif) | 2026-11-07T17:17:01.672+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-bispf-frozen --device cuda`.
 
@@ -499,7 +499,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 0/10 required passes (10 measured), 0/10 stretch passes (10 measured); qualified tier 0.
+
+Receipt identity: candidate_fingerprint `1a2ec8c64991ff95e4fb43d5927803bf7f41d673a316c993448b1fb7cc4316cf`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-bispf-momentum-required"></a>
 ### Required evidence
@@ -509,16 +511,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.9; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_round_robin_bars4.gif) | 2026-11-07T17:17:09.239+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_dwell_bars4.gif) | 2026-11-07T17:17:16.167+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **FAIL** | 0/5 | `next_frame_rmse=0.46831`; `direction_acc=0.34375`; failed terminal bounds: direction_acc >= 0.9; next_frame_rmse <= 0.12 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_translating_bar_next.gif) | 2026-11-07T17:17:23.603+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **FAIL** | 0/5 | `hq=0`; `within_state_modes=0`; `branch_tv=1`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_fork_rollout.gif) | 2026-11-07T17:17:31.192+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_variable_dwell_bars4.gif) | 2026-11-07T17:17:38.108+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **FAIL** | 0/5 | `hq=0.21875`; `finite_template_tv=0.78125`; `support_modes=1`; `rare_mass=0`; `rare_mass=0`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.85; rare_mass >= 0.03125; support_modes == 4.0 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_rare_mode_bars4.gif) | 2026-11-07T17:17:45.287+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **FAIL** | 0/5 | `outcome_accuracy=0.5`; `prediction_rmse=0.31415`; failed terminal bounds: outcome_accuracy >= 0.9; prediction_rmse <= 0.12 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_delayed_cue.gif) | 2026-11-07T17:17:53.234+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **FAIL** | 0/5 | `hq=0`; `within_state_modes=0`; `branch_tv=1`; `trajectory_consistency=0`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; trajectory_consistency >= 0.95; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_persistent_fork.gif) | 2026-11-07T17:18:05.931+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **FAIL** | 0/5 | `orbit_rmse=0.25972`; `xy_rmse=1.1539`; `step_accuracy=0`; `orbit_completion=0`; `waypoint_modes=0`; failed terminal bounds: orbit_completion >= 0.9; orbit_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_circle_orbit.gif) | 2026-11-07T17:18:20.443+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **FAIL** | 0/5 | `cycle_rmse=0.30796`; `s2c_rmse=0.36515`; `c2s_rmse=0.25078`; `xy_rmse=1.1958`; `step_accuracy=0`; `cycle_completion=0`; `waypoint_modes=0`; failed terminal bounds: c2s_rmse <= 0.12; cycle_completion >= 0.9; cycle_rmse <= 0.12; s2c_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-bispf-momentum/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-bispf-momentum_seq_img_square_circle_cycle.gif) | 2026-11-07T17:18:45.740+00:00 |
 
 <a id="online-bispf-momentum-stretch"></a>
 ### Stretch evidence
@@ -528,28 +530,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-bispf-momentum/seq_minimal_dense4.json) · [goal.gif](../gifs/online-bispf-momentum_seq_minimal_dense4.gif) | 2026-11-07T17:18:48.831+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.1; modes == 4.0; valid_fraction == 1.0 | [receipt](../receipts/cuda/online-bispf-momentum/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-bispf-momentum_seq_minimal_tokens4.gif) | 2026-11-07T17:18:52.114+00:00 |
 
 <a id="online-bispf-momentum-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.51937`; `seen_max_abs_error=0.99996`; `heldout_response_rmse=0.45064`; `heldout_max_abs_error=0.69996`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-bispf-momentum/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-bispf-momentum_seq_minimal_kernel2x2.gif) | 2026-11-07T17:18:56.867+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=0.083333`; `seen_min_bit_confidence=1.8248e-24`; `heldout_exact_accuracy=0`; `heldout_min_bit_confidence=1.8248e-24`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9; seen_exact_accuracy == 1.0; seen_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-bispf-momentum/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-bispf-momentum_seq_minimal_addition2bit.gif) | 2026-11-07T17:19:01.584+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.033919`; `relative_mse=4.0939`; `moving_direction_accuracy=0.43229`; `finite_fraction=0.96875`; failed terminal bounds: finite_fraction == 1.0; moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-momentum/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-bispf-momentum_seq_robotics_fetch_reach.gif) | 2026-11-07T17:19:11.500+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.018285`; `relative_mse=2.2276`; `moving_direction_accuracy=0.52326`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-momentum/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-bispf-momentum_seq_robotics_fetch_push.gif) | 2026-11-07T17:19:21.612+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.01565`; `relative_mse=1.4908`; `moving_direction_accuracy=0.64706`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-momentum/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-bispf-momentum_seq_robotics_fetch_slide.gif) | 2026-11-07T17:19:31.550+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 0/5 | `position_delta_rmse_m=0.020614`; `relative_mse=2.7074`; `moving_direction_accuracy=0.35088`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-momentum/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-bispf-momentum_seq_robotics_fetch_pick_and_place.gif) | 2026-11-07T17:19:41.512+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.7428`; `relative_mse=8161.1`; `moving_direction_accuracy=0.48715`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-momentum/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-bispf-momentum_seq_robotics_hand_reach.gif) | 2026-11-07T17:19:51.741+00:00 |
 
 <a id="online-bispf-momentum-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.80599`; `interpolation_speed_error=0.98757`; `interpolation_raw_rmse=0.073697`; `interpolation_point_validity=0`; `interpolation_direction_accuracy=0.45833`; `extrapolation_centroid_rmse=0.85714`; `extrapolation_speed_error=0.84952`; `extrapolation_raw_rmse=0.070665`; `extrapolation_point_validity=0`; `extrapolation_direction_accuracy=0.5625`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-bispf-momentum/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-bispf-momentum_seq_minimal_velocity_extrapolation.gif) | 2026-11-07T17:20:02.771+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-bispf-momentum --device cuda`.
 
@@ -599,7 +601,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 0/10 required passes (10 measured), 0/10 stretch passes (10 measured); qualified tier 0.
+
+Receipt identity: candidate_fingerprint `669bad93145e590d98311168b023cb673093dc947fc52cda0208b9c060b88f7b`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-bispf-optimized-required"></a>
 ### Required evidence
@@ -609,16 +613,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.9; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_round_robin_bars4.gif) | 2026-11-07T17:20:15.334+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_dwell_bars4.gif) | 2026-11-07T17:20:24.863+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **FAIL** | 0/5 | `next_frame_rmse=0.35677`; `direction_acc=0.5`; failed terminal bounds: direction_acc >= 0.9; next_frame_rmse <= 0.12 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_translating_bar_next.gif) | 2026-11-07T17:20:36.238+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **FAIL** | 0/5 | `hq=0`; `within_state_modes=0`; `branch_tv=1`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_fork_rollout.gif) | 2026-11-07T17:20:46.850+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_variable_dwell_bars4.gif) | 2026-11-07T17:20:56.436+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **FAIL** | 0/5 | `hq=0.34375`; `finite_template_tv=0.6875`; `support_modes=1`; `rare_mass=0`; `rare_mass=0`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.85; rare_mass >= 0.03125; support_modes == 4.0 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_rare_mode_bars4.gif) | 2026-11-07T17:21:06.310+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **FAIL** | 0/5 | `outcome_accuracy=0.5`; `prediction_rmse=0.29708`; failed terminal bounds: outcome_accuracy >= 0.9; prediction_rmse <= 0.12 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_delayed_cue.gif) | 2026-11-07T17:21:17.635+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **FAIL** | 0/5 | `hq=0`; `within_state_modes=0`; `branch_tv=1`; `trajectory_consistency=0`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; trajectory_consistency >= 0.95; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_persistent_fork.gif) | 2026-11-07T17:21:33.878+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **FAIL** | 0/5 | `orbit_rmse=0.19917`; `xy_rmse=1.0319`; `step_accuracy=0`; `orbit_completion=0`; `waypoint_modes=0`; failed terminal bounds: orbit_completion >= 0.9; orbit_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_circle_orbit.gif) | 2026-11-07T17:21:52.122+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **FAIL** | 0/5 | `cycle_rmse=0.20082`; `s2c_rmse=0.20145`; `c2s_rmse=0.20019`; `xy_rmse=1.1539`; `step_accuracy=0`; `cycle_completion=0`; `waypoint_modes=0`; failed terminal bounds: c2s_rmse <= 0.12; cycle_completion >= 0.9; cycle_rmse <= 0.12; s2c_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-bispf-optimized/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-bispf-optimized_seq_img_square_circle_cycle.gif) | 2026-11-07T17:22:26.699+00:00 |
 
 <a id="online-bispf-optimized-stretch"></a>
 ### Stretch evidence
@@ -628,28 +632,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-bispf-optimized/seq_minimal_dense4.json) · [goal.gif](../gifs/online-bispf-optimized_seq_minimal_dense4.gif) | 2026-11-07T17:22:31.775+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.1; modes == 4.0; valid_fraction == 1.0 | [receipt](../receipts/cuda/online-bispf-optimized/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-bispf-optimized_seq_minimal_tokens4.gif) | 2026-11-07T17:22:36.382+00:00 |
 
 <a id="online-bispf-optimized-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.31016`; `seen_max_abs_error=0.74491`; `heldout_response_rmse=0.17185`; `heldout_max_abs_error=0.44491`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-bispf-optimized/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-bispf-optimized_seq_minimal_kernel2x2.gif) | 2026-11-07T17:22:44.850+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=0.083333`; `seen_min_bit_confidence=1.5962e-05`; `heldout_exact_accuracy=0`; `heldout_min_bit_confidence=1.5962e-05`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9; seen_exact_accuracy == 1.0; seen_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-bispf-optimized/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-bispf-optimized_seq_minimal_addition2bit.gif) | 2026-11-07T17:22:52.477+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.016563`; `relative_mse=0.97614`; `moving_direction_accuracy=0.56771`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-bispf-optimized_seq_robotics_fetch_reach.gif) | 2026-11-07T17:23:10.892+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.013553`; `relative_mse=1.2239`; `moving_direction_accuracy=0.42442`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-bispf-optimized_seq_robotics_fetch_push.gif) | 2026-11-07T17:23:28.993+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.017166`; `relative_mse=1.7935`; `moving_direction_accuracy=0.80392`; `finite_fraction=1`; failed terminal bounds: position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-bispf-optimized_seq_robotics_fetch_slide.gif) | 2026-11-07T17:23:46.997+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 0/5 | `position_delta_rmse_m=0.01042`; `relative_mse=0.6917`; `moving_direction_accuracy=0.72807`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-bispf-optimized_seq_robotics_fetch_pick_and_place.gif) | 2026-11-07T17:24:04.468+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.012176`; `relative_mse=2.1928`; `moving_direction_accuracy=0.45327`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-bispf-optimized_seq_robotics_hand_reach.gif) | 2026-11-07T17:24:22.345+00:00 |
 
 <a id="online-bispf-optimized-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.51843`; `interpolation_speed_error=0.42722`; `interpolation_raw_rmse=0.073785`; `interpolation_point_validity=0`; `interpolation_direction_accuracy=0.4375`; `extrapolation_centroid_rmse=0.67044`; `extrapolation_speed_error=0.57839`; `extrapolation_raw_rmse=0.070734`; `extrapolation_point_validity=0`; `extrapolation_direction_accuracy=0.45833`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-bispf-optimized/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-bispf-optimized_seq_minimal_velocity_extrapolation.gif) | 2026-11-07T17:24:39.309+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-bispf-optimized --device cuda`.
 
@@ -702,7 +706,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 0/10 required passes (10 measured), 0/10 stretch passes (10 measured); qualified tier 0.
+
+Receipt identity: candidate_fingerprint `0f3b7cd014e65bed1cd9b6cd61d5fc1940a188ef4aa37780ebe26d40fa30b573`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-bispf-optimized-cool-required"></a>
 ### Required evidence
@@ -712,16 +718,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.9; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_round_robin_bars4.gif) | 2026-11-07T17:24:53.306+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_dwell_bars4.gif) | 2026-11-07T17:25:05.073+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **FAIL** | 0/5 | `next_frame_rmse=0.36004`; `direction_acc=0.51562`; failed terminal bounds: direction_acc >= 0.9; next_frame_rmse <= 0.12 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_translating_bar_next.gif) | 2026-11-07T17:25:16.057+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **FAIL** | 0/5 | `hq=0`; `within_state_modes=0`; `branch_tv=1`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_fork_rollout.gif) | 2026-11-07T17:25:27.056+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_variable_dwell_bars4.gif) | 2026-11-07T17:25:40.414+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **FAIL** | 0/5 | `hq=0`; `finite_template_tv=1`; `support_modes=0`; `rare_mass=0`; `rare_mass=0`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.85; rare_mass >= 0.03125; support_modes == 4.0 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_rare_mode_bars4.gif) | 2026-11-07T17:25:55.155+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **FAIL** | 0/5 | `outcome_accuracy=0.5`; `prediction_rmse=0.33203`; failed terminal bounds: outcome_accuracy >= 0.9; prediction_rmse <= 0.12 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_delayed_cue.gif) | 2026-11-07T17:26:10.820+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **FAIL** | 0/5 | `hq=0`; `within_state_modes=0`; `branch_tv=1`; `trajectory_consistency=0`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; trajectory_consistency >= 0.95; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_persistent_fork.gif) | 2026-11-07T17:26:31.730+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **FAIL** | 0/5 | `orbit_rmse=0.22832`; `xy_rmse=1.4609`; `step_accuracy=0`; `orbit_completion=0`; `waypoint_modes=0`; failed terminal bounds: orbit_completion >= 0.9; orbit_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_circle_orbit.gif) | 2026-11-07T17:26:49.346+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **FAIL** | 0/5 | `cycle_rmse=0.21999`; `s2c_rmse=0.22778`; `c2s_rmse=0.21219`; `xy_rmse=1.4198`; `step_accuracy=0`; `cycle_completion=0`; `waypoint_modes=0`; failed terminal bounds: c2s_rmse <= 0.12; cycle_completion >= 0.9; cycle_rmse <= 0.12; s2c_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_img_square_circle_cycle.gif) | 2026-11-07T17:27:20.784+00:00 |
 
 <a id="online-bispf-optimized-cool-stretch"></a>
 ### Stretch evidence
@@ -731,28 +737,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_minimal_dense4.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_minimal_dense4.gif) | 2026-11-07T17:27:24.298+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.1; modes == 4.0; valid_fraction == 1.0 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_minimal_tokens4.gif) | 2026-11-07T17:27:27.829+00:00 |
 
 <a id="online-bispf-optimized-cool-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.30519`; `seen_max_abs_error=0.61867`; `heldout_response_rmse=0.16272`; `heldout_max_abs_error=0.31867`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_minimal_kernel2x2.gif) | 2026-11-07T17:27:33.804+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=0.083333`; `seen_min_bit_confidence=0.083985`; `heldout_exact_accuracy=0`; `heldout_min_bit_confidence=0.083985`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9; seen_exact_accuracy == 1.0; seen_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_minimal_addition2bit.gif) | 2026-11-07T17:27:39.549+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.022396`; `relative_mse=1.7848`; `moving_direction_accuracy=0.39583`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_robotics_fetch_reach.gif) | 2026-11-07T17:27:52.671+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.016165`; `relative_mse=1.7412`; `moving_direction_accuracy=0.64535`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_robotics_fetch_push.gif) | 2026-11-07T17:28:05.763+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.014359`; `relative_mse=1.2548`; `moving_direction_accuracy=0.63235`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_robotics_fetch_slide.gif) | 2026-11-07T17:28:19.018+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 0/5 | `position_delta_rmse_m=0.012573`; `relative_mse=1.0071`; `moving_direction_accuracy=0.57456`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_robotics_fetch_pick_and_place.gif) | 2026-11-07T17:28:32.260+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.01864`; `relative_mse=5.1394`; `moving_direction_accuracy=0.45093`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_robotics_hand_reach.gif) | 2026-11-07T17:28:45.357+00:00 |
 
 <a id="online-bispf-optimized-cool-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.32928`; `interpolation_speed_error=0.27337`; `interpolation_raw_rmse=0.1047`; `interpolation_point_validity=0`; `interpolation_direction_accuracy=0.39583`; `extrapolation_centroid_rmse=0.48252`; `extrapolation_speed_error=0.41967`; `extrapolation_raw_rmse=0.10136`; `extrapolation_point_validity=0`; `extrapolation_direction_accuracy=0.375`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-bispf-optimized-cool/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-bispf-optimized-cool_seq_minimal_velocity_extrapolation.gif) | 2026-11-07T17:28:58.052+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-bispf-optimized-cool --device cuda`.
 
@@ -806,7 +812,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 0/10 required passes (10 measured), 0/10 stretch passes (6 measured); qualified tier 0.
+
+Receipt identity: candidate_fingerprint `8b6e4eafb340ab7d5111c2bc5ce21c9b7850e7db740549748cf5e0a4e9fb9f70`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-bispf-slow-critic-required"></a>
 ### Required evidence
@@ -816,16 +824,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.9; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_round_robin_bars4.gif) | 2026-11-07T17:29:05.756+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **FAIL** | 0/5 | `hq=0.03125`; `modes=1`; `finite_template_tv=0.96875`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_dwell_bars4.gif) | 2026-11-07T17:29:12.591+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **FAIL** | 0/5 | `next_frame_rmse=0.20794`; `direction_acc=0.90625`; failed terminal bounds: direction_acc >= 0.9; next_frame_rmse <= 0.12 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_translating_bar_next.gif) | 2026-11-07T17:29:19.988+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **FAIL** | 0/5 | `hq=1`; `within_state_modes=1`; `branch_tv=0.5`; failed terminal bounds: branch_tv <= 0.2; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_fork_rollout.gif) | 2026-11-07T17:29:27.590+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_variable_dwell_bars4.gif) | 2026-11-07T17:29:34.545+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **FAIL** | 0/5 | `hq=0.09375`; `finite_template_tv=0.90625`; `support_modes=1`; `rare_mass=0`; `rare_mass=0`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.85; rare_mass >= 0.03125; support_modes == 4.0 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_rare_mode_bars4.gif) | 2026-11-07T17:29:41.743+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **FAIL** | 0/5 | `outcome_accuracy=0.5`; `prediction_rmse=0.29558`; failed terminal bounds: outcome_accuracy >= 0.9; prediction_rmse <= 0.12 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_delayed_cue.gif) | 2026-11-07T17:29:52.399+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **FAIL** | 0/5 | `hq=0`; `within_state_modes=0`; `branch_tv=1`; `trajectory_consistency=0`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; trajectory_consistency >= 0.95; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_persistent_fork.gif) | 2026-11-07T17:30:05.046+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **FAIL** | 0/5 | `orbit_rmse=0.24962`; `xy_rmse=1.0098`; `step_accuracy=0`; `orbit_completion=0`; `waypoint_modes=0`; failed terminal bounds: orbit_completion >= 0.9; orbit_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_circle_orbit.gif) | 2026-11-07T17:30:23.654+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **FAIL** | 0/5 | `cycle_rmse=0.18198`; `s2c_rmse=0.18061`; `c2s_rmse=0.18336`; `xy_rmse=0.85512`; `step_accuracy=0`; `cycle_completion=0`; `waypoint_modes=0`; failed terminal bounds: c2s_rmse <= 0.12; cycle_completion >= 0.9; cycle_rmse <= 0.12; s2c_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_img_square_circle_cycle.gif) | 2026-11-07T17:30:56.875+00:00 |
 
 <a id="online-bispf-slow-critic-stretch"></a>
 ### Stretch evidence
@@ -835,18 +843,18 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_minimal_dense4.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_minimal_dense4.gif) | 2026-11-07T17:31:00.418+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.1; modes == 4.0; valid_fraction == 1.0 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_minimal_tokens4.gif) | 2026-11-07T17:31:04.201+00:00 |
 
 <a id="online-bispf-slow-critic-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.32258`; `seen_max_abs_error=0.84718`; `heldout_response_rmse=0.19337`; `heldout_max_abs_error=0.54718`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_minimal_kernel2x2.gif) | 2026-11-07T17:31:09.719+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=0.14583`; `seen_min_bit_confidence=3.6836e-05`; `heldout_exact_accuracy=0.125`; `heldout_min_bit_confidence=3.6836e-05`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9; seen_exact_accuracy == 1.0; seen_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_minimal_addition2bit.gif) | 2026-11-07T17:31:15.535+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.017517`; `relative_mse=1.0918`; `moving_direction_accuracy=0.53125`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_robotics_fetch_reach.gif) | 2026-11-07T17:31:28.242+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.012996`; `relative_mse=1.1253`; `moving_direction_accuracy=0.34302`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-bispf-slow-critic/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-bispf-slow-critic_seq_robotics_fetch_push.gif) | 2026-11-07T17:31:41.876+00:00 |
 | [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
 | [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
 | [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |

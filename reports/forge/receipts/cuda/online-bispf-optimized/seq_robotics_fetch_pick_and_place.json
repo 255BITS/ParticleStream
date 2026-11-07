@@ -1,0 +1,858 @@
+{
+  "all_finite": true,
+  "artifacts": {
+    "compute": {
+      "critic_parameters": 9473,
+      "cuda_peak_allocated_bytes": 201626624,
+      "evaluation_d_forwards": 0,
+      "evaluation_g_forwards": 1536,
+      "evaluation_seconds": 1.7498463940428337,
+      "generator_parameters": 6385,
+      "optimizer_updates": 480,
+      "process_peak_rss_kib": 2653056,
+      "serving_d_forwards": 0,
+      "serving_g_forwards": 480,
+      "training_and_evaluation_seconds": 14.95292545799748,
+      "training_d_forwards": 2880,
+      "training_g_forwards": 960
+    },
+    "controls": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.02316298269386598,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 0.2631578947368421,
+          "object_delta_rmse_m": 0.015106394526941161,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 0.01955411622753548,
+          "relative_mse": 2.43605266012844
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 4.58733469572011e-09,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 1.0,
+          "object_delta_rmse_m": 4.204019432437843e-09,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 4.39985334976477e-09,
+          "relative_mse": 1.233351000515505e-13
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.012504146196726948,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.012552563482017305,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 0.012528378228629502,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.025008293287378698,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.025105127872990362,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 0.02505675735871212,
+          "relative_mse": 4.000000287811596
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.012169203283690472,
+          "moving_coordinate_fraction": 0.59375,
+          "moving_direction_accuracy": 0.6491228070175439,
+          "object_delta_rmse_m": 0.012615541926623558,
+          "object_motion_rms_m": 0.012552563482017307,
+          "persistence_rmse_m": 0.012528378228629502,
+          "position_delta_rmse_m": 0.012394381926142582,
+          "relative_mse": 0.9787235464162146
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "eval_reset_seeds": [
+      1333029562,
+      1174574595,
+      5166377,
+      1915005213
+    ],
+    "evaluation_cases": 16,
+    "gif_sha256": "2912185e2c5f61c99dc99351e449072d664f2da880ecd7e8c20ab80c26757903",
+    "goal_gif": "gifs/online-bispf-optimized_seq_robotics_fetch_pick_and_place.gif",
+    "implementation": {
+      "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+      "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+      "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
+      "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+      "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
+      "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
+      "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
+      "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
+      "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+      "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
+      "robotics_adapter.py": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+      "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
+      "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+    },
+    "memory_policy": {
+      "decay": 0.9,
+      "dim": 16,
+      "kind": "fast_weight",
+      "rehearsal_batch": 0,
+      "replay_policy": "none",
+      "reservoir_size": 64,
+      "write_lr": 0.35
+    },
+    "online_execution": {
+      "arrivals": 1440,
+      "episode_resets": 12,
+      "gradient_accumulation_steps": 1,
+      "live_predictions": 480,
+      "max_fake_batch": 1,
+      "max_real_batch": 1,
+      "observation_contract": "state_then_action_then_predict_then_simulator_step_then_target_v1",
+      "replayed_examples": 0,
+      "source_only_arrivals": 960,
+      "target_arrivals": 480,
+      "target_memory_writes": 0,
+      "updates": 480,
+      "warmup_arrivals": 960
+    },
+    "particlegan_version": "0.9.7",
+    "recipe_delta": {},
+    "resolved_recipe": {
+      "adam_variant": "pytorch",
+      "alpha_bar": [
+        1.0,
+        0.9,
+        0.5,
+        0.05,
+        0.0001
+      ],
+      "amsgrad": false,
+      "batch_size": 1,
+      "beta2_anneal_end": 0.2,
+      "beta2_end": null,
+      "betas": [
+        0.0,
+        0.999
+      ],
+      "birth_death_backend": "knn",
+      "birth_death_cells": 64,
+      "birth_death_chunk": 256,
+      "birth_death_feature_scale": "none",
+      "birth_death_isolation": false,
+      "birth_death_metric_rank": 8,
+      "birth_death_parent_policy": "real_anchor",
+      "birth_death_space": "data",
+      "bispf_gate_overrides": [],
+      "bispf_shape_gates": true,
+      "conditioning": "scalar",
+      "constraint_geometry_mode": "direction_blend",
+      "continuous_policy": null,
+      "critic_formulation": "bispf",
+      "critic_payoff_damping": true,
+      "critic_r1_real": true,
+      "critic_step_mode": "none",
+      "d_betas": null,
+      "d_eps": null,
+      "d_guard_min_steps": 200,
+      "d_guard_ratio": 0.0,
+      "d_lr_mult": 1.5,
+      "direct_particle_betas": [
+        0.0,
+        0.9
+      ],
+      "direct_particle_gain": false,
+      "distance_reduction": "sum",
+      "ebi_beta": 30.0,
+      "ema_decay": 0.0,
+      "encoder_mode": "none",
+      "eps": 1e-08,
+      "generator_gradient_response": "none",
+      "input_noise_anneal_end": 0.1,
+      "input_noise_std": 0.0,
+      "kappa_radial": 1.0,
+      "kinetic_transport_local_weight": 0.0,
+      "kinetic_transport_projections": 32,
+      "kinetic_transport_weight": 0.0,
+      "latent_damping_max_rate": 0.0,
+      "loss": "non_saturating",
+      "loss_labels": [
+        0.0,
+        1.0,
+        1.0
+      ],
+      "lr": 0.012,
+      "lr_anneal_start": 0.5,
+      "lr_control": "mobility",
+      "lr_decay_rate": 0.96,
+      "lr_decay_staircase": false,
+      "lr_decay_steps": 50000,
+      "lr_floor": 0.05,
+      "lr_schedule": "cosine",
+      "model": "gan",
+      "name": "bispf_optimized",
+      "network_lr_floor": 0.05,
+      "network_lr_horizon_cap": null,
+      "num_classes": null,
+      "num_particles": 32,
+      "observation_sigma": 0.03,
+      "optimizer_adam_lr": null,
+      "optimizer_convolution": "per_offset",
+      "optimizer_convolution_rule": "quintic",
+      "optimizer_dense_profile": "default",
+      "optimizer_family": "dualnorm",
+      "optimizer_momentum": 0.0,
+      "optimizer_smoothing": 0.001,
+      "optimizer_svd_backend": "batched",
+      "output_noise_mode": "fixed",
+      "output_noise_std": 0.0,
+      "output_noise_warmup": 0.0,
+      "particle_birth_death": false,
+      "prior_betas": null,
+      "prior_code_law": "table",
+      "prior_coulomb_confinement": 0.35,
+      "prior_coulomb_neighbors": 8,
+      "prior_coulomb_softening": 0.1,
+      "prior_eps": null,
+      "prior_kind": "mog",
+      "prior_l2": 0.0,
+      "prior_lr_mult": 2.5,
+      "prior_proximal_strength": 0.0,
+      "prior_reg": 0.0,
+      "prior_reg_eps": 0.0001,
+      "prior_reg_target_std": 1.0,
+      "prior_regularizer": "none",
+      "prior_sigreg_knots": 17,
+      "prior_sigreg_projections": 32,
+      "prior_update": "learned",
+      "reconstruction_weight": 1.0,
+      "reg_anchor_min_decay": 0.9,
+      "reg_anchor_weight": 0.0,
+      "reg_arm": null,
+      "reg_coeff": 1.0,
+      "reg_coeff_anneal_end": 0.2,
+      "reg_coeff_end": null,
+      "reg_every": 1,
+      "reg_kappa": 1.0,
+      "reopen_anchor": "hold",
+      "reopen_guard": null,
+      "reopen_signal": "data",
+      "routing_temperature": 0.25,
+      "row_evidence_exclude": true,
+      "row_evidence_gate": false,
+      "row_evidence_hold": true,
+      "row_evidence_hot": true,
+      "row_evidence_null": "theory",
+      "row_policy": "independent",
+      "serve_average": 0.0,
+      "sigma_rel": 0.0,
+      "standardize": false,
+      "table_release_rule": "any",
+      "total_steps": 480,
+      "training_precision": "float32",
+      "ucd_target": "class",
+      "ucd_weight": 0.02,
+      "z_dim": 8
+    },
+    "sampling": {
+      "best_of_n": false,
+      "eval_output_noise": "none",
+      "law": "four_clean_centers_v1",
+      "rows": [
+        0,
+        8,
+        16,
+        24
+      ],
+      "weights": "live"
+    },
+    "simulator_trace": "traces/online-bispf-optimized_seq_robotics_fetch_pick_and_place.json",
+    "simulator_trace_sha256": "3090fe1af99c7ec302cd4ad8f3fb45bd5bad9c5f17c3ff7bdac8099df2daee4c",
+    "simulator_versions": {
+      "gymnasium": "1.4.0",
+      "gymnasium-robotics": "1.4.2",
+      "mujoco": "3.3.7"
+    },
+    "torch_version": "2.15.0+cu132",
+    "training_reset_seeds": [
+      347600043,
+      730190647,
+      448176825,
+      1599429392,
+      1777597131,
+      605077033,
+      1705474202,
+      1130568848,
+      1898989781,
+      1917821091,
+      90589682,
+      1988856680
+    ]
+  },
+  "binding": {
+    "adapter_source_sha256": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+    "candidate_fingerprint": "669bad93145e590d98311168b023cb673093dc947fc52cda0208b9c060b88f7b",
+    "device": "cuda",
+    "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
+    "namespace": "particlegan_forge",
+    "rng_version": "forge-rng-v1",
+    "seed": 0,
+    "task_fingerprint": "88bbad3e4fc8c62400cf9d25110e4f89cd713a91bbad1e1f7621de379f84304d"
+  },
+  "candidate_fingerprint": "669bad93145e590d98311168b023cb673093dc947fc52cda0208b9c060b88f7b",
+  "candidate_id": "online-bispf-optimized",
+  "cohort_key": "ca63af02e44aba077777a86fe3a5c83bd6ea75ae5df778307d264e8d4b49e7f5",
+  "completed_at": "2026-11-07T17:24:04.468+00:00",
+  "completed_steps": 480,
+  "cost": {
+    "completed_steps": 480,
+    "timeout_seconds": 300,
+    "wall_seconds": 17.4504
+  },
+  "device": "cuda",
+  "error": null,
+  "execution_device": "cuda",
+  "grade": {
+    "failed_bounds": [
+      "moving_direction_accuracy >= 0.75",
+      "position_delta_rmse_m <= 0.005",
+      "relative_mse <= 0.8"
+    ],
+    "live": {
+      "finite_fraction": 1.0,
+      "gripper_delta_rmse_m": 0.010940181722435546,
+      "live_prequential_rmse_m": 0.012883892619560525,
+      "moving_coordinate_fraction": 0.59375,
+      "moving_direction_accuracy": 0.7280701754385964,
+      "object_delta_rmse_m": 0.00987172838157815,
+      "object_motion_rms_m": 0.012552563482017305,
+      "persistence_rmse_m": 0.012528378228629502,
+      "position_delta_rmse_m": 0.010419659240099178,
+      "relative_mse": 0.6916992744577206
+    },
+    "required_terminal_checks": 5,
+    "status": "FAIL",
+    "terminal_passing": 0
+  },
+  "live": {
+    "finite_fraction": 1.0,
+    "gripper_delta_rmse_m": 0.010940181722435546,
+    "live_prequential_rmse_m": 0.012883892619560525,
+    "moving_coordinate_fraction": 0.59375,
+    "moving_direction_accuracy": 0.7280701754385964,
+    "object_delta_rmse_m": 0.00987172838157815,
+    "object_motion_rms_m": 0.012552563482017305,
+    "persistence_rmse_m": 0.012528378228629502,
+    "position_delta_rmse_m": 0.010419659240099178,
+    "relative_mse": 0.6916992744577206
+  },
+  "observations": [
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.0125331612318513,
+        "live_prequential_rmse_m": 0.015592311756879473,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6008771929824561,
+        "object_delta_rmse_m": 0.01223336974087958,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.012384172674842849,
+        "relative_mse": 0.9771118614643032
+      },
+      "step": 20
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.033473869060686286,
+        "live_prequential_rmse_m": 0.019729383279506553,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6491228070175439,
+        "object_delta_rmse_m": 0.03269711963627972,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.03308777374198178,
+        "relative_mse": 6.975018797429143
+      },
+      "step": 40
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01324370362237777,
+        "live_prequential_rmse_m": 0.02247160406214732,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6535087719298245,
+        "object_delta_rmse_m": 0.012219611271636769,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.012741950111095524,
+        "relative_mse": 1.0343847006771218
+      },
+      "step": 60
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.015169561385983913,
+        "live_prequential_rmse_m": 0.03620174492605777,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.5043859649122807,
+        "object_delta_rmse_m": 0.014178373851377964,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.014682334244127748,
+        "relative_mse": 1.3734109348983714
+      },
+      "step": 80
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01614689374825945,
+        "live_prequential_rmse_m": 0.00862070230827608,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.42543859649122806,
+        "object_delta_rmse_m": 0.015158241797352756,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.01566037151705847,
+        "relative_mse": 1.5624797921967362
+      },
+      "step": 100
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.023361541063511824,
+        "live_prequential_rmse_m": 0.01720038957192111,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6491228070175439,
+        "object_delta_rmse_m": 0.02300360001112764,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.02318326135743309,
+        "relative_mse": 3.424201792270591
+      },
+      "step": 120
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01496986558981576,
+        "live_prequential_rmse_m": 0.018354407560248375,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.40350877192982454,
+        "object_delta_rmse_m": 0.013656192060258747,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.014328092290389255,
+        "relative_mse": 1.3079376099541569
+      },
+      "step": 140
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.036921636816456715,
+        "live_prequential_rmse_m": 0.03120443011340885,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.3508771929824561,
+        "object_delta_rmse_m": 0.03536912401465342,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.036153714876691896,
+        "relative_mse": 8.327528832634787
+      },
+      "step": 160
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.015193415039190701,
+        "live_prequential_rmse_m": 0.01821794901287467,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.5263157894736842,
+        "object_delta_rmse_m": 0.013366264312664423,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.014309033549284745,
+        "relative_mse": 1.304460375883949
+      },
+      "step": 180
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.022955217888702518,
+        "live_prequential_rmse_m": 0.016358827293325568,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6491228070175439,
+        "object_delta_rmse_m": 0.0249134763901118,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.02395436634685278,
+        "relative_mse": 3.6557767123901037
+      },
+      "step": 200
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.0175287530796913,
+        "live_prequential_rmse_m": 0.032734800522214405,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6491228070175439,
+        "object_delta_rmse_m": 0.020199040338540905,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.01891108689534779,
+        "relative_mse": 2.278469755304323
+      },
+      "step": 220
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.02354390755147521,
+        "live_prequential_rmse_m": 0.01667496145625496,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.4298245614035088,
+        "object_delta_rmse_m": 0.018355662563489084,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.021109783643338056,
+        "relative_mse": 2.8390814497697723
+      },
+      "step": 240
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.012125617642067137,
+        "live_prequential_rmse_m": 0.010990386082277943,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6052631578947368,
+        "object_delta_rmse_m": 0.010241995514750253,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.011223392431118456,
+        "relative_mse": 0.8025250265805105
+      },
+      "step": 260
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.012644814571907975,
+        "live_prequential_rmse_m": 0.011548424516697957,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6491228070175439,
+        "object_delta_rmse_m": 0.019121919730437035,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.016210168872272945,
+        "relative_mse": 1.6741153023523294
+      },
+      "step": 280
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01572458918292118,
+        "live_prequential_rmse_m": 0.015644759829507398,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6271929824561403,
+        "object_delta_rmse_m": 0.010530939060783156,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.013382140756873882,
+        "relative_mse": 1.1409365023393188
+      },
+      "step": 300
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.011561690542305162,
+        "live_prequential_rmse_m": 0.013440007695394204,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6491228070175439,
+        "object_delta_rmse_m": 0.021070717947600025,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.01699482043187486,
+        "relative_mse": 1.8401085701482565
+      },
+      "step": 320
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01980245266270262,
+        "live_prequential_rmse_m": 0.019116744913688966,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6140350877192982,
+        "object_delta_rmse_m": 0.013061570149934,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.016774113184312083,
+        "relative_mse": 1.7926249055429935
+      },
+      "step": 340
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.009294112231394201,
+        "live_prequential_rmse_m": 0.02267109649794221,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6885964912280701,
+        "object_delta_rmse_m": 0.012622940415750272,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.011084203780816483,
+        "relative_mse": 0.7827431774191023
+      },
+      "step": 360
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.009149848320939022,
+        "live_prequential_rmse_m": 0.018943103859039818,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6754385964912281,
+        "object_delta_rmse_m": 0.012600926855028024,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.011011427743529834,
+        "relative_mse": 0.7724983390565933
+      },
+      "step": 380
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.010740513105557199,
+        "live_prequential_rmse_m": 0.010635867541230234,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.6491228070175439,
+        "object_delta_rmse_m": 0.016022428346752896,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.013639590021285038,
+        "relative_mse": 1.1852580692498011
+      },
+      "step": 400
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.009415452833251167,
+        "live_prequential_rmse_m": 0.01645074924922533,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.706140350877193,
+        "object_delta_rmse_m": 0.010667039235799569,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.010060727560998382,
+        "relative_mse": 0.6448653843095817
+      },
+      "step": 420
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.010261939693924593,
+        "live_prequential_rmse_m": 0.010260343350931494,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.7105263157894737,
+        "object_delta_rmse_m": 0.00994226885111145,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.010103368650839337,
+        "relative_mse": 0.6503433252382969
+      },
+      "step": 440
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01081811020158159,
+        "live_prequential_rmse_m": 0.013132944927803147,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.7280701754385964,
+        "object_delta_rmse_m": 0.009859877343855804,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.010350089119651209,
+        "relative_mse": 0.6824934163284625
+      },
+      "step": 460
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.010940181722435546,
+        "live_prequential_rmse_m": 0.012883892619560525,
+        "moving_coordinate_fraction": 0.59375,
+        "moving_direction_accuracy": 0.7280701754385964,
+        "object_delta_rmse_m": 0.00987172838157815,
+        "object_motion_rms_m": 0.012552563482017305,
+        "persistence_rmse_m": 0.012528378228629502,
+        "position_delta_rmse_m": 0.010419659240099178,
+        "relative_mse": 0.6916992744577206
+      },
+      "step": 480
+    }
+  ],
+  "rng_manifest": {
+    "bindings": {
+      "[\"data\",\"robotics\",\"training_episodes\",\"cpu\"]": {
+        "component": "robotics",
+        "device": "cpu",
+        "family": "data",
+        "initial_state_sha256": "f3c6e838b46e081dcfe1d36c71239e96b3a2d012dd5e004f723c4af89ff93f85",
+        "purpose": "training_episodes",
+        "seed": 127667461163791240
+      },
+      "[\"eval\",\"robotics\",\"heldout_episodes\",\"cpu\"]": {
+        "component": "robotics",
+        "device": "cpu",
+        "family": "eval",
+        "initial_state_sha256": "59bc7ed43b51baf36ab2f9e5227af6583d67a7abd42cf6a906205cd30443bef9",
+        "purpose": "heldout_episodes",
+        "seed": 2775573067441982096
+      },
+      "[\"eval\",\"robotics\",\"probes\",\"cuda:0\"]": {
+        "component": "robotics",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1c663e46dbbbe267fc70c1d9314404669feea950ae6057de564e4b32704107fb",
+        "purpose": "probes",
+        "seed": 7411305532687040837
+      },
+      "[\"eval\",\"sampler\",\"samples\",\"cuda:0\"]": {
+        "component": "sampler",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1696aa08e2307f28df002755027ee2e7b1999300dac2855f214caa1842a2b301",
+        "purpose": "samples",
+        "seed": 212130830619035767
+      },
+      "[\"eval\",\"serving\",\"prediction\",\"cuda:0\"]": {
+        "component": "serving",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "c46c5d9ee1c405db09951e336788056ccbb29719f2d1a6d64100950c09abb2ac",
+        "purpose": "prediction",
+        "seed": 5356185404323691715
+      },
+      "[\"init\",\"models\",\"construction\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "55b33e08dd400591b22146dd35ca6cdc007581e35738b13e956c74cf7cca7e71",
+        "purpose": "construction",
+        "seed": 6120719211400045491
+      },
+      "[\"init\",\"prior\",\"locations\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "be549c3d68d477f9d11434e663fdbefe2526571de4de86123a84ae9dc23e86a2",
+        "purpose": "locations",
+        "seed": 2562565386842645502
+      },
+      "[\"noise\",\"critic\",\"input\",\"cuda:0\"]": {
+        "component": "critic",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "2d5d779ef1c19f73abf72075c1cfeb70b935201245568680a1edc2c37cab0465",
+        "purpose": "input",
+        "seed": 5961379833291764029
+      },
+      "[\"noise\",\"generator\",\"output\",\"cuda:0\"]": {
+        "component": "generator",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "9b325c7520a99d3d27a37b6ef50971e3bfa9f1b12caf5e7a8819ae7e692cfcc1",
+        "purpose": "output",
+        "seed": 9214932872906931917
+      },
+      "[\"noise\",\"models\",\"stochastic_layers\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "4c3a40416441f175f5294136bd6bc4582ecd9e17ff5b5ee0292338e228afeaee",
+        "purpose": "stochastic_layers",
+        "seed": 4481608677977550636
+      },
+      "[\"noise\",\"penalty\",\"training\",\"cuda:0\"]": {
+        "component": "penalty",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "7e3e442dbb5124abf6e6e1e6e81000ab789c8aa11578d6a6b88a72beadfa3c83",
+        "purpose": "training",
+        "seed": 7930995805460461310
+      },
+      "[\"noise\",\"prior\",\"gaussian\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "46a0fb6a2510c83ebfa98bc289a73c096cc0fa24f40136bb998b0edecd8871e5",
+        "purpose": "gaussian",
+        "seed": 939191808430552031
+      },
+      "[\"prior\",\"latent\",\"indices\",\"cuda:0\"]": {
+        "component": "latent",
+        "device": "cuda:0",
+        "family": "prior",
+        "initial_state_sha256": "aa2f89742ac1d2c95ef3379ad9ba7a080c557c66258f9dff0dabf5d85a6db3cc",
+        "purpose": "indices",
+        "seed": 5876435880110660064
+      }
+    },
+    "runtime": {
+      "rng": "torch.Generator",
+      "torch": "2.15.0+cu132"
+    },
+    "seed": 0,
+    "version": "forge-rng-v1"
+  },
+  "schema_version": 2,
+  "seed": 0,
+  "task_fingerprint": "88bbad3e4fc8c62400cf9d25110e4f89cd713a91bbad1e1f7621de379f84304d",
+  "task_id": "seq_robotics_fetch_pick_and_place",
+  "technique": "BISPF",
+  "terminal_passing": 0,
+  "timestamp": "2026-11-07T17:24:04.468+00:00",
+  "unintended_rng_deviations": 0,
+  "verdict": "FAIL"
+}
