@@ -1,0 +1,699 @@
+{
+  "all_finite": true,
+  "artifacts": {
+    "compute": {
+      "critic_parameters": 9473,
+      "cuda_peak_allocated_bytes": 9345024,
+      "evaluation_d_forwards": 0,
+      "evaluation_g_forwards": 624,
+      "evaluation_seconds": 0.6413846069772262,
+      "generator_parameters": 6385,
+      "optimizer_updates": 192,
+      "process_peak_rss_kib": 2615860,
+      "serving_d_forwards": 0,
+      "serving_g_forwards": 192,
+      "training_and_evaluation_seconds": 2.8420458570035407,
+      "training_d_forwards": 1152,
+      "training_g_forwards": 384
+    },
+    "controls": {
+      "carry_removed": {
+        "metrics": {
+          "heldout_carry_accuracy": 0.0,
+          "heldout_exact_accuracy": 0.5,
+          "heldout_invalid_fraction": 0.0,
+          "heldout_min_bit_confidence": 0.0,
+          "seen_carry_accuracy": 0.0,
+          "seen_exact_accuracy": 0.6666666865348816,
+          "seen_invalid_fraction": 0.0,
+          "seen_min_bit_confidence": 0.0
+        },
+        "verdict": "FAIL"
+      },
+      "ignored_operand": {
+        "metrics": {
+          "heldout_carry_accuracy": 0.0,
+          "heldout_exact_accuracy": 0.25,
+          "heldout_invalid_fraction": 0.0,
+          "heldout_min_bit_confidence": 0.0,
+          "seen_carry_accuracy": 0.0,
+          "seen_exact_accuracy": 0.25,
+          "seen_invalid_fraction": 0.0,
+          "seen_min_bit_confidence": 0.0
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "heldout_carry_accuracy": 1.0,
+          "heldout_exact_accuracy": 1.0,
+          "heldout_invalid_fraction": 0.0,
+          "heldout_min_bit_confidence": 1.0,
+          "seen_carry_accuracy": 1.0,
+          "seen_exact_accuracy": 1.0,
+          "seen_invalid_fraction": 0.0,
+          "seen_min_bit_confidence": 1.0
+        },
+        "verdict": "PASS"
+      },
+      "shuffled_condition": {
+        "metrics": {
+          "heldout_carry_accuracy": 0.0,
+          "heldout_exact_accuracy": 0.0,
+          "heldout_invalid_fraction": 0.0,
+          "heldout_min_bit_confidence": 0.0,
+          "seen_carry_accuracy": 0.0,
+          "seen_exact_accuracy": 0.0833333358168602,
+          "seen_invalid_fraction": 0.0,
+          "seen_min_bit_confidence": 0.0
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "frozen_probe_eps": "zero",
+    "gif_sha256": "d772ff614788aa6f40de9c641ab24fc679b69b5add43b43cf214f26bf645bc90",
+    "goal_gif": "gifs/online-bispf-early-causal_seq_minimal_addition2bit.gif",
+    "implementation": {
+      "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+      "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+      "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
+      "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+      "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
+      "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
+      "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
+      "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
+      "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+      "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
+      "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+    },
+    "memory_policy": {
+      "age_horizon": 8.0,
+      "association_weight": 0.125,
+      "change_threshold": 0.04,
+      "context_scale": 3.0,
+      "contrast_threshold": 0.03,
+      "decay": 0.9,
+      "dim": 16,
+      "kind": "fast_weight",
+      "reader": "causal_state",
+      "rehearsal_batch": 0,
+      "replay_policy": "none",
+      "reservoir_size": 64,
+      "write_lr": 0.35
+    },
+    "online_execution": {
+      "arrivals": 384,
+      "gradient_accumulation_steps": 1,
+      "live_predictions": 192,
+      "max_fake_batch": 1,
+      "max_real_batch": 1,
+      "observation_contract": "independent_source_then_prediction_then_target_v1",
+      "replayed_examples": 0,
+      "source_only_arrivals": 192,
+      "target_arrivals": 192,
+      "target_memory_writes": 0,
+      "updates": 192,
+      "warmup_arrivals": 192
+    },
+    "particlegan_version": "0.9.7",
+    "recipe_delta": {},
+    "resolved_recipe": {
+      "adam_variant": "pytorch",
+      "alpha_bar": [
+        1.0,
+        0.9,
+        0.5,
+        0.05,
+        0.0001
+      ],
+      "amsgrad": false,
+      "batch_size": 1,
+      "beta2_anneal_end": 0.2,
+      "beta2_end": null,
+      "betas": [
+        0.0,
+        0.999
+      ],
+      "birth_death_backend": "knn",
+      "birth_death_cells": 64,
+      "birth_death_chunk": 256,
+      "birth_death_feature_scale": "none",
+      "birth_death_isolation": false,
+      "birth_death_metric_rank": 8,
+      "birth_death_parent_policy": "real_anchor",
+      "birth_death_space": "data",
+      "bispf_gate_overrides": [],
+      "bispf_shape_gates": true,
+      "conditioning": "scalar",
+      "constraint_geometry_mode": "none",
+      "continuous_policy": null,
+      "critic_formulation": "bispf",
+      "critic_payoff_damping": true,
+      "critic_r1_real": true,
+      "critic_step_mode": "none",
+      "d_betas": null,
+      "d_eps": null,
+      "d_guard_min_steps": 200,
+      "d_guard_ratio": 0.0,
+      "d_lr_mult": 1.0,
+      "direct_particle_betas": [
+        0.0,
+        0.9
+      ],
+      "direct_particle_gain": false,
+      "distance_reduction": "sum",
+      "ebi_beta": 30.0,
+      "ema_decay": 0.0,
+      "encoder_mode": "none",
+      "eps": 1e-08,
+      "generator_gradient_response": "none",
+      "input_noise_anneal_end": 0.1,
+      "input_noise_std": 0.0,
+      "kappa_radial": 1.0,
+      "kinetic_transport_local_weight": 0.0,
+      "kinetic_transport_projections": 32,
+      "kinetic_transport_weight": 0.0,
+      "latent_damping_max_rate": 0.0,
+      "loss": "non_saturating",
+      "loss_labels": [
+        0.0,
+        1.0,
+        1.0
+      ],
+      "lr": 0.005,
+      "lr_anneal_start": 0.25,
+      "lr_control": "mobility",
+      "lr_decay_rate": 0.96,
+      "lr_decay_staircase": false,
+      "lr_decay_steps": 50000,
+      "lr_floor": 0.05,
+      "lr_schedule": "cosine",
+      "model": "gan",
+      "name": "bispf",
+      "network_lr_floor": 0.05,
+      "network_lr_horizon_cap": null,
+      "num_classes": null,
+      "num_particles": 32,
+      "observation_sigma": 0.03,
+      "optimizer_adam_lr": null,
+      "optimizer_convolution": "none",
+      "optimizer_convolution_rule": "polar",
+      "optimizer_dense_profile": "default",
+      "optimizer_family": "formulation",
+      "optimizer_momentum": 0.0,
+      "optimizer_smoothing": 0.0,
+      "optimizer_svd_backend": "native",
+      "output_noise_mode": "fixed",
+      "output_noise_std": 0.0,
+      "output_noise_warmup": 0.0,
+      "particle_birth_death": false,
+      "prior_betas": null,
+      "prior_code_law": "table",
+      "prior_coulomb_confinement": 0.35,
+      "prior_coulomb_neighbors": 8,
+      "prior_coulomb_softening": 0.1,
+      "prior_eps": null,
+      "prior_kind": "mog",
+      "prior_l2": 0.0,
+      "prior_lr_mult": 2.0,
+      "prior_proximal_strength": 0.0,
+      "prior_reg": 0.0,
+      "prior_reg_eps": 0.0001,
+      "prior_reg_target_std": 1.0,
+      "prior_regularizer": "none",
+      "prior_sigreg_knots": 17,
+      "prior_sigreg_projections": 32,
+      "prior_update": "learned",
+      "reconstruction_weight": 1.0,
+      "reg_anchor_min_decay": 0.9,
+      "reg_anchor_weight": 0.0,
+      "reg_arm": null,
+      "reg_coeff": 1.0,
+      "reg_coeff_anneal_end": 0.2,
+      "reg_coeff_end": null,
+      "reg_every": 1,
+      "reg_kappa": 1.0,
+      "reopen_anchor": "hold",
+      "reopen_guard": null,
+      "reopen_signal": "data",
+      "routing_temperature": 0.25,
+      "row_evidence_exclude": true,
+      "row_evidence_gate": false,
+      "row_evidence_hold": true,
+      "row_evidence_hot": true,
+      "row_evidence_null": "theory",
+      "row_policy": "independent",
+      "serve_average": 0.0,
+      "sigma_rel": 0.0,
+      "standardize": false,
+      "table_release_rule": "any",
+      "total_steps": 192,
+      "training_precision": "float32",
+      "ucd_target": "class",
+      "ucd_weight": 0.02,
+      "z_dim": 8
+    },
+    "sampling": {
+      "best_of_n": false,
+      "eval_output_noise": "none",
+      "law": "four_clean_centers_v1",
+      "rows": [
+        0,
+        8,
+        16,
+        24
+      ],
+      "weights": "live"
+    },
+    "torch_version": "2.15.0+cu132"
+  },
+  "binding": {
+    "adapter_source_sha256": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+    "candidate_fingerprint": "77255100d934a00e74e80b5ae5d85021794aebad6ebbb840f7aa79b3222bc9b0",
+    "device": "cuda",
+    "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
+    "namespace": "particlegan_forge",
+    "rng_version": "forge-rng-v1",
+    "seed": 0,
+    "task_fingerprint": "8666ccdde77a19ea09720c5b99655224280fdcda0b0483c07ecdcf539617c515"
+  },
+  "candidate_fingerprint": "77255100d934a00e74e80b5ae5d85021794aebad6ebbb840f7aa79b3222bc9b0",
+  "candidate_id": "online-bispf-early-causal",
+  "cohort_key": "a739aec5b5c83e459a547b7952c950e2511f1807432cadb58bb3f882748e181b",
+  "completed_at": "2026-11-07T17:12:45.985+00:00",
+  "completed_steps": 192,
+  "cost": {
+    "completed_steps": 192,
+    "timeout_seconds": 300,
+    "wall_seconds": 5.081
+  },
+  "device": "cuda",
+  "error": null,
+  "execution_device": "cuda",
+  "grade": {
+    "failed_bounds": [
+      "heldout_exact_accuracy == 1.0",
+      "heldout_min_bit_confidence >= 0.9",
+      "seen_exact_accuracy == 1.0",
+      "seen_min_bit_confidence >= 0.9"
+    ],
+    "live": {
+      "heldout_carry_accuracy": 0.125,
+      "heldout_exact_accuracy": 0.0625,
+      "heldout_invalid_fraction": 0.0,
+      "heldout_min_bit_confidence": 0.0,
+      "live_prequential_rmse": 0.2594502753345296,
+      "seen_carry_accuracy": 0.25,
+      "seen_exact_accuracy": 0.2083333432674408,
+      "seen_invalid_fraction": 0.0,
+      "seen_min_bit_confidence": 0.0
+    },
+    "required_terminal_checks": 5,
+    "status": "FAIL",
+    "terminal_passing": 0
+  },
+  "live": {
+    "heldout_carry_accuracy": 0.125,
+    "heldout_exact_accuracy": 0.0625,
+    "heldout_invalid_fraction": 0.0,
+    "heldout_min_bit_confidence": 0.0,
+    "live_prequential_rmse": 0.2594502753345296,
+    "seen_carry_accuracy": 0.25,
+    "seen_exact_accuracy": 0.2083333432674408,
+    "seen_invalid_fraction": 0.0,
+    "seen_min_bit_confidence": 0.0
+  },
+  "observations": [
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 2.5218059818143956e-07,
+        "live_prequential_rmse": 0.3293849565088749
+      },
+      "step": 8
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.125,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 7.255189035799102e-21,
+        "live_prequential_rmse": 0.2766025601886213
+      },
+      "step": 16
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.125,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 2.3054778215477578e-32,
+        "live_prequential_rmse": 0.3304488826543093
+      },
+      "step": 24
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.1875,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 2.183567649194812e-30,
+        "live_prequential_rmse": 0.23999666050076485
+      },
+      "step": 32
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.1875,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 8.357314703351708e-25,
+        "live_prequential_rmse": 0.24683072371408343
+      },
+      "step": 40
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.1875,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 2.3702335566138645e-28,
+        "live_prequential_rmse": 0.27262611221522093
+      },
+      "step": 48
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.20563328673597425
+      },
+      "step": 56
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.25856083660619333
+      },
+      "step": 64
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.125,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 1.324023873692754e-27,
+        "live_prequential_rmse": 0.3181968368589878
+      },
+      "step": 72
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.125,
+        "heldout_exact_accuracy": 0.0625,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.23727483011316508
+      },
+      "step": 80
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.375,
+        "heldout_exact_accuracy": 0.1875,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.30721774224366527
+      },
+      "step": 88
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.5,
+        "heldout_exact_accuracy": 0.25,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.2724637845531106
+      },
+      "step": 96
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.125,
+        "heldout_exact_accuracy": 0.0625,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 1.6645238779933602e-33,
+        "live_prequential_rmse": 0.30043625086545944
+      },
+      "step": 104
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0625,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.2599727367050946
+      },
+      "step": 112
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0625,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.3057660851627588
+      },
+      "step": 120
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.125,
+        "heldout_exact_accuracy": 0.125,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.20890454968321137
+      },
+      "step": 128
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.26808486436493695
+      },
+      "step": 136
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.28125724382698536
+      },
+      "step": 144
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.27412791177630424
+      },
+      "step": 152
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.25787767593283206,
+        "seen_carry_accuracy": 0.3125,
+        "seen_exact_accuracy": 0.1666666716337204,
+        "seen_invalid_fraction": 0.0,
+        "seen_min_bit_confidence": 0.0
+      },
+      "step": 160
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.0,
+        "heldout_exact_accuracy": 0.0,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.26733874323690543,
+        "seen_carry_accuracy": 0.3125,
+        "seen_exact_accuracy": 0.1666666716337204,
+        "seen_invalid_fraction": 0.0,
+        "seen_min_bit_confidence": 0.0
+      },
+      "step": 168
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.125,
+        "heldout_exact_accuracy": 0.0625,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.22870217985473573,
+        "seen_carry_accuracy": 0.25,
+        "seen_exact_accuracy": 0.1875,
+        "seen_invalid_fraction": 0.0,
+        "seen_min_bit_confidence": 0.0
+      },
+      "step": 176
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.125,
+        "heldout_exact_accuracy": 0.0625,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.2679813482100144,
+        "seen_carry_accuracy": 0.25,
+        "seen_exact_accuracy": 0.1875,
+        "seen_invalid_fraction": 0.0,
+        "seen_min_bit_confidence": 0.0
+      },
+      "step": 184
+    },
+    {
+      "metrics": {
+        "heldout_carry_accuracy": 0.125,
+        "heldout_exact_accuracy": 0.0625,
+        "heldout_invalid_fraction": 0.0,
+        "heldout_min_bit_confidence": 0.0,
+        "live_prequential_rmse": 0.2594502753345296,
+        "seen_carry_accuracy": 0.25,
+        "seen_exact_accuracy": 0.2083333432674408,
+        "seen_invalid_fraction": 0.0,
+        "seen_min_bit_confidence": 0.0
+      },
+      "step": 192
+    }
+  ],
+  "rng_manifest": {
+    "bindings": {
+      "[\"eval\",\"minimal\",\"probes\",\"cuda:0\"]": {
+        "component": "minimal",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "935ac3d59d2d0f206690e786cf05df102e9adc7ea7485b08b6fbb6c23cb3476b",
+        "purpose": "probes",
+        "seed": 8713273812227501929
+      },
+      "[\"eval\",\"sampler\",\"samples\",\"cuda:0\"]": {
+        "component": "sampler",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1696aa08e2307f28df002755027ee2e7b1999300dac2855f214caa1842a2b301",
+        "purpose": "samples",
+        "seed": 212130830619035767
+      },
+      "[\"eval\",\"serving\",\"prediction\",\"cuda:0\"]": {
+        "component": "serving",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "c46c5d9ee1c405db09951e336788056ccbb29719f2d1a6d64100950c09abb2ac",
+        "purpose": "prediction",
+        "seed": 5356185404323691715
+      },
+      "[\"init\",\"models\",\"construction\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "55b33e08dd400591b22146dd35ca6cdc007581e35738b13e956c74cf7cca7e71",
+        "purpose": "construction",
+        "seed": 6120719211400045491
+      },
+      "[\"init\",\"prior\",\"locations\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "be549c3d68d477f9d11434e663fdbefe2526571de4de86123a84ae9dc23e86a2",
+        "purpose": "locations",
+        "seed": 2562565386842645502
+      },
+      "[\"noise\",\"critic\",\"input\",\"cuda:0\"]": {
+        "component": "critic",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "2d5d779ef1c19f73abf72075c1cfeb70b935201245568680a1edc2c37cab0465",
+        "purpose": "input",
+        "seed": 5961379833291764029
+      },
+      "[\"noise\",\"generator\",\"output\",\"cuda:0\"]": {
+        "component": "generator",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "9b325c7520a99d3d27a37b6ef50971e3bfa9f1b12caf5e7a8819ae7e692cfcc1",
+        "purpose": "output",
+        "seed": 9214932872906931917
+      },
+      "[\"noise\",\"models\",\"stochastic_layers\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "4c3a40416441f175f5294136bd6bc4582ecd9e17ff5b5ee0292338e228afeaee",
+        "purpose": "stochastic_layers",
+        "seed": 4481608677977550636
+      },
+      "[\"noise\",\"penalty\",\"training\",\"cuda:0\"]": {
+        "component": "penalty",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "7e3e442dbb5124abf6e6e1e6e81000ab789c8aa11578d6a6b88a72beadfa3c83",
+        "purpose": "training",
+        "seed": 7930995805460461310
+      },
+      "[\"noise\",\"prior\",\"gaussian\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "46a0fb6a2510c83ebfa98bc289a73c096cc0fa24f40136bb998b0edecd8871e5",
+        "purpose": "gaussian",
+        "seed": 939191808430552031
+      },
+      "[\"prior\",\"latent\",\"indices\",\"cuda:0\"]": {
+        "component": "latent",
+        "device": "cuda:0",
+        "family": "prior",
+        "initial_state_sha256": "aa2f89742ac1d2c95ef3379ad9ba7a080c557c66258f9dff0dabf5d85a6db3cc",
+        "purpose": "indices",
+        "seed": 5876435880110660064
+      }
+    },
+    "runtime": {
+      "rng": "torch.Generator",
+      "torch": "2.15.0+cu132"
+    },
+    "seed": 0,
+    "version": "forge-rng-v1"
+  },
+  "schema_version": 2,
+  "seed": 0,
+  "task_fingerprint": "8666ccdde77a19ea09720c5b99655224280fdcda0b0483c07ecdcf539617c515",
+  "task_id": "seq_minimal_addition2bit",
+  "technique": "BISPF",
+  "terminal_passing": 0,
+  "timestamp": "2026-11-07T17:12:45.985+00:00",
+  "unintended_rng_deviations": 0,
+  "verdict": "FAIL"
+}
