@@ -90,7 +90,7 @@ def _outcomes(qualification, *, role=None, tier=None):
 
 def _counts(outcomes):
     return (sum(o["status"] == "PASS" for _, o in outcomes), len(outcomes),
-            sum(o["status"] != "NOT_RUN" for _, o in outcomes))
+            sum(o["status"] in {"PASS", "FAIL"} for _, o in outcomes))
 
 
 def _recipe_link(candidate, suffix="", *, family_page=False):
