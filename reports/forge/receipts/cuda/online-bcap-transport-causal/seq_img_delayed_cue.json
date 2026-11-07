@@ -6,13 +6,15 @@
     "implementation": {
       "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
       "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
-      "challenge_adapter.py": "a32424a40e182d6ad63798a975b9bbd6a891eabb63afa250a1a348ecc8c4c9c1",
-      "challenges.py": "40d2fb42b56bcc7ab747542a4c1c1d145ccab87cd238a18a61b9aa814750d9b5",
+      "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
+      "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+      "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
+      "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
       "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
-      "online.py": "58acea8f398faa4d1307c05620e8b302a59adf856bc07a323d50744b51c2c774",
+      "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
-      "transport.py": "4e7ba19c4ec820c5935701dad13f8f41ff66c28010f1781df5325c1e3b1978a2"
+      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
       "age_horizon": 8.0,
@@ -45,7 +47,7 @@
       "updates": 480,
       "warmup_arrivals": 1
     },
-    "particlegan_version": "0.9.6",
+    "particlegan_version": "0.9.7",
     "resolved_recipe": {
       "adam_variant": "pytorch",
       "alpha_bar": [
@@ -182,7 +184,7 @@
       "ucd_weight": 0.02,
       "z_dim": 8
     },
-    "torch_version": "2.14.1+cu130",
+    "torch_version": "2.15.0+cu132",
     "transport": {
       "assignment_mass": [
         15.0,
@@ -227,6 +229,7 @@
         "config": {
           "penalty_weight": 10.0,
           "probe_law": "sequential_clean_centers_mse_v1",
+          "reconstruction_loss": "mse",
           "temperature": 0.0,
           "usage_decay": 1.0,
           "usage_penalty": 0.01
@@ -237,24 +240,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "9d78a8c2612effd474791bfa411ff9a493e7b44f5caf47a419ca5bd126e02bc5",
+    "adapter_source_sha256": "e3e036cda6ba6b2adabd1c59ef491492316ebe505e13a6b9f16eae04b8dce12d",
     "candidate_fingerprint": "2cd4dc852fdf263ec9c37a9f691768fe8dd93cdfc5ce1abb7c877dcee9a03f77",
     "device": "cuda",
-    "engine_source_sha256": "aaae50e38584b5397e4b8b55d7e69982049c5c93bf12d44c322d02e5424a4dd1",
+    "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "dfce14708fe7944d60d575720f5ca073ba18c79289ccb53df65d4d42965bc106"
+    "task_fingerprint": "d10c8262f98560b3989788c8425d2146b90586fa785336f73de8a2f9ec4c7e54"
   },
   "candidate_fingerprint": "2cd4dc852fdf263ec9c37a9f691768fe8dd93cdfc5ce1abb7c877dcee9a03f77",
   "candidate_id": "online-bcap-transport-causal",
-  "cohort_key": "e21b153de1c0d4f9d84d197d2a003f588d9130944d34a7f0002c374a7a457641",
-  "completed_at": "2026-11-06T04:48:23.004+00:00",
+  "cohort_key": "40f175d67474c0be7f93b9c78a0307ae637a3278e4699a9cb372461672399f1b",
+  "completed_at": "2026-11-07T16:56:37.446+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 12.7212
+    "wall_seconds": 11.5772
   },
   "device": "cuda",
   "error": null,
@@ -607,18 +610,18 @@
     },
     "runtime": {
       "rng": "torch.Generator",
-      "torch": "2.14.1+cu130"
+      "torch": "2.15.0+cu132"
     },
     "seed": 0,
     "version": "forge-rng-v1"
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "dfce14708fe7944d60d575720f5ca073ba18c79289ccb53df65d4d42965bc106",
+  "task_fingerprint": "d10c8262f98560b3989788c8425d2146b90586fa785336f73de8a2f9ec4c7e54",
   "task_id": "seq_img_delayed_cue",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-06T04:48:23.004+00:00",
+  "timestamp": "2026-11-07T16:56:37.446+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

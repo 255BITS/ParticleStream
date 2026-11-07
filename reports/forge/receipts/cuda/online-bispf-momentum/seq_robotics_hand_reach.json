@@ -1,0 +1,768 @@
+{
+  "all_finite": true,
+  "artifacts": {
+    "compute": {
+      "critic_parameters": 9473,
+      "cuda_peak_allocated_bytes": 9316864,
+      "evaluation_d_forwards": 0,
+      "evaluation_g_forwards": 1536,
+      "evaluation_seconds": 1.4260752629779745,
+      "generator_parameters": 6385,
+      "optimizer_updates": 480,
+      "process_peak_rss_kib": 2622636,
+      "serving_d_forwards": 0,
+      "serving_g_forwards": 480,
+      "training_and_evaluation_seconds": 7.997018616006244,
+      "training_d_forwards": 2880,
+      "training_g_forwards": 960
+    },
+    "controls": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 0.3037383177570093,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 0.015441867947986238,
+          "relative_mse": 3.527018803690148
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 1.0,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 4.308731716838189e-09,
+          "relative_mse": 2.7460409779401215e-13
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 0.0,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 0.008222349759750829,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 0.0,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 0.016444699266501512,
+          "relative_mse": 3.999999876920759
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 0.8916666666666667,
+          "moving_direction_accuracy": 0.48130841121495327,
+          "persistence_rmse_m": 0.008222349759750829,
+          "position_delta_rmse_m": 0.011912764348180145,
+          "relative_mse": 2.0991003852671506
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "eval_reset_seeds": [
+      1333029562,
+      2135079908,
+      461229423,
+      2038880211
+    ],
+    "evaluation_cases": 16,
+    "gif_sha256": "a999c1903954afb0d80ace19065271c3478a3feca2a2ffae74a99721666d20a4",
+    "goal_gif": "gifs/online-bispf-momentum_seq_robotics_hand_reach.gif",
+    "implementation": {
+      "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+      "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+      "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
+      "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+      "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
+      "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
+      "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
+      "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
+      "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+      "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
+      "robotics_adapter.py": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+      "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
+      "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+    },
+    "memory_policy": {
+      "decay": 0.9,
+      "dim": 16,
+      "kind": "fast_weight",
+      "rehearsal_batch": 0,
+      "replay_policy": "none",
+      "reservoir_size": 64,
+      "write_lr": 0.35
+    },
+    "online_execution": {
+      "arrivals": 1440,
+      "episode_resets": 12,
+      "gradient_accumulation_steps": 1,
+      "live_predictions": 480,
+      "max_fake_batch": 1,
+      "max_real_batch": 1,
+      "observation_contract": "state_then_action_then_predict_then_simulator_step_then_target_v1",
+      "replayed_examples": 0,
+      "source_only_arrivals": 960,
+      "target_arrivals": 480,
+      "target_memory_writes": 0,
+      "updates": 480,
+      "warmup_arrivals": 960
+    },
+    "particlegan_version": "0.9.7",
+    "recipe_delta": {},
+    "resolved_recipe": {
+      "adam_variant": "pytorch",
+      "alpha_bar": [
+        1.0,
+        0.9,
+        0.5,
+        0.05,
+        0.0001
+      ],
+      "amsgrad": false,
+      "batch_size": 1,
+      "beta2_anneal_end": 0.2,
+      "beta2_end": null,
+      "betas": [
+        0.0,
+        0.999
+      ],
+      "birth_death_backend": "knn",
+      "birth_death_cells": 64,
+      "birth_death_chunk": 256,
+      "birth_death_feature_scale": "none",
+      "birth_death_isolation": false,
+      "birth_death_metric_rank": 8,
+      "birth_death_parent_policy": "real_anchor",
+      "birth_death_space": "data",
+      "bispf_gate_overrides": [],
+      "bispf_shape_gates": true,
+      "conditioning": "scalar",
+      "constraint_geometry_mode": "none",
+      "continuous_policy": null,
+      "critic_formulation": "bispf",
+      "critic_payoff_damping": true,
+      "critic_r1_real": true,
+      "critic_step_mode": "none",
+      "d_betas": [
+        0.95,
+        0.999
+      ],
+      "d_eps": null,
+      "d_guard_min_steps": 200,
+      "d_guard_ratio": 0.0,
+      "d_lr_mult": 1.0,
+      "direct_particle_betas": [
+        0.0,
+        0.9
+      ],
+      "direct_particle_gain": false,
+      "distance_reduction": "sum",
+      "ebi_beta": 30.0,
+      "ema_decay": 0.0,
+      "encoder_mode": "none",
+      "eps": 1e-08,
+      "generator_gradient_response": "none",
+      "input_noise_anneal_end": 0.1,
+      "input_noise_std": 0.0,
+      "kappa_radial": 1.0,
+      "kinetic_transport_local_weight": 0.0,
+      "kinetic_transport_projections": 32,
+      "kinetic_transport_weight": 0.0,
+      "latent_damping_max_rate": 0.0,
+      "loss": "non_saturating",
+      "loss_labels": [
+        0.0,
+        1.0,
+        1.0
+      ],
+      "lr": 0.005,
+      "lr_anneal_start": 0.25,
+      "lr_control": "mobility",
+      "lr_decay_rate": 0.96,
+      "lr_decay_staircase": false,
+      "lr_decay_steps": 50000,
+      "lr_floor": 0.05,
+      "lr_schedule": "cosine",
+      "model": "gan",
+      "name": "bispf",
+      "network_lr_floor": 0.05,
+      "network_lr_horizon_cap": null,
+      "num_classes": null,
+      "num_particles": 32,
+      "observation_sigma": 0.03,
+      "optimizer_adam_lr": null,
+      "optimizer_convolution": "none",
+      "optimizer_convolution_rule": "polar",
+      "optimizer_dense_profile": "default",
+      "optimizer_family": "formulation",
+      "optimizer_momentum": 0.0,
+      "optimizer_smoothing": 0.0,
+      "optimizer_svd_backend": "native",
+      "output_noise_mode": "fixed",
+      "output_noise_std": 0.0,
+      "output_noise_warmup": 0.0,
+      "particle_birth_death": false,
+      "prior_betas": null,
+      "prior_code_law": "table",
+      "prior_coulomb_confinement": 0.35,
+      "prior_coulomb_neighbors": 8,
+      "prior_coulomb_softening": 0.1,
+      "prior_eps": null,
+      "prior_kind": "mog",
+      "prior_l2": 0.0,
+      "prior_lr_mult": 2.0,
+      "prior_proximal_strength": 0.0,
+      "prior_reg": 0.0,
+      "prior_reg_eps": 0.0001,
+      "prior_reg_target_std": 1.0,
+      "prior_regularizer": "none",
+      "prior_sigreg_knots": 17,
+      "prior_sigreg_projections": 32,
+      "prior_update": "learned",
+      "reconstruction_weight": 1.0,
+      "reg_anchor_min_decay": 0.9,
+      "reg_anchor_weight": 0.0,
+      "reg_arm": null,
+      "reg_coeff": 1.0,
+      "reg_coeff_anneal_end": 0.2,
+      "reg_coeff_end": null,
+      "reg_every": 1,
+      "reg_kappa": 1.0,
+      "reopen_anchor": "hold",
+      "reopen_guard": null,
+      "reopen_signal": "data",
+      "routing_temperature": 0.25,
+      "row_evidence_exclude": true,
+      "row_evidence_gate": false,
+      "row_evidence_hold": true,
+      "row_evidence_hot": true,
+      "row_evidence_null": "theory",
+      "row_policy": "independent",
+      "serve_average": 0.0,
+      "sigma_rel": 0.0,
+      "standardize": false,
+      "table_release_rule": "any",
+      "total_steps": 480,
+      "training_precision": "float32",
+      "ucd_target": "class",
+      "ucd_weight": 0.02,
+      "z_dim": 8
+    },
+    "sampling": {
+      "best_of_n": false,
+      "eval_output_noise": "none",
+      "law": "four_clean_centers_v1",
+      "rows": [
+        0,
+        8,
+        16,
+        24
+      ],
+      "weights": "live"
+    },
+    "simulator_trace": "traces/online-bispf-momentum_seq_robotics_hand_reach.json",
+    "simulator_trace_sha256": "66d668e059febfa274e917f7fa72e01a74bb7a3ef31ac3724053c383bc70e023",
+    "simulator_versions": {
+      "gymnasium": "1.4.0",
+      "gymnasium-robotics": "1.4.2",
+      "mujoco": "3.3.7"
+    },
+    "torch_version": "2.15.0+cu132",
+    "training_reset_seeds": [
+      347600043,
+      1583755160,
+      152079336,
+      2087398708,
+      100694709,
+      1166772699,
+      1515879778,
+      1967633322,
+      1382304133,
+      1298644928,
+      1552797063,
+      2066790062
+    ]
+  },
+  "binding": {
+    "adapter_source_sha256": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+    "candidate_fingerprint": "1a2ec8c64991ff95e4fb43d5927803bf7f41d673a316c993448b1fb7cc4316cf",
+    "device": "cuda",
+    "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
+    "namespace": "particlegan_forge",
+    "rng_version": "forge-rng-v1",
+    "seed": 0,
+    "task_fingerprint": "fa7a675669827d1f9e12bf15d72aba558dbceb6c01e00a542fb9a941ad7c39a7"
+  },
+  "candidate_fingerprint": "1a2ec8c64991ff95e4fb43d5927803bf7f41d673a316c993448b1fb7cc4316cf",
+  "candidate_id": "online-bispf-momentum",
+  "cohort_key": "082cd4deeb5956ed572656ef87940b3aa5e7dfb70cd68afb2d6e227453f692c6",
+  "completed_at": "2026-11-07T17:19:51.741+00:00",
+  "completed_steps": 480,
+  "cost": {
+    "completed_steps": 480,
+    "timeout_seconds": 300,
+    "wall_seconds": 10.2114
+  },
+  "device": "cuda",
+  "error": null,
+  "execution_device": "cuda",
+  "grade": {
+    "failed_bounds": [
+      "moving_direction_accuracy >= 0.75",
+      "position_delta_rmse_m <= 0.005",
+      "relative_mse <= 0.8"
+    ],
+    "live": {
+      "finite_fraction": 1.0,
+      "live_prequential_rmse_m": 1.1521071478019984,
+      "moving_coordinate_fraction": 0.8916666666666666,
+      "moving_direction_accuracy": 0.48714953271028033,
+      "persistence_rmse_m": 0.008222349759750829,
+      "position_delta_rmse_m": 0.7427973855392613,
+      "relative_mse": 8161.102632269965
+    },
+    "required_terminal_checks": 5,
+    "status": "FAIL",
+    "terminal_passing": 0
+  },
+  "live": {
+    "finite_fraction": 1.0,
+    "live_prequential_rmse_m": 1.1521071478019984,
+    "moving_coordinate_fraction": 0.8916666666666666,
+    "moving_direction_accuracy": 0.48714953271028033,
+    "persistence_rmse_m": 0.008222349759750829,
+    "position_delta_rmse_m": 0.7427973855392613,
+    "relative_mse": 8161.102632269965
+  },
+  "observations": [
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.6676817070685328,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.45210280373831774,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.024348753767371726,
+        "relative_mse": 8.76923244764324
+      },
+      "step": 20
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 1.7968888247291273,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4626168224299065,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 7.681248695917167,
+        "relative_mse": 872713.6314973884
+      },
+      "step": 40
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 1.4707246954798165,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.5373831775700935,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.9511179679445206,
+        "relative_mse": 13380.639770662085
+      },
+      "step": 60
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 499265.34893008537,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.5105140186915887,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 17.260756578567612,
+        "relative_mse": 4406844.866740336
+      },
+      "step": 80
+    },
+    {
+      "metrics": {
+        "finite_fraction": 0.390625,
+        "live_prequential_rmse_m": 657.9995484575832,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.2289719626168224,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 37456.8766357977,
+        "relative_mse": 20752538481323.29
+      },
+      "step": 100
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 128.60566795094354,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4626168224299065,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 1106.9947418561067,
+        "relative_mse": 18125885096.64655
+      },
+      "step": 120
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 590.2674343043593,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4742990654205607,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 2.0649936271851073,
+        "relative_mse": 63073.29768651604
+      },
+      "step": 140
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 29.054745422263416,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4836448598130841,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.7662016288817466,
+        "relative_mse": 8683.488798716178
+      },
+      "step": 160
+    },
+    {
+      "metrics": {
+        "finite_fraction": 0.984375,
+        "live_prequential_rmse_m": 1.1241412262848551,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.5245327102803737,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 6.286564575665449,
+        "relative_mse": 584567.7721235552
+      },
+      "step": 180
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 48.024950391799834,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4614485981308411,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 1.8707683424732728,
+        "relative_mse": 51766.419894122766
+      },
+      "step": 200
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.44605102712838596,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4614485981308411,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 1.2831501852747924,
+        "relative_mse": 24353.595510414038
+      },
+      "step": 220
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.27226710057147185,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4637850467289719,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.566614115629881,
+        "relative_mse": 4748.789135868337
+      },
+      "step": 240
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.2917151358631368,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4941588785046729,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.3792066906402746,
+        "relative_mse": 2126.9637547396956
+      },
+      "step": 260
+    },
+    {
+      "metrics": {
+        "finite_fraction": 0.890625,
+        "live_prequential_rmse_m": 26.45924209345756,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4637850467289719,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 28.20301246596812,
+        "relative_mse": 11765194.338572776
+      },
+      "step": 280
+    },
+    {
+      "metrics": {
+        "finite_fraction": 0.90625,
+        "live_prequential_rmse_m": 66.14438914584751,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.46028037383177567,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 16.513335718380073,
+        "relative_mse": 4033459.7463429812
+      },
+      "step": 300
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 1.8667646973945355,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4836448598130841,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.3034353086072107,
+        "relative_mse": 1361.8846874589076
+      },
+      "step": 320
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.16114080388922292,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.46028037383177567,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.4405095744750914,
+        "relative_mse": 2870.243955579191
+      },
+      "step": 340
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.1961984190534088,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.45443925233644855,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.2881172818444495,
+        "relative_mse": 1227.8539858389167
+      },
+      "step": 360
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.12321198312080328,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.47780373831775697,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.23402384352693223,
+        "relative_mse": 810.0807686066329
+      },
+      "step": 380
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.17881597945591685,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4964953271028037,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.3269484773807311,
+        "relative_mse": 1581.1269634541497
+      },
+      "step": 400
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.6505313140124885,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.4894859813084112,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.5837066318285197,
+        "relative_mse": 5039.615021714465
+      },
+      "step": 420
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.3762201243362003,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.48831775700934577,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.6139756467607684,
+        "relative_mse": 5575.84120687644
+      },
+      "step": 440
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.5509888962063748,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.48831775700934577,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.6742629083953396,
+        "relative_mse": 6724.602932127671
+      },
+      "step": 460
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 1.1521071478019984,
+        "moving_coordinate_fraction": 0.8916666666666666,
+        "moving_direction_accuracy": 0.48714953271028033,
+        "persistence_rmse_m": 0.008222349759750829,
+        "position_delta_rmse_m": 0.7427973855392613,
+        "relative_mse": 8161.102632269965
+      },
+      "step": 480
+    }
+  ],
+  "rng_manifest": {
+    "bindings": {
+      "[\"data\",\"robotics\",\"training_episodes\",\"cpu\"]": {
+        "component": "robotics",
+        "device": "cpu",
+        "family": "data",
+        "initial_state_sha256": "f3c6e838b46e081dcfe1d36c71239e96b3a2d012dd5e004f723c4af89ff93f85",
+        "purpose": "training_episodes",
+        "seed": 127667461163791240
+      },
+      "[\"eval\",\"robotics\",\"heldout_episodes\",\"cpu\"]": {
+        "component": "robotics",
+        "device": "cpu",
+        "family": "eval",
+        "initial_state_sha256": "59bc7ed43b51baf36ab2f9e5227af6583d67a7abd42cf6a906205cd30443bef9",
+        "purpose": "heldout_episodes",
+        "seed": 2775573067441982096
+      },
+      "[\"eval\",\"robotics\",\"probes\",\"cuda:0\"]": {
+        "component": "robotics",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1c663e46dbbbe267fc70c1d9314404669feea950ae6057de564e4b32704107fb",
+        "purpose": "probes",
+        "seed": 7411305532687040837
+      },
+      "[\"eval\",\"sampler\",\"samples\",\"cuda:0\"]": {
+        "component": "sampler",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1696aa08e2307f28df002755027ee2e7b1999300dac2855f214caa1842a2b301",
+        "purpose": "samples",
+        "seed": 212130830619035767
+      },
+      "[\"eval\",\"serving\",\"prediction\",\"cuda:0\"]": {
+        "component": "serving",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "c46c5d9ee1c405db09951e336788056ccbb29719f2d1a6d64100950c09abb2ac",
+        "purpose": "prediction",
+        "seed": 5356185404323691715
+      },
+      "[\"init\",\"models\",\"construction\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "55b33e08dd400591b22146dd35ca6cdc007581e35738b13e956c74cf7cca7e71",
+        "purpose": "construction",
+        "seed": 6120719211400045491
+      },
+      "[\"init\",\"prior\",\"locations\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "be549c3d68d477f9d11434e663fdbefe2526571de4de86123a84ae9dc23e86a2",
+        "purpose": "locations",
+        "seed": 2562565386842645502
+      },
+      "[\"noise\",\"critic\",\"input\",\"cuda:0\"]": {
+        "component": "critic",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "2d5d779ef1c19f73abf72075c1cfeb70b935201245568680a1edc2c37cab0465",
+        "purpose": "input",
+        "seed": 5961379833291764029
+      },
+      "[\"noise\",\"generator\",\"output\",\"cuda:0\"]": {
+        "component": "generator",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "9b325c7520a99d3d27a37b6ef50971e3bfa9f1b12caf5e7a8819ae7e692cfcc1",
+        "purpose": "output",
+        "seed": 9214932872906931917
+      },
+      "[\"noise\",\"models\",\"stochastic_layers\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "4c3a40416441f175f5294136bd6bc4582ecd9e17ff5b5ee0292338e228afeaee",
+        "purpose": "stochastic_layers",
+        "seed": 4481608677977550636
+      },
+      "[\"noise\",\"penalty\",\"training\",\"cuda:0\"]": {
+        "component": "penalty",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "7e3e442dbb5124abf6e6e1e6e81000ab789c8aa11578d6a6b88a72beadfa3c83",
+        "purpose": "training",
+        "seed": 7930995805460461310
+      },
+      "[\"noise\",\"prior\",\"gaussian\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "46a0fb6a2510c83ebfa98bc289a73c096cc0fa24f40136bb998b0edecd8871e5",
+        "purpose": "gaussian",
+        "seed": 939191808430552031
+      },
+      "[\"prior\",\"latent\",\"indices\",\"cuda:0\"]": {
+        "component": "latent",
+        "device": "cuda:0",
+        "family": "prior",
+        "initial_state_sha256": "aa2f89742ac1d2c95ef3379ad9ba7a080c557c66258f9dff0dabf5d85a6db3cc",
+        "purpose": "indices",
+        "seed": 5876435880110660064
+      }
+    },
+    "runtime": {
+      "rng": "torch.Generator",
+      "torch": "2.15.0+cu132"
+    },
+    "seed": 0,
+    "version": "forge-rng-v1"
+  },
+  "schema_version": 2,
+  "seed": 0,
+  "task_fingerprint": "fa7a675669827d1f9e12bf15d72aba558dbceb6c01e00a542fb9a941ad7c39a7",
+  "task_id": "seq_robotics_hand_reach",
+  "technique": "BISPF",
+  "terminal_passing": 0,
+  "timestamp": "2026-11-07T17:19:51.741+00:00",
+  "unintended_rng_deviations": 0,
+  "verdict": "FAIL"
+}

@@ -89,6 +89,8 @@ class StreamWorkspace(ForgeWorkspace):
                 sampling = task.host_definition["sampling"]
                 note += f"| `{task.id}` | `{sampling['law']}` | {len(sampling['rows'])} |\n"
             atomic_text(tier_guide, tier_guide.read_text().rstrip() + "\n" + note)
+        from .reporting import compile_linked_reports
+        compile_linked_reports(self, **kwargs)
         return paths
 
 
@@ -125,6 +127,10 @@ def main(argv=None):
         elif name == "compare":
             command.add_argument("--candidate", action="append",
                                  help="Repeat to select candidates; default runs all declared online recipes")
+            command.add_argument("--all-tasks", action="store_true",
+                                 help="Measure every task, including stretch, even after numerical FAIL")
+            command.add_argument("--resume", action="store_true",
+                                 help="Resume unchanged completed runs from --all-tasks refresh audit")
     args = parser.parse_args(argv)
     workspace = StreamWorkspace(args.root, registry=REGISTRY)
     try:
@@ -174,6 +180,14 @@ def main(argv=None):
                                        reason=args.reason).to_dict()
         elif args.command == "compare":
             workspace.validate()
+            if args.resume and not args.all_tasks:
+                raise ValueError("--resume requires --all-tasks")
+            if args.all_tasks:
+                from .refresh import refresh_all
+                result = refresh_all(workspace, args.view, device=args.device,
+                                     candidates=args.candidate, resume=args.resume)
+                print(json.dumps(json_safe(result), indent=2, sort_keys=True, allow_nan=False))
+                return 0
             selected = args.candidate or sorted(
                 (cid for cid in workspace.load_candidates() if cid.startswith("online-")),
                 key=lambda cid: ("bispf" not in cid, cid),

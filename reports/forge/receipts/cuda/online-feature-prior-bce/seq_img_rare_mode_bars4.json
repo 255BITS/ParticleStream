@@ -349,12 +349,12 @@
   "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
   "candidate_id": "online-feature-prior-bce",
   "cohort_key": "fd6d5a54a96362931a445afe71e3356452c2c032902f546f6d6bc1aa5475c719",
-  "completed_at": "2026-11-06T17:13:37.882+00:00",
+  "completed_at": "2026-11-07T17:52:11.046+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 6.9837
+    "wall_seconds": 9.6865
   },
   "device": "cuda",
   "error": null,
@@ -793,7 +793,7 @@
   "task_id": "seq_img_rare_mode_bars4",
   "technique": "FeaturePrior-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-06T17:13:37.882+00:00",
+  "timestamp": "2026-11-07T17:52:11.046+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }
