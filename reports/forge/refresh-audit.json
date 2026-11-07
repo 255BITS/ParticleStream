@@ -5097,6 +5097,15 @@
       "verdict": "FAIL",
       "wall_seconds": 7.9836
     },
+    "online-ka2-clean/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T18:00:57.866+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "377e71a34648e943eb67ab227d384e799a8fde9966775fd09cee0f8bca9457e9",
+      "goal_gif": "gifs/online-ka2-clean_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "d256c62e635fcf800ec94426651bcf3da7f0798d8aa2d1af460a402c29ded01c",
+      "verdict": "FAIL",
+      "wall_seconds": 5.3663
+    },
     "online-ka2-clean/seq_minimal_dense4": {
       "completed_at": "2026-11-07T18:00:43.224+00:00",
       "completed_steps": 96,
@@ -5105,6 +5114,564 @@
       "receipt_sha256": "c03bc66f03a8d69155982863f8553209a2b0cfe40f27f5f4de2cb179545068c8",
       "verdict": "FAIL",
       "wall_seconds": 3.8039
+    },
+    "online-ka2-clean/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T18:00:52.481+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "80b9afd7a5732ee637383488474c1bd8b730bea352e09694f6e9bec6f21660f4",
+      "goal_gif": "gifs/online-ka2-clean_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "a39e6ac340eb0a4a75b3c159f947e21814010e978b5d5c00b9cf9dd61aea086d",
+      "verdict": "FAIL",
+      "wall_seconds": 5.5326
+    },
+    "online-ka2-clean/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T18:00:46.924+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "d6cbcd205d54125c840f38847ff31a50cc6a4014a2d21f195ceeee674cf7e12d",
+      "goal_gif": "gifs/online-ka2-clean_seq_minimal_tokens4.gif",
+      "receipt_sha256": "54e728c10edde4bb93782ac071ee73670c91ff9278dd404cdc6506253832746c",
+      "verdict": "FAIL",
+      "wall_seconds": 3.6753
+    },
+    "online-ka2-clean/seq_minimal_velocity_extrapolation": {
+      "completed_at": "2026-11-07T18:02:08.543+00:00",
+      "completed_steps": 384,
+      "gif_sha256": "72c4d8ede125b1a80a9e1bb2d2ca8a6c262b7bc07b72966b762466def209742c",
+      "goal_gif": "gifs/online-ka2-clean_seq_minimal_velocity_extrapolation.gif",
+      "receipt_sha256": "3af010a3d9637b21be1a7760e038373472ae3efe3009feee4bec85de8d9494cd",
+      "verdict": "FAIL",
+      "wall_seconds": 11.8295
+    },
+    "online-ka2-clean/seq_robotics_fetch_pick_and_place": {
+      "completed_at": "2026-11-07T18:01:45.066+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "dfbef0a2c10955b112146d3111d1b142e2ac4db4b224c14be2d356a8fd395127",
+      "goal_gif": "gifs/online-ka2-clean_seq_robotics_fetch_pick_and_place.gif",
+      "receipt_sha256": "559f0b929ce7add76835896b47ccddcc368efb93859773f889f0494548a2296d",
+      "verdict": "FAIL",
+      "wall_seconds": 11.9091
+    },
+    "online-ka2-clean/seq_robotics_fetch_push": {
+      "completed_at": "2026-11-07T18:01:21.330+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "6443701633e4d051b07781977a74f2ea567d62ba07e267b8280db39f3e53dee0",
+      "goal_gif": "gifs/online-ka2-clean_seq_robotics_fetch_push.gif",
+      "receipt_sha256": "d782e78cc436d078a9767aec0f5c597f7328393597b691d2085bc703192db62d",
+      "verdict": "FAIL",
+      "wall_seconds": 11.7795
+    },
+    "online-ka2-clean/seq_robotics_fetch_reach": {
+      "completed_at": "2026-11-07T18:01:09.531+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "009849130c5973184ea77d349cfc4d64e58db2852da333a81fd104b8ac1c6651",
+      "goal_gif": "gifs/online-ka2-clean_seq_robotics_fetch_reach.gif",
+      "receipt_sha256": "c859c4d9b3f0ada9cf5c2bad5d199301d669b85e1993ae0c4e07275d5476a18e",
+      "verdict": "FAIL",
+      "wall_seconds": 11.6455
+    },
+    "online-ka2-clean/seq_robotics_fetch_slide": {
+      "completed_at": "2026-11-07T18:01:33.138+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "5834079fd3528ac1df836c5c8c5baddd3053dd3d9fdd06f781caa12f7b935991",
+      "goal_gif": "gifs/online-ka2-clean_seq_robotics_fetch_slide.gif",
+      "receipt_sha256": "81c763e7bc83888eca53a1fe25f75c38e082b84c9aedff7c4add54cb5e7ad2b2",
+      "verdict": "FAIL",
+      "wall_seconds": 11.7858
+    },
+    "online-ka2-clean/seq_robotics_hand_reach": {
+      "completed_at": "2026-11-07T18:01:56.696+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "d7d63be3759cad4671bd4f5ad7f17d9528f120aed36730d96d1ef2fe04ca9319",
+      "goal_gif": "gifs/online-ka2-clean_seq_robotics_hand_reach.gif",
+      "receipt_sha256": "7d63464afec323d6021f97f65f7444d2eeea475cb3da6c83a6fd871a32175cfb",
+      "verdict": "FAIL",
+      "wall_seconds": 11.6094
+    },
+    "online-ka2-light-anchor/seq_img_circle_orbit": {
+      "completed_at": "2026-11-07T18:03:39.884+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "6feff10d981d5d8611e4e1dc777c1e4b4304733bd44481d1478fb336c57c1cb6",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_circle_orbit.gif",
+      "receipt_sha256": "71e6c2ce3c3cdb0ccf45ee7862a50fe2bd6ce45496918b49c3ce0191b5e7bcf4",
+      "verdict": "FAIL",
+      "wall_seconds": 17.0577
+    },
+    "online-ka2-light-anchor/seq_img_delayed_cue": {
+      "completed_at": "2026-11-07T18:03:07.868+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "c723e757fe9d4976c13ad0ad22e7a1308f2c9c35425f1bb79c2ad728ab8d6bb0",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_delayed_cue.gif",
+      "receipt_sha256": "b6d646fc15d600f4c4e562c555bc539cb3bafe8a065946ac3c7b7e9310065a1c",
+      "verdict": "FAIL",
+      "wall_seconds": 9.034
+    },
+    "online-ka2-light-anchor/seq_img_dwell_bars4": {
+      "completed_at": "2026-11-07T18:02:25.346+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "948e88ec44eb228f800305d2e5f15b9937218c5b61dc9178431597a14cabff82",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_dwell_bars4.gif",
+      "receipt_sha256": "6b9b8324bdca12f081c211189c665380137b1861ee2d6a969c253df767e2f9ac",
+      "verdict": "FAIL",
+      "wall_seconds": 7.8785
+    },
+    "online-ka2-light-anchor/seq_img_fork_rollout": {
+      "completed_at": "2026-11-07T18:02:43.011+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "e33b0cbd83e4c563abb59241f145a8f3339f995613d38db0647d0aaf9ee818d4",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_fork_rollout.gif",
+      "receipt_sha256": "98f88b7e12c39e555d7f2452bbe91098194afbc348f5dc77d9fcea42f1684ad9",
+      "verdict": "FAIL",
+      "wall_seconds": 8.6913
+    },
+    "online-ka2-light-anchor/seq_img_persistent_fork": {
+      "completed_at": "2026-11-07T18:03:22.796+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a901995af5f72ddba51057b18fd1b29a72df4ef80e22b05bca13bf3fa2a321e5",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_persistent_fork.gif",
+      "receipt_sha256": "81cd984e76f407e2137b52147aec5d2016619b3adfd5c87c0dd6d60d03eb4756",
+      "verdict": "FAIL",
+      "wall_seconds": 14.8686
+    },
+    "online-ka2-light-anchor/seq_img_rare_mode_bars4": {
+      "completed_at": "2026-11-07T18:02:58.777+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "7a2d90b4f3be223b19a6e8243e8cb7bc6050aaafae00e6dfa54c3719e13e0c00",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_rare_mode_bars4.gif",
+      "receipt_sha256": "fd35045ba1387590c903f4d5b891196963be81d45162f788fbcbc85f6ed176f1",
+      "verdict": "FAIL",
+      "wall_seconds": 7.7811
+    },
+    "online-ka2-light-anchor/seq_img_round_robin_bars4": {
+      "completed_at": "2026-11-07T18:02:17.410+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "622594eab27d07e339917fe4a75ef65546a7b9ef4de9e9eaaaaaa59e1cb2b4ac",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_round_robin_bars4.gif",
+      "receipt_sha256": "2c5e6a7ac7470042ddac47512c8bbd4cb680ecadde805612bd1c75af909c8259",
+      "verdict": "FAIL",
+      "wall_seconds": 7.7455
+    },
+    "online-ka2-light-anchor/seq_img_square_circle_cycle": {
+      "completed_at": "2026-11-07T18:04:09.633+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "0b670b320883f895159f773006b5bc5fb97acfa180972ef8a0d3df01099c8e5c",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_square_circle_cycle.gif",
+      "receipt_sha256": "3ef15a2e7799f05882e5156c394f635ae5485503994e10be96f3e1636a1067eb",
+      "verdict": "FAIL",
+      "wall_seconds": 29.7306
+    },
+    "online-ka2-light-anchor/seq_img_translating_bar_next": {
+      "completed_at": "2026-11-07T18:02:34.302+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "30b873a77dbe687af80ce70a05b08d268470f9d7b800f0587c3645e82812d57b",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_translating_bar_next.gif",
+      "receipt_sha256": "da6ef18960b95cd1e5f11e2e9675661b2320fd29a2a57219d543afc8765af545",
+      "verdict": "FAIL",
+      "wall_seconds": 8.8938
+    },
+    "online-ka2-light-anchor/seq_img_variable_dwell_bars4": {
+      "completed_at": "2026-11-07T18:02:50.978+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "8dddbfec730b89d51e42ab1e1e152a9aa902ae045ebb13baf6929620f31bd689",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_img_variable_dwell_bars4.gif",
+      "receipt_sha256": "4517925ac667866eb34f6bc26842c95e6053aeff2fcea91b24e507b806092a11",
+      "verdict": "FAIL",
+      "wall_seconds": 7.908
+    },
+    "online-ka2-light-anchor/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T18:04:28.420+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "246d0ba9e4e7452228e93af46d7fff05cac48639656116049dfa0c3b87b6fd1e",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "09347f19826f6bd9660ce0516d617708d6f64e630239264f0464735f14252b4b",
+      "verdict": "FAIL",
+      "wall_seconds": 5.6027
+    },
+    "online-ka2-light-anchor/seq_minimal_dense4": {
+      "completed_at": "2026-11-07T18:04:13.351+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "85763c49e9b1a2c46cc827e87ceb27a5b5d917bd6b7c18294d2da8fffc5c4521",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_minimal_dense4.gif",
+      "receipt_sha256": "0f6b1130faee3ed663dc100530d0f4d8b080188e39e35e04f899deaa52d2b79f",
+      "verdict": "FAIL",
+      "wall_seconds": 3.6583
+    },
+    "online-ka2-light-anchor/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T18:04:22.800+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "eb95835894fd4b938c23f9c399ae8561fa3e0048e7edd8d91bff91804440ffd1",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "2bfb2ef4a2731479be9b6f81c4622d80bb6dac36f4014caaadba7de35901bdfc",
+      "verdict": "FAIL",
+      "wall_seconds": 5.5651
+    },
+    "online-ka2-light-anchor/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T18:04:17.174+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "7331f851f9b9e542dd1aac2f31456cc0d9da863477b50672c1c00eb49e5ed4d7",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_minimal_tokens4.gif",
+      "receipt_sha256": "71eef300e91682963b829edb7a2c90e60c2c1435136cfb1ea6df0fb0d9256ce7",
+      "verdict": "FAIL",
+      "wall_seconds": 3.8021
+    },
+    "online-ka2-light-anchor/seq_minimal_velocity_extrapolation": {
+      "completed_at": "2026-11-07T18:05:40.386+00:00",
+      "completed_steps": 384,
+      "gif_sha256": "327bbf1654ce5001e35e48370e28459602313f37cca9732c9219a2a8072d4a40",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_minimal_velocity_extrapolation.gif",
+      "receipt_sha256": "3e32d4255b1dd8a8247a51c4e93b5ec4e8f67bae672dc84ff13d0c8da516c03a",
+      "verdict": "FAIL",
+      "wall_seconds": 11.8819
+    },
+    "online-ka2-light-anchor/seq_robotics_fetch_pick_and_place": {
+      "completed_at": "2026-11-07T18:05:16.846+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a3cb6b54ad74cb3911afbf2522a8310663c6ce27ff0e69abae472ec220664f6c",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_robotics_fetch_pick_and_place.gif",
+      "receipt_sha256": "dc50179a9845816a48d509c728a757c84517ec0362977bd98238e6fd152817d3",
+      "verdict": "FAIL",
+      "wall_seconds": 12.0239
+    },
+    "online-ka2-light-anchor/seq_robotics_fetch_push": {
+      "completed_at": "2026-11-07T18:04:52.801+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "ee039bedc579291363249dbaada0f79acecf9e2cc7e61abed1ab830acb110e38",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_robotics_fetch_push.gif",
+      "receipt_sha256": "643f0372be31ea565ed804e1e269ba0d62fed3cceaafd0a24798536cd5bdacb5",
+      "verdict": "FAIL",
+      "wall_seconds": 12.3001
+    },
+    "online-ka2-light-anchor/seq_robotics_fetch_reach": {
+      "completed_at": "2026-11-07T18:04:40.481+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "10c838f4e670e82cb1c054f4d0aeffedb6f49ba24dc882f6ea709f59c67b5a79",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_robotics_fetch_reach.gif",
+      "receipt_sha256": "14cdb4dcfd9002a64597bfc2585f95e469620a7f5106f848b3644657a0b6ddbf",
+      "verdict": "FAIL",
+      "wall_seconds": 12.0385
+    },
+    "online-ka2-light-anchor/seq_robotics_fetch_slide": {
+      "completed_at": "2026-11-07T18:05:04.802+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "dcaeb1497ed1f689ef2e61dcab0153dafa6a03b6afc44dc847369d62b44622e0",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_robotics_fetch_slide.gif",
+      "receipt_sha256": "8a58eb2f09d63aa98485e82f9ff58bdd04eb29f6f6c4f6fde495ac9a90acc67e",
+      "verdict": "FAIL",
+      "wall_seconds": 11.9813
+    },
+    "online-ka2-light-anchor/seq_robotics_hand_reach": {
+      "completed_at": "2026-11-07T18:05:28.483+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "7563f6336c9672d9102fd77afd7bf511fdce93c9f23da0773d4b14d4e5590b97",
+      "goal_gif": "gifs/online-ka2-light-anchor_seq_robotics_hand_reach.gif",
+      "receipt_sha256": "3453df1c1694b0782596e8d3900d0f3e6cdae9d0c8b91a793e39c22126b7eca4",
+      "verdict": "FAIL",
+      "wall_seconds": 11.6153
+    },
+    "online-ka2-ready-causal/seq_img_circle_orbit": {
+      "completed_at": "2026-11-07T18:10:58.127+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "877abfbfaaaa51fa9f478cdafc72cadede311ab961972151c4da35d1dc075003",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_circle_orbit.gif",
+      "receipt_sha256": "5a631471b7a8976f727637f829788606f5aef4aeb680b5c5daf88f1f61a2ec70",
+      "verdict": "FAIL",
+      "wall_seconds": 18.6814
+    },
+    "online-ka2-ready-causal/seq_img_delayed_cue": {
+      "completed_at": "2026-11-07T18:10:22.556+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f5c6aad6577a879666fa5b1a2b26a7fca2c61cd0f427ede7810b44af62362b0c",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_delayed_cue.gif",
+      "receipt_sha256": "01172d1da7bca960070cc822b1d00a80ab3620c4cc156a90d04a24a1a60e003f",
+      "verdict": "FAIL",
+      "wall_seconds": 9.2565
+    },
+    "online-ka2-ready-causal/seq_img_dwell_bars4": {
+      "completed_at": "2026-11-07T18:09:36.813+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "c7c7e6caa1d94b5bc4afcde52ef4920a4bed9c0613e6caeea40557ba8bf6282c",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_dwell_bars4.gif",
+      "receipt_sha256": "ec679ed60518662f6f55582e71915e594ab340aa6a157a45eac94712a99848c4",
+      "verdict": "FAIL",
+      "wall_seconds": 8.6157
+    },
+    "online-ka2-ready-causal/seq_img_fork_rollout": {
+      "completed_at": "2026-11-07T18:09:56.189+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "b188fe34a2f82838cab8854411a9cfd63c025567730cedc444962dfe85379bb7",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_fork_rollout.gif",
+      "receipt_sha256": "62606c95942f7ebd4841a9360d8fb409a35da08a2ce6fac6b30e17318a5eda13",
+      "verdict": "FAIL",
+      "wall_seconds": 9.7425
+    },
+    "online-ka2-ready-causal/seq_img_persistent_fork": {
+      "completed_at": "2026-11-07T18:10:39.425+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "bcdfcc0f68cf4f7a2c9433345fbdd2e03739609f537a8f1b7b4b6821cd8c0cd3",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_persistent_fork.gif",
+      "receipt_sha256": "c1ba15603649d192a02c7db18edd351ea576ca8dd97d1014e2dbfba359edb714",
+      "verdict": "FAIL",
+      "wall_seconds": 16.807
+    },
+    "online-ka2-ready-causal/seq_img_rare_mode_bars4": {
+      "completed_at": "2026-11-07T18:10:13.239+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "88bfb2992214502a67fb86ec482aa3b61fe44115cbc92efd7d62ffc68141666b",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_rare_mode_bars4.gif",
+      "receipt_sha256": "c85e331a45bd3c20445e40dbbe115a71f2674315bbe6525da8014fd46e989da8",
+      "verdict": "FAIL",
+      "wall_seconds": 8.5748
+    },
+    "online-ka2-ready-causal/seq_img_round_robin_bars4": {
+      "completed_at": "2026-11-07T18:09:28.175+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f89d997641f6e32db28338952909da0364af8b822bf6f7ee05dad1b03f498ab9",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_round_robin_bars4.gif",
+      "receipt_sha256": "11fdae4f99d45951dc0dc58915bdc5d5a7804bc7d5b104a294c9ddf97a60e389",
+      "verdict": "FAIL",
+      "wall_seconds": 8.2923
+    },
+    "online-ka2-ready-causal/seq_img_square_circle_cycle": {
+      "completed_at": "2026-11-07T18:11:29.533+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "8c823b9406f0536de77eb8ec1ec6a2216eb424f376315130c21c7f04cb200a1b",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_square_circle_cycle.gif",
+      "receipt_sha256": "75e1be325136f5a213e57d1b8099eb501f4c96a17691c3f27ba5dbadda15828a",
+      "verdict": "FAIL",
+      "wall_seconds": 31.3429
+    },
+    "online-ka2-ready-causal/seq_img_translating_bar_next": {
+      "completed_at": "2026-11-07T18:09:46.386+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "96a036c1f9b8e166a75d696f937d2ef834f3284ddfc811db454cd2b5d22ac365",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_translating_bar_next.gif",
+      "receipt_sha256": "62c1495bc489547b042f604144ff79c8db08e7f2416c2274840aca39afe3eea6",
+      "verdict": "FAIL",
+      "wall_seconds": 9.5116
+    },
+    "online-ka2-ready-causal/seq_img_variable_dwell_bars4": {
+      "completed_at": "2026-11-07T18:10:04.601+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f00f3fa7240f59f67f594714351b9f5b805b3fb756659334a15361d711fcf91c",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_img_variable_dwell_bars4.gif",
+      "receipt_sha256": "948681d408285e870b673c57a0673e1ac57c1b2bd6d5e5e47a29349d43f9e2a0",
+      "verdict": "FAIL",
+      "wall_seconds": 8.3512
+    },
+    "online-ka2-ready-causal/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T18:11:47.744+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "66fb73ef95e82071279cdbb72b128a63ce9a9a75d84b58d62aa6eb20f5270667",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "ece45a4ec4b332bcd444be528cfd1fd7df46e0bf414433073d32c9b4400b250d",
+      "verdict": "FAIL",
+      "wall_seconds": 5.5174
+    },
+    "online-ka2-ready-causal/seq_minimal_dense4": {
+      "completed_at": "2026-11-07T18:11:33.244+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "61a59b1b36505f8a29196bcd9fded2eea2ab9b0c2d79186778a29f5d5bd59db9",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_minimal_dense4.gif",
+      "receipt_sha256": "144f1aeb4e65035764dff5997bcf4a3596e0f9fd245e5222e4269b39f581bd93",
+      "verdict": "FAIL",
+      "wall_seconds": 3.6511
+    },
+    "online-ka2-ready-causal/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T18:11:42.207+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "344595542067c781700ed8cde8e0d235407e831cb51839c11eb33ff50c9638dc",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "d12a51b8ea33bb9d830b2551de399c3ab524410d30c40853a90832bf448e0a79",
+      "verdict": "FAIL",
+      "wall_seconds": 5.2984
+    },
+    "online-ka2-ready-causal/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T18:11:36.886+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "f80cdac3d14dbaa4c702b5a07ea1cf5f8ff68cfc9d426058bc5b0292b80cd84c",
+      "goal_gif": "gifs/online-ka2-ready-causal_seq_minimal_tokens4.gif",
+      "receipt_sha256": "c7a6bc14cc7809d003864257241b466d59a14516f5f25a07489128bdbbe0fa55",
+      "verdict": "FAIL",
+      "wall_seconds": 3.5842
+    },
+    "online-ka2-ready/seq_img_circle_orbit": {
+      "completed_at": "2026-11-07T18:07:15.641+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "207ed5943c3fc37b3e31a1200f4bac628919c57bf9d00d8a99ac8d0157de3aae",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_circle_orbit.gif",
+      "receipt_sha256": "7a3b13972ae26233cf877917f7218ed8503f90c46c27d824e459e12b100d4581",
+      "verdict": "FAIL",
+      "wall_seconds": 17.2886
+    },
+    "online-ka2-ready/seq_img_delayed_cue": {
+      "completed_at": "2026-11-07T18:06:42.888+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "75d24c905374c1aec3b65cad243e004b611d95aadf1c535ddad00a6e0ec07efe",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_delayed_cue.gif",
+      "receipt_sha256": "e2845b4eb1e5af2764fe618003b5c8d69a9363dddab96a2cc8f7de44c38a97cc",
+      "verdict": "FAIL",
+      "wall_seconds": 9.2844
+    },
+    "online-ka2-ready/seq_img_dwell_bars4": {
+      "completed_at": "2026-11-07T18:05:58.037+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "84ba9230f33075053e82bc331bb519b012ec9fa7bb152fe09781c59547ede6c8",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_dwell_bars4.gif",
+      "receipt_sha256": "274397cd32e5a505f9b388b5813add476e1424ea4292d10e6f1ef3b1811a89de",
+      "verdict": "FAIL",
+      "wall_seconds": 8.3102
+    },
+    "online-ka2-ready/seq_img_fork_rollout": {
+      "completed_at": "2026-11-07T18:06:16.796+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a61cce454bbaad3717f2088a98d520e7259d873299c500e1e473fd1cc9fdd3f9",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_fork_rollout.gif",
+      "receipt_sha256": "8de6a028bdbd11e5e0f7bfe0742ace8b149b5bf97ab944fc1c4c484b476256fb",
+      "verdict": "FAIL",
+      "wall_seconds": 9.4425
+    },
+    "online-ka2-ready/seq_img_persistent_fork": {
+      "completed_at": "2026-11-07T18:06:58.295+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "92997952c3f7e4969e8a73ecf33e928809d253eff6bf0fd007c8a6787c79f8a0",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_persistent_fork.gif",
+      "receipt_sha256": "2adf27cbd40b1324ffab7cad4717b2cfc5072b604d0801f7fd58ecef59dbbb34",
+      "verdict": "FAIL",
+      "wall_seconds": 15.3507
+    },
+    "online-ka2-ready/seq_img_rare_mode_bars4": {
+      "completed_at": "2026-11-07T18:06:33.545+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "f018f7fe3284248883cc13c1ea94dd15bc7d32b5219988b0c4537ac531203309",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_rare_mode_bars4.gif",
+      "receipt_sha256": "7db22ef807aea6dee8ed4faae09ca2bbfa3179f40c2c3a3adca19481fb0fbf6a",
+      "verdict": "FAIL",
+      "wall_seconds": 8.3935
+    },
+    "online-ka2-ready/seq_img_round_robin_bars4": {
+      "completed_at": "2026-11-07T18:05:49.709+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a2964b872ee060be416f903cff25c0d3006527ffae55f3a55d84a51af36b73aa",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_round_robin_bars4.gif",
+      "receipt_sha256": "cec9c36965621ccd8460b073a1a3b586e80124e4a71d761db242f423a2340881",
+      "verdict": "FAIL",
+      "wall_seconds": 8.1702
+    },
+    "online-ka2-ready/seq_img_square_circle_cycle": {
+      "completed_at": "2026-11-07T18:07:46.440+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "78d28a4bb54470b845ba32c871764a7a15e79be14578c9ed5db95d6ec10c93f0",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_square_circle_cycle.gif",
+      "receipt_sha256": "28073a21edf27181023936c88cca36459c1214f8c06fd6322a03d20f0f12798f",
+      "verdict": "FAIL",
+      "wall_seconds": 30.7793
+    },
+    "online-ka2-ready/seq_img_translating_bar_next": {
+      "completed_at": "2026-11-07T18:06:07.296+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "9aafb6f07bfb93a012a8d2bfc50db1d7719959172b94431d044e2e4aa94510c4",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_translating_bar_next.gif",
+      "receipt_sha256": "8f3208ff08d783979278aad6ca9973abe362a5b4cedf96e3b3e3f1f1e2570c97",
+      "verdict": "FAIL",
+      "wall_seconds": 9.1961
+    },
+    "online-ka2-ready/seq_img_variable_dwell_bars4": {
+      "completed_at": "2026-11-07T18:06:25.092+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "a5c5de48781d05fdc1383ab64fe2339049f9154b1e3102c05a367548dcfe157d",
+      "goal_gif": "gifs/online-ka2-ready_seq_img_variable_dwell_bars4.gif",
+      "receipt_sha256": "6481c3951b9f40da02ebb75f13188b8f008919bdee06811368809c07a01997c8",
+      "verdict": "FAIL",
+      "wall_seconds": 8.265
+    },
+    "online-ka2-ready/seq_minimal_addition2bit": {
+      "completed_at": "2026-11-07T18:08:05.106+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "de7eb778af42da13531180039f937b4f8458da844bc42370d84caf707da42c3e",
+      "goal_gif": "gifs/online-ka2-ready_seq_minimal_addition2bit.gif",
+      "receipt_sha256": "ed8f71091af01c7f6600dd96e8e601587768835c48c398ce28c18ae8cfbd83b1",
+      "verdict": "FAIL",
+      "wall_seconds": 5.6112
+    },
+    "online-ka2-ready/seq_minimal_dense4": {
+      "completed_at": "2026-11-07T18:07:50.024+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "5c2e3ffbb61234f61bdf35b9e7a0c6a6902de0b49b6ce1545acbc47d31e78dd4",
+      "goal_gif": "gifs/online-ka2-ready_seq_minimal_dense4.gif",
+      "receipt_sha256": "fa0b07b3eb803b8da0c7b7af82390e1d2a214a73184e392367cfe9aa109007f7",
+      "verdict": "FAIL",
+      "wall_seconds": 3.5244
+    },
+    "online-ka2-ready/seq_minimal_kernel2x2": {
+      "completed_at": "2026-11-07T18:07:59.476+00:00",
+      "completed_steps": 192,
+      "gif_sha256": "59f84a53bca6340fab74cf0cb114045a32f09cae395882afa26b470b8a84e91d",
+      "goal_gif": "gifs/online-ka2-ready_seq_minimal_kernel2x2.gif",
+      "receipt_sha256": "0b38d3dfdf1446c48127f86ba014d063605f476639739ba9583e7365c3d519c2",
+      "verdict": "FAIL",
+      "wall_seconds": 5.5312
+    },
+    "online-ka2-ready/seq_minimal_tokens4": {
+      "completed_at": "2026-11-07T18:07:53.912+00:00",
+      "completed_steps": 96,
+      "gif_sha256": "aed522469761226de9fb33c348fad7cbe29ecae0d8e123890eef7a54f2462afd",
+      "goal_gif": "gifs/online-ka2-ready_seq_minimal_tokens4.gif",
+      "receipt_sha256": "b4f49b226f96cf17d75bf9367b6fb9fb246d22d2a338af73388c6b7c9427d600",
+      "verdict": "FAIL",
+      "wall_seconds": 3.8227
+    },
+    "online-ka2-ready/seq_minimal_velocity_extrapolation": {
+      "completed_at": "2026-11-07T18:09:18.719+00:00",
+      "completed_steps": 384,
+      "gif_sha256": "e0b583cbdc0bff770017e82bcf9d5bf10a6e84779c778a559ab4cc53dc5015a4",
+      "goal_gif": "gifs/online-ka2-ready_seq_minimal_velocity_extrapolation.gif",
+      "receipt_sha256": "f2fcc8a7e9a9d86391cd7c7e0c053a543ad9756ed98952788140745133fc9b97",
+      "verdict": "FAIL",
+      "wall_seconds": 12.3969
+    },
+    "online-ka2-ready/seq_robotics_fetch_pick_and_place": {
+      "completed_at": "2026-11-07T18:08:54.356+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "d39cd1d3a7a709f862c0dc9218e42cb542b51e782d6387273e273c305c317f97",
+      "goal_gif": "gifs/online-ka2-ready_seq_robotics_fetch_pick_and_place.gif",
+      "receipt_sha256": "89f8a9b7f9cd3451a9b0c2a5be20bfe8b4e97a81bf4d868b68c71fb6142cf1ba",
+      "verdict": "FAIL",
+      "wall_seconds": 12.387
+    },
+    "online-ka2-ready/seq_robotics_fetch_push": {
+      "completed_at": "2026-11-07T18:08:29.583+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "149ef768d77326de0295cb16945c9779ad53384508850e6177202073100015c8",
+      "goal_gif": "gifs/online-ka2-ready_seq_robotics_fetch_push.gif",
+      "receipt_sha256": "93497cc39960ff1d4ba4755a0929011ddbce62e968beff164791550dbe41a1af",
+      "verdict": "FAIL",
+      "wall_seconds": 12.4809
+    },
+    "online-ka2-ready/seq_robotics_fetch_reach": {
+      "completed_at": "2026-11-07T18:08:17.080+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "01b686a4587d6e5a0d90e4b65e17ae8e546dcb57d739c4e2a9dd4d0feded5af6",
+      "goal_gif": "gifs/online-ka2-ready_seq_robotics_fetch_reach.gif",
+      "receipt_sha256": "f677277cb6a6bb1edcc8c60effa69ba6fe47ba720c4ed93645dbb192f9e5aeb8",
+      "verdict": "FAIL",
+      "wall_seconds": 11.9556
+    },
+    "online-ka2-ready/seq_robotics_fetch_slide": {
+      "completed_at": "2026-11-07T18:08:41.949+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "93c083cab812fc71a224577e816bc454deafae40ac0dc375a206f13795dd6f0e",
+      "goal_gif": "gifs/online-ka2-ready_seq_robotics_fetch_slide.gif",
+      "receipt_sha256": "92d343c0ceffbd35104ba891f06589e130d1656c6b078f358b3806c5471460a6",
+      "verdict": "FAIL",
+      "wall_seconds": 12.3453
+    },
+    "online-ka2-ready/seq_robotics_hand_reach": {
+      "completed_at": "2026-11-07T18:09:06.304+00:00",
+      "completed_steps": 480,
+      "gif_sha256": "218c6298d45f8fcc8b42c89a6727de76ed629085bd636e725c3d21611ed3e2a9",
+      "goal_gif": "gifs/online-ka2-ready_seq_robotics_hand_reach.gif",
+      "receipt_sha256": "0a0a326b072d8e2a347390ecc7322cb87d037d8ff6c2ee819f1637ff0ad7a2ab",
+      "verdict": "FAIL",
+      "wall_seconds": 11.9277
     },
     "online-ka2/seq_img_circle_orbit": {
       "completed_at": "2026-11-07T17:56:36.736+00:00",

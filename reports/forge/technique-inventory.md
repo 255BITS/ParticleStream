@@ -4,7 +4,7 @@ Generated from `particlegan_forge` qualification of receipts under `reports/forg
 
 Click a technique for its explanation, a recipe for its exact configuration and parent delta, or a score for gates, measurements, source-bound receipts and actual-training GIFs. One global recipe supplies every score in a row. Stretch results do not grant qualification credit.
 
-**Latest refresh: in progress, 491/600 runs recorded.** Started 2026-11-07T16:02:10.829072+00:00. Controls: 20 oracle PASS, 45 destructive FAIL. [Refresh audit and artifact hashes](refresh-audit.json).
+**Latest refresh: in progress, 554/600 runs recorded.** Started 2026-11-07T16:02:10.829072+00:00. Controls: 20 oracle PASS, 45 destructive FAIL. [Refresh audit and artifact hashes](refresh-audit.json).
 
 `*` means at least one current task result is missing. A displayed zero counts passes; the measured column distinguishes an observed failure from missing or stale evidence. Historical recipes are listed separately and receive no current score.
 
@@ -49,10 +49,10 @@ One complete recipe per technique, ordered by required qualification and passes,
 | [BISPF](families/bispf.md) | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | [0/10](families/bispf.md#online-bispf-transport-causal-tier-1-required) | — | — | [0/10](families/bispf.md#online-bispf-transport-causal-required) | 20/20 | `FAIL` |
 | [Global-Stream-BCAP](families/global-stream-bcap.md) | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | [0/10](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) | — | — | [0/10](families/global-stream-bcap.md#online-fast-weight-bcap-ns-required) | 20/20 | `FAIL` |
 | [KA2](families/ka2.md) | [`online-ka2`](families/ka2.md#online-ka2) | [0/10](families/ka2.md#online-ka2-tier-1-required) | — | — | [0/10](families/ka2.md#online-ka2-required) | 20/20 | `FAIL` |
-| [KA2](families/ka2.md) | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | [0/10](families/ka2.md#online-ka2-clean-tier-1-required) | — | — | [0/10](families/ka2.md#online-ka2-clean-required) | 11/20 | `FAIL` |
-| [KA2](families/ka2.md) | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | [0/10*](families/ka2.md#online-ka2-light-anchor-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-light-anchor-required) | 0/20 | `INCOMPLETE` |
-| [KA2](families/ka2.md) | [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | [0/10*](families/ka2.md#online-ka2-ready-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-ready-required) | 0/20 | `INCOMPLETE` |
-| [KA2](families/ka2.md) | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | [0/10*](families/ka2.md#online-ka2-ready-causal-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-ready-causal-required) | 0/20 | `INCOMPLETE` |
+| [KA2](families/ka2.md) | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | [0/10](families/ka2.md#online-ka2-clean-tier-1-required) | — | — | [0/10](families/ka2.md#online-ka2-clean-required) | 20/20 | `FAIL` |
+| [KA2](families/ka2.md) | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | [0/10](families/ka2.md#online-ka2-light-anchor-tier-1-required) | — | — | [0/10](families/ka2.md#online-ka2-light-anchor-required) | 20/20 | `FAIL` |
+| [KA2](families/ka2.md) | [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | [0/10](families/ka2.md#online-ka2-ready-tier-1-required) | — | — | [0/10](families/ka2.md#online-ka2-ready-required) | 20/20 | `FAIL` |
+| [KA2](families/ka2.md) | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | [0/10](families/ka2.md#online-ka2-ready-causal-tier-1-required) | — | — | [0/10](families/ka2.md#online-ka2-ready-causal-required) | 14/20 | `FAIL` |
 | [KA2](families/ka2.md) | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | [0/10*](families/ka2.md#online-ka2-stateless-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-stateless-required) | 0/20 | `INCOMPLETE` |
 | [KA2](families/ka2.md) | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | [0/10*](families/ka2.md#online-ka2-transport-causal-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-transport-causal-required) | 0/20 | `INCOMPLETE` |
 
@@ -86,10 +86,10 @@ These measurements retain their declared gates and budgets even when a required 
 | [BISPF](families/bispf.md) | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | [0/2](families/bispf.md#online-bispf-transport-causal-tier-1-stretch) | [0/7](families/bispf.md#online-bispf-transport-causal-tier-2-stretch) | [0/1](families/bispf.md#online-bispf-transport-causal-tier-3-stretch) | [0/10](families/bispf.md#online-bispf-transport-causal-stretch) | 10/10 |
 | [Global-Stream-BCAP](families/global-stream-bcap.md) | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | [0/2](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-stretch) | [0/7](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-2-stretch) | [0/1](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-3-stretch) | [0/10](families/global-stream-bcap.md#online-fast-weight-bcap-ns-stretch) | 10/10 |
 | [KA2](families/ka2.md) | [`online-ka2`](families/ka2.md#online-ka2) | [0/2](families/ka2.md#online-ka2-tier-1-stretch) | [0/7](families/ka2.md#online-ka2-tier-2-stretch) | [0/1](families/ka2.md#online-ka2-tier-3-stretch) | [0/10](families/ka2.md#online-ka2-stretch) | 10/10 |
-| [KA2](families/ka2.md) | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | [0/2*](families/ka2.md#online-ka2-clean-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-clean-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-clean-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-clean-stretch) | 1/10 |
-| [KA2](families/ka2.md) | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | [0/2*](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-light-anchor-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-light-anchor-stretch) | 0/10 |
-| [KA2](families/ka2.md) | [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | [0/2*](families/ka2.md#online-ka2-ready-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-ready-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-ready-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-ready-stretch) | 0/10 |
-| [KA2](families/ka2.md) | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | [0/2*](families/ka2.md#online-ka2-ready-causal-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-ready-causal-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-ready-causal-stretch) | 0/10 |
+| [KA2](families/ka2.md) | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | [0/2](families/ka2.md#online-ka2-clean-tier-1-stretch) | [0/7](families/ka2.md#online-ka2-clean-tier-2-stretch) | [0/1](families/ka2.md#online-ka2-clean-tier-3-stretch) | [0/10](families/ka2.md#online-ka2-clean-stretch) | 10/10 |
+| [KA2](families/ka2.md) | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | [0/2](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) | [0/7](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) | [0/1](families/ka2.md#online-ka2-light-anchor-tier-3-stretch) | [0/10](families/ka2.md#online-ka2-light-anchor-stretch) | 10/10 |
+| [KA2](families/ka2.md) | [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | [0/2](families/ka2.md#online-ka2-ready-tier-1-stretch) | [0/7](families/ka2.md#online-ka2-ready-tier-2-stretch) | [0/1](families/ka2.md#online-ka2-ready-tier-3-stretch) | [0/10](families/ka2.md#online-ka2-ready-stretch) | 10/10 |
+| [KA2](families/ka2.md) | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | [0/2](families/ka2.md#online-ka2-ready-causal-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-ready-causal-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-ready-causal-stretch) | 4/10 |
 | [KA2](families/ka2.md) | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | [0/2*](families/ka2.md#online-ka2-stateless-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-stateless-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-stateless-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-stateless-stretch) | 0/10 |
 | [KA2](families/ka2.md) | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | [0/2*](families/ka2.md#online-ka2-transport-causal-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-transport-causal-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-transport-causal-stretch) | 0/10 |
 
@@ -156,9 +156,9 @@ Gates: `hq >= 0.9`, `modes == 4.0`, `finite_template_tv <= 0.15`. Budget: 480 up
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_round_robin_bars4.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_round_robin_bars4.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_round_robin_bars4.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_round_robin_bars4.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_round_robin_bars4.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_round_robin_bars4.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -196,9 +196,9 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_dwell_bars4.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_dwell_bars4.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_dwell_bars4.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_dwell_bars4.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_dwell_bars4.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_dwell_bars4.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -236,9 +236,9 @@ Gates: `next_frame_rmse <= 0.12`, `direction_acc >= 0.9`. Budget: 480 updates; 2
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_translating_bar_next.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_translating_bar_next.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_translating_bar_next.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_translating_bar_next.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_translating_bar_next.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_translating_bar_next.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -276,9 +276,9 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`. Budget: 48
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_fork_rollout.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_fork_rollout.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_fork_rollout.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_fork_rollout.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_fork_rollout.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_fork_rollout.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -316,9 +316,9 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_variable_dwell_bars4.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_variable_dwell_bars4.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_variable_dwell_bars4.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_variable_dwell_bars4.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_variable_dwell_bars4.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_variable_dwell_bars4.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -356,9 +356,9 @@ Gates: `hq >= 0.85`, `finite_template_tv <= 0.15`, `support_modes == 4.0`, `rare
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_rare_mode_bars4.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_rare_mode_bars4.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_rare_mode_bars4.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_rare_mode_bars4.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_rare_mode_bars4.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_rare_mode_bars4.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -396,9 +396,9 @@ Gates: `outcome_accuracy >= 0.9`, `prediction_rmse <= 0.12`. Budget: 480 updates
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_delayed_cue.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_delayed_cue.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_delayed_cue.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_delayed_cue.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_delayed_cue.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_delayed_cue.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -436,9 +436,9 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`, `trajector
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_persistent_fork.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_persistent_fork.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_persistent_fork.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_persistent_fork.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_persistent_fork.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_persistent_fork.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -476,9 +476,9 @@ Gates: `orbit_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.9`, `orbit_c
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_circle_orbit.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_circle_orbit.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_circle_orbit.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_circle_orbit.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_circle_orbit.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_circle_orbit.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -516,9 +516,9 @@ Gates: `cycle_rmse <= 0.12`, `s2c_rmse <= 0.12`, `c2s_rmse <= 0.12`, `xy_rmse <=
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-required) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_img_square_circle_cycle.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-required) · [goal.gif](gifs/online-ka2_seq_img_square_circle_cycle.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-required) · [goal.gif](gifs/online-ka2-clean_seq_img_square_circle_cycle.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-required) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) · [goal.gif](gifs/online-ka2-light-anchor_seq_img_square_circle_cycle.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-required) · [goal.gif](gifs/online-ka2-ready_seq_img_square_circle_cycle.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-required) · [goal.gif](gifs/online-ka2-ready-causal_seq_img_square_circle_cycle.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-required) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 
@@ -556,9 +556,9 @@ Gates: `valid_fraction >= 0.9`, `modes == 4.0`, `mass_tv <= 0.15`. Budget: 96 up
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_minimal_dense4.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-stretch) · [goal.gif](gifs/online-ka2_seq_minimal_dense4.gif) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-stretch) · [goal.gif](gifs/online-ka2-clean_seq_minimal_dense4.gif) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-stretch) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-stretch) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_minimal_dense4.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-stretch) · [goal.gif](gifs/online-ka2-ready_seq_minimal_dense4.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-stretch) · [goal.gif](gifs/online-ka2-ready-causal_seq_minimal_dense4.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-stretch) |
 
@@ -595,10 +595,10 @@ Gates: `valid_fraction == 1.0`, `modes == 4.0`, `mass_tv <= 0.1`. Budget: 96 upd
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 0/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-1-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_minimal_tokens4.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-1-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_minimal_tokens4.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-1-stretch) · [goal.gif](gifs/online-ka2_seq_minimal_tokens4.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-1-stretch) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-1-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-1-stretch) · [goal.gif](gifs/online-ka2-clean_seq_minimal_tokens4.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_minimal_tokens4.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-1-stretch) · [goal.gif](gifs/online-ka2-ready_seq_minimal_tokens4.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-1-stretch) · [goal.gif](gifs/online-ka2-ready-causal_seq_minimal_tokens4.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-1-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-stretch) |
 
@@ -635,10 +635,10 @@ Gates: `seen_response_rmse <= 0.03`, `seen_max_abs_error <= 0.05`, `heldout_resp
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 0/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_minimal_kernel2x2.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-2-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_minimal_kernel2x2.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-2-stretch) · [goal.gif](gifs/online-ka2_seq_minimal_kernel2x2.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) · [goal.gif](gifs/online-ka2-clean_seq_minimal_kernel2x2.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_minimal_kernel2x2.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready_seq_minimal_kernel2x2.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready-causal_seq_minimal_kernel2x2.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-2-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 
@@ -675,10 +675,10 @@ Gates: `seen_exact_accuracy == 1.0`, `seen_min_bit_confidence >= 0.9`, `heldout_
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 0/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_minimal_addition2bit.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-2-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_minimal_addition2bit.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-2-stretch) · [goal.gif](gifs/online-ka2_seq_minimal_addition2bit.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) |
-| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) · [goal.gif](gifs/online-ka2-clean_seq_minimal_addition2bit.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_minimal_addition2bit.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready_seq_minimal_addition2bit.gif) |
+| [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready-causal_seq_minimal_addition2bit.gif) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-2-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 
@@ -715,9 +715,9 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 0/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_robotics_fetch_reach.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-2-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_robotics_fetch_reach.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-2-stretch) · [goal.gif](gifs/online-ka2_seq_robotics_fetch_reach.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) · [goal.gif](gifs/online-ka2-clean_seq_robotics_fetch_reach.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_robotics_fetch_reach.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready_seq_robotics_fetch_reach.gif) |
 | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-2-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
@@ -755,9 +755,9 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 0/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_robotics_fetch_push.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-2-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_robotics_fetch_push.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-2-stretch) · [goal.gif](gifs/online-ka2_seq_robotics_fetch_push.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) · [goal.gif](gifs/online-ka2-clean_seq_robotics_fetch_push.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_robotics_fetch_push.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready_seq_robotics_fetch_push.gif) |
 | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-2-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
@@ -795,9 +795,9 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 0/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_robotics_fetch_slide.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-2-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_robotics_fetch_slide.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-2-stretch) · [goal.gif](gifs/online-ka2_seq_robotics_fetch_slide.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) · [goal.gif](gifs/online-ka2-clean_seq_robotics_fetch_slide.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_robotics_fetch_slide.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready_seq_robotics_fetch_slide.gif) |
 | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-2-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
@@ -835,9 +835,9 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 1/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-2-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-2-stretch) · [goal.gif](gifs/online-ka2_seq_robotics_fetch_pick_and_place.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) · [goal.gif](gifs/online-ka2-clean_seq_robotics_fetch_pick_and_place.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_robotics_fetch_pick_and_place.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-2-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
@@ -875,9 +875,9 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 0/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-2-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_robotics_hand_reach.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-2-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_robotics_hand_reach.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-2-stretch) · [goal.gif](gifs/online-ka2_seq_robotics_hand_reach.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) · [goal.gif](gifs/online-ka2-clean_seq_robotics_hand_reach.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_robotics_hand_reach.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-2-stretch) · [goal.gif](gifs/online-ka2-ready_seq_robotics_hand_reach.gif) |
 | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-2-stretch) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-2-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
@@ -915,9 +915,9 @@ Gates: `interpolation_centroid_rmse <= 0.01`, `interpolation_speed_error <= 0.01
 | [`online-bispf-transport-causal`](families/bispf.md#online-bispf-transport-causal) | FAIL | 0/5 | [details](families/bispf.md#online-bispf-transport-causal-tier-3-stretch) · [goal.gif](gifs/online-bispf-transport-causal_seq_minimal_velocity_extrapolation.gif) |
 | [`online-fast-weight-bcap-ns`](families/global-stream-bcap.md#online-fast-weight-bcap-ns) | FAIL | 0/5 | [details](families/global-stream-bcap.md#online-fast-weight-bcap-ns-tier-3-stretch) · [goal.gif](gifs/online-fast-weight-bcap-ns_seq_minimal_velocity_extrapolation.gif) |
 | [`online-ka2`](families/ka2.md#online-ka2) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-tier-3-stretch) · [goal.gif](gifs/online-ka2_seq_minimal_velocity_extrapolation.gif) |
-| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-3-stretch) |
-| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-3-stretch) |
-| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-tier-3-stretch) |
+| [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-clean-tier-3-stretch) · [goal.gif](gifs/online-ka2-clean_seq_minimal_velocity_extrapolation.gif) |
+| [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-light-anchor-tier-3-stretch) · [goal.gif](gifs/online-ka2-light-anchor_seq_minimal_velocity_extrapolation.gif) |
+| [`online-ka2-ready`](families/ka2.md#online-ka2-ready) | FAIL | 0/5 | [details](families/ka2.md#online-ka2-ready-tier-3-stretch) · [goal.gif](gifs/online-ka2-ready_seq_minimal_velocity_extrapolation.gif) |
 | [`online-ka2-ready-causal`](families/ka2.md#online-ka2-ready-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-ready-causal-tier-3-stretch) |
 | [`online-ka2-stateless`](families/ka2.md#online-ka2-stateless) | NOT_RUN | — | [details](families/ka2.md#online-ka2-stateless-tier-3-stretch) |
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-3-stretch) |
