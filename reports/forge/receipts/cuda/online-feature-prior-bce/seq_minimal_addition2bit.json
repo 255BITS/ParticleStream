@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 9512448,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 624,
-      "evaluation_seconds": 1.5214430060004815,
+      "evaluation_seconds": 0.955289355959394,
       "generator_parameters": 6385,
       "optimizer_updates": 192,
-      "process_peak_rss_kib": 2119480,
+      "process_peak_rss_kib": 2665924,
       "serving_d_forwards": 0,
       "serving_g_forwards": 192,
-      "training_and_evaluation_seconds": 5.092869724001503,
+      "training_and_evaluation_seconds": 3.297973060005461,
       "training_d_forwards": 1152,
       "training_g_forwards": 384
     },
@@ -825,12 +825,12 @@
   "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
   "candidate_id": "online-feature-prior-bce",
   "cohort_key": "bdf4008ca0b8740fddc7699debbc0772a330c564695939d5b7cded11ac29b4a9",
-  "completed_at": "2026-11-06T22:49:27.701+00:00",
+  "completed_at": "2026-11-07T17:54:03.841+00:00",
   "completed_steps": 192,
   "cost": {
     "completed_steps": 192,
     "timeout_seconds": 300,
-    "wall_seconds": 9.4809
+    "wall_seconds": 5.5775
   },
   "device": "cuda",
   "error": null,
@@ -1240,7 +1240,7 @@
   "task_id": "seq_minimal_addition2bit",
   "technique": "FeaturePrior-BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-06T22:49:27.701+00:00",
+  "timestamp": "2026-11-07T17:54:03.841+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

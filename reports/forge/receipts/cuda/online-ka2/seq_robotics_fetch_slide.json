@@ -1,0 +1,858 @@
+{
+  "all_finite": true,
+  "artifacts": {
+    "compute": {
+      "critic_parameters": 9473,
+      "cuda_peak_allocated_bytes": 9563136,
+      "evaluation_d_forwards": 0,
+      "evaluation_g_forwards": 1536,
+      "evaluation_seconds": 1.715076563952607,
+      "generator_parameters": 6385,
+      "optimizer_updates": 480,
+      "process_peak_rss_kib": 2678276,
+      "serving_d_forwards": 0,
+      "serving_g_forwards": 480,
+      "training_and_evaluation_seconds": 10.795216648999485,
+      "training_d_forwards": 2880,
+      "training_g_forwards": 960
+    },
+    "controls": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.023811754778635567,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 0.39215686274509803,
+          "object_delta_rmse_m": 5.3179829661148e-09,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 0.016837453275924806,
+          "relative_mse": 1.7255303386617464
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 4.765972845819211e-09,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 1.0,
+          "object_delta_rmse_m": 5.3179829661148e-09,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 5.049526710245884e-09,
+          "relative_mse": 1.5519264679941782e-13
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.01038811336787164,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.014855353749949535,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 0.012817847603632467,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.02077622614148775,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 0.0,
+          "object_delta_rmse_m": 0.029710706794610502,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 0.025635694557760217,
+          "relative_mse": 3.9999997973123955
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "gripper_delta_rmse_m": 0.012792400165727743,
+          "moving_coordinate_fraction": 0.53125,
+          "moving_direction_accuracy": 0.6862745098039216,
+          "object_delta_rmse_m": 0.016151688292272776,
+          "object_motion_rms_m": 0.014855353749949533,
+          "persistence_rmse_m": 0.012817847603632467,
+          "position_delta_rmse_m": 0.01456918900781462,
+          "relative_mse": 1.2919346534033367
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "eval_reset_seeds": [
+      1333029562,
+      1174574595,
+      5166377,
+      1915005213
+    ],
+    "evaluation_cases": 16,
+    "gif_sha256": "9ed05e212bc1da09e1722fdb81376a32f2481f5139f61c458235a6366798d98f",
+    "goal_gif": "gifs/online-ka2_seq_robotics_fetch_slide.gif",
+    "implementation": {
+      "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+      "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+      "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
+      "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+      "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
+      "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
+      "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
+      "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
+      "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+      "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
+      "robotics_adapter.py": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+      "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
+      "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+    },
+    "memory_policy": {
+      "decay": 0.9,
+      "dim": 16,
+      "kind": "fast_weight",
+      "rehearsal_batch": 0,
+      "replay_policy": "none",
+      "reservoir_size": 64,
+      "write_lr": 0.35
+    },
+    "online_execution": {
+      "arrivals": 1440,
+      "episode_resets": 12,
+      "gradient_accumulation_steps": 1,
+      "live_predictions": 480,
+      "max_fake_batch": 1,
+      "max_real_batch": 1,
+      "observation_contract": "state_then_action_then_predict_then_simulator_step_then_target_v1",
+      "replayed_examples": 0,
+      "source_only_arrivals": 960,
+      "target_arrivals": 480,
+      "target_memory_writes": 0,
+      "updates": 480,
+      "warmup_arrivals": 960
+    },
+    "particlegan_version": "0.9.7",
+    "recipe_delta": {},
+    "resolved_recipe": {
+      "adam_variant": "pytorch",
+      "alpha_bar": [
+        1.0,
+        0.9,
+        0.5,
+        0.05,
+        0.0001
+      ],
+      "amsgrad": false,
+      "batch_size": 1,
+      "beta2_anneal_end": 0.2,
+      "beta2_end": null,
+      "betas": [
+        0.0,
+        0.999
+      ],
+      "birth_death_backend": "knn",
+      "birth_death_cells": 64,
+      "birth_death_chunk": 256,
+      "birth_death_feature_scale": "none",
+      "birth_death_isolation": false,
+      "birth_death_metric_rank": 8,
+      "birth_death_parent_policy": "real_anchor",
+      "birth_death_space": "data",
+      "bispf_gate_overrides": [],
+      "bispf_shape_gates": true,
+      "conditioning": "scalar",
+      "constraint_geometry_mode": "none",
+      "continuous_policy": null,
+      "critic_formulation": "ka2",
+      "critic_payoff_damping": true,
+      "critic_r1_real": true,
+      "critic_step_mode": "none",
+      "d_betas": null,
+      "d_eps": null,
+      "d_guard_min_steps": 200,
+      "d_guard_ratio": 5.0,
+      "d_lr_mult": 1.0,
+      "direct_particle_betas": [
+        0.0,
+        0.9
+      ],
+      "direct_particle_gain": true,
+      "distance_reduction": "sum",
+      "ebi_beta": 30.0,
+      "ema_decay": 0.995,
+      "encoder_mode": "none",
+      "eps": 1e-08,
+      "generator_gradient_response": "none",
+      "input_noise_anneal_end": 0.1,
+      "input_noise_std": 0.5,
+      "kappa_radial": 1.0,
+      "kinetic_transport_local_weight": 0.0,
+      "kinetic_transport_projections": 32,
+      "kinetic_transport_weight": 0.0,
+      "latent_damping_max_rate": 0.5,
+      "loss": "non_saturating",
+      "loss_labels": [
+        0.0,
+        1.0,
+        1.0
+      ],
+      "lr": 0.005,
+      "lr_anneal_start": 0.5,
+      "lr_control": "mobility",
+      "lr_decay_rate": 0.96,
+      "lr_decay_staircase": false,
+      "lr_decay_steps": 50000,
+      "lr_floor": 0.05,
+      "lr_schedule": "cosine",
+      "model": "gan",
+      "name": "ka2",
+      "network_lr_floor": 0.05,
+      "network_lr_horizon_cap": 1600,
+      "num_classes": null,
+      "num_particles": 32,
+      "observation_sigma": 0.03,
+      "optimizer_adam_lr": null,
+      "optimizer_convolution": "none",
+      "optimizer_convolution_rule": "polar",
+      "optimizer_dense_profile": "default",
+      "optimizer_family": "formulation",
+      "optimizer_momentum": 0.0,
+      "optimizer_smoothing": 0.0,
+      "optimizer_svd_backend": "native",
+      "output_noise_mode": "fixed",
+      "output_noise_std": 0.029,
+      "output_noise_warmup": 0.2,
+      "particle_birth_death": false,
+      "prior_betas": null,
+      "prior_code_law": "table",
+      "prior_coulomb_confinement": 0.35,
+      "prior_coulomb_neighbors": 8,
+      "prior_coulomb_softening": 0.1,
+      "prior_eps": null,
+      "prior_kind": "mog",
+      "prior_l2": 0.0,
+      "prior_lr_mult": 2.0,
+      "prior_proximal_strength": 0.0,
+      "prior_reg": 0.0,
+      "prior_reg_eps": 0.0001,
+      "prior_reg_target_std": 1.0,
+      "prior_regularizer": "vicreg",
+      "prior_sigreg_knots": 17,
+      "prior_sigreg_projections": 32,
+      "prior_update": "learned",
+      "reconstruction_weight": 1.0,
+      "reg_anchor_min_decay": 0.9,
+      "reg_anchor_weight": 1.0,
+      "reg_arm": null,
+      "reg_coeff": 1.0,
+      "reg_coeff_anneal_end": 0.2,
+      "reg_coeff_end": null,
+      "reg_every": 1,
+      "reg_kappa": 1.0,
+      "reopen_anchor": "hold",
+      "reopen_guard": null,
+      "reopen_signal": "data",
+      "routing_temperature": 0.25,
+      "row_evidence_exclude": true,
+      "row_evidence_gate": false,
+      "row_evidence_hold": true,
+      "row_evidence_hot": true,
+      "row_evidence_null": "theory",
+      "row_policy": "independent",
+      "serve_average": 0.0,
+      "sigma_rel": 0.0,
+      "standardize": false,
+      "table_release_rule": "any",
+      "total_steps": 480,
+      "training_precision": "float32",
+      "ucd_target": "class",
+      "ucd_weight": 0.02,
+      "z_dim": 8
+    },
+    "sampling": {
+      "best_of_n": false,
+      "eval_output_noise": "none",
+      "law": "four_clean_centers_v1",
+      "rows": [
+        0,
+        8,
+        16,
+        24
+      ],
+      "weights": "live"
+    },
+    "simulator_trace": "traces/online-ka2_seq_robotics_fetch_slide.json",
+    "simulator_trace_sha256": "39a9b8e1b630374c52258d6814bc7198c49159d624fdee164032c5b436cdd212",
+    "simulator_versions": {
+      "gymnasium": "1.4.0",
+      "gymnasium-robotics": "1.4.2",
+      "mujoco": "3.3.7"
+    },
+    "torch_version": "2.15.0+cu132",
+    "training_reset_seeds": [
+      347600043,
+      730190647,
+      448176825,
+      1599429392,
+      1777597131,
+      605077033,
+      1705474202,
+      1130568848,
+      1898989781,
+      1917821091,
+      90589682,
+      1988856680
+    ]
+  },
+  "binding": {
+    "adapter_source_sha256": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+    "candidate_fingerprint": "0d327da8115c91e5d323c0162229bb735c39aba5181ec0d92a6a2508f1799e11",
+    "device": "cuda",
+    "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
+    "namespace": "particlegan_forge",
+    "rng_version": "forge-rng-v1",
+    "seed": 0,
+    "task_fingerprint": "bcbc8d26c237e4fe5436ca70afe2225531e1504d5c83449cbe8febc5cf2f8ceb"
+  },
+  "candidate_fingerprint": "0d327da8115c91e5d323c0162229bb735c39aba5181ec0d92a6a2508f1799e11",
+  "candidate_id": "online-ka2",
+  "cohort_key": "fcc8caf1c664eabee24c0258361114c0b9140b5c773a8e0df8c608a0a0e19563",
+  "completed_at": "2026-11-07T17:57:58.275+00:00",
+  "completed_steps": 480,
+  "cost": {
+    "completed_steps": 480,
+    "timeout_seconds": 300,
+    "wall_seconds": 13.3688
+  },
+  "device": "cuda",
+  "error": null,
+  "execution_device": "cuda",
+  "grade": {
+    "failed_bounds": [
+      "moving_direction_accuracy >= 0.75",
+      "position_delta_rmse_m <= 0.005",
+      "relative_mse <= 0.8"
+    ],
+    "live": {
+      "finite_fraction": 1.0,
+      "gripper_delta_rmse_m": 0.01137686041032624,
+      "live_prequential_rmse_m": 0.01402131204013259,
+      "moving_coordinate_fraction": 0.53125,
+      "moving_direction_accuracy": 0.6813725490196079,
+      "object_delta_rmse_m": 0.013190383627227055,
+      "object_motion_rms_m": 0.014855353749949533,
+      "persistence_rmse_m": 0.012817847603632467,
+      "position_delta_rmse_m": 0.012317044552762406,
+      "relative_mse": 0.9233850037724025
+    },
+    "required_terminal_checks": 5,
+    "status": "FAIL",
+    "terminal_passing": 0
+  },
+  "live": {
+    "finite_fraction": 1.0,
+    "gripper_delta_rmse_m": 0.01137686041032624,
+    "live_prequential_rmse_m": 0.01402131204013259,
+    "moving_coordinate_fraction": 0.53125,
+    "moving_direction_accuracy": 0.6813725490196079,
+    "object_delta_rmse_m": 0.013190383627227055,
+    "object_motion_rms_m": 0.014855353749949533,
+    "persistence_rmse_m": 0.012817847603632467,
+    "position_delta_rmse_m": 0.012317044552762406,
+    "relative_mse": 0.9233850037724025
+  },
+  "observations": [
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.04199116126135036,
+        "live_prequential_rmse_m": 0.0268190231257689,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.3284313725490196,
+        "object_delta_rmse_m": 0.049710236840913274,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.04601285293728494,
+        "relative_mse": 12.88629638188274
+      },
+      "step": 20
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.015175178467279069,
+        "live_prequential_rmse_m": 0.041068030514021706,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.7058823529411764,
+        "object_delta_rmse_m": 0.01854612157254258,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.016944684519006246,
+        "relative_mse": 1.7475787987127211
+      },
+      "step": 40
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.019699731718797322,
+        "live_prequential_rmse_m": 0.028882589202896203,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.5,
+        "object_delta_rmse_m": 0.022285449362336444,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.021032364145215005,
+        "relative_mse": 2.6924396475048384
+      },
+      "step": 60
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.013759907115596728,
+        "live_prequential_rmse_m": 0.01977910307336911,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.5735294117647058,
+        "object_delta_rmse_m": 0.01827226941659447,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.016174221363986323,
+        "relative_mse": 1.5922694322252915
+      },
+      "step": 80
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.030343321041364436,
+        "live_prequential_rmse_m": 0.012821040481443982,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.6372549019607843,
+        "object_delta_rmse_m": 0.035171832961173044,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.03284642267940276,
+        "relative_mse": 6.566681416074538
+      },
+      "step": 100
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.035215006428359376,
+        "live_prequential_rmse_m": 0.04042124748998778,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.5,
+        "object_delta_rmse_m": 0.04668450731528961,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.0413493645720265,
+        "relative_mse": 10.406566707296502
+      },
+      "step": 120
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.016832570223678622,
+        "live_prequential_rmse_m": 0.03310122822903273,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.446078431372549,
+        "object_delta_rmse_m": 0.022195132503956723,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.019697199384725594,
+        "relative_mse": 2.3614500004165313
+      },
+      "step": 140
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.07544625360334005,
+        "live_prequential_rmse_m": 0.03294441872181103,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.8088235294117647,
+        "object_delta_rmse_m": 0.08241882480175458,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.07900949267170945,
+        "relative_mse": 37.995165341259906
+      },
+      "step": 160
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01832006342982297,
+        "live_prequential_rmse_m": 0.03089504327688159,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.6813725490196079,
+        "object_delta_rmse_m": 0.02083378490377742,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.01961722862039387,
+        "relative_mse": 2.3423139194128035
+      },
+      "step": 180
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.014310251623361971,
+        "live_prequential_rmse_m": 0.019981954404335138,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.6372549019607843,
+        "object_delta_rmse_m": 0.01679986899403282,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.015604789324764997,
+        "relative_mse": 1.4821276588560508
+      },
+      "step": 200
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.011723523181758387,
+        "live_prequential_rmse_m": 0.010286310935499006,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.6666666666666666,
+        "object_delta_rmse_m": 0.01758772319537822,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.014946053040693913,
+        "relative_mse": 1.3596365496378278
+      },
+      "step": 220
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01135116346214423,
+        "live_prequential_rmse_m": 0.016478137409496375,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.6372549019607843,
+        "object_delta_rmse_m": 0.01580980989795653,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.013762249106774708,
+        "relative_mse": 1.152785809256608
+      },
+      "step": 240
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.018334321382194593,
+        "live_prequential_rmse_m": 0.019056240748242498,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.5196078431372549,
+        "object_delta_rmse_m": 0.02212479063364552,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.02031814092293198,
+        "relative_mse": 2.512683158150193
+      },
+      "step": 260
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.02685675676033278,
+        "live_prequential_rmse_m": 0.014266658617106371,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.27941176470588236,
+        "object_delta_rmse_m": 0.03732885516935469,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.03251714018743299,
+        "relative_mse": 6.435680555360436
+      },
+      "step": 280
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.014066457042920404,
+        "live_prequential_rmse_m": 0.016538223701230086,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.6225490196078431,
+        "object_delta_rmse_m": 0.02008540785233824,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.017339100644714764,
+        "relative_mse": 1.829881335238735
+      },
+      "step": 300
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.03458876977420029,
+        "live_prequential_rmse_m": 0.042304804549404385,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.446078431372549,
+        "object_delta_rmse_m": 0.042034855020788145,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.03849228514333301,
+        "relative_mse": 9.018144317336121
+      },
+      "step": 320
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.03279659635393045,
+        "live_prequential_rmse_m": 0.03218730576356465,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.19607843137254902,
+        "object_delta_rmse_m": 0.039512303552321076,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.03631004588549434,
+        "relative_mse": 8.024599897407022
+      },
+      "step": 340
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.021418425633943482,
+        "live_prequential_rmse_m": 0.014629043728974386,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.25980392156862747,
+        "object_delta_rmse_m": 0.02164849866743267,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.021533769423751632,
+        "relative_mse": 2.8223437592324294
+      },
+      "step": 360
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.015559178188415491,
+        "live_prequential_rmse_m": 0.011435267327188515,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.5980392156862745,
+        "object_delta_rmse_m": 0.01828693458562468,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.016977926882245965,
+        "relative_mse": 1.7544423828289182
+      },
+      "step": 380
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.010729381232485909,
+        "live_prequential_rmse_m": 0.01961463803271292,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.6225490196078431,
+        "object_delta_rmse_m": 0.015534217100635097,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.013349747611128922,
+        "relative_mse": 1.0847156411347147
+      },
+      "step": 400
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01162533836714702,
+        "live_prequential_rmse_m": 0.011957951877197037,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.5343137254901961,
+        "object_delta_rmse_m": 0.015572094827188196,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.013741154053746759,
+        "relative_mse": 1.1492544910879654
+      },
+      "step": 420
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01117693819135671,
+        "live_prequential_rmse_m": 0.014937121876737111,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.7843137254901961,
+        "object_delta_rmse_m": 0.014980579221040074,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.013216310020789953,
+        "relative_mse": 1.0631394344536782
+      },
+      "step": 440
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01051272053933624,
+        "live_prequential_rmse_m": 0.012096067065241512,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.7009803921568627,
+        "object_delta_rmse_m": 0.013363352898588981,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.012022821919799207,
+        "relative_mse": 0.8797972929029577
+      },
+      "step": 460
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "gripper_delta_rmse_m": 0.01137686041032624,
+        "live_prequential_rmse_m": 0.01402131204013259,
+        "moving_coordinate_fraction": 0.53125,
+        "moving_direction_accuracy": 0.6813725490196079,
+        "object_delta_rmse_m": 0.013190383627227055,
+        "object_motion_rms_m": 0.014855353749949533,
+        "persistence_rmse_m": 0.012817847603632467,
+        "position_delta_rmse_m": 0.012317044552762406,
+        "relative_mse": 0.9233850037724025
+      },
+      "step": 480
+    }
+  ],
+  "rng_manifest": {
+    "bindings": {
+      "[\"data\",\"robotics\",\"training_episodes\",\"cpu\"]": {
+        "component": "robotics",
+        "device": "cpu",
+        "family": "data",
+        "initial_state_sha256": "f3c6e838b46e081dcfe1d36c71239e96b3a2d012dd5e004f723c4af89ff93f85",
+        "purpose": "training_episodes",
+        "seed": 127667461163791240
+      },
+      "[\"eval\",\"robotics\",\"heldout_episodes\",\"cpu\"]": {
+        "component": "robotics",
+        "device": "cpu",
+        "family": "eval",
+        "initial_state_sha256": "59bc7ed43b51baf36ab2f9e5227af6583d67a7abd42cf6a906205cd30443bef9",
+        "purpose": "heldout_episodes",
+        "seed": 2775573067441982096
+      },
+      "[\"eval\",\"robotics\",\"probes\",\"cuda:0\"]": {
+        "component": "robotics",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1c663e46dbbbe267fc70c1d9314404669feea950ae6057de564e4b32704107fb",
+        "purpose": "probes",
+        "seed": 7411305532687040837
+      },
+      "[\"eval\",\"sampler\",\"samples\",\"cuda:0\"]": {
+        "component": "sampler",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1696aa08e2307f28df002755027ee2e7b1999300dac2855f214caa1842a2b301",
+        "purpose": "samples",
+        "seed": 212130830619035767
+      },
+      "[\"eval\",\"serving\",\"prediction\",\"cuda:0\"]": {
+        "component": "serving",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "c46c5d9ee1c405db09951e336788056ccbb29719f2d1a6d64100950c09abb2ac",
+        "purpose": "prediction",
+        "seed": 5356185404323691715
+      },
+      "[\"init\",\"models\",\"construction\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "55b33e08dd400591b22146dd35ca6cdc007581e35738b13e956c74cf7cca7e71",
+        "purpose": "construction",
+        "seed": 6120719211400045491
+      },
+      "[\"init\",\"prior\",\"locations\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "be549c3d68d477f9d11434e663fdbefe2526571de4de86123a84ae9dc23e86a2",
+        "purpose": "locations",
+        "seed": 2562565386842645502
+      },
+      "[\"noise\",\"critic\",\"input\",\"cuda:0\"]": {
+        "component": "critic",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "2d5d779ef1c19f73abf72075c1cfeb70b935201245568680a1edc2c37cab0465",
+        "purpose": "input",
+        "seed": 5961379833291764029
+      },
+      "[\"noise\",\"generator\",\"output\",\"cuda:0\"]": {
+        "component": "generator",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "9b325c7520a99d3d27a37b6ef50971e3bfa9f1b12caf5e7a8819ae7e692cfcc1",
+        "purpose": "output",
+        "seed": 9214932872906931917
+      },
+      "[\"noise\",\"models\",\"stochastic_layers\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "4c3a40416441f175f5294136bd6bc4582ecd9e17ff5b5ee0292338e228afeaee",
+        "purpose": "stochastic_layers",
+        "seed": 4481608677977550636
+      },
+      "[\"noise\",\"penalty\",\"training\",\"cuda:0\"]": {
+        "component": "penalty",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "7e3e442dbb5124abf6e6e1e6e81000ab789c8aa11578d6a6b88a72beadfa3c83",
+        "purpose": "training",
+        "seed": 7930995805460461310
+      },
+      "[\"noise\",\"prior\",\"gaussian\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "46a0fb6a2510c83ebfa98bc289a73c096cc0fa24f40136bb998b0edecd8871e5",
+        "purpose": "gaussian",
+        "seed": 939191808430552031
+      },
+      "[\"prior\",\"latent\",\"indices\",\"cuda:0\"]": {
+        "component": "latent",
+        "device": "cuda:0",
+        "family": "prior",
+        "initial_state_sha256": "aa2f89742ac1d2c95ef3379ad9ba7a080c557c66258f9dff0dabf5d85a6db3cc",
+        "purpose": "indices",
+        "seed": 5876435880110660064
+      }
+    },
+    "runtime": {
+      "rng": "torch.Generator",
+      "torch": "2.15.0+cu132"
+    },
+    "seed": 0,
+    "version": "forge-rng-v1"
+  },
+  "schema_version": 2,
+  "seed": 0,
+  "task_fingerprint": "bcbc8d26c237e4fe5436ca70afe2225531e1504d5c83449cbe8febc5cf2f8ceb",
+  "task_id": "seq_robotics_fetch_slide",
+  "technique": "KA2",
+  "terminal_passing": 0,
+  "timestamp": "2026-11-07T17:57:58.275+00:00",
+  "unintended_rng_deviations": 0,
+  "verdict": "FAIL"
+}

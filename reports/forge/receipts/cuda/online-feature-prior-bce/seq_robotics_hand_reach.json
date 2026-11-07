@@ -3,16 +3,16 @@
   "artifacts": {
     "compute": {
       "critic_parameters": 9473,
-      "cuda_peak_allocated_bytes": 9907200,
+      "cuda_peak_allocated_bytes": 9494528,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 1536,
-      "evaluation_seconds": 6.927050876009162,
+      "evaluation_seconds": 2.2938777030212805,
       "generator_parameters": 6385,
       "optimizer_updates": 480,
-      "process_peak_rss_kib": 2216396,
+      "process_peak_rss_kib": 2665924,
       "serving_d_forwards": 0,
       "serving_g_forwards": 480,
-      "training_and_evaluation_seconds": 28.183491833005974,
+      "training_and_evaluation_seconds": 9.012049736993504,
       "training_d_forwards": 2880,
       "training_g_forwards": 960
     },
@@ -2678,12 +2678,12 @@
   "candidate_fingerprint": "4f8ec6b6bf449a96ce37bc21303963338f80dc20d6dcf3e72e59f9777f8ddd41",
   "candidate_id": "online-feature-prior-bce",
   "cohort_key": "bc7b46395e4a050e1a6bda1677fc1470b3284b3bd20a2cd6d4b3aeecefecfacf",
-  "completed_at": "2026-11-06T23:25:15.333+00:00",
+  "completed_at": "2026-11-07T17:55:00.737+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 30.8819
+    "wall_seconds": 10.9859
   },
   "device": "cuda",
   "error": null,
@@ -3134,7 +3134,7 @@
   "task_id": "seq_robotics_hand_reach",
   "technique": "FeaturePrior-BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-06T23:25:15.333+00:00",
+  "timestamp": "2026-11-07T17:55:00.737+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }
