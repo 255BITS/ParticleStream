@@ -64,7 +64,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 0/10 required passes (1 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+
+Receipt identity: candidate_fingerprint `2c9308c504e410afb7aa51abdf79b8adbe75ed4b2d9de22bae2b184663ad01b8`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-fast-weight-bcap-ns-required"></a>
 ### Required evidence
@@ -74,7 +76,7 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **FAIL** | 0/5 | `hq=0.78125`; `modes=4`; `finite_template_tv=0.25`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.9 | [receipt](../receipts/cuda/online-fast-weight-bcap-ns/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-fast-weight-bcap-ns_seq_img_round_robin_bars4.gif) | 2026-11-07T17:48:04.492+00:00 |
 | [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
 | [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
 | [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
