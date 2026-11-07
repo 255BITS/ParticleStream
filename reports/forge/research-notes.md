@@ -505,3 +505,37 @@ or update-budget change accompanies that repair. See the
 and [machine-readable audit](robotics-audit.json). Retain these tests as stretch
 and test the next explicit global conditioning/stability ablation across all
 five, without selecting per-task recipes or extending individual budgets.
+
+### Complete recipe refresh (2026-11-07, view 10)
+
+The [current inventory](technique-inventory.md) now measures all 30 executable
+recipes on all 20 tasks: 600 fresh, full-budget runs. Every run uses seed 0,
+sequential real/fake batches of one and the unchanged task gates. Each candidate
+keeps one global recipe across the suite. Numerical failures do not skip the
+remaining stretch measurements or grant higher-tier qualification. The cohort
+contains 19 numerical PASS and 581 FAIL outcomes, with no INVALID or INCOMPLETE
+execution. All 600 runs stay finite and record zero replay and evaluation RNG
+deviations. The [refresh audit](refresh-audit.json) records timestamps, execution
+sessions and receipt/GIF hashes; interrupted execution resumes only unchanged,
+source-current evidence.
+
+The fresh `online-feature-prior-bce` result retains 10/10 required passes and
+1/10 stretch passes, with tokens its only stretch success. The best BCAP recipe
+passes 3/10 required tasks; BISPF and FastWeight-BCAP reach 1/10 each, while
+Global-Stream-BCAP and KA2 reach 0/10. Retain the feature-prior recipe as the
+global reference for the required suite. Dense images, held-out kernels and
+addition, robotics dynamics and unseen-speed rollout remain numerical failures;
+the required result does not establish those capabilities.
+
+Six linked family pages explain the methods and every exact recipe, including
+effective settings, parent deltas, gates, sustained checks and actual-training
+GIFs. Fourteen historical declarations remain read-only with links to their
+strict online successors; their stale evidence is not displayed as a fresh
+zero score. Scores always belong to one complete recipe, without per-task
+selection.
+
+Validation: 523 regression tests pass, including regrading every fresh receipt,
+checking source bindings, shared recipes, batch/RNG contracts, simulator traces
+and all 24 GIF frames and hashes. All 20 oracle controls pass and all 45
+destructive controls fail. All 4,133 local links, including 2,138 exact section
+anchors across the inventory and six family pages, resolve.
