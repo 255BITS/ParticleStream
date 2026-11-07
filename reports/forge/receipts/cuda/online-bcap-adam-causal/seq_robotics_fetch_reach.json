@@ -1,0 +1,770 @@
+{
+  "all_finite": true,
+  "artifacts": {
+    "compute": {
+      "critic_parameters": 9473,
+      "cuda_peak_allocated_bytes": 9327104,
+      "evaluation_d_forwards": 0,
+      "evaluation_g_forwards": 1536,
+      "evaluation_seconds": 1.6038281170040136,
+      "generator_parameters": 6385,
+      "optimizer_updates": 480,
+      "process_peak_rss_kib": 2524152,
+      "serving_d_forwards": 0,
+      "serving_g_forwards": 480,
+      "training_and_evaluation_seconds": 7.614634643003228,
+      "training_d_forwards": 2880,
+      "training_g_forwards": 960
+    },
+    "controls": {
+      "opposite_action_oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 0.08333333333333333,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 0.033332071630872796,
+          "relative_mse": 3.9534124290780053
+        },
+        "verdict": "FAIL"
+      },
+      "oracle": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 1.0,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 4.52500945972402e-09,
+          "relative_mse": 7.285955146004134e-14
+        },
+        "verdict": "PASS"
+      },
+      "persistence": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 0.0,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 0.016763945675317568,
+          "relative_mse": 1.0
+        },
+        "verdict": "FAIL"
+      },
+      "reversed_motion": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 0.0,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 0.03352788939838995,
+          "relative_mse": 3.9999995341800396
+        },
+        "verdict": "FAIL"
+      },
+      "shuffled_targets": {
+        "metrics": {
+          "finite_fraction": 1.0,
+          "moving_coordinate_fraction": 1.0,
+          "moving_direction_accuracy": 0.5,
+          "persistence_rmse_m": 0.016763945675317568,
+          "position_delta_rmse_m": 0.02170617436292645,
+          "relative_mse": 1.6765406387345876
+        },
+        "verdict": "FAIL"
+      }
+    },
+    "eval_reset_seeds": [
+      1333029562,
+      1174574595,
+      5166377,
+      1915005213
+    ],
+    "evaluation_cases": 16,
+    "gif_sha256": "5ae05f19134b32e988ba7328cfafed4e4ee0828e50567129144603347b2c1808",
+    "goal_gif": "gifs/online-bcap-adam-causal_seq_robotics_fetch_reach.gif",
+    "implementation": {
+      "_build_recipe": "deb6eb3635ce86cb6ff19b149b93a24b260d4fd6dbcae873dd62e8e363783048",
+      "_init_module": "bfd182f41558d7bfe4287b00f9233248ddaedf515f4b3169923b05418033fad2",
+      "balanced_transport.py": "f0ce6eeeeaa1bbf69d0ed3b3f263b58bad64351e46485315c85ea19b631397c3",
+      "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
+      "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
+      "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
+      "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
+      "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
+      "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
+      "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
+      "robotics_adapter.py": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+      "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
+      "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+    },
+    "memory_policy": {
+      "age_horizon": 8.0,
+      "association_weight": 0.125,
+      "change_threshold": 0.04,
+      "context_scale": 3.0,
+      "contrast_threshold": 0.03,
+      "decay": 0.9,
+      "dim": 16,
+      "kind": "fast_weight",
+      "reader": "causal_state",
+      "rehearsal_batch": 0,
+      "replay_policy": "none",
+      "reservoir_size": 64,
+      "write_lr": 0.35
+    },
+    "online_execution": {
+      "arrivals": 1440,
+      "episode_resets": 12,
+      "gradient_accumulation_steps": 1,
+      "live_predictions": 480,
+      "max_fake_batch": 1,
+      "max_real_batch": 1,
+      "observation_contract": "state_then_action_then_predict_then_simulator_step_then_target_v1",
+      "replayed_examples": 0,
+      "source_only_arrivals": 960,
+      "target_arrivals": 480,
+      "target_memory_writes": 0,
+      "updates": 480,
+      "warmup_arrivals": 960
+    },
+    "particlegan_version": "0.9.7",
+    "recipe_delta": {},
+    "resolved_recipe": {
+      "adam_variant": "pytorch",
+      "alpha_bar": [
+        1.0,
+        0.9,
+        0.5,
+        0.05,
+        0.0001
+      ],
+      "amsgrad": false,
+      "batch_size": 1,
+      "beta2_anneal_end": 0.2,
+      "beta2_end": null,
+      "betas": [
+        0.0,
+        0.999
+      ],
+      "birth_death_backend": "knn",
+      "birth_death_cells": 64,
+      "birth_death_chunk": 256,
+      "birth_death_feature_scale": "none",
+      "birth_death_isolation": false,
+      "birth_death_metric_rank": 8,
+      "birth_death_parent_policy": "real_anchor",
+      "birth_death_space": "data",
+      "bispf_gate_overrides": [],
+      "bispf_shape_gates": true,
+      "conditioning": "scalar",
+      "constraint_geometry_mode": "none",
+      "continuous_policy": null,
+      "critic_formulation": "bcap",
+      "critic_payoff_damping": true,
+      "critic_r1_real": true,
+      "critic_step_mode": "none",
+      "d_betas": null,
+      "d_eps": null,
+      "d_guard_min_steps": 200,
+      "d_guard_ratio": 0.0,
+      "d_lr_mult": 1.0,
+      "direct_particle_betas": [
+        0.0,
+        0.9
+      ],
+      "direct_particle_gain": false,
+      "distance_reduction": "sum",
+      "ebi_beta": 30.0,
+      "ema_decay": 0.0,
+      "encoder_mode": "none",
+      "eps": 1e-08,
+      "generator_gradient_response": "none",
+      "input_noise_anneal_end": 0.1,
+      "input_noise_std": 0.0,
+      "kappa_radial": 1.0,
+      "kinetic_transport_local_weight": 0.0,
+      "kinetic_transport_projections": 32,
+      "kinetic_transport_weight": 0.0,
+      "latent_damping_max_rate": 0.0,
+      "loss": "non_saturating",
+      "loss_labels": [
+        0.0,
+        1.0,
+        1.0
+      ],
+      "lr": 0.005,
+      "lr_anneal_start": 0.5,
+      "lr_control": "mobility",
+      "lr_decay_rate": 0.96,
+      "lr_decay_staircase": false,
+      "lr_decay_steps": 50000,
+      "lr_floor": 0.05,
+      "lr_schedule": "cosine",
+      "model": "gan",
+      "name": "bcap_adam",
+      "network_lr_floor": 0.05,
+      "network_lr_horizon_cap": null,
+      "num_classes": null,
+      "num_particles": 32,
+      "observation_sigma": 0.03,
+      "optimizer_adam_lr": null,
+      "optimizer_convolution": "none",
+      "optimizer_convolution_rule": "polar",
+      "optimizer_dense_profile": "default",
+      "optimizer_family": "adam",
+      "optimizer_momentum": 0.0,
+      "optimizer_smoothing": 0.0,
+      "optimizer_svd_backend": "native",
+      "output_noise_mode": "fixed",
+      "output_noise_std": 0.0,
+      "output_noise_warmup": 0.0,
+      "particle_birth_death": false,
+      "prior_betas": null,
+      "prior_code_law": "table",
+      "prior_coulomb_confinement": 0.35,
+      "prior_coulomb_neighbors": 8,
+      "prior_coulomb_softening": 0.1,
+      "prior_eps": null,
+      "prior_kind": "mog",
+      "prior_l2": 0.0,
+      "prior_lr_mult": 2.0,
+      "prior_proximal_strength": 0.0,
+      "prior_reg": 0.0,
+      "prior_reg_eps": 0.0001,
+      "prior_reg_target_std": 1.0,
+      "prior_regularizer": "vicreg",
+      "prior_sigreg_knots": 17,
+      "prior_sigreg_projections": 32,
+      "prior_update": "learned",
+      "reconstruction_weight": 1.0,
+      "reg_anchor_min_decay": 0.9,
+      "reg_anchor_weight": 0.0,
+      "reg_arm": "b_cap",
+      "reg_coeff": 1.0,
+      "reg_coeff_anneal_end": 0.2,
+      "reg_coeff_end": null,
+      "reg_every": 1,
+      "reg_kappa": 1.0,
+      "reopen_anchor": "hold",
+      "reopen_guard": null,
+      "reopen_signal": "data",
+      "routing_temperature": 0.25,
+      "row_evidence_exclude": true,
+      "row_evidence_gate": false,
+      "row_evidence_hold": true,
+      "row_evidence_hot": true,
+      "row_evidence_null": "theory",
+      "row_policy": "independent",
+      "serve_average": 0.0,
+      "sigma_rel": 0.0,
+      "standardize": false,
+      "table_release_rule": "any",
+      "total_steps": 480,
+      "training_precision": "float32",
+      "ucd_target": "class",
+      "ucd_weight": 0.02,
+      "z_dim": 8
+    },
+    "sampling": {
+      "best_of_n": false,
+      "eval_output_noise": "none",
+      "law": "four_clean_centers_v1",
+      "rows": [
+        0,
+        8,
+        16,
+        24
+      ],
+      "weights": "live"
+    },
+    "simulator_trace": "traces/online-bcap-adam-causal_seq_robotics_fetch_reach.json",
+    "simulator_trace_sha256": "a470baccfeaab1612ab9801368e4b388df93740b054e52173329a8e28ff9f2ac",
+    "simulator_versions": {
+      "gymnasium": "1.4.0",
+      "gymnasium-robotics": "1.4.2",
+      "mujoco": "3.3.7"
+    },
+    "torch_version": "2.15.0+cu132",
+    "training_reset_seeds": [
+      347600043,
+      730190647,
+      448176825,
+      1599429392,
+      1777597131,
+      605077033,
+      1705474202,
+      1130568848,
+      1898989781,
+      1917821091,
+      90589682,
+      1988856680
+    ]
+  },
+  "binding": {
+    "adapter_source_sha256": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
+    "candidate_fingerprint": "6cde8880c4e1141fe8c08e1b11834867a573b7a360c6fe5ee1c0834288fef9a3",
+    "device": "cuda",
+    "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
+    "namespace": "particlegan_forge",
+    "rng_version": "forge-rng-v1",
+    "seed": 0,
+    "task_fingerprint": "7f0573592861c638258509ced2d79b94ffd7985292e7e29709c7e183eabc282a"
+  },
+  "candidate_fingerprint": "6cde8880c4e1141fe8c08e1b11834867a573b7a360c6fe5ee1c0834288fef9a3",
+  "candidate_id": "online-bcap-adam-causal",
+  "cohort_key": "2c1a3269b1de5282d111b4b30e4bdf3601e3f324021c6193958f203c912cd76e",
+  "completed_at": "2026-11-07T16:21:09.053+00:00",
+  "completed_steps": 480,
+  "cost": {
+    "completed_steps": 480,
+    "timeout_seconds": 300,
+    "wall_seconds": 9.7878
+  },
+  "device": "cuda",
+  "error": null,
+  "execution_device": "cuda",
+  "grade": {
+    "failed_bounds": [
+      "position_delta_rmse_m <= 0.005",
+      "relative_mse <= 0.8"
+    ],
+    "live": {
+      "finite_fraction": 1.0,
+      "live_prequential_rmse_m": 0.009765787822220904,
+      "moving_coordinate_fraction": 1.0,
+      "moving_direction_accuracy": 0.7708333333333333,
+      "persistence_rmse_m": 0.016763945675317568,
+      "position_delta_rmse_m": 0.012070613477353982,
+      "relative_mse": 0.5184491859609863
+    },
+    "required_terminal_checks": 5,
+    "status": "FAIL",
+    "terminal_passing": 0
+  },
+  "live": {
+    "finite_fraction": 1.0,
+    "live_prequential_rmse_m": 0.009765787822220904,
+    "moving_coordinate_fraction": 1.0,
+    "moving_direction_accuracy": 0.7708333333333333,
+    "persistence_rmse_m": 0.016763945675317568,
+    "position_delta_rmse_m": 0.012070613477353982,
+    "relative_mse": 0.5184491859609863
+  },
+  "observations": [
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.027773850059660717,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.40104166666666663,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.0181189445347495,
+        "relative_mse": 1.1681895083743865
+      },
+      "step": 20
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.017354936434237925,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.4270833333333333,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.016959000313721967,
+        "relative_mse": 1.0234061131225591
+      },
+      "step": 40
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.017756485387719338,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.5885416666666666,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.015792977839174858,
+        "relative_mse": 0.8875147148652354
+      },
+      "step": 60
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.020792141351997518,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.65625,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.017187639533373166,
+        "relative_mse": 1.0511870068774452
+      },
+      "step": 80
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.020498457364544826,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.7916666666666666,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.012013821277556794,
+        "relative_mse": 0.5135820591741074
+      },
+      "step": 100
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.013892521822511727,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.828125,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.011277982316429591,
+        "relative_mse": 0.4525956014764426
+      },
+      "step": 120
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.013778468987434359,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.8333333333333333,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.011142559055262036,
+        "relative_mse": 0.44179154431360823
+      },
+      "step": 140
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.01438979853688487,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.6979166666666666,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.016424242906821703,
+        "relative_mse": 0.9598828432081752
+      },
+      "step": 160
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.016120652755047808,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.640625,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.020294781491068427,
+        "relative_mse": 1.4656027454345515
+      },
+      "step": 180
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.020581192215644244,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.6927083333333333,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.014651388428381597,
+        "relative_mse": 0.7638447093250634
+      },
+      "step": 200
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.01686126964408422,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.765625,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.016653471612540424,
+        "relative_mse": 0.9868634683038672
+      },
+      "step": 220
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.01826720554275412,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.796875,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.011005388086871015,
+        "relative_mse": 0.43098110872689466
+      },
+      "step": 240
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.012120720630029901,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.84375,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.009689521831948338,
+        "relative_mse": 0.33408132663392487
+      },
+      "step": 260
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.012608894739591125,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.71875,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.029417204772027725,
+        "relative_mse": 3.0792880572420773
+      },
+      "step": 280
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.014043753371220468,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.796875,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.013342875959606301,
+        "relative_mse": 0.6334996915316319
+      },
+      "step": 300
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.012584283195892424,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.8125,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.013550390911393248,
+        "relative_mse": 0.6533579182983518
+      },
+      "step": 320
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.011694385049374468,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.7708333333333333,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.013477128891793838,
+        "relative_mse": 0.6463120813092145
+      },
+      "step": 340
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.011893542960183658,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.8541666666666666,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.009498970438803725,
+        "relative_mse": 0.3210706318112634
+      },
+      "step": 360
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.013057243748947853,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.734375,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.01862392127786566,
+        "relative_mse": 1.2342120005983446
+      },
+      "step": 380
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.012834725190124163,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.7916666666666666,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.012987214625914368,
+        "relative_mse": 0.6001772728847243
+      },
+      "step": 400
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.014966395163805084,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.7708333333333333,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.017192493001251186,
+        "relative_mse": 1.0517807617909873
+      },
+      "step": 420
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.015019561212503455,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.78125,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.01294624427921728,
+        "relative_mse": 0.5963965260730505
+      },
+      "step": 440
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.012128130347987851,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.8229166666666666,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.010978654566582162,
+        "relative_mse": 0.428889833373578
+      },
+      "step": 460
+    },
+    {
+      "metrics": {
+        "finite_fraction": 1.0,
+        "live_prequential_rmse_m": 0.009765787822220904,
+        "moving_coordinate_fraction": 1.0,
+        "moving_direction_accuracy": 0.7708333333333333,
+        "persistence_rmse_m": 0.016763945675317568,
+        "position_delta_rmse_m": 0.012070613477353982,
+        "relative_mse": 0.5184491859609863
+      },
+      "step": 480
+    }
+  ],
+  "rng_manifest": {
+    "bindings": {
+      "[\"data\",\"robotics\",\"training_episodes\",\"cpu\"]": {
+        "component": "robotics",
+        "device": "cpu",
+        "family": "data",
+        "initial_state_sha256": "f3c6e838b46e081dcfe1d36c71239e96b3a2d012dd5e004f723c4af89ff93f85",
+        "purpose": "training_episodes",
+        "seed": 127667461163791240
+      },
+      "[\"eval\",\"robotics\",\"heldout_episodes\",\"cpu\"]": {
+        "component": "robotics",
+        "device": "cpu",
+        "family": "eval",
+        "initial_state_sha256": "59bc7ed43b51baf36ab2f9e5227af6583d67a7abd42cf6a906205cd30443bef9",
+        "purpose": "heldout_episodes",
+        "seed": 2775573067441982096
+      },
+      "[\"eval\",\"robotics\",\"probes\",\"cuda:0\"]": {
+        "component": "robotics",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1c663e46dbbbe267fc70c1d9314404669feea950ae6057de564e4b32704107fb",
+        "purpose": "probes",
+        "seed": 7411305532687040837
+      },
+      "[\"eval\",\"sampler\",\"samples\",\"cuda:0\"]": {
+        "component": "sampler",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "1696aa08e2307f28df002755027ee2e7b1999300dac2855f214caa1842a2b301",
+        "purpose": "samples",
+        "seed": 212130830619035767
+      },
+      "[\"eval\",\"serving\",\"prediction\",\"cuda:0\"]": {
+        "component": "serving",
+        "device": "cuda:0",
+        "family": "eval",
+        "initial_state_sha256": "c46c5d9ee1c405db09951e336788056ccbb29719f2d1a6d64100950c09abb2ac",
+        "purpose": "prediction",
+        "seed": 5356185404323691715
+      },
+      "[\"init\",\"models\",\"construction\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "55b33e08dd400591b22146dd35ca6cdc007581e35738b13e956c74cf7cca7e71",
+        "purpose": "construction",
+        "seed": 6120719211400045491
+      },
+      "[\"init\",\"prior\",\"locations\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "init",
+        "initial_state_sha256": "be549c3d68d477f9d11434e663fdbefe2526571de4de86123a84ae9dc23e86a2",
+        "purpose": "locations",
+        "seed": 2562565386842645502
+      },
+      "[\"noise\",\"critic\",\"input\",\"cuda:0\"]": {
+        "component": "critic",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "2d5d779ef1c19f73abf72075c1cfeb70b935201245568680a1edc2c37cab0465",
+        "purpose": "input",
+        "seed": 5961379833291764029
+      },
+      "[\"noise\",\"generator\",\"output\",\"cuda:0\"]": {
+        "component": "generator",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "9b325c7520a99d3d27a37b6ef50971e3bfa9f1b12caf5e7a8819ae7e692cfcc1",
+        "purpose": "output",
+        "seed": 9214932872906931917
+      },
+      "[\"noise\",\"models\",\"stochastic_layers\",\"cuda:0\"]": {
+        "component": "models",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "4c3a40416441f175f5294136bd6bc4582ecd9e17ff5b5ee0292338e228afeaee",
+        "purpose": "stochastic_layers",
+        "seed": 4481608677977550636
+      },
+      "[\"noise\",\"penalty\",\"training\",\"cuda:0\"]": {
+        "component": "penalty",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "7e3e442dbb5124abf6e6e1e6e81000ab789c8aa11578d6a6b88a72beadfa3c83",
+        "purpose": "training",
+        "seed": 7930995805460461310
+      },
+      "[\"noise\",\"prior\",\"gaussian\",\"cuda:0\"]": {
+        "component": "prior",
+        "device": "cuda:0",
+        "family": "noise",
+        "initial_state_sha256": "46a0fb6a2510c83ebfa98bc289a73c096cc0fa24f40136bb998b0edecd8871e5",
+        "purpose": "gaussian",
+        "seed": 939191808430552031
+      },
+      "[\"prior\",\"latent\",\"indices\",\"cuda:0\"]": {
+        "component": "latent",
+        "device": "cuda:0",
+        "family": "prior",
+        "initial_state_sha256": "aa2f89742ac1d2c95ef3379ad9ba7a080c557c66258f9dff0dabf5d85a6db3cc",
+        "purpose": "indices",
+        "seed": 5876435880110660064
+      }
+    },
+    "runtime": {
+      "rng": "torch.Generator",
+      "torch": "2.15.0+cu132"
+    },
+    "seed": 0,
+    "version": "forge-rng-v1"
+  },
+  "schema_version": 2,
+  "seed": 0,
+  "task_fingerprint": "7f0573592861c638258509ced2d79b94ffd7985292e7e29709c7e183eabc282a",
+  "task_id": "seq_robotics_fetch_reach",
+  "technique": "BCAP",
+  "terminal_passing": 0,
+  "timestamp": "2026-11-07T16:21:09.053+00:00",
+  "unintended_rng_deviations": 0,
+  "verdict": "FAIL"
+}
