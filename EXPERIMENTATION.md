@@ -211,6 +211,32 @@ particlestream validate
 particlestream compare --device cuda
 ```
 
+For a full current inventory, measure every declared strict online recipe on
+every task, including Tier 2 and Tier 3 stretch probes:
+
+```sh
+particlestream compare --all-tasks --device cuda
+# If interrupted, reuse only unchanged source-bound receipts from this refresh:
+particlestream compare --all-tasks --resume --device cuda
+# Regenerate the inventory and linked technique explanations without training:
+particlestream compile --device cuda
+```
+
+The full refresh validates oracle and destructive controls for every task,
+then executes one recipe/task at a time with batch size 1 and protocol seed 0.
+It continues after numerical FAIL to measure independent stretch capabilities;
+INVALID or INCOMPLETE execution stops the refresh for repair. This measurement
+policy leaves required-tier qualification gates unchanged. A refresh audit
+records progress, receipt hashes and training-GIF hashes. Resume checks the
+declarations, current source bindings and artifact hashes before reusing a run.
+Historical replay declarations retain their artifacts and link to their strict
+online successors; they receive no score under the current execution contract.
+
+The single generated inventory links to six technique explanations, every exact
+recipe's parent delta and configuration, and task evidence with gates, terminal
+checks, receipts, completion times and actual-training GIFs. Representative rows
+select one complete global recipe per technique, never a mixture of task winners.
+
 Select an individual global recipe with:
 
 ```sh
