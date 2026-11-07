@@ -520,7 +520,7 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **FAIL**, 0/10 required passes (10 measured), 0/10 stretch passes (4 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 0/10 required passes (10 measured), 0/10 stretch passes (10 measured); qualified tier 0.
 
 Receipt identity: candidate_fingerprint `0701ee63be1d12ebd448ee4654f76d102e21cb1c75894f255aa8c85f2115f5d9`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
@@ -561,18 +561,18 @@ Receipt identity: candidate_fingerprint `0701ee63be1d12ebd448ee4654f76d102e21cb1
 | --- | --- | --- | --- | --- | --- |
 | [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.32884`; `seen_max_abs_error=0.98452`; `heldout_response_rmse=0.2448`; `heldout_max_abs_error=0.65409`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-ka2-ready-causal/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-ka2-ready-causal_seq_minimal_kernel2x2.gif) | 2026-11-07T18:11:42.207+00:00 |
 | [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=0.083333`; `seen_min_bit_confidence=0`; `heldout_exact_accuracy=0`; `heldout_min_bit_confidence=0`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9; seen_exact_accuracy == 1.0; seen_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-ka2-ready-causal/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-ka2-ready-causal_seq_minimal_addition2bit.gif) | 2026-11-07T18:11:47.744+00:00 |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.010776`; `relative_mse=0.41319`; `moving_direction_accuracy=0.83333`; `finite_fraction=1`; failed terminal bounds: position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-ka2-ready-causal/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-ka2-ready-causal_seq_robotics_fetch_reach.gif) | 2026-11-07T18:11:59.329+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.012784`; `relative_mse=1.0889`; `moving_direction_accuracy=0.61628`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-ready-causal/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-ka2-ready-causal_seq_robotics_fetch_push.gif) | 2026-11-07T18:12:11.255+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0095461`; `relative_mse=0.55465`; `moving_direction_accuracy=0.68137`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-ready-causal/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-ka2-ready-causal_seq_robotics_fetch_slide.gif) | 2026-11-07T18:12:23.052+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 0/5 | `position_delta_rmse_m=0.006747`; `relative_mse=0.29002`; `moving_direction_accuracy=0.6886`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-ka2-ready-causal/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-ka2-ready-causal_seq_robotics_fetch_pick_and_place.gif) | 2026-11-07T18:12:34.944+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0096744`; `relative_mse=1.3844`; `moving_direction_accuracy=0.54673`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-ready-causal/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-ka2-ready-causal_seq_robotics_hand_reach.gif) | 2026-11-07T18:12:46.576+00:00 |
 
 <a id="online-ka2-ready-causal-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.83537`; `interpolation_speed_error=0.65705`; `interpolation_raw_rmse=0.073697`; `interpolation_point_validity=0`; `interpolation_direction_accuracy=0.45833`; `extrapolation_centroid_rmse=0.95494`; `extrapolation_speed_error=0.77428`; `extrapolation_raw_rmse=0.070665`; `extrapolation_point_validity=0`; `extrapolation_direction_accuracy=0.39583`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-ka2-ready-causal/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-ka2-ready-causal_seq_minimal_velocity_extrapolation.gif) | 2026-11-07T18:12:58.743+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-ka2-ready-causal --device cuda`.
 
@@ -609,7 +609,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 0/10 required passes (10 measured), 0/10 stretch passes (10 measured); qualified tier 0.
+
+Receipt identity: candidate_fingerprint `1809eab877b64696bef1d478285799865b8bfdb15f3199b4c751d3895588cfe2`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-ka2-stateless-required"></a>
 ### Required evidence
@@ -619,16 +621,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, engine_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **FAIL** | 0/5 | `hq=0.8125`; `modes=4`; `finite_template_tv=0.1875`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.9 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_round_robin_bars4.gif) | 2026-11-07T18:13:07.444+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_dwell_bars4.gif) | 2026-11-07T18:13:15.403+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **FAIL** | 0/5 | `next_frame_rmse=0.36696`; `direction_acc=0.5`; failed terminal bounds: direction_acc >= 0.9; next_frame_rmse <= 0.12 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_translating_bar_next.gif) | 2026-11-07T18:13:24.076+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **FAIL** | 0/5 | `hq=0.375`; `within_state_modes=1`; `branch_tv=0.625`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_fork_rollout.gif) | 2026-11-07T18:13:32.849+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **FAIL** | 0/5 | `hq=0`; `modes=0`; `finite_template_tv=1`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_variable_dwell_bars4.gif) | 2026-11-07T18:13:40.649+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **FAIL** | 0/5 | `hq=0.71875`; `finite_template_tv=0.28125`; `support_modes=3`; `rare_mass=0`; `rare_mass=0`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.85; rare_mass >= 0.03125; support_modes == 4.0 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_rare_mode_bars4.gif) | 2026-11-07T18:13:48.543+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **FAIL** | 0/5 | `outcome_accuracy=0.5`; `prediction_rmse=0.29904`; failed terminal bounds: outcome_accuracy >= 0.9; prediction_rmse <= 0.12 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_delayed_cue.gif) | 2026-11-07T18:13:57.357+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **FAIL** | 0/5 | `hq=0`; `within_state_modes=0`; `branch_tv=1`; `trajectory_consistency=0`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; trajectory_consistency >= 0.95; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_persistent_fork.gif) | 2026-11-07T18:14:08.009+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **FAIL** | 0/5 | `orbit_rmse=0.26284`; `xy_rmse=1.0355`; `step_accuracy=0.011719`; `orbit_completion=0`; `waypoint_modes=2`; failed terminal bounds: orbit_completion >= 0.9; orbit_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_circle_orbit.gif) | 2026-11-07T18:14:20.535+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **FAIL** | 0/5 | `cycle_rmse=0.2636`; `s2c_rmse=0.25524`; `c2s_rmse=0.27196`; `xy_rmse=1.2435`; `step_accuracy=0`; `cycle_completion=0`; `waypoint_modes=0`; failed terminal bounds: c2s_rmse <= 0.12; cycle_completion >= 0.9; cycle_rmse <= 0.12; s2c_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-ka2-stateless/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-ka2-stateless_seq_img_square_circle_cycle.gif) | 2026-11-07T18:14:42.076+00:00 |
 
 <a id="online-ka2-stateless-stretch"></a>
 ### Stretch evidence
@@ -638,28 +640,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-ka2-stateless/seq_minimal_dense4.json) · [goal.gif](../gifs/online-ka2-stateless_seq_minimal_dense4.gif) | 2026-11-07T18:14:45.566+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.1; modes == 4.0; valid_fraction == 1.0 | [receipt](../receipts/cuda/online-ka2-stateless/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-ka2-stateless_seq_minimal_tokens4.gif) | 2026-11-07T18:14:49.202+00:00 |
 
 <a id="online-ka2-stateless-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.48256`; `seen_max_abs_error=0.99991`; `heldout_response_rmse=0.40767`; `heldout_max_abs_error=0.69991`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-ka2-stateless/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-ka2-stateless_seq_minimal_kernel2x2.gif) | 2026-11-07T18:14:54.455+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=0.083333`; `seen_min_bit_confidence=1.452e-29`; `heldout_exact_accuracy=0`; `heldout_min_bit_confidence=1.452e-29`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9; seen_exact_accuracy == 1.0; seen_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-ka2-stateless/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-ka2-stateless_seq_minimal_addition2bit.gif) | 2026-11-07T18:14:59.765+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.016972`; `relative_mse=1.025`; `moving_direction_accuracy=0.5`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-stateless/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-ka2-stateless_seq_robotics_fetch_reach.gif) | 2026-11-07T18:15:10.598+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.014519`; `relative_mse=1.4045`; `moving_direction_accuracy=0.5`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-stateless/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-ka2-stateless_seq_robotics_fetch_push.gif) | 2026-11-07T18:15:21.629+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.013528`; `relative_mse=1.1139`; `moving_direction_accuracy=0.80392`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-stateless/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-ka2-stateless_seq_robotics_fetch_slide.gif) | 2026-11-07T18:15:32.581+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 0/5 | `position_delta_rmse_m=0.013106`; `relative_mse=1.0944`; `moving_direction_accuracy=0.59649`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-stateless/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-ka2-stateless_seq_robotics_fetch_pick_and_place.gif) | 2026-11-07T18:15:43.754+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0092311`; `relative_mse=1.2604`; `moving_direction_accuracy=0.51519`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-stateless/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-ka2-stateless_seq_robotics_hand_reach.gif) | 2026-11-07T18:15:54.619+00:00 |
 
 <a id="online-ka2-stateless-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.85724`; `interpolation_speed_error=0.66188`; `interpolation_raw_rmse=0.073697`; `interpolation_point_validity=0`; `interpolation_direction_accuracy=0.16667`; `extrapolation_centroid_rmse=0.98437`; `extrapolation_speed_error=0.77438`; `extrapolation_raw_rmse=0.070665`; `extrapolation_point_validity=0`; `extrapolation_direction_accuracy=0.16667`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-ka2-stateless/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-ka2-stateless_seq_minimal_velocity_extrapolation.gif) | 2026-11-07T18:16:04.046+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-ka2-stateless --device cuda`.
 
@@ -732,7 +734,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **FAIL**, 0/10 required passes (10 measured), 0/10 stretch passes (10 measured); qualified tier 0.
+
+Receipt identity: candidate_fingerprint `a7991f5d609eecac7ac238f2fe544aa4a28ccd78556ffca825ba4b95bafab8be`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-ka2-transport-causal-required"></a>
 ### Required evidence
@@ -742,16 +746,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **FAIL** | 0/5 | `hq=0.59375`; `modes=4`; `finite_template_tv=0.40625`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.9 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_round_robin_bars4.gif) | 2026-11-07T18:16:17.012+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **FAIL** | 0/5 | `hq=0.65625`; `modes=2`; `finite_template_tv=0.46875`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85; modes == 4.0 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_dwell_bars4.gif) | 2026-11-07T18:16:29.189+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **FAIL** | 0/5 | `next_frame_rmse=0.25993`; `direction_acc=0.60938`; failed terminal bounds: direction_acc >= 0.9; next_frame_rmse <= 0.12 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_translating_bar_next.gif) | 2026-11-07T18:16:42.248+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **FAIL** | 0/5 | `hq=0.59375`; `within_state_modes=2`; `branch_tv=0.40625`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_fork_rollout.gif) | 2026-11-07T18:16:55.611+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **FAIL** | 0/5 | `hq=0.40625`; `modes=4`; `finite_template_tv=0.59375`; failed terminal bounds: finite_template_tv <= 0.2; hq >= 0.85 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_variable_dwell_bars4.gif) | 2026-11-07T18:17:07.656+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **FAIL** | 0/5 | `hq=0.5625`; `finite_template_tv=0.4375`; `support_modes=4`; `rare_mass=0.03125`; `rare_mass=0.03125`; failed terminal bounds: finite_template_tv <= 0.15; hq >= 0.85 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_rare_mode_bars4.gif) | 2026-11-07T18:17:19.887+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **FAIL** | 0/5 | `outcome_accuracy=0.70312`; `prediction_rmse=0.27468`; failed terminal bounds: outcome_accuracy >= 0.9; prediction_rmse <= 0.12 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_delayed_cue.gif) | 2026-11-07T18:17:32.799+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **FAIL** | 0/5 | `hq=0.5625`; `within_state_modes=1`; `branch_tv=0.46875`; `trajectory_consistency=0.34375`; failed terminal bounds: branch_tv <= 0.2; hq >= 0.85; trajectory_consistency >= 0.95; within_state_modes == 2.0 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_persistent_fork.gif) | 2026-11-07T18:17:52.579+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **FAIL** | 0/5 | `orbit_rmse=0.15167`; `xy_rmse=0.52253`; `step_accuracy=0.36328`; `orbit_completion=0.03125`; `waypoint_modes=8`; failed terminal bounds: orbit_completion >= 0.9; orbit_rmse <= 0.12; step_accuracy >= 0.9; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_circle_orbit.gif) | 2026-11-07T18:18:14.397+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **FAIL** | 0/5 | `cycle_rmse=0.14255`; `s2c_rmse=0.12912`; `c2s_rmse=0.15599`; `xy_rmse=0.69742`; `step_accuracy=0.070312`; `cycle_completion=0`; `waypoint_modes=6`; failed terminal bounds: c2s_rmse <= 0.12; cycle_completion >= 0.9; cycle_rmse <= 0.12; s2c_rmse <= 0.12; step_accuracy >= 0.9; waypoint_modes == 8.0; xy_rmse <= 0.15 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_img_square_circle_cycle.gif) | 2026-11-07T18:18:54.703+00:00 |
 
 <a id="online-ka2-transport-causal-stretch"></a>
 ### Stretch evidence
@@ -761,28 +765,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_minimal_dense4.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_minimal_dense4.gif) | 2026-11-07T18:18:59.180+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **FAIL** | 0/5 | `valid_fraction=0.09375`; `modes=3`; `mass_tv=0.90625`; failed terminal bounds: mass_tv <= 0.1; modes == 4.0; valid_fraction == 1.0 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_minimal_tokens4.gif) | 2026-11-07T18:19:03.649+00:00 |
 
 <a id="online-ka2-transport-causal-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.36966`; `seen_max_abs_error=0.96026`; `heldout_response_rmse=0.28065`; `heldout_max_abs_error=0.65361`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_minimal_kernel2x2.gif) | 2026-11-07T18:19:11.200+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=0.20833`; `seen_min_bit_confidence=0`; `heldout_exact_accuracy=0.125`; `heldout_min_bit_confidence=0`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9; seen_exact_accuracy == 1.0; seen_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_minimal_addition2bit.gif) | 2026-11-07T18:19:18.358+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0094179`; `relative_mse=0.31562`; `moving_direction_accuracy=0.84896`; `finite_fraction=1`; failed terminal bounds: position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_robotics_fetch_reach.gif) | 2026-11-07T18:19:34.435+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.011078`; `relative_mse=0.81773`; `moving_direction_accuracy=0.69767`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_robotics_fetch_push.gif) | 2026-11-07T18:19:50.807+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0089335`; `relative_mse=0.48575`; `moving_direction_accuracy=0.76471`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_robotics_fetch_slide.gif) | 2026-11-07T18:20:07.154+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0044161`; `relative_mse=0.12425`; `moving_direction_accuracy=0.68421`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_robotics_fetch_pick_and_place.gif) | 2026-11-07T18:20:23.068+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0086015`; `relative_mse=1.0943`; `moving_direction_accuracy=0.58528`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_robotics_hand_reach.gif) | 2026-11-07T18:20:39.082+00:00 |
 
 <a id="online-ka2-transport-causal-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.82489`; `interpolation_speed_error=0.65216`; `interpolation_raw_rmse=0.07377`; `interpolation_point_validity=0`; `interpolation_direction_accuracy=0.5`; `extrapolation_centroid_rmse=0.96154`; `extrapolation_speed_error=0.76758`; `extrapolation_raw_rmse=0.071446`; `extrapolation_point_validity=0`; `extrapolation_direction_accuracy=0.45833`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-ka2-transport-causal/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-ka2-transport-causal_seq_minimal_velocity_extrapolation.gif) | 2026-11-07T18:20:54.574+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-ka2-transport-causal --device cuda`.
 
