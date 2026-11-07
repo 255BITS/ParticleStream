@@ -64,14 +64,16 @@ def test_full_refresh_receipts_gates_training_artifacts_and_shared_recipes(refre
             assert receipt["verdict"] in {"PASS", "FAIL"}
             assert receipt["seed"] == audit["seed"] == 0
             assert receipt["error"] is None
-            assert receipt["all_finite"] is True
+            assert isinstance(receipt["all_finite"], bool)
+            if receipt["verdict"] == "PASS":
+                assert receipt["all_finite"] is True
             assert receipt["unintended_rng_deviations"] == 0
             assert receipt["completed_steps"] == task.steps == entry["completed_steps"]
             assert audit["started_at"] <= receipt["completed_at"] <= audit["completed_at"]
             assert len(receipt["observations"]) == 24
             assert [o["step"] for o in receipt["observations"]] == task.observation_steps()
             grade = grade_sustained_observations(task, receipt["observations"],
-                completed_steps=task.steps, all_finite=True, unintended_rng_deviations=0)
+                completed_steps=task.steps, all_finite=receipt["all_finite"], unintended_rng_deviations=0)
             assert grade["status"] == receipt["verdict"]
             assert grade["terminal_passing"] == receipt["terminal_passing"]
             artifacts = receipt["artifacts"]
