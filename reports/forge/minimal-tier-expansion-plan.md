@@ -161,7 +161,7 @@ The source review used three subagents for generalization/continuation,
 convolution/discrete/math, and tier coverage/other capabilities. Relevant existing
 evidence includes [experiment memory](EXPERIMENT_MEMORY.md),
 [current tier declarations](EXPERIMENTS_BY_TIER.md),
-[ParticleGAN's tier policy](https://github.com/255BITS/ParticleGAN/blob/develop/EXPERIMENTATION.md#tiers-and-views),
+[ParticleGAN's tier policy](https://github.com/HyperGAN/ParticleGAN/blob/develop/EXPERIMENTATION.md#tiers-and-views),
 and [the online session](../../particlestream/online.py).
 
 The core task manifests, source/decoder adapters, scorers and controls are now
