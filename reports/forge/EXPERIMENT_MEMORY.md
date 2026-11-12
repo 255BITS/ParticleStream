@@ -1029,6 +1029,56 @@
   - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: stale receipt: task_fingerprint differ
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
 
+### `online-subspace-prior` (`SubspacePrior-BCAP`)
+- **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, New observed-feature conditional prior: fixed named deterministic orthogonal 8x64 encoder; at most 32 latent feature means and 64 observed-context outcome counts; learn statistics only after successful current-observation updates, Freeze storage prior; learned additive conditional transform preserves each sampled MoG perturbation and task capacity, samples empirical feature quantiles at nearest past context; no image output bypass or stored-frame replay, G-phase posterior encodes only the current arrived frame; BCE reconstruction weight 10 trains the unchanged image decoder; D and serving use learned conditional prior without current target or generator probes, Ablate associative-history context term; retain appearance, velocity, salient content and repetition age, Parametric residual conditional prior: online float64 Sherman-Morrison RLS affine predictor plus Mahalanobis precision spike-and-slab prototype transport and empirical-Bayes kernel-gated live residual quantiles replace 1-NN context lookup on unseen states, Markov bottleneck regularizer (context_bypass_weight=5.0) penalizes direct generator input-context shortcut weights so held-out predictions decode through the conditional latent prior, Unnormalized salient causal key projection (normalize_key=false, key_gain=0.5) preserves Euclidean superposition norm across compositional and continuous kinematic inputs while retaining contrast gating, Precision-whitened anchored Gram-Schmidt innovation subspace (subspace_dims=6, abs_tol=0.008, rel_tol=0.12, nu_0=0.10, feature_scale=2.1) plus 2-row deterministic JL tail eliminates blind 8x64 projection nullspace and 1:1 MoG Wiener attenuation without retroactive coordinate drift, Semiparametric continuous Nadaraya-Watson kernel-ridge residual (nw_weight=1.0, nw_bandwidth=0.65, nw_ridge=0.06) over unquantized per-bucket latent means gated by (1 - g_disc) captures local nonlinear dynamics alongside discrete quantiles, Single-arrival critic calming and posterior smoothing (d_lr_mult=0.02, reconstruction_weight=100.0, betas=[0.4, 0.999], lr=0.007, lr_anneal_start=0.55, lr_floor=0.06)
+- **Parent**: `online-residual-prior-linear-key`
+- **Status**: `INCOMPLETE` (`0/10` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_variable_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_rare_mode_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_delayed_cue` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+
+### `online-subspace-prior-fine-salience` (`SubspacePrior-BCAP`)
+- **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, New observed-feature conditional prior: fixed named deterministic orthogonal 8x64 encoder; at most 32 latent feature means and 64 observed-context outcome counts; learn statistics only after successful current-observation updates, Freeze storage prior; learned additive conditional transform preserves each sampled MoG perturbation and task capacity, samples empirical feature quantiles at nearest past context; no image output bypass or stored-frame replay, G-phase posterior encodes only the current arrived frame; BCE reconstruction weight 10 trains the unchanged image decoder; D and serving use learned conditional prior without current target or generator probes, Ablate associative-history context term; retain appearance, velocity, salient content and repetition age, Parametric residual conditional prior: online float64 Sherman-Morrison RLS affine predictor plus Mahalanobis precision spike-and-slab prototype transport and empirical-Bayes kernel-gated live residual quantiles replace 1-NN context lookup on unseen states, Markov bottleneck regularizer (context_bypass_weight=5.0) penalizes direct generator input-context shortcut weights so held-out predictions decode through the conditional latent prior, Unnormalized salient causal key projection (normalize_key=false, key_gain=0.5) preserves Euclidean superposition norm across compositional and continuous kinematic inputs while retaining contrast gating, Precision-whitened anchored Gram-Schmidt innovation subspace (subspace_dims=6, abs_tol=0.008, rel_tol=0.12, nu_0=0.10, feature_scale=2.1) plus 2-row deterministic JL tail eliminates blind 8x64 projection nullspace and 1:1 MoG Wiener attenuation without retroactive coordinate drift, Semiparametric continuous Nadaraya-Watson kernel-ridge residual (nw_weight=1.0, nw_bandwidth=0.65, nw_ridge=0.06) over unquantized per-bucket latent means gated by (1 - g_disc) captures local nonlinear dynamics alongside discrete quantiles, Single-arrival critic calming and posterior smoothing (d_lr_mult=0.02, reconstruction_weight=100.0, betas=[0.4, 0.999], lr=0.007, lr_anneal_start=0.55, lr_floor=0.06), Lower causal salience contrast threshold (contrast_threshold=0.002) so sparse 4-of-64-pixel precision continuous actions remain salient near contact while exact zero-contrast distractors stay gated
+- **Parent**: `online-subspace-prior`
+- **Status**: `INCOMPLETE` (`0/10` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_variable_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_rare_mode_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_delayed_cue` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+
 ### `stream-bcap` (`BCAP`)
 - **Changed factors**: ParticleGAN 0.9.6 public bcap trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)
 - **Status**: `INCOMPLETE` (`0/10` required passes, qualified tier 0)

@@ -21,6 +21,174 @@ TRAINING_DETAILS = (
 
 
 FAMILY_DOCUMENTATION = {
+    "SubspacePrior-BCAP": {
+        "overview": (
+            "SubspacePrior-BCAP extends ResidualPrior-BCAP (`SubspaceResidualConditionalReconstruction`) to "
+            "eliminate two coupled bottlenecks of fixed-projection online priors under strict `batch_size=1` "
+            "streaming (`replay_policy=\"none\"`): (1) blind `8×64` random-projection nullspace loss and 1:1 MoG "
+            "Wiener attenuation on millimetre physical displacements, solved by causally anchoring up to "
+            "$K_{\\mathrm{sub}}=6$ orthonormal two-pass Gram-Schmidt innovation directions with fixed discovery-time "
+            "precision-whitening gains alongside a 2-row deterministic Johnson-Lindenstrauss tail; and (2) global "
+            "hyperplane collapse on piecewise-nonlinear continuous dynamics, solved by recording exact unquantized "
+            "per-bucket latent means and adding a smooth Nadaraya-Watson kernel-ridge residual gated by $(1-g_{\\mathrm{disc},t})$."
+        ),
+        "symbols": (
+            "$G$ is the task-owned residual generator with input layer $W_{\\mathrm{fc}}=[W_z,\\,W_{\\mathrm{ctx}}]$, "
+            "$D$ the raw-score convolutional critic, and $P$ the frozen $K$-row `MoGParticlePrior` ($K=32$, $d_z=8$, "
+            "$\\sigma=0.025$) with base centers $\\mu_i^{\\mathrm{base}}\\in\\mathbb R^{d_z}$. At step $t$, "
+            "$x_t\\in[0,1]^{1\\times 8\\times 8}$ is the single arriving frame, $v_t=\\bar x_t-c_0\\mathbf 1_{64}\\in\\mathbb R^{64}$ "
+            "($c_0=0.5$), $E_0\\in\\mathbb R^{d_z\\times 64}$ is the deterministic orthogonal fallback matrix, "
+            "$K_{\\mathrm{sub}}=6$ is the anchored subspace capacity, $u_j\\in\\mathbb R^{64}$ and $g_j>0$ ($0\\le j<k_t\\le K_{\\mathrm{sub}}$) "
+            "are committed unit innovation basis vectors and fixed precision-whitening gains ($\\tau_{\\mathrm{abs}}=0.008$, "
+            "$\\tau_{\\mathrm{rel}}=0.12$, $\\nu_0=0.10$, $s_f=2.1$). $c_{t-1}\\in\\mathbb R^{d_c}$ ($d_c=16$) is the "
+            "detached causal context ($\\tau_{\\mathrm{con}}\\in\\{0.03,0.002\\}$), $(W_t,P_t,S_t,q_t)$ are online `float64` "
+            "RLS and residual-covariance statistics ($\\lambda_{\\mathrm{rls}}=0.1$), $g_{\\mathrm{disc},t}\\in(0,1]$ is the "
+            "empirical-Bayes discreteness gate, and $(k_b^{\\mathrm{ctx}},V_b,\\bar z_b)$ are context keys, visit counts, "
+            "and exact unquantized latent means ($C_{\\max}=64$, $\\omega_{\\mathrm{nw}}=1.0$, $h_{\\mathrm{nw}}=0.65$, $\\kappa_{\\mathrm{nw}}=0.06$)."
+        ),
+        "equations": [
+            {
+                "label": "Precision-Whitened Anchored Gram-Schmidt Innovation Subspace and JL Tail",
+                "latex": (
+                    "\\begin{aligned}"
+                    "r_t&=\\Big(I-U_{k_{t-1}}U_{k_{t-1}}^\\top\\Big)^2 v_t,\\qquad "
+                    "\\mathcal I_t=\\mathbb I\\!\\left[k_{t-1}<K_{\\mathrm{sub}}\\;\\wedge\\;\\lVert r_t\\rVert_2>\\tau_{\\mathrm{abs}}\\;"
+                    "\\wedge\\;\\frac{\\lVert r_t\\rVert_2}{\\lVert v_t\\rVert_2+10^{-3}}>\\tau_{\\mathrm{rel}}\\right],\\\\"
+                    "u_{k_{t-1}}&=\\frac{r_t}{\\lVert r_t\\rVert_2},\\qquad "
+                    "g_{k_{t-1}}=\\big(\\lVert r_t\\rVert_2^2+\\nu_0^2\\big)^{-1/2}\\quad(\\text{anchored once when }\\mathcal I_t=1),\\\\"
+                    "\\phi_t(x)&=s_f\\begin{bmatrix}\\operatorname{diag}(g_{0:k_t-1})U_{k_t}^\\top\\\\0_{(K_{\\mathrm{sub}}-k_t)\\times 64}\\\\"
+                    "E_{0,\\,K_{\\mathrm{sub}}:d_z}\\end{bmatrix}(\\bar x-c_0\\mathbf 1_{64})."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Two-pass classical Gram-Schmidt orthogonalization in `float64` captures exact active target "
+                    "subspaces while the dimensionless relative innovation gate $\\tau_{\\mathrm{rel}}=0.12$ rejects isotropic "
+                    "sensor noise ($\\rho\\approx 0.027$) without blocking 6-DoF gripper-and-object displacements ($\\rho\\ge 0.20$). "
+                    "Because $u_k\\perp\\operatorname{span}(u_0,\\dots,u_{k-1})$ and $(u_k,g_k)$ never mutate once committed, "
+                    "earlier coordinates suffer zero retroactive drift, high-contrast images ($\\lVert r\\rVert_2\\approx 4$) stay near "
+                    "norm $s_f\\approx 2.1$, and millimetre displacements ($\\lVert r\\rVert_2\\approx 0.08$) gain $\\sim 6.25\\times$ SNR over $\\sigma=0.025$."
+                ),
+            },
+            {
+                "label": "Dual-Regime Semiparametric RLS, Spike-and-Slab, and Nadaraya-Watson Residual Prior",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\omega_b(c)&=\\min(V_b,4)\\exp\\!\\left(-\\frac{\\lVert c-k_b^{\\mathrm{ctx}}\\rVert_2^2}{2h_{\\mathrm{nw}}^2}\\right),\\qquad "
+                    "\\hat r_{\\mathrm{nw}}(c)=\\frac{\\sum_{b=0}^{B_t-1}\\omega_b(c)\\big(\\bar z_b-W_t\\bar k_b^{\\mathrm{ctx}}\\big)}"
+                    "{\\kappa_{\\mathrm{nw}}+\\sum_{b=0}^{B_t-1}\\omega_b(c)},\\\\"
+                    "\\hat z_{\\mathrm{base}}(c)&=\\hat z_{\\mathrm{ctx}}(c)+\\omega_{\\mathrm{nw}}(1-g_{\\mathrm{disc},t})\\hat r_{\\mathrm{nw}}(c),\\qquad "
+                    "z_i^{\\mathrm{cond}}(c)=\\hat z_{\\mathrm{base}}(c)+\\gamma_t(c)\\big(\\hat\\mu_{q(i,b^*)}-\\hat z_{\\mathrm{ctx}}(k_{b^*}^{\\mathrm{ctx}})\\big)+\\epsilon_i."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Each context bucket maintains its exact unquantized latent mean $\\bar z_b\\in\\mathbb R^{d_z}$ alongside "
+                    "discrete prototype counts. On continuous manifolds ($g_{\\mathrm{disc},t}\\to 0$), $(1-g_{\\mathrm{disc},t})\\hat r_{\\mathrm{nw}}(c)$ "
+                    "interpolates piecewise-nonlinear contact, grasp, and friction residuals near visited states while shrinking "
+                    "via $\\kappa_{\\mathrm{nw}}=0.06$ to global linear RLS far out-of-distribution; on discrete multimodal tasks "
+                    "($g_{\\mathrm{disc},t}\\to 1$), exact empirical branch quantiles remain untouched."
+                ),
+            },
+            {
+                "label": "Fine-Salience Unnormalized Causal Reader",
+                "latex": (
+                    "\\begin{aligned}"
+                    "s_t&=\\mathbb I\\!\\left[\\operatorname{rms}(\\bar x_t-\\operatorname{mean}(\\bar x_t)\\mathbf 1_{64})\\ge\\tau_{\\mathrm{con}}\\right],\\qquad "
+                    "k_t=s_t\\,g_k W_k\\tilde x_t,\\qquad "
+                    "f_t=k_t+\\tfrac12(k_t-k_{t-1})+(1-s_t)r_{t-1}."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Sparse 4-pixel-out-of-64 robotics action frames carry RMS contrast $\\frac14\\lVert 0.125\\,a\\rVert_2$, "
+                    "which falls below $\\tau_{\\mathrm{con}}=0.03$ whenever $\\lVert a\\rVert_2<0.96$ during precision grasp and "
+                    "hold phases. Lowering $\\tau_{\\mathrm{con}}$ from $0.03$ (`online-subspace-prior`) to $0.002$ "
+                    "(`online-subspace-prior-fine-salience`) preserves fine control actions down to $\\lVert a\\rVert_2\\approx 0.064$ "
+                    "while still gating exact zero-contrast uniform distractors on delayed-cue memory streams."
+                ),
+            },
+            {
+                "label": "Critic-Calmed Single-Arrival Adversarial and Markov-Bottlenecked Posterior Objectives",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\mathcal L_D&=\\operatorname{softplus}(-D(x_t,c_{t-1}))+\\operatorname{softplus}(D(\\hat x_D,c_{t-1}))+"
+                    "\\frac{\\lambda}{2}\\Big[(\\lVert g_r\\rVert_2-\\kappa)_+^2+(\\lVert g_f\\rVert_2-\\kappa)_+^2\\Big],\\\\"
+                    "\\mathcal L_G&=\\operatorname{softplus}(-D(\\hat x_G,c_{t-1}))+\\lambda_{\\mathrm{rec}}\\,\\operatorname{BCE}(\\hat x_G,x_t)+"
+                    "\\lambda_{\\mathrm{ctx}}\\,\\lVert W_{\\mathrm{ctx}}\\rVert_F^2."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Pairing critic step-size calming (`d_lr_mult=0.02`), stronger BCE posterior anchoring "
+                    "($\\lambda_{\\mathrm{rec}}=100$, $\\lambda_{\\mathrm{ctx}}=5$), and causal Adam first-moment smoothing "
+                    "($\\beta_1=0.4$, $\\eta=0.007$) prevents single-arrival critic gradients and shared convolutional bias "
+                    "oscillations from perturbing previously acquired modes without replaying historical frames."
+                ),
+            },
+        ],
+        "pseudocode": [
+            "Initialize fallback orthogonal encoder E_0, empty Gram-Schmidt subspace (k_0 = 0), float64 RLS (W_0 = 0, P_0 = I / lambda_rls), and empty prototype/context tables.",
+            "For each chronological single-arrival step t (batch_size = 1, replay = none):",
+            "  Before revealing x_t, serve y_hat = G(z_cond(i_serve, c_{t-1}), c_{t-1}) under an isolated eval RNG.",
+            "  Reveal x_t; compute two-pass Gram-Schmidt residual r_t against U_{k_{t-1}} and stage (u_cand, g_cand) if ||r_t||_2 > tau_abs and ||r_t||_2 / (||v_t||_2 + 1e-3) > tau_rel.",
+            "  Encode current target phi_t(x_t) using committed rows, any staged innovation row, and trailing JL rows E_0[K_sub:d_z].",
+            "  Draw uniform row i_D; form z_D from RLS + spike-and-slab + (1 - g_disc) * r_nw(c_{t-1}) + gamma_t * quantile_residual + eps_{i_D}; update D at lr * 0.02 with BCAP cap.",
+            "  Draw uniform row i_G; form posterior z_G = phi_t(x_t) + eps_{i_G}; update G with non-saturating GAN + 100 * BCE + 5 * ||W_ctx||_F^2 using Adam (beta_1 = 0.4).",
+            "  After both optimizer steps succeed, commit any staged (u_cand, g_cand), update prototypes (<=32), context buckets and unquantized means z_bar_b (<=64), and rank-1 float64 RLS.",
+            "  Advance detached causal state c_t = CausalStateMemory.write(x_t) without storing or replaying frames.",
+        ],
+        "training_details": {
+            "loss": "Decoupled non-saturating logistic adversarial loss for $D$ and $G$, paired on $G$ with pixelwise BCE posterior reconstruction ($\\lambda_{\\mathrm{rec}}=100$) and Frobenius Markov-bottleneck regularization on direct generator context weights ($\\lambda_{\\mathrm{ctx}}=5$).",
+            "optimizer": "Native Adam via `bcap_adam` with causal first-moment smoothing ($\\beta_1=0.4$, $\\beta_2=0.999$). Base `MoGParticlePrior` is frozen (`prior_update=\"frozen\"`); subspace, RLS, and Nadaraya-Watson buffers update analytically without optimizer state.",
+            "learning_rates": "Generator base LR $0.007$ and calmed critic LR multiplier `d_lr_mult=0.02`, holding constant through `lr_anneal_start=0.55` before cosine-decaying to `lr_floor=0.06` (`network_lr_floor=0.06`).",
+            "gradient_clipping": "None (`critic_grad_guard=False`). Critic Lipschitz control acts solely through the BCAP input-gradient cap.",
+            "critic_penalty": "Fixed one-sided squared $L_2$ BCAP cap on real and subspace-prior fake inputs ($\\lambda=1.0$, $\\kappa=1.0$) every step; no critic EMA anchor.",
+            "damping_and_guards": "No sparse-row latent damping (`latent_damping_max_rate=0.0`) and zero generator-center probes (`probe_law=\"no_generator_probes_v1\"`).",
+            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `normalize_key=False`, `key_gain=0.5`, `association_weight=0.0`, `contrast_threshold` $0.03$ or $0.002$) paired with `SubspaceResidualConditionalReconstruction` (`router=\"subspace_residual_conditional\"`, `subspace_dims=6`, `subspace_nu0=0.10`, `feature_scale=2.1`, `nw_weight=1.0`, `nw_bandwidth=0.65`, `nw_ridge=0.06`, `replay_policy=\"none\"`, `rehearsal_batch=0`).",
+            "noise": "Zero scheduled critic-input or generator-output additive noise (`0.0`); intrinsic task MoG perturbation $\\sigma=0.025$ is preserved on every transformed particle row.",
+            "averaging": "Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). Pre-arrival serving queries only committed subspace/RLS/NW sufficient statistics and preceding detached context $c_{t-1}$.",
+        },
+        "configuration_notes": [
+            "`online-subspace-prior` branches from `online-residual-prior-linear-key`, keeping `CausalStateMemory` (`contrast_threshold=0.03`, `normalize_key=False`, `key_gain=0.5`) completely unchanged while introducing `SubspaceResidualConditionalReconstruction` and calmed single-arrival optimization (`d_lr_mult=0.02`, `betas=[0.4, 0.999]`, `lr=0.007`, `reconstruction_weight=100.0`).",
+            "`online-subspace-prior-fine-salience` is a strict single-factor child of `online-subspace-prior` changing only `memory_policy.contrast_threshold` from `0.03` to `0.002` so sparse 4-of-64-pixel precision manipulation actions are not zeroed out near contact.",
+            "When $d_c=0$ (`seq_minimal_dense4`, `seq_minimal_tokens4`, `seq_img_bars4`, `seq_img_dwell_bars4`, `seq_img_variable_dwell_bars4`, `seq_img_rare_mode_bars4`), `SubspaceResidualConditionalReconstruction` delegates sampling to `FeatureConditionalReconstruction` over the precision-whitened innovation basis, preserving exact marginal empirical quantiles.",
+            "Staged innovation rows (`_pending_basis_row`, `_pending_basis_gain`) commit strictly after `GANTrainer.step` succeeds, guaranteeing exact transactional rollback if an optimizer update raises an exception.",
+        ],
+        "sources": [
+            "particlestream/subspace_prior.py",
+            "particlestream/residual_prior.py",
+            "particlestream/feature_prior.py",
+            "particlestream/memory.py",
+            "particlestream/transport.py",
+            "particlestream/tier1.py",
+            "configs/forge/ideas/online-subspace-prior.json",
+            "configs/forge/ideas/online-subspace-prior-fine-salience.json",
+        ],
+        "references": [
+            {
+                "title": "Numerics of Gram-Schmidt Orthogonalization",
+                "url": "https://doi.org/10.1016/0024-3795(94)90493-6",
+                "component": "Two-pass classical Gram-Schmidt reorthogonalization guaranteeing machine-precision orthonormality of online innovation basis rows.",
+            },
+            {
+                "title": "On Estimating Regression",
+                "url": "https://doi.org/10.1137/1109020",
+                "component": "Nadaraya-Watson kernel regression estimator applied to unquantized per-bucket RLS residuals on continuous manifolds.",
+            },
+            {
+                "title": "Smooth Regression Analysis",
+                "url": "https://www.jstor.org/stable/25049340",
+                "component": "Local kernel smoothing formulation paired with ridge shrinkage back to global linear RLS far from visited states.",
+            },
+            {
+                "title": "Adjustment of an Inverse Matrix Corresponding to a Change in One Element of a Given Matrix",
+                "url": "https://doi.org/10.1214/aoms/1177729893",
+                "component": "Rank-1 Sherman-Morrison inverse-Gram update underlying the global parametric RLS baseline.",
+            },
+            {
+                "title": "Adam: A Method for Stochastic Optimization",
+                "url": "https://arxiv.org/abs/1412.6980",
+                "component": "Causal first-moment smoothing (beta_1=0.4) stabilizing single-arrival convolutional decoder updates across mode switches.",
+            },
+        ],
+    },
     "ResidualPrior-BCAP": {
         "overview": (
             "ResidualPrior-BCAP extends FeaturePrior-BCAP by replacing nearest-neighbor context lookup on "

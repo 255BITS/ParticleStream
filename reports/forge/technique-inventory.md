@@ -22,6 +22,7 @@ One complete recipe per technique, ordered by required qualification and passes,
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | [0/10*](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) | — | — | [0/10*](families/gail-bcap.md#online-gail-bcap-bce-required) | 0/20 | `INCOMPLETE` |
 | [KA2](families/ka2.md) | [`online-ka2`](families/ka2.md#online-ka2) | [0/10*](families/ka2.md#online-ka2-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-required) | 0/20 | `INCOMPLETE` |
 | [ResidualPrior-BCAP](families/residualprior-bcap.md) | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | [0/10*](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) | — | — | [0/10*](families/residualprior-bcap.md#online-residual-prior-bce-required) | 0/20 | `INCOMPLETE` |
+| [SubspacePrior-BCAP](families/subspaceprior-bcap.md) | [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | [0/10*](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) | — | — | [0/10*](families/subspaceprior-bcap.md#online-subspace-prior-required) | 0/20 | `INCOMPLETE` |
 
 ## All executable recipes
 
@@ -64,6 +65,8 @@ One complete recipe per technique, ordered by required qualification and passes,
 | [KA2](families/ka2.md) | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | [0/10*](families/ka2.md#online-ka2-transport-causal-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-transport-causal-required) | 0/20 | `INCOMPLETE` |
 | [ResidualPrior-BCAP](families/residualprior-bcap.md) | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | [0/10*](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) | — | — | [0/10*](families/residualprior-bcap.md#online-residual-prior-bce-required) | 0/20 | `INCOMPLETE` |
 | [ResidualPrior-BCAP](families/residualprior-bcap.md) | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | [0/10*](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) | — | — | [0/10*](families/residualprior-bcap.md#online-residual-prior-linear-key-required) | 0/20 | `INCOMPLETE` |
+| [SubspacePrior-BCAP](families/subspaceprior-bcap.md) | [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | [0/10*](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) | — | — | [0/10*](families/subspaceprior-bcap.md#online-subspace-prior-required) | 0/20 | `INCOMPLETE` |
+| [SubspacePrior-BCAP](families/subspaceprior-bcap.md) | [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | [0/10*](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) | — | — | [0/10*](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-required) | 0/20 | `INCOMPLETE` |
 
 ## Stretch experiments
 
@@ -108,6 +111,8 @@ These measurements retain their declared gates and budgets even when a required 
 | [KA2](families/ka2.md) | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | [0/2*](families/ka2.md#online-ka2-transport-causal-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-transport-causal-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-transport-causal-stretch) | 0/10 |
 | [ResidualPrior-BCAP](families/residualprior-bcap.md) | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | [0/2*](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-stretch) | [0/7*](families/residualprior-bcap.md#online-residual-prior-bce-tier-2-stretch) | [0/1*](families/residualprior-bcap.md#online-residual-prior-bce-tier-3-stretch) | [0/10*](families/residualprior-bcap.md#online-residual-prior-bce-stretch) | 0/10 |
 | [ResidualPrior-BCAP](families/residualprior-bcap.md) | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | [0/2*](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-stretch) | [0/7*](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-2-stretch) | [0/1*](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-3-stretch) | [0/10*](families/residualprior-bcap.md#online-residual-prior-linear-key-stretch) | 0/10 |
+| [SubspacePrior-BCAP](families/subspaceprior-bcap.md) | [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | [0/2*](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-stretch) | [0/7*](families/subspaceprior-bcap.md#online-subspace-prior-tier-2-stretch) | [0/1*](families/subspaceprior-bcap.md#online-subspace-prior-tier-3-stretch) | [0/10*](families/subspaceprior-bcap.md#online-subspace-prior-stretch) | 0/10 |
+| [SubspacePrior-BCAP](families/subspaceprior-bcap.md) | [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | [0/2*](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-stretch) | [0/7*](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-2-stretch) | [0/1*](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-3-stretch) | [0/10*](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-stretch) | 0/10 |
 
 ## Readout and recommendation
 
@@ -184,6 +189,8 @@ Gates: `hq >= 0.9`, `modes == 4.0`, `finite_template_tv <= 0.15`. Budget: 480 up
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_dwell_bars4"></a>
 ### Tier 1: `seq_img_dwell_bars4` (required)
@@ -231,6 +238,8 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_translating_bar_next"></a>
 ### Tier 1: `seq_img_translating_bar_next` (required)
@@ -278,6 +287,8 @@ Gates: `next_frame_rmse <= 0.12`, `direction_acc >= 0.9`. Budget: 480 updates; 2
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_fork_rollout"></a>
 ### Tier 1: `seq_img_fork_rollout` (required)
@@ -325,6 +336,8 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`. Budget: 48
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_variable_dwell_bars4"></a>
 ### Tier 1: `seq_img_variable_dwell_bars4` (required)
@@ -372,6 +385,8 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_rare_mode_bars4"></a>
 ### Tier 1: `seq_img_rare_mode_bars4` (required)
@@ -419,6 +434,8 @@ Gates: `hq >= 0.85`, `finite_template_tv <= 0.15`, `support_modes == 4.0`, `rare
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_delayed_cue"></a>
 ### Tier 1: `seq_img_delayed_cue` (required)
@@ -466,6 +483,8 @@ Gates: `outcome_accuracy >= 0.9`, `prediction_rmse <= 0.12`. Budget: 480 updates
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_persistent_fork"></a>
 ### Tier 1: `seq_img_persistent_fork` (required)
@@ -513,6 +532,8 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`, `trajector
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_circle_orbit"></a>
 ### Tier 1: `seq_img_circle_orbit` (required)
@@ -560,6 +581,8 @@ Gates: `orbit_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.9`, `orbit_c
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_img_square_circle_cycle"></a>
 ### Tier 1: `seq_img_square_circle_cycle` (required)
@@ -607,6 +630,8 @@ Gates: `cycle_rmse <= 0.12`, `s2c_rmse <= 0.12`, `c2s_rmse <= 0.12`, `xy_rmse <=
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-required) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-required) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-required) |
 
 <a id="seq_minimal_dense4"></a>
 ### Tier 1: `seq_minimal_dense4` (stretch)
@@ -654,6 +679,8 @@ Gates: `valid_fraction >= 0.9`, `modes == 4.0`, `mass_tv <= 0.15`. Budget: 96 up
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-stretch) |
 
 <a id="seq_minimal_tokens4"></a>
 ### Tier 1: `seq_minimal_tokens4` (stretch)
@@ -701,6 +728,8 @@ Gates: `valid_fraction == 1.0`, `modes == 4.0`, `mass_tv <= 0.1`. Budget: 96 upd
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-1-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-1-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-1-stretch) |
 
 <a id="seq_minimal_kernel2x2"></a>
 ### Tier 2: `seq_minimal_kernel2x2` (stretch)
@@ -748,6 +777,8 @@ Gates: `seen_response_rmse <= 0.03`, `seen_max_abs_error <= 0.05`, `heldout_resp
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-2-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-2-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-2-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-2-stretch) |
 
 <a id="seq_minimal_addition2bit"></a>
 ### Tier 2: `seq_minimal_addition2bit` (stretch)
@@ -795,6 +826,8 @@ Gates: `seen_exact_accuracy == 1.0`, `seen_min_bit_confidence >= 0.9`, `heldout_
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-2-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-2-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-2-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-2-stretch) |
 
 <a id="seq_robotics_fetch_reach"></a>
 ### Tier 2: `seq_robotics_fetch_reach` (stretch)
@@ -842,6 +875,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-2-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-2-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-2-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-2-stretch) |
 
 <a id="seq_robotics_fetch_push"></a>
 ### Tier 2: `seq_robotics_fetch_push` (stretch)
@@ -889,6 +924,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-2-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-2-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-2-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-2-stretch) |
 
 <a id="seq_robotics_fetch_slide"></a>
 ### Tier 2: `seq_robotics_fetch_slide` (stretch)
@@ -936,6 +973,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-2-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-2-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-2-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-2-stretch) |
 
 <a id="seq_robotics_fetch_pick_and_place"></a>
 ### Tier 2: `seq_robotics_fetch_pick_and_place` (stretch)
@@ -983,6 +1022,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-2-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-2-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-2-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-2-stretch) |
 
 <a id="seq_robotics_hand_reach"></a>
 ### Tier 2: `seq_robotics_hand_reach` (stretch)
@@ -1030,6 +1071,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-2-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-2-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-2-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-2-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-2-stretch) |
 
 <a id="seq_minimal_velocity_extrapolation"></a>
 ### Tier 3: `seq_minimal_velocity_extrapolation` (stretch)
@@ -1077,6 +1120,8 @@ Gates: `interpolation_centroid_rmse <= 0.01`, `interpolation_speed_error <= 0.01
 | [`online-ka2-transport-causal`](families/ka2.md#online-ka2-transport-causal) | NOT_RUN | — | [details](families/ka2.md#online-ka2-transport-causal-tier-3-stretch) |
 | [`online-residual-prior-bce`](families/residualprior-bcap.md#online-residual-prior-bce) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-bce-tier-3-stretch) |
 | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | NOT_RUN | — | [details](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-3-stretch) |
+| [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-tier-3-stretch) |
+| [`online-subspace-prior-fine-salience`](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience) | NOT_RUN | — | [details](families/subspaceprior-bcap.md#online-subspace-prior-fine-salience-tier-3-stretch) |
 
 ## Reproduction
 

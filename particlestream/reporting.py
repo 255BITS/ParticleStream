@@ -85,6 +85,15 @@ METHODS = {
         "latent scaling) without storing or replaying frames.",
         "gail_prior.py",
     ),
+    "SubspacePrior-BCAP": (
+        "SubspacePrior-BCAP replaces blind fixed 8×64 random projection on the leading six latent "
+        "coordinates with a causally anchored two-pass Gram-Schmidt innovation subspace scaled once at "
+        "discovery by precision-whitening gains, paired with a 2-row deterministic Johnson-Lindenstrauss "
+        "tail and a semiparametric global RLS plus unquantized Nadaraya-Watson kernel-ridge residual "
+        "prior. This eliminates random-projection nullspace loss and 1:1 MoG Wiener attenuation on "
+        "millimetre physical micro-displacements without retroactive coordinate drift or stored frames.",
+        "subspace_prior.py",
+    ),
 }
 
 
