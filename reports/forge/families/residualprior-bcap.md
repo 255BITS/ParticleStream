@@ -14,7 +14,7 @@ ResidualPrior-BCAP extends FeaturePrior-BCAP by replacing nearest-neighbor conte
 <a id="mathematical-formulation"></a>
 ## Mathematical formulation
 
-$G$ is the task-owned residual generator with input layer $W_{\mathrm{fc}}=[W_z,\,W_{\mathrm{ctx}}]$, $D$ the raw-score convolutional critic, and $P$ the frozen $K$-row `MoGParticlePrior` ($K=32$, $d_z=8$, $\sigma=0.025$) with base centers $\mu_i^{\mathrm{base}}\in\mathbb R^{d_z}$. At step $t$, $x_t\in[0,1]^{1\times 8\times 8}$ is the single arriving target frame, $\phi(x_t)=s_f W_{\mathrm{enc}}(\bar x_t-c_0\mathbf 1_{64})\in\mathbb R^{d_z}$ its fixed orthogonal latent code ($s_f=2$, $c_0=0.5$), and $\bar c_{t-1}=[\tilde c_{t-1};\,1]\in\mathbb R^{d_c+1}$ the clipped preceding causal context augmented with bias ($d_c=16$). $W_t\in\mathbb R^{d_z\times(d_c+1)}$ and $P_t\in\mathbb R^{(d_c+1)\times(d_c+1)}$ are the online RLS weights and inverse-Gram matrix ($\lambda_{\mathrm{rls}}=0.1$), $S_t\in\mathbb R^{d_z\times d_z}$ and $q_t\in\mathbb R_{\ge 0}$ are exponentially weighted ($\alpha_S=0.05$) post-fit RLS residual covariance and nearest-prototype quantization variance ($\varepsilon_S=10^{-4}$), $\hat\mu_m\in\mathbb R^{d_z}$ are online prototypes ($M_t\le 32$), and $(k_b^{\mathrm{ctx}},V_b,M_{b,m})$ are context keys, visit counts, and outcome masses ($C_{\max}=64$, $\kappa_{\mathrm{visit}}=0.25$, $h_k=0.12$).
+$G$ is the task-owned residual generator with input layer $W_{\mathrm{fc}}=[W_z,\,W_{\mathrm{ctx}}]$, $D$ the raw-score convolutional critic, and $P$ the frozen $K$-row `MoGParticlePrior` ($K=32$, $d_z=8$, $\sigma=0.025$) with base centers $\mu_i^{\mathrm{base}}\in\mathbb R^{d_z}$. At step $t$, $x_t\in[0,1]^{1\times 8\times 8}$ is the single arriving target frame, $\phi(x_t)=s_f W_{\mathrm{enc}}(\bar x_t-c_0\mathbf 1_{64})\in\mathbb R^{d_z}$ its fixed orthogonal latent code ($s_f=2$, $c_0=0.5$), and $\bar c_{t-1}=[\tilde c_{t-1};\,1]\in\mathbb R^{d_c+1}$ the clipped preceding causal context augmented with bias ($d_c=16$). $W_t\in\mathbb R^{d_z\times(d_c+1)}$ and $P_t\in\mathbb R^{(d_c+1)\times(d_c+1)}$ are the online RLS weights and inverse-Gram matrix ($\lambda_{\mathrm{rls}}=0.1$), $S_t\in\mathbb R^{d_z\times d_z}$ and $q_t\in\mathbb R_{\ge 0}$ are exponentially weighted ($\alpha_S=0.05$) post-fit RLS residual covariance and nearest-prototype quantization variance ($\varepsilon_S=10^{-4}$), $\hat\mu_m\in\mathbb R^{d_z}$ are online prototypes ($M_t\le 32$), and $(k_b^{\mathrm{ctx}},V_b,M_{b,m})$ are context keys, visit counts, and outcome masses ($C_{\max}=64$, $\kappa_{\mathrm{visit}}=0.25$, $h_k=0.35$).
 
 **Causal Salient Key Projection (Normalized vs. Linear-Key Ablation)**
 
@@ -38,7 +38,7 @@ $$
 \begin{aligned}\hat z_{\mathrm{lin}}(c)&=W_t\bar c,\qquad \tilde S_t=\tfrac12(S_t+S_t^\top)+\varepsilon_S I,\qquad m^*(c)=\arg\min_{0\le m<M_t}(\hat\mu_m-\hat z_{\mathrm{lin}}(c))^\top\tilde S_t^{-1}(\hat\mu_m-\hat z_{\mathrm{lin}}(c)),\\\beta_t(c)&=\exp\!\left(-\left(\frac{q_t}{\rho_v\operatorname{tr}(S_t)+10^{-5}}\right)^2\right)\sigma\!\left(\tfrac12\log\frac{\det(\tilde S_t+\sigma_{\mathrm{slab}}^2 I)}{\det(\tilde S_t)}-\tfrac12 d_{\tilde S_t}^2(\hat\mu_{m^*(c)},\hat z_{\mathrm{lin}}(c))\right),\\\hat z_{\mathrm{ctx}}(c)&=(1-\beta_t(c))\hat z_{\mathrm{lin}}(c)+\beta_t(c)\hat\mu_{m^*(c)},\qquad z_i^{\mathrm{cond}}(c)=\hat z_{\mathrm{ctx}}(c)+\gamma_t(c)\big(\hat\mu_{q(i,b^*)}-\hat z_{\mathrm{ctx}}(k_{b^*}^{\mathrm{ctx}})\big)+\epsilon_i.\end{aligned}
 $$
 
-Along exact linear invariants where $\tilde S_t$ has near-zero variance, $\tilde S_t^{-1}$ enforces the invariant while down-weighting nonlinear carry/parity directions ($\rho_v=0.10$, $\sigma_{\mathrm{slab}}=1.0$). On continuous manifolds ($q_t/\operatorname{tr}(S_t)\gg\rho_v$), $\beta_t(c)\to 0$ preserves smooth extrapolation; at recurrent multimodal contexts ($V_{b^*}>1$), empirical-Bayes shrinkage $\gamma_t(c)=\frac{V_{b^*}-1}{V_{b^*}-1+\kappa_{\mathrm{visit}}}\frac{\operatorname{tr}(S_t)}{\operatorname{tr}(S_t)+q_t+10^{-5}}\exp(-\lVert c-k_{b^*}^{\mathrm{ctx}}\rVert_2^2/h_k^2)$ recovers exact branch quantiles ($z_i^{\mathrm{cond}}(k_{b^*}^{\mathrm{ctx}})\to\hat\mu_{q(i,b^*)}+\epsilon_i$).
+Along exact linear invariants where $\tilde S_t$ has near-zero variance, $\tilde S_t^{-1}$ enforces the invariant while down-weighting nonlinear carry/parity directions ($\rho_v=0.15$, $\sigma_{\mathrm{slab}}=1.0$). Using the shared discreteness gate $g_{\mathrm{disc},t}=\exp(-(q_t/(\rho_v\operatorname{tr}(S_t)+10^{-5}))^2)$, continuous manifolds ($q_t/\operatorname{tr}(S_t)\gg\rho_v$) satisfy $\beta_t(c)\to 0$ and $\gamma_t(c)\to 0$ for smooth extrapolation, while recurrent multimodal contexts ($V_{b^*}>1$) recover exact branch quantiles via $\gamma_t(c)=\frac{V_{b^*}-1}{V_{b^*}-1+\kappa_{\mathrm{visit}}}g_{\mathrm{disc},t}\exp(-\lVert c-k_{b^*}^{\mathrm{ctx}}\rVert_2^2/h_k^2)$.
 
 **Markov-Bottlenecked Generator and Critic Objectives**
 
@@ -74,7 +74,7 @@ For each chronological single-arrival step t (batch_size = 1, replay = none):
 | Parameter-gradient clipping | None (`critic_grad_guard=False`). Critic Lipschitz control acts solely through the BCAP input-gradient cap. |
 | Critic penalties and anchors | Fixed one-sided squared $L_2$ BCAP cap on real and residual-prior fake inputs ($\lambda=1.0$, $\kappa=1.0$) every step; no critic EMA anchor. |
 | Damping and update guards | No sparse-row latent damping (`latent_damping_max_rate=0.0`) and zero generator-center probes (`probe_law="no_generator_probes_v1"`). |
-| Online memory, prior and routing | Detached `CausalStateMemory` ($d_c=16$, `association_weight=0.0`) plus `ResidualFeatureConditionalReconstruction` (`rls_ridge=0.1`, `covariance_ema=0.05`, `slab_scale=1.0`, `variance_ratio_scale=0.10`, `visit_shrinkage=0.25`, `kernel_bandwidth=0.12`, `replay_policy="none"`, `rehearsal_batch=0`). |
+| Online memory, prior and routing | Detached `CausalStateMemory` ($d_c=16$, `association_weight=0.0`) plus `ResidualFeatureConditionalReconstruction` (`rls_ridge=0.1`, `covariance_ema=0.05`, `slab_scale=1.0`, `variance_ratio_scale=0.15`, `visit_shrinkage=0.25`, `kernel_bandwidth=0.35`, `replay_policy="none"`, `rehearsal_batch=0`). |
 | Training and sampling noise | Zero scheduled critic-input or generator-output additive noise (`0.0`); intrinsic task MoG perturbation $\sigma=0.025$ is preserved on every transformed particle row. |
 | Parameter averaging and serving | Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). Pre-arrival serving queries only committed sufficient statistics and preceding detached context $c_{t-1}$. |
 
@@ -124,12 +124,12 @@ Declared changes:
 | `memory_policy.transport.context_bypass_weight` | _unset_ | `5.0` |
 | `memory_policy.transport.covariance_ema` | _unset_ | `0.05` |
 | `memory_policy.transport.covariance_eps` | _unset_ | `0.0001` |
-| `memory_policy.transport.kernel_bandwidth` | _unset_ | `0.12` |
+| `memory_policy.transport.kernel_bandwidth` | _unset_ | `0.35` |
 | `memory_policy.transport.outcome_decay` | _unset_ | `1.0` |
 | `memory_policy.transport.rls_ridge` | _unset_ | `0.1` |
 | `memory_policy.transport.router` | `"feature_conditional"` | `"residual_feature_conditional"` |
 | `memory_policy.transport.slab_scale` | _unset_ | `1.0` |
-| `memory_policy.transport.variance_ratio_scale` | _unset_ | `0.1` |
+| `memory_policy.transport.variance_ratio_scale` | _unset_ | `0.15` |
 | `memory_policy.transport.visit_shrinkage` | _unset_ | `0.25` |
 
 ### Effective declaration
@@ -159,7 +159,7 @@ Declared changes:
       "feature_scale": 2.0,
       "feature_tolerance": 0.15,
       "image_center": 0.5,
-      "kernel_bandwidth": 0.12,
+      "kernel_bandwidth": 0.35,
       "outcome_decay": 1.0,
       "reconstruction_loss": "binary_cross_entropy",
       "reconstruction_weight": 10.0,
@@ -169,7 +169,7 @@ Declared changes:
       "temperature": 0.0,
       "usage_decay": 1.0,
       "usage_penalty": 0.0,
-      "variance_ratio_scale": 0.1,
+      "variance_ratio_scale": 0.15,
       "visit_shrinkage": 0.25
     },
     "write_lr": 0.35
@@ -201,16 +201,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
 
 <a id="online-residual-prior-bce-stretch"></a>
 ### Stretch evidence
@@ -220,28 +220,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
 
 <a id="online-residual-prior-bce-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
 
 <a id="online-residual-prior-bce-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-residual-prior-bce --device cuda`.
 
@@ -292,7 +292,7 @@ Declared changes:
       "feature_scale": 2.0,
       "feature_tolerance": 0.15,
       "image_center": 0.5,
-      "kernel_bandwidth": 0.12,
+      "kernel_bandwidth": 0.35,
       "outcome_decay": 1.0,
       "reconstruction_loss": "binary_cross_entropy",
       "reconstruction_weight": 10.0,
@@ -302,7 +302,7 @@ Declared changes:
       "temperature": 0.0,
       "usage_decay": 1.0,
       "usage_penalty": 0.0,
-      "variance_ratio_scale": 0.1,
+      "variance_ratio_scale": 0.15,
       "visit_shrinkage": 0.25
     },
     "write_lr": 0.35
@@ -334,16 +334,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
 
 <a id="online-residual-prior-linear-key-stretch"></a>
 ### Stretch evidence
@@ -353,28 +353,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
 
 <a id="online-residual-prior-linear-key-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
 
 <a id="online-residual-prior-linear-key-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | stale receipt: candidate_fingerprint, task_fingerprint differ | — | — |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-residual-prior-linear-key --device cuda`.
 

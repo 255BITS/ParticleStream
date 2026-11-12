@@ -44,7 +44,7 @@
       "feature_scale": 2.0,
       "feature_tolerance": 0.15,
       "image_center": 0.5,
-      "kernel_bandwidth": 0.12,
+      "kernel_bandwidth": 0.35,
       "outcome_decay": 1.0,
       "reconstruction_loss": "binary_cross_entropy",
       "reconstruction_weight": 10.0,
@@ -54,7 +54,7 @@
       "temperature": 0.0,
       "usage_decay": 1.0,
       "usage_penalty": 0.0,
-      "variance_ratio_scale": 0.1,
+      "variance_ratio_scale": 0.15,
       "visit_shrinkage": 0.25
     },
     "write_lr": 0.35

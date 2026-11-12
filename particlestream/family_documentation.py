@@ -43,7 +43,7 @@ FAMILY_DOCUMENTATION = {
             "$S_t\\in\\mathbb R^{d_z\\times d_z}$ and $q_t\\in\\mathbb R_{\\ge 0}$ are exponentially weighted ($\\alpha_S=0.05$) "
             "post-fit RLS residual covariance and nearest-prototype quantization variance ($\\varepsilon_S=10^{-4}$), "
             "$\\hat\\mu_m\\in\\mathbb R^{d_z}$ are online prototypes ($M_t\\le 32$), and $(k_b^{\\mathrm{ctx}},V_b,M_{b,m})$ "
-            "are context keys, visit counts, and outcome masses ($C_{\\max}=64$, $\\kappa_{\\mathrm{visit}}=0.25$, $h_k=0.12$)."
+            "are context keys, visit counts, and outcome masses ($C_{\\max}=64$, $\\kappa_{\\mathrm{visit}}=0.25$, $h_k=0.35$)."
         ),
         "equations": [
             {
@@ -95,11 +95,11 @@ FAMILY_DOCUMENTATION = {
                 ),
                 "explanation": (
                     "Along exact linear invariants where $\\tilde S_t$ has near-zero variance, $\\tilde S_t^{-1}$ enforces "
-                    "the invariant while down-weighting nonlinear carry/parity directions ($\\rho_v=0.10$, $\\sigma_{\\mathrm{slab}}=1.0$). "
-                    "On continuous manifolds ($q_t/\\operatorname{tr}(S_t)\\gg\\rho_v$), $\\beta_t(c)\\to 0$ preserves smooth "
-                    "extrapolation; at recurrent multimodal contexts ($V_{b^*}>1$), empirical-Bayes shrinkage "
-                    "$\\gamma_t(c)=\\frac{V_{b^*}-1}{V_{b^*}-1+\\kappa_{\\mathrm{visit}}}\\frac{\\operatorname{tr}(S_t)}{\\operatorname{tr}(S_t)+q_t+10^{-5}}\\exp(-\\lVert c-k_{b^*}^{\\mathrm{ctx}}\\rVert_2^2/h_k^2)$ "
-                    "recovers exact branch quantiles ($z_i^{\\mathrm{cond}}(k_{b^*}^{\\mathrm{ctx}})\\to\\hat\\mu_{q(i,b^*)}+\\epsilon_i$)."
+                    "the invariant while down-weighting nonlinear carry/parity directions ($\\rho_v=0.15$, $\\sigma_{\\mathrm{slab}}=1.0$). "
+                    "Using the shared discreteness gate $g_{\\mathrm{disc},t}=\\exp(-(q_t/(\\rho_v\\operatorname{tr}(S_t)+10^{-5}))^2)$, "
+                    "continuous manifolds ($q_t/\\operatorname{tr}(S_t)\\gg\\rho_v$) satisfy $\\beta_t(c)\\to 0$ and $\\gamma_t(c)\\to 0$ "
+                    "for smooth extrapolation, while recurrent multimodal contexts ($V_{b^*}>1$) recover exact branch quantiles via "
+                    "$\\gamma_t(c)=\\frac{V_{b^*}-1}{V_{b^*}-1+\\kappa_{\\mathrm{visit}}}g_{\\mathrm{disc},t}\\exp(-\\lVert c-k_{b^*}^{\\mathrm{ctx}}\\rVert_2^2/h_k^2)$."
                 ),
             },
             {
@@ -137,7 +137,7 @@ FAMILY_DOCUMENTATION = {
             "gradient_clipping": "None (`critic_grad_guard=False`). Critic Lipschitz control acts solely through the BCAP input-gradient cap.",
             "critic_penalty": "Fixed one-sided squared $L_2$ BCAP cap on real and residual-prior fake inputs ($\\lambda=1.0$, $\\kappa=1.0$) every step; no critic EMA anchor.",
             "damping_and_guards": "No sparse-row latent damping (`latent_damping_max_rate=0.0`) and zero generator-center probes (`probe_law=\"no_generator_probes_v1\"`).",
-            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `association_weight=0.0`) plus `ResidualFeatureConditionalReconstruction` (`rls_ridge=0.1`, `covariance_ema=0.05`, `slab_scale=1.0`, `variance_ratio_scale=0.10`, `visit_shrinkage=0.25`, `kernel_bandwidth=0.12`, `replay_policy=\"none\"`, `rehearsal_batch=0`).",
+            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `association_weight=0.0`) plus `ResidualFeatureConditionalReconstruction` (`rls_ridge=0.1`, `covariance_ema=0.05`, `slab_scale=1.0`, `variance_ratio_scale=0.15`, `visit_shrinkage=0.25`, `kernel_bandwidth=0.35`, `replay_policy=\"none\"`, `rehearsal_batch=0`).",
             "noise": "Zero scheduled critic-input or generator-output additive noise (`0.0`); intrinsic task MoG perturbation $\\sigma=0.025$ is preserved on every transformed particle row.",
             "averaging": "Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). Pre-arrival serving queries only committed sufficient statistics and preceding detached context $c_{t-1}$.",
         },

@@ -28,8 +28,8 @@ class ResidualFeatureConditionalReconstruction(FeatureConditionalReconstruction)
     )
 
     def __init__(self, generator, *, rls_ridge=0.1, covariance_ema=0.05,
-                 covariance_eps=1e-4, slab_scale=1.0, variance_ratio_scale=0.10,
-                 visit_shrinkage=0.25, kernel_bandwidth=0.12, outcome_decay=1.0,
+                 covariance_eps=1e-4, slab_scale=1.0, variance_ratio_scale=0.15,
+                 visit_shrinkage=0.25, kernel_bandwidth=0.35, outcome_decay=1.0,
                  context_bypass_weight=5.0, **kwargs):
         for name, value in (
             ("rls_ridge", rls_ridge),
@@ -89,6 +89,14 @@ class ResidualFeatureConditionalReconstruction(FeatureConditionalReconstruction)
         self.predictor_updates = torch.zeros((), device=device, dtype=torch.long)
 
     @torch.no_grad()
+    def _disc_gate(self) -> float:
+        """Dimensionless variance-ratio gate separating discrete vs continuous manifolds."""
+        tr_s = float(torch.diagonal(self.residual_cov).sum().clamp_min(0.0).item())
+        q_val = float(self.quantization_ema.clamp_min(0.0).item())
+        ratio = q_val / (self.variance_ratio_scale * tr_s + 1e-5)
+        return math.exp(-min(ratio * ratio, 80.0))
+
+    @torch.no_grad()
     def _prior_mean(self, context: torch.Tensor) -> torch.Tensor:
         """Compute precision-gated spike-and-slab prior mean for one 1D context."""
         c64 = context.detach().to(device=self.rls_weights.device, dtype=torch.float64)
@@ -106,10 +114,7 @@ class ResidualFeatureConditionalReconstruction(FeatureConditionalReconstruction)
         solved = torch.linalg.solve(s_reg, diff.t()).t()
         maha = (diff * solved).sum(dim=-1).clamp_min(0.0)
         best = int(maha.argmin().item())
-        tr_s = float(torch.diagonal(self.residual_cov).sum().clamp_min(0.0).item())
-        q_val = float(self.quantization_ema.clamp_min(0.0).item())
-        ratio = q_val / (self.variance_ratio_scale * tr_s + 1e-5)
-        disc_gate = math.exp(-min(ratio * ratio, 80.0))
+        disc_gate = self._disc_gate()
         slab_var = self.slab_scale * self.slab_scale
         log_bf = 0.5 * float((torch.linalg.slogdet(s_reg + slab_var * eye)[1]
                               - torch.linalg.slogdet(s_reg)[1]).item()) - 0.5 * float(maha[best].item())
@@ -148,10 +153,7 @@ class ResidualFeatureConditionalReconstruction(FeatureConditionalReconstruction)
             excess_visits = max(int(self.context_visits[bucket].item()) - 1, 0)
             visit_gate = (1.0 if self.visit_shrinkage == 0.0 and excess_visits > 0
                           else excess_visits / (excess_visits + self.visit_shrinkage) if excess_visits > 0 else 0.0)
-            tr_s = float(torch.diagonal(self.residual_cov).sum().clamp_min(0.0).item())
-            q_val = float(self.quantization_ema.clamp_min(0.0).item())
-            precision_gate = tr_s / (tr_s + q_val + 1e-5)
-            gamma = visit_gate * precision_gate * kernel
+            gamma = visit_gate * self._disc_gate() * kernel
             if gamma <= 1e-8:
                 return z_ctx.to(codes).unsqueeze(0) + perturbation
             z_key = self._prior_mean(key)

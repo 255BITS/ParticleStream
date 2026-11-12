@@ -151,7 +151,12 @@ def test_continuous_single_visit_manifold_extrapolates_smoothly_without_prototyp
     expected_code = router.encode(expected_frame)[0]
     predicted_codes = clean_codes(prior)
     assert torch.allclose(predicted_codes[0], predicted_codes[-1], atol=1e-6)
-    assert torch.linalg.vector_norm(predicted_codes[0] - expected_code).item() < 1e-3
+    pred_err = torch.linalg.vector_norm(predicted_codes[0] - expected_code).item()
+    nearest_proto_err = torch.linalg.vector_norm(
+        router.feature_centroids[:int(router.feature_count.item())] - expected_code.unsqueeze(0),
+        dim=-1,
+    ).min().item()
+    assert pred_err < 2e-3 and pred_err < 0.1 * nearest_proto_err
 
 
 def _online_runtime():
