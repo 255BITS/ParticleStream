@@ -24,18 +24,18 @@ def workspace(tmp_path):
 
 def test_every_technique_recipe_and_count_link_reaches_its_generated_section(workspace):
     families = compile_linked_reports(workspace, view_id="single_stream_stability", device="cpu")
-    assert len(families) == 7
+    assert len(families) == 8
     inventory = workspace.reports_dir / "technique-inventory.md"
     text = inventory.read_text()
     active = text.split("## All executable recipes\n", 1)[1].split("## Stretch experiments", 1)[0]
     historical = text.split("## Historical declarations\n", 1)[1].split("## Per-Task Breakdown", 1)[0]
-    assert active.count("| `INCOMPLETE` |") == 33
+    assert active.count("| `INCOMPLETE` |") == 35
     assert historical.count("| READ_ONLY |") == 14
     assert "`stream-bcap-adam`" not in active
     assert "[0/10*]" in active and "0/20" in active
     assert not (workspace.reports_dir / "leaderboard.md").exists()
     validated_docs = validate_family_documentation(ROOT)
-    assert len(validated_docs) == 7
+    assert len(validated_docs) == 8
     for family_path in map(Path, families):
         family_text = family_path.read_text()
         assert family_text.startswith("<!-- Generated Forge family report -->\n"), family_path

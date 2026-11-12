@@ -174,7 +174,42 @@ def test_invalid_observations_fail_without_mutation(frame):
 
 
 @pytest.mark.parametrize("settings", [{"dim": 1}, {"age_horizon": 0}, {"decay": 1},
-                                     {"context_scale": float("nan")}, {"contrast_threshold": -.01}])
+                                     {"context_scale": float("nan")}, {"contrast_threshold": -.01},
+                                     {"normalize_key": "yes"}, {"key_gain": 0.0}, {"key_gain": True}])
 def test_invalid_policy_settings_fail(settings):
     with pytest.raises(ValueError):
         CausalStateMemory(**settings)
+
+
+def test_linear_key_mode_preserves_additive_superposition_and_gates_distractors():
+    memory = initialized_memory(association_weight=0.0, normalize_key=False, key_gain=0.5)
+    via_factory = make_stream_memory({
+        "kind": "fast_weight", "dim": 16, "reader": "causal_state",
+        "association_weight": 0.0, "normalize_key": False, "key_gain": 0.5,
+    })
+    assert via_factory.normalize_key is False and via_factory.key_gain == 0.5
+
+    # Disjoint zero-mean patches should add linearly before clipping when normalize_key=False.
+    patch_a = torch.full((1, 1, 8, 8), 0.5)
+    patch_a[:, :, :2, :2] = 0.8
+    patch_a[:, :, :2, 2:4] = 0.2
+    patch_b = torch.full((1, 1, 8, 8), 0.5)
+    patch_b[:, :, 4:6, :2] = 0.8
+    patch_b[:, :, 4:6, 2:4] = 0.2
+    combined = 0.5 + (patch_a - 0.5) + (patch_b - 0.5)
+
+    memory.reset_state()
+    ctx_a = memory.write(patch_a)
+    memory.reset_state()
+    ctx_b = memory.write(patch_b)
+    memory.reset_state()
+    ctx_ab = memory.write(combined)
+    assert (ctx_ab[:, :-1].abs().max().item()) < memory.context_scale
+    assert torch.allclose(ctx_ab[:, :-1], ctx_a[:, :-1] + ctx_b[:, :-1], atol=1e-6)
+
+    # Low-contrast distractor still preserves retained salient key instead of overwriting with noise.
+    distractor = torch.full((1, 1, 8, 8), 0.5)
+    after_distractor = memory.write(distractor)
+    assert torch.allclose(memory.prev_key, torch.zeros_like(memory.prev_key))
+    assert memory.retained_key.norm() > 0.05
+    assert after_distractor[:, :-1].norm() > 0.1

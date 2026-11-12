@@ -62,15 +62,15 @@ def load_audit(workspace):
     return json.loads((workspace.reports_dir / "refresh-audit.json").read_text())
 
 
-def test_default_refresh_measures_all_30_executable_recipes_and_20_tasks(mocked_workspace):
+def test_default_refresh_measures_all_executable_recipes_and_20_tasks(mocked_workspace):
     workspace, calls, _, _ = mocked_workspace
     result = refresh.refresh_all(workspace, PRIMARY_VIEW.id, device="cpu")
     audit = load_audit(workspace)
-    assert result["completed_runs"] == audit["planned_runs"] == 660
-    assert len(audit["candidates"]) == 33
+    assert result["completed_runs"] == audit["planned_runs"] == 700
+    assert len(audit["candidates"]) == 35
     assert len(audit["historical_read_only"]) == 14
     assert all(cid.startswith("online-") for cid in audit["candidates"])
-    assert len(set(calls)) == len(calls) == 660
+    assert len(set(calls)) == len(calls) == 700
     assert set(audit["tasks"]) == set(workspace.load_tasks())
     assert audit["completed_at"] is not None
     assert audit["sessions"][0]["device_name"] == "cpu"

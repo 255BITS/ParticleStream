@@ -16,6 +16,8 @@ CAUSAL_STATE_DEFAULTS = {
     "context_scale": 3.0,
     "association_weight": 0.125,
     "age_horizon": 8,
+    "normalize_key": True,
+    "key_gain": 0.5,
 }
 
 
@@ -37,9 +39,14 @@ class CausalStateMemory(FastWeightMemory):
     def __init__(self, dim: int = 16, decay: float = 0.90, write_lr: float = 0.35,
                  reservoir_size: int = 64, *, contrast_threshold: float = 0.03,
                  change_threshold: float = 0.04, context_scale: float = 3.0,
-                 association_weight: float = 0.125, age_horizon: int = 8):
+                 association_weight: float = 0.125, age_horizon: int = 8,
+                 normalize_key: bool = True, key_gain: float = 0.5):
         if int(dim) < 2 or int(reservoir_size) < 1 or int(age_horizon) < 1:
             raise ValueError("causal state memory requires dim>=2, reservoir_size>=1, age_horizon>=1")
+        if not isinstance(normalize_key, bool):
+            raise ValueError("normalize_key must be a boolean")
+        if isinstance(key_gain, bool) or not math.isfinite(float(key_gain)) or float(key_gain) <= 0:
+            raise ValueError("key_gain must be finite and positive")
         settings = (decay, write_lr, contrast_threshold, change_threshold, context_scale, association_weight)
         if not all(math.isfinite(float(value)) for value in settings):
             raise ValueError("memory settings must be finite")
@@ -53,6 +60,8 @@ class CausalStateMemory(FastWeightMemory):
         self.context_scale = float(context_scale)
         self.association_weight = float(association_weight)
         self.age_horizon = int(age_horizon)
+        self.normalize_key = normalize_key
+        self.key_gain = float(key_gain)
         self.register_buffer("retained_key", torch.zeros(1, self.dim))
         self.register_buffer("repetition_age", torch.tensor(0, dtype=torch.long))
         self.register_buffer("last_frame", torch.zeros(1, 1, 8, 8))
@@ -76,7 +85,11 @@ class CausalStateMemory(FastWeightMemory):
         flat = frame.reshape(1, -1)
         centered = flat - flat.mean(dim=-1, keepdim=True)
         salient = bool(centered.square().mean().sqrt() >= self.contrast_threshold)
-        key = F.normalize(self.key_proj(centered), dim=-1) if salient else torch.zeros_like(self.prev_key)
+        if salient:
+            projected_key = self.key_proj(centered)
+            key = F.normalize(projected_key, dim=-1) if self.normalize_key else self.key_gain * projected_key
+        else:
+            key = torch.zeros_like(self.prev_key)
         value = F.normalize(self.val_proj(centered), dim=-1) if salient else torch.zeros_like(self.prev_key)
         initialized = int(self.reservoir_count.item()) > 0
         difference = key - self.prev_key if initialized else torch.zeros_like(key)
