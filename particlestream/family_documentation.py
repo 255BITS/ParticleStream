@@ -283,7 +283,7 @@ FAMILY_DOCUMENTATION = {
             "averaging": "Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). Serving uses only preceding context $c_{t-1}$ and previously committed feature/outcome summaries.",
         },
         "configuration_notes": [
-            "FeaturePrior-BCAP established the first Tier 1-qualifying global recipe (`online-feature-prior-bce`: 10/10 required passes, 1/10 stretch passes on `single_stream_stability` view 10), serving as the direct parent of ResidualPrior-BCAP.",
+            "FeaturePrior-BCAP established the first Tier 1-qualifying global recipe (`online-feature-prior-bce`: 10/10 required passes, 1/10 stretch passes on `single_stream_stability` view 10), serving as the direct parent of both ResidualPrior-BCAP and GAIL-BCAP.",
             "Unlike competitive or context-balanced transport, FeaturePrior-BCAP executes zero extra generator forward probes per update: both $D$ and $G$ draw one uniform particle row at `batch_size=1`.",
             "Feature prototypes and context-outcome counts commit strictly after the single-arrival critic and generator updates complete, preserving causal pre-arrival serving.",
             "Because unseen contexts fall back to 1-NN lookup over at most 64 observed context keys while $G$ trains on $\\phi(x_t)+\\epsilon$, compositional held-out extrapolation (`addition2bit`, `kernel2x2`, `velocity_extrapolation`) and high-DoF continuous state-action manifolds (`robotics`) remain open stretch frontiers.",
@@ -315,6 +315,145 @@ FAMILY_DOCUMENTATION = {
                 "title": "Using Fast Weights to Attend to the Recent Past",
                 "url": "https://arxiv.org/abs/1610.06258",
                 "component": "Inspiration for bounded detached fast-weight state maintained alongside slow network weights.",
+            },
+        ],
+    },
+    "GAIL-BCAP": {
+        "overview": (
+            "GAIL-BCAP translates stabilized generative adversarial imitation control into ParticleStream's "
+            "strict `batch_size=1` online world-modeling contract. It pairs a Hinge margin critic and fixed BCAP "
+            "input-gradient cap with a prioritized survival-plus-style generator objective: unbounded linear Hinge "
+            "generator slopes are canceled in favor of pixelwise BCE reconstruction minus a bounded sigmoid critic "
+            "style bonus modulated by a causal discounted return advantage baseline. Serving draws entropy-regularized "
+            "categorical quantiles over active observed feature prototypes, optionally blended beyond discrete context "
+            "tolerance with a detached Sherman-Morrison recursive associative fast-weight operator."
+        ),
+        "symbols": (
+            "$G$ is the task-owned residual generator, $D$ the raw-score convolutional critic, and $P$ the frozen "
+            "$K$-row `MoGParticlePrior` ($K=32$, $d_z=8$, intrinsic scale $\\sigma=0.025$). At chronological arrival $t$, "
+            "$x_t\\in[0,1]^{1\\times 8\\times 8}$ is the single target frame, $c_{t-1}\\in\\mathbb R^{d_c}$ ($d_c=16$) is "
+            "the detached causal-state context (`write_lr` $\\eta_w=0.5$), and $\\phi(x_t)=s_f W_{\\mathrm{enc}}(\\bar x_t-c_0\\mathbf 1_{64})$ "
+            "is the deterministic orthogonal latent feature code ($s_f=2$, $c_0=0.5$). $\\lambda_{\\mathrm{rec}}=10$ is the "
+            "survival reconstruction weight, $w_{\\mathrm{style}}=0.1$ the bounded style bonus weight, $\\sigma_{\\mathrm{sig}}(u)=(1+e^{-u})^{-1}$ "
+            "the logistic sigmoid, $\\gamma_R=0.99$ the causal return discount, $R_t$ and $(b_t,v_t)$ the post-commit "
+            "discounted return trace and running baseline/variance moments, and $\\alpha_A=0.25$ the advantage modulation "
+            "scale. $\\eta_H=0.01$ is the active-prototype policy entropy bonus over observed bucket counts $N_{b^*,m}$, "
+            "and $(M_t\\in\\mathbb R^{d_z\\times(d_c+1)}, P_t\\in\\mathbb R^{(d_c+1)\\times(d_c+1)})$ is the detached "
+            "Sherman-Morrison recursive ridge fast-weight operator ($\\lambda_{\\mathrm{ridge}}=0.05$, $\\tau_c=0.25$, "
+            "$s_{\\mathrm{blend}}=0.25$, $(a)_+=\\max(a,0)$)."
+        ),
+        "equations": [
+            {
+                "label": "Hinge-BCAP Critic and Prioritized Survival + Bounded Style Bonus Generator",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\mathcal L_D&=\\big(1-D(x_t,c_{t-1})\\big)_++\\big(1+D(\\hat x_D,c_{t-1})\\big)_++"
+                    "\\frac{\\lambda}{2}\\Big[(\\lVert g_r\\rVert_2-\\kappa)_+^2+(\\lVert g_f\\rVert_2-\\kappa)_+^2\\Big],\\\\"
+                    "g_{t-1}&=1+\\alpha_A\\tanh\\!\\left(\\frac{R_{t-1}-b_{t-1}}{\\sqrt{v_{t-1}+10^{-6}}}\\right),\\\\"
+                    "\\mathcal L_G&=\\lambda_{\\mathrm{rec}}\\Big[\\operatorname{BCE}(\\hat x_G,x_t)-"
+                    "w_{\\mathrm{style}}\\,g_{t-1}\\,\\sigma_{\\mathrm{sig}}\\big(D(\\hat x_G,c_{t-1})\\big)\\Big]."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Canceling the default unbounded Hinge generator term $-D(\\hat x_G,c_{t-1})$ prevents single-sample "
+                    "critic spikes from destabilizing the shared decoder. After successful updates, the scalar imitation "
+                    "reward $r_t=-\\operatorname{BCE}(\\hat x_G,x_t)+w_{\\mathrm{style}}\\sigma_{\\mathrm{sig}}(D(\\hat x_G,c_{t-1}))$ "
+                    "updates $R_t=\\gamma_R R_{t-1}+(1-\\gamma_R)r_t$ and $(b_t,v_t)$ strictly for step $t+1$."
+                ),
+            },
+            {
+                "label": "Entropy-Regularized Active-Prototype Quantile Policy",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\mathcal A_{b^*}&=\\big\\{m\\in\\{0,\\dots,M_{\\mathrm{occ}}-1\\}:N_{b^*,m}>0\\big\\},\\\\"
+                    "\\tilde p_{b^*,m}&=(1-\\eta_H)\\frac{N_{b^*,m}}{\\sum_{j\\in\\mathcal A_{b^*}}N_{b^*,j}}+"
+                    "\\eta_H\\frac{\\mathbb I(m\\in\\mathcal A_{b^*})}{|\\mathcal A_{b^*}|},\\\\"
+                    "m^*(i)&=\\min\\!\\left(m_{\\max}(\\mathcal A_{b^*}),\\;\\inf\\left\\{m\\ge 0:"
+                    "\\sum_{j=0}^m \\tilde p_{b^*,j}>\\frac{i+0.5}{K}\\right\\}\\right)."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Mixing $\\eta_H=0.01$ uniform probability strictly over active prototypes $\\mathcal A_{b^*}$ at "
+                    "the nearest context bucket $b^*$ prevents early finite-sample lock-out on rare branches (`5:5:5:1`) "
+                    "without assigning probability mass to unobserved prototypes."
+                ),
+            },
+            {
+                "label": "Detached Sherman-Morrison Associative Fast-Weight Extrapolation",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\tilde c&=\\begin{bmatrix}\\operatorname{clip}(c_{t-1},-c_{\\max},c_{\\max})/s_f\\\\ 1\\end{bmatrix},\\qquad "
+                    "P_t=P_{t-1}-\\frac{P_{t-1}\\tilde c\\,\\tilde c^\\top P_{t-1}}{1+\\tilde c^\\top P_{t-1}\\tilde c},\\\\"
+                    "M_t&=M_{t-1}+\\big(\\phi(x_t)-M_{t-1}\\tilde c\\big)\\frac{\\tilde c^\\top P_{t-1}}{1+\\tilde c^\\top P_{t-1}\\tilde c},\\\\"
+                    "\\alpha(c_{t-1})&=\\alpha_{\\max}\\frac{(d_{\\min}-\\tau_c)_+}{(d_{\\min}-\\tau_c)_++s_{\\mathrm{blend}}},\\qquad "
+                    "z_i^{\\mathrm{cond}}=(1-\\alpha)\\hat\\mu_{m^*(i)}+\\alpha\\,\\Pi_{4 s_f}(M_{t-1}\\tilde c)+\\epsilon_i."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Within seen bucket tolerance ($d_{\\min}\\le\\tau_c$), $\\alpha(c_{t-1})=0$ preserves exact discrete "
+                    "multimodal quantiles $\\hat\\mu_{m^*(i)}+\\epsilon_i$. For unseen continuous or compositional contexts "
+                    "($d_{\\min}>\\tau_c$), $z_i^{\\mathrm{cond}}$ smoothly interpolates toward the radially bounded linear "
+                    "associative prediction $\\Pi_{4 s_f}(M_{t-1}\\tilde c)$ initialized from $P_0=\\lambda_{\\mathrm{ridge}}^{-1}I$."
+                ),
+            },
+        ],
+        "pseudocode": [
+            "Initialize fixed orthogonal encoder W_enc, frozen MoG prior P, empty prototype/context tables, and P_0 = (1 / assoc_ridge) I.",
+            "For each chronological single-arrival step t:",
+            "  Before revealing x_t, serve y_hat = G(z_cond(i_serve, c_{t-1}), c_{t-1}) under an isolated eval RNG.",
+            "  Reveal single target frame x_t (batch_size = 1) and encode phi(x_t) = s_f W_enc (x_bar_t - c_0).",
+            "  Draw uniform row i_D; form z_D via entropy-regularized active quantiles blended with M_{t-1} c_tilde when d_min > tau_c.",
+            "  Evaluate Hinge critic loss max(0, 1 - D(x_t)) + max(0, 1 + D(G(z_D))) + fixed BCAP cap penalty; step D.",
+            "  With D fixed, draw uniform row i_G and form posterior code z_G = phi(x_t) + eps_{i_G}.",
+            "  Cancel default -D(x_hat_G) slope and backpropagate 10 * (BCE(x_hat_G, x_t) - 0.1 * g_{t-1} * sigmoid(D(x_hat_G))); step G.",
+            "  After both updates succeed, commit phi(x_t) and c_{t-1} to prototype/context counts, update return baseline (R_t, b_t, v_t), and update Sherman-Morrison fast weights (M_t, P_t).",
+            "  Advance detached causal state c_t = CausalStateMemory.write(x_t, write_lr = 0.5) with replay_policy = 'none'.",
+        ],
+        "training_details": {
+            "loss": "Hinge margin adversarial critic loss (`loss=\"hinge\"`), paired on $G$ with canceled linear critic slope (`cancel_linear_gan=True`), prioritized pixelwise BCE survival anchor ($\\lambda_{\\mathrm{rec}}=10$), and causal advantage-weighted sigmoid style bonus ($w_{\\mathrm{style}}=0.1$, $\\gamma_R=0.99$, $\\alpha_A=0.25$).",
+            "optimizer": "Native Adam via `bcap_adam` ($\\beta_1=0, \\beta_2=0.999$ in `online-gail-bcap-hinge` and `online-gail-bcap-bce`; $\\beta_1=0.5, \\beta_2=0.999$ in `online-gail-bcap-momentum`). Base MoG storage table is frozen (`prior_update=\"frozen\"`).",
+            "learning_rates": "Base LR $0.005$ (`critic_lr_mult=1.0`, `prior_lr_mult=1.0`), constant through $50\\%$ of task budget (`lr_anneal_start=0.5`) then cosine-annealed to `lr_floor=0.05` (`network_lr_floor=0.05`).",
+            "gradient_clipping": "None (`critic_grad_guard=False`). Unbounded generator critic gradients are eliminated structurally via the bounded sigmoid style bonus and BCAP input-gradient cap.",
+            "critic_penalty": "Fixed one-sided squared $L_2$ BCAP cap on real and conditional-prior fake inputs ($\\lambda=1.0$, $\\kappa=1.0$) every critic step; no EMA critic anchor.",
+            "damping_and_guards": "No A2 sparse-row damping (`latent_damping_max_rate=0.0`), zero generator-center probes (`probe_law=\"no_generator_probes_v1\"`), and radial norm bound $\\lVert\\hat\\phi_{\\mathrm{assoc}}\\rVert_2\\le 4 s_f$ on associative latent extrapolation.",
+            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `write_lr=0.5`, `association_weight=0.0`, `age_horizon=8`) paired with `GAILConditionalReconstruction` (`router=\"gail_conditional\"`, $\\le 32$ prototypes, $\\le 64$ context buckets, `policy_entropy_bonus=0.01`, optional Sherman-Morrison `assoc_ridge=0.05`; `replay_policy=\"none\"`, `rehearsal_batch=0`).",
+            "noise": "Zero scheduled critic-input or generator-output additive noise (`0.0`). Intrinsic task MoG perturbation $\\sigma=0.025$ is preserved on every conditional and posterior latent draw.",
+            "averaging": "Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). All prototype, histogram, return-baseline, and Sherman-Morrison commits occur strictly after each arrival's updates.",
+        },
+        "configuration_notes": [
+            "GAIL-BCAP forms an explicit three-step single-factor ablation ladder over `online-feature-prior-bce`: `online-gail-bcap-hinge` isolates Hinge critic + prioritized survival/sigmoid style bonus + causal return advantage + active categorical entropy; `online-gail-bcap-bce` enables Sherman-Morrison associative fast-weight extrapolation (`assoc_ridge=0.05`); and `online-gail-bcap-momentum` adds `betas=[0.5, 0.999]` Adam first-moment smoothing.",
+            "Keeping `CausalStateMemory.association_weight=0.0` avoids train-versus-evaluation context shift when evaluators reset stream memory on short prefixes, while placing persistent cross-episode fast weights $M_t$ inside `GAILConditionalReconstruction` cuts unseen `seq_minimal_kernel2x2` held-out error by ~3x (`0.261 -> 0.087`) and `seq_img_translating_bar_next` next-frame RMSE by ~25% (`0.0085 -> 0.0064`) without degrading discrete multimodal forks.",
+            "Executed strictly with `batch_size=1` (real and fake), `seed=0`, `replay_policy=\"none\"`, `rehearsal_batch=0`, and zero generator probes across all 20 tasks.",
+        ],
+        "sources": [
+            "particlestream/gail_prior.py",
+            "particlestream/feature_prior.py",
+            "particlestream/memory.py",
+            "particlestream/tier1.py",
+            "configs/forge/ideas/online-gail-bcap-hinge.json",
+            "configs/forge/ideas/online-gail-bcap-bce.json",
+            "configs/forge/ideas/online-gail-bcap-momentum.json",
+        ],
+        "references": [
+            {
+                "title": "Generative Adversarial Imitation Learning",
+                "url": "https://arxiv.org/abs/1606.03476",
+                "component": "Imitation-style occupancy matching with causal return advantage and policy entropy regularization.",
+            },
+            {
+                "title": "Geometric GAN",
+                "url": "https://arxiv.org/abs/1705.02894",
+                "component": "Hinge margin critic objective paired with the BCAP input-gradient cap.",
+            },
+            {
+                "title": "High-Dimensional Continuous Control Using Generalized Advantage Estimation",
+                "url": "https://arxiv.org/abs/1506.02438",
+                "component": "Discounted return baseline and variance-standardized advantage gain for online policy updates.",
+            },
+            {
+                "title": "Using Fast Weights to Attend to the Recent Past",
+                "url": "https://arxiv.org/abs/1610.06258",
+                "component": "Detached associative fast-weight operator extrapolating unseen contexts alongside slow weights.",
             },
         ],
     },

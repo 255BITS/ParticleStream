@@ -1,0 +1,80 @@
+{
+  "changed_factors": [
+    "ParticleGAN 0.9.6 public bcap_adam trainer preset",
+    "Shared 64-frame FIFO memory, seven replay samples and velocity context",
+    "Global non-saturating loss and cosine schedule (start=0.5, floor=0.05)",
+    "Explicit replay_policy=none: train every arriving observation once, batch_size=1",
+    "Predict before arrival; learn next-frame targets from the preceding detached context",
+    "Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context",
+    "New observed-feature conditional prior: fixed named deterministic orthogonal 8x64 encoder; at most 32 latent feature means and 64 observed-context outcome counts; learn statistics only after successful current-observation updates",
+    "Freeze storage prior; learned additive conditional transform preserves each sampled MoG perturbation and task capacity, samples empirical feature quantiles at nearest past context; no image output bypass or stored-frame replay",
+    "G-phase posterior encodes only the current arrived frame; BCE reconstruction weight 10 trains the unchanged image decoder; D and serving use learned conditional prior without current target or generator probes",
+    "Ablate associative-history context term; retain appearance, velocity, salient content and repetition age",
+    "Switch critic adversarial objective to Hinge loss paired with BCAP input-gradient cap and write_lr=0.5 causal-state fast-weight updates",
+    "Stabilized GAIL-BCAP generator objective: cancel unbounded linear Hinge generator slope and optimize prioritized BCE survival anchor minus bounded sigmoid critic style bonus (weight 0.1) modulated by causal discounted return advantage (gamma=0.99, scale=0.25)",
+    "Entropy-regularized categorical outcome quantiles (bonus=0.01) over active observed prototypes per context; associative fast-weight extrapolation disabled (assoc_ridge=0, assoc_max_blend=0)",
+    "Enable detached Sherman-Morrison recursive associative fast-weight operator (assoc_ridge=0.05, assoc_forgetting=1.0, assoc_blend_scale=0.25, assoc_max_blend=1.0) to extrapolate latent feature expectations smoothly beyond discrete context tolerance",
+    "Enable nonzero Adam first-moment smoothing (betas=[0.5, 0.999]) across sequential batch_size=1 arrivals"
+  ],
+  "claim_contract": {
+    "sampling_law": "task_declared"
+  },
+  "id": "online-gail-bcap-momentum",
+  "mechanism_class": "structural",
+  "memory_policy": {
+    "age_horizon": 8.0,
+    "association_weight": 0.0,
+    "change_threshold": 0.04,
+    "context_scale": 3.0,
+    "contrast_threshold": 0.03,
+    "decay": 0.9,
+    "dim": 16,
+    "kind": "fast_weight",
+    "reader": "causal_state",
+    "rehearsal_batch": 0,
+    "replay_policy": "none",
+    "reservoir_size": 64,
+    "transport": {
+      "advantage_scale": 0.25,
+      "assoc_blend_scale": 0.25,
+      "assoc_forgetting": 1.0,
+      "assoc_max_blend": 1.0,
+      "assoc_ridge": 0.05,
+      "cancel_linear_gan": true,
+      "context_capacity": 64,
+      "context_clip": 8.0,
+      "context_tolerance": 0.25,
+      "feature_scale": 2.0,
+      "feature_tolerance": 0.15,
+      "image_center": 0.5,
+      "policy_entropy_bonus": 0.01,
+      "reconstruction_loss": "binary_cross_entropy",
+      "reconstruction_weight": 10.0,
+      "return_discount": 0.99,
+      "router": "gail_conditional",
+      "style_bonus_weight": 0.1,
+      "temperature": 0.0,
+      "usage_decay": 1.0,
+      "usage_penalty": 0.0
+    },
+    "write_lr": 0.5
+  },
+  "namespace": "particlegan_forge",
+  "parent": "online-gail-bcap-bce",
+  "recipe_overrides": {
+    "betas": [
+      0.5,
+      0.999
+    ],
+    "loss": "hinge",
+    "lr": 0.005,
+    "lr_anneal_start": 0.5,
+    "lr_floor": 0.05,
+    "lr_schedule": "cosine",
+    "network_lr_floor": 0.05,
+    "prior_update": "frozen"
+  },
+  "recipe_preset": "bcap_adam",
+  "schema_version": 3,
+  "technique": "GAIL-BCAP"
+}

@@ -4,6 +4,7 @@ from .online import OnlineSession
 from .memory import CausalStateMemory, make_stream_memory
 from .transport import TransportGANTrainer
 from .feature_prior import FeatureConditionalReconstruction
+from .gail_prior import GAILConditionalReconstruction
 from .residual_prior import ResidualFeatureConditionalReconstruction
 from .challenges import (
     CIRCLE_WAYPOINTS,
@@ -43,6 +44,7 @@ __all__ = [
     "make_stream_memory",
     "TransportGANTrainer",
     "FeatureConditionalReconstruction",
+    "GAILConditionalReconstruction",
     "ResidualFeatureConditionalReconstruction",
     "ForkStream",
     "SequentialBarsStream",
