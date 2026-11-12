@@ -100,7 +100,7 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
             assert execution["updates"] == execution["live_predictions"] == 480
             transport = receipt["artifacts"]["transport"]
             assert transport["target_retained"] is False and transport["observation_state_retained"] is False
-            assert transport["manipulator"]["type"] == "GAILConditionalReconstruction"
+            assert transport["manipulator"]["class"] == "particlestream.gail_prior.GAILConditionalReconstruction"
             assert transport["manipulator"]["config"]["encoder_seed"] == NamedStreams(seed=0).seed_for(
                 "init", component="feature_encoder", purpose="projection")
             shared.append(tuple(receipt["artifacts"][key] for key in ("resolved_recipe", "memory_policy"))

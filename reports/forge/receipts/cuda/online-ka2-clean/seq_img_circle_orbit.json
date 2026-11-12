@@ -10,6 +10,7 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "3b355216dd8c4d5b4920fc66416035d54add9c7d00c56f142da26989769af6f7",
       "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
@@ -176,24 +177,24 @@
     "torch_version": "2.15.0+cu132"
   },
   "binding": {
-    "adapter_source_sha256": "e3e036cda6ba6b2adabd1c59ef491492316ebe505e13a6b9f16eae04b8dce12d",
+    "adapter_source_sha256": "e932be21f18ab9e2fde1926c84aa71a64836d847722175b11d6cf873758535f1",
     "candidate_fingerprint": "e7d672470cb865075a0e31920abecaea78bd0611c2d25e92fc23ceca937b4c13",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "54f43a70d4db13db0a8ef681a5be4fb1e6e257024c4a997c7687b5d73172c917"
+    "task_fingerprint": "5564f535d7e96ad6fd63789b69f66714ce4854c763939392ba9d41f844e68747"
   },
   "candidate_fingerprint": "e7d672470cb865075a0e31920abecaea78bd0611c2d25e92fc23ceca937b4c13",
   "candidate_id": "online-ka2-clean",
-  "cohort_key": "be709892ee8aa0da63234babc955522290946d969aae19cd3e23322d59b39936",
-  "completed_at": "2026-11-07T18:00:09.531+00:00",
+  "cohort_key": "20c9c89484baad2dcadfcd33e5d4c4e346d46f69285e3c6b20d0a856c573e5bd",
+  "completed_at": "2026-11-12T07:17:49.241+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 17.35
+    "wall_seconds": 15.7661
   },
   "device": "cuda",
   "error": null,
@@ -626,11 +627,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "54f43a70d4db13db0a8ef681a5be4fb1e6e257024c4a997c7687b5d73172c917",
+  "task_fingerprint": "5564f535d7e96ad6fd63789b69f66714ce4854c763939392ba9d41f844e68747",
   "task_id": "seq_img_circle_orbit",
   "technique": "KA2",
   "terminal_passing": 0,
-  "timestamp": "2026-11-07T18:00:09.531+00:00",
+  "timestamp": "2026-11-12T07:17:49.241+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

@@ -1,5 +1,52 @@
 # ParticleStream research notes
 
+## Stabilized `GAIL-BCAP` Family and 660-Run View 10 Qualification, 2026-11-12
+
+Added the `GAIL-BCAP` technique family (`particlestream/gail_prior.py`,
+`GAILConditionalReconstruction`), translating stabilized generative adversarial imitation
+control into ParticleGAN's public `PriorManipulator` API under ParticleStream's strict
+`batch_size=1` online protocol (`replay_policy="none"`, `rehearsal_batch=0`, `seed=0`,
+zero generator probes).
+
+Three global candidate recipes form an explicit single-factor ablation ladder over
+`online-feature-prior-bce`:
+- **`online-gail-bcap-hinge`** (parent `online-feature-prior-bce`): replaces the non-saturating
+  logistic critic with a Hinge margin critic (`loss="hinge"`), increases detached causal-state
+  fast-weight `write_lr` (`0.35 -> 0.5`), cancels the default unbounded linear Hinge generator
+  slope (`cancel_linear_gan=True`) in favor of prioritized pixelwise BCE survival reconstruction
+  minus a bounded sigmoid critic style bonus (`style_bonus_weight=0.1`) modulated by a causal
+  post-commit discounted return advantage (`return_discount=0.99`, `advantage_scale=0.25`), and
+  draws entropy-regularized categorical quantiles (`policy_entropy_bonus=0.01`) strictly over
+  active observed prototypes per context (`assoc_ridge=0.0`, `assoc_max_blend=0.0`).
+- **`online-gail-bcap-bce`** (parent `online-gail-bcap-hinge`): enables a detached
+  Sherman-Morrison recursive ridge fast-weight operator (`assoc_ridge=0.05`,
+  `assoc_forgetting=1.0`, `assoc_blend_scale=0.25`, `assoc_max_blend=1.0`) inside
+  `GAILConditionalReconstruction` to smoothly extrapolate radially bounded latent feature
+  expectations beyond discrete context tolerance (`d_min > 0.25`) while preserving exact
+  discrete multimodal quantiles on observed contexts (`d_min <= 0.25`).
+- **`online-gail-bcap-momentum`** (parent `online-gail-bcap-bce`): enables nonzero Adam
+  first-moment smoothing (`betas=[0.5, 0.999]`) across sequential `batch_size=1` arrivals.
+
+Fresh source-bound CUDA execution across all **33 executable global recipes × 20 tasks
+(660 sequential runs, 20 oracle PASS controls, 45 destructive FAIL controls)** qualifies all
+three `GAIL-BCAP` global recipes at **Tier 1 (`PASS`, `10/10` required tasks, `50/50` terminal
+checks, `1/10` stretch tasks)** alongside `online-feature-prior-bce`:
+- Enabling the Sherman-Morrison associative fast-weight operator in `online-gail-bcap-bce`
+  reduces unseen `seq_minimal_kernel2x2` `heldout_response_rmse` by **3.0x** (`0.2654` in
+  `online-gail-bcap-hinge` and `0.2614` in `online-feature-prior-bce` down to `0.0868`,
+  `heldout_max_abs_error` `0.4311 -> 0.1895`), cuts `seq_img_translating_bar_next`
+  `next_frame_rmse` by **25%** (`0.0085 -> 0.0064`), lowers `seq_img_delayed_cue`
+  `prediction_rmse` (`0.0242 -> 0.0231`), `seq_img_circle_orbit` `orbit_rmse`
+  (`0.0126 -> 0.0119`), `seq_img_square_circle_cycle` `cycle_rmse` (`0.0127 -> 0.0125`), and
+  `seq_robotics_fetch_pick_and_place` `position_delta_rmse_m` (`0.0027m -> 0.0026m`, `4/5`
+  terminal checks), while preserving `1.0000` quality and exact rare-branch support (`0.0625`)
+  on all discrete multimodal tasks.
+- Adding `betas=[0.5, 0.999]` in `online-gail-bcap-momentum` further improves
+  `seq_minimal_velocity_extrapolation` (`direction_accuracy = 1.0000` on both interpolation
+  and extrapolation, `extrapolation_speed_error` `0.0740 -> 0.0379`, **1.95x** lower) and
+  `seq_minimal_kernel2x2` `seen_response_rmse` (`0.0419 -> 0.0353`), while slightly increasing
+  `seq_robotics_fetch_pick_and_place` terminal variance (`2/5` vs `4/5` terminal checks).
+
 ## Bidirectional Square-Circle CycleGAN (`seq_img_square_circle_cycle`) and View 7 Qualification, 2026-11-06
 
 Added `seq_img_square_circle_cycle` as the tenth required task in `single_stream_stability`

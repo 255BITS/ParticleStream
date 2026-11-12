@@ -3,16 +3,16 @@
   "artifacts": {
     "compute": {
       "critic_parameters": 4929,
-      "cuda_peak_allocated_bytes": 9323520,
+      "cuda_peak_allocated_bytes": 8915968,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 768,
-      "evaluation_seconds": 0.2749045069795102,
+      "evaluation_seconds": 0.26690958975814283,
       "generator_parameters": 5361,
       "optimizer_updates": 96,
-      "process_peak_rss_kib": 2691728,
+      "process_peak_rss_kib": 2620248,
       "serving_d_forwards": 0,
       "serving_g_forwards": 96,
-      "training_and_evaluation_seconds": 1.2830552749946946,
+      "training_and_evaluation_seconds": 1.212406247970648,
       "training_d_forwards": 576,
       "training_g_forwards": 192
     },
@@ -376,9 +376,10 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "3b355216dd8c4d5b4920fc66416035d54add9c7d00c56f142da26989769af6f7",
       "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
-      "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
-      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_adapter.py": "4c9c0e1a35634b5b0e00c8eab76ed798ad5689c8a8db14e6f7bce2cf3e8ccf91",
+      "minimal_online.py": "02a2dd8e13acd478b69e1790cf7fe7d96e40e846b2248b6855cd96185f9b4c6b",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
       "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
@@ -582,24 +583,24 @@
     "torch_version": "2.15.0+cu132"
   },
   "binding": {
-    "adapter_source_sha256": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+    "adapter_source_sha256": "4c9c0e1a35634b5b0e00c8eab76ed798ad5689c8a8db14e6f7bce2cf3e8ccf91",
     "candidate_fingerprint": "1809eab877b64696bef1d478285799865b8bfdb15f3199b4c751d3895588cfe2",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "de9b1e10a921296abed15e65dc366e702875530ae0b141a57484766dc52b4c4f"
+    "task_fingerprint": "0c980e873ef2450c00b8dd6835c9e8d6fdc221bdebc85f63b3105f7ee0c3259d"
   },
   "candidate_fingerprint": "1809eab877b64696bef1d478285799865b8bfdb15f3199b4c751d3895588cfe2",
   "candidate_id": "online-ka2-stateless",
-  "cohort_key": "9944ead8072a4098ab1c7b57fedf6f91cbdaf84194b2f467d81d26f2620a9601",
-  "completed_at": "2026-11-07T18:14:49.202+00:00",
+  "cohort_key": "6fbc7b7d1854c8fca0d6ec17614eaef03ac02d5d4b7d0e49c7960a7430068e65",
+  "completed_at": "2026-11-12T07:31:07.613+00:00",
   "completed_steps": 96,
   "cost": {
     "completed_steps": 96,
     "timeout_seconds": 300,
-    "wall_seconds": 3.5748
+    "wall_seconds": 3.4031
   },
   "device": "cuda",
   "error": null,
@@ -970,11 +971,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "de9b1e10a921296abed15e65dc366e702875530ae0b141a57484766dc52b4c4f",
+  "task_fingerprint": "0c980e873ef2450c00b8dd6835c9e8d6fdc221bdebc85f63b3105f7ee0c3259d",
   "task_id": "seq_minimal_tokens4",
   "technique": "KA2",
   "terminal_passing": 0,
-  "timestamp": "2026-11-07T18:14:49.202+00:00",
+  "timestamp": "2026-11-12T07:31:07.613+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 8819200,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 768,
-      "evaluation_seconds": 0.3633842290582834,
+      "evaluation_seconds": 0.3052623209077865,
       "generator_parameters": 5361,
       "optimizer_updates": 96,
-      "process_peak_rss_kib": 2660152,
+      "process_peak_rss_kib": 2579460,
       "serving_d_forwards": 0,
       "serving_g_forwards": 96,
-      "training_and_evaluation_seconds": 3.477411920001032,
+      "training_and_evaluation_seconds": 2.309673198964447,
       "training_d_forwards": 576,
       "training_g_forwards": 3264
     },
@@ -376,9 +376,10 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "3b355216dd8c4d5b4920fc66416035d54add9c7d00c56f142da26989769af6f7",
       "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
-      "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
-      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_adapter.py": "4c9c0e1a35634b5b0e00c8eab76ed798ad5689c8a8db14e6f7bce2cf3e8ccf91",
+      "minimal_online.py": "02a2dd8e13acd478b69e1790cf7fe7d96e40e846b2248b6855cd96185f9b4c6b",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
       "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
@@ -651,24 +652,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+    "adapter_source_sha256": "4c9c0e1a35634b5b0e00c8eab76ed798ad5689c8a8db14e6f7bce2cf3e8ccf91",
     "candidate_fingerprint": "eff6330e8d0bedde23727e598c9f12a05fdc152fa0cb0db9ced818e95526dfa9",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "f122fdc0b6d7c3d7100481819e40fb40951266fc2216b0416662438b0c851e4b"
+    "task_fingerprint": "06f64c6e5cd2034dbdf61fd032a6d33fbb0c1e48e34fa38c47dabacb93460b4a"
   },
   "candidate_fingerprint": "eff6330e8d0bedde23727e598c9f12a05fdc152fa0cb0db9ced818e95526dfa9",
   "candidate_id": "online-bispf-transport-causal",
-  "cohort_key": "c101c58440e7762f356934e0200b7a25bcd3cb71289cfea4abed84edae35f72e",
-  "completed_at": "2026-11-07T17:40:31.588+00:00",
+  "cohort_key": "51cad5b622b6f72133c8fc8224582db530a25fc913734dee260b0172a8088a43",
+  "completed_at": "2026-11-12T06:47:14.167+00:00",
   "completed_steps": 96,
   "cost": {
     "completed_steps": 96,
     "timeout_seconds": 300,
-    "wall_seconds": 5.5965
+    "wall_seconds": 4.6852
   },
   "device": "cuda",
   "error": null,
@@ -1047,11 +1048,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "f122fdc0b6d7c3d7100481819e40fb40951266fc2216b0416662438b0c851e4b",
+  "task_fingerprint": "06f64c6e5cd2034dbdf61fd032a6d33fbb0c1e48e34fa38c47dabacb93460b4a",
   "task_id": "seq_minimal_dense4",
   "technique": "BISPF",
   "terminal_passing": 0,
-  "timestamp": "2026-11-07T17:40:31.588+00:00",
+  "timestamp": "2026-11-12T06:47:14.167+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }
