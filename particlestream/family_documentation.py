@@ -21,6 +21,164 @@ TRAINING_DETAILS = (
 
 
 FAMILY_DOCUMENTATION = {
+    "ResidualPrior-BCAP": {
+        "overview": (
+            "ResidualPrior-BCAP extends FeaturePrior-BCAP by replacing nearest-neighbor context lookup on "
+            "unseen states with an online parametric residual conditional prior (`ResidualFeatureConditionalReconstruction`). "
+            "A detached `float64` Sherman-Morrison Recursive Least Squares (RLS) affine predictor maintains global "
+            "second-order sufficient statistics across all sequential arrivals without replay, paired with a "
+            "Mahalanobis precision-weighted spike-and-slab prototype posterior that snaps along invariant subspaces "
+            "on discrete compositional manifolds while staying linear on continuous physical manifolds. An "
+            "empirical-Bayes kernel gate restores exact multimodal empirical quantiles at recurrent contexts, and a "
+            "Markov bottleneck penalty prevents direct generator context-shortcut weights from bypassing the latent prior."
+        ),
+        "symbols": (
+            "$G$ is the task-owned residual generator with input layer $W_{\\mathrm{fc}}=[W_z,\\,W_{\\mathrm{ctx}}]$, "
+            "$D$ the raw-score convolutional critic, and $P$ the frozen $K$-row `MoGParticlePrior` ($K=32$, $d_z=8$, "
+            "$\\sigma=0.025$) with base centers $\\mu_i^{\\mathrm{base}}\\in\\mathbb R^{d_z}$. At step $t$, "
+            "$x_t\\in[0,1]^{1\\times 8\\times 8}$ is the single arriving target frame, $\\phi(x_t)=s_f W_{\\mathrm{enc}}(\\bar x_t-c_0\\mathbf 1_{64})\\in\\mathbb R^{d_z}$ "
+            "its fixed orthogonal latent code ($s_f=2$, $c_0=0.5$), and $\\bar c_{t-1}=[\\tilde c_{t-1};\\,1]\\in\\mathbb R^{d_c+1}$ "
+            "the clipped preceding causal context augmented with bias ($d_c=16$). $W_t\\in\\mathbb R^{d_z\\times(d_c+1)}$ and "
+            "$P_t\\in\\mathbb R^{(d_c+1)\\times(d_c+1)}$ are the online RLS weights and inverse-Gram matrix ($\\lambda_{\\mathrm{rls}}=0.1$), "
+            "$S_t\\in\\mathbb R^{d_z\\times d_z}$ and $q_t\\in\\mathbb R_{\\ge 0}$ are exponentially weighted ($\\alpha_S=0.05$) "
+            "post-fit RLS residual covariance and nearest-prototype quantization variance ($\\varepsilon_S=10^{-4}$), "
+            "$\\hat\\mu_m\\in\\mathbb R^{d_z}$ are online prototypes ($M_t\\le 32$), and $(k_b^{\\mathrm{ctx}},V_b,M_{b,m})$ "
+            "are context keys, visit counts, and outcome masses ($C_{\\max}=64$, $\\kappa_{\\mathrm{visit}}=0.25$, $h_k=0.12$)."
+        ),
+        "equations": [
+            {
+                "label": "Causal Salient Key Projection (Normalized vs. Linear-Key Ablation)",
+                "latex": (
+                    "\\begin{aligned}"
+                    "k_t^{\\mathrm{norm}}&=s_t\\frac{W_k\\tilde x_t}{\\lVert W_k\\tilde x_t\\rVert_2},\\qquad "
+                    "k_t^{\\mathrm{lin}}=s_t\\,g_k W_k\\tilde x_t,\\qquad "
+                    "f_t=k_t+\\tfrac12(k_t-k_{t-1})+(1-s_t)r_{t-1}."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "`online-residual-prior-bce` inherits unit-sphere normalization $k_t^{\\mathrm{norm}}$ (`normalize_key=True`), "
+                    "whereas `online-residual-prior-linear-key` uses unnormalized salient projection $k_t^{\\mathrm{lin}}$ "
+                    "(`normalize_key=False`, $g_k=0.5$) so disjoint pixel patches and continuous physical state-action pairs "
+                    "preserve exact Euclidean superposition in context space while low-contrast arrivals ($s_t=0$) remain gated."
+                ),
+            },
+            {
+                "label": "Online Sherman-Morrison RLS Predictor and Residual Covariance",
+                "latex": (
+                    "\\begin{aligned}"
+                    "g_t&=\\frac{P_{t-1}\\bar c_{t-1}}{1+\\bar c_{t-1}^\\top P_{t-1}\\bar c_{t-1}},\\qquad "
+                    "W_t=W_{t-1}+\\big(\\phi(x_t)-W_{t-1}\\bar c_{t-1}\\big)g_t^\\top,\\qquad "
+                    "P_t=P_{t-1}-g_t\\bar c_{t-1}^\\top P_{t-1},\\\\"
+                    "e_t^{\\mathrm{post}}&=\\phi(x_t)-W_t\\bar c_{t-1},\\qquad "
+                    "S_t=(1-\\alpha_S)S_{t-1}+\\alpha_S\\,e_t^{\\mathrm{post}}(e_t^{\\mathrm{post}})^\\top,\\qquad "
+                    "q_t=(1-\\alpha_S)q_{t-1}+\\alpha_S\\min_m\\lVert\\phi(x_t)-\\hat\\mu_m\\rVert_2^2."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Rank-1 Sherman-Morrison updates accumulate exact ridge-regularized linear sufficient statistics across "
+                    "correlated `batch_size=1` streams without forgetting earlier episodes. After warm-up ($t>d_c$), $S_t$ "
+                    "captures directional post-fit residual covariance while $q_t$ tracks continuous vs. discrete target dispersion."
+                ),
+            },
+            {
+                "label": "Mahalanobis Spike-and-Slab Prototype Posterior and Kernel-Gated Residual Quantiles",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\hat z_{\\mathrm{lin}}(c)&=W_t\\bar c,\\qquad "
+                    "\\tilde S_t=\\tfrac12(S_t+S_t^\\top)+\\varepsilon_S I,\\qquad "
+                    "m^*(c)=\\arg\\min_{0\\le m<M_t}(\\hat\\mu_m-\\hat z_{\\mathrm{lin}}(c))^\\top\\tilde S_t^{-1}(\\hat\\mu_m-\\hat z_{\\mathrm{lin}}(c)),\\\\"
+                    "\\beta_t(c)&=\\exp\\!\\left(-\\left(\\frac{q_t}{\\rho_v\\operatorname{tr}(S_t)+10^{-5}}\\right)^2\\right)"
+                    "\\sigma\\!\\left(\\tfrac12\\log\\frac{\\det(\\tilde S_t+\\sigma_{\\mathrm{slab}}^2 I)}{\\det(\\tilde S_t)}-\\tfrac12 d_{\\tilde S_t}^2(\\hat\\mu_{m^*(c)},\\hat z_{\\mathrm{lin}}(c))\\right),\\\\"
+                    "\\hat z_{\\mathrm{ctx}}(c)&=(1-\\beta_t(c))\\hat z_{\\mathrm{lin}}(c)+\\beta_t(c)\\hat\\mu_{m^*(c)},\\qquad "
+                    "z_i^{\\mathrm{cond}}(c)=\\hat z_{\\mathrm{ctx}}(c)+\\gamma_t(c)\\big(\\hat\\mu_{q(i,b^*)}-\\hat z_{\\mathrm{ctx}}(k_{b^*}^{\\mathrm{ctx}})\\big)+\\epsilon_i."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Along exact linear invariants where $\\tilde S_t$ has near-zero variance, $\\tilde S_t^{-1}$ enforces "
+                    "the invariant while down-weighting nonlinear carry/parity directions ($\\rho_v=0.10$, $\\sigma_{\\mathrm{slab}}=1.0$). "
+                    "On continuous manifolds ($q_t/\\operatorname{tr}(S_t)\\gg\\rho_v$), $\\beta_t(c)\\to 0$ preserves smooth "
+                    "extrapolation; at recurrent multimodal contexts ($V_{b^*}>1$), empirical-Bayes shrinkage "
+                    "$\\gamma_t(c)=\\frac{V_{b^*}-1}{V_{b^*}-1+\\kappa_{\\mathrm{visit}}}\\frac{\\operatorname{tr}(S_t)}{\\operatorname{tr}(S_t)+q_t+10^{-5}}\\exp(-\\lVert c-k_{b^*}^{\\mathrm{ctx}}\\rVert_2^2/h_k^2)$ "
+                    "recovers exact branch quantiles ($z_i^{\\mathrm{cond}}(k_{b^*}^{\\mathrm{ctx}})\\to\\hat\\mu_{q(i,b^*)}+\\epsilon_i$)."
+                ),
+            },
+            {
+                "label": "Markov-Bottlenecked Generator and Critic Objectives",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\mathcal L_D&=\\operatorname{softplus}(-D(x_t,c_{t-1}))+\\operatorname{softplus}(D(\\hat x_D,c_{t-1}))+"
+                    "\\frac{\\lambda}{2}\\Big[(\\lVert g_r\\rVert_2-\\kappa)_+^2+(\\lVert g_f\\rVert_2-\\kappa)_+^2\\Big],\\\\"
+                    "\\mathcal L_G&=\\operatorname{softplus}(-D(\\hat x_G,c_{t-1}))+\\lambda_{\\mathrm{rec}}\\,\\operatorname{BCE}(\\hat x_G,x_t)+"
+                    "\\lambda_{\\mathrm{ctx}}\\,\\lVert W_{\\mathrm{ctx}}\\rVert_F^2."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Because $G$ trains on current-observation posterior codes $z_{i_G}^{\\mathrm{post}}=\\phi(x_t)+\\epsilon_{i_G}$, "
+                    "penalizing the direct context-input block $W_{\\mathrm{ctx}}$ ($\\lambda_{\\mathrm{ctx}}=5$, $\\lambda_{\\mathrm{rec}}=10$) "
+                    "prevents $G$ from memorizing seen contexts around $z$ and ensures held-out states decode cleanly through $z_i^{\\mathrm{cond}}(c)$."
+                ),
+            },
+        ],
+        "pseudocode": [
+            "Initialize fixed orthogonal encoder W_enc, float64 RLS (W_0 = 0, P_0 = I / lambda_rls), S_0 = 1e-2 I, q_0 = 0, and empty prototype/context tables.",
+            "For each chronological single-arrival step t (batch_size = 1, replay = none):",
+            "  Before revealing x_t, serve y_hat = G(z_cond(i_serve, c_{t-1}), c_{t-1}) under an isolated eval RNG.",
+            "  Reveal single target frame x_t and encode phi(x_t) = s_f W_enc (x_bar_t - c_0).",
+            "  Draw uniform row i_D; compute z_ctx(c_{t-1}) via RLS + Mahalanobis spike-and-slab and add kernel-gated live residual quantile to form z_D.",
+            "  Update critic D with non-saturating logistic loss on x_t and stop_gradient(G(z_D, c_{t-1})) plus BCAP input-gradient penalty.",
+            "  Draw uniform row i_G; form posterior code z_G = phi(x_t) + eps_{i_G}; update G with adversarial loss + 10 * BCE + 5 * ||W_ctx||_F^2.",
+            "  After both updates succeed, commit phi(x_t) to prototype table (<=32) and c_{t-1} to context table (<=64), then run rank-1 Sherman-Morrison RLS and EMA updates for (W_t, P_t, S_t, q_t).",
+            "  Advance detached causal state c_t = CausalStateMemory.write(x_t) without storing or replaying frames.",
+        ],
+        "training_details": {
+            "loss": "Decoupled non-saturating logistic adversarial loss for $D$ and $G$, paired on $G$ with pixelwise BCE posterior reconstruction ($\\lambda_{\\mathrm{rec}}=10$) and Frobenius regularization on $G$'s direct context-input weights ($\\lambda_{\\mathrm{ctx}}=5$).",
+            "optimizer": "Native Adam via `bcap_adam` ($\\beta_1=0$, $\\beta_2=0.99$, `prior_betas=(0, 0.99)`). Base `MoGParticlePrior` is frozen (`prior_update=\"frozen\"`); RLS and covariance buffers update analytically in `float64` without optimizer state.",
+            "learning_rates": "Base LR $0.005$ with `critic_lr_mult=1.0`, `prior_lr_mult=1.0`, holding constant through `lr_anneal_start=0.5` before cosine-decaying to `lr_floor=0.05`.",
+            "gradient_clipping": "None (`critic_grad_guard=False`). Critic Lipschitz control acts solely through the BCAP input-gradient cap.",
+            "critic_penalty": "Fixed one-sided squared $L_2$ BCAP cap on real and residual-prior fake inputs ($\\lambda=1.0$, $\\kappa=1.0$) every step; no critic EMA anchor.",
+            "damping_and_guards": "No sparse-row latent damping (`latent_damping_max_rate=0.0`) and zero generator-center probes (`probe_law=\"no_generator_probes_v1\"`).",
+            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `association_weight=0.0`) plus `ResidualFeatureConditionalReconstruction` (`rls_ridge=0.1`, `covariance_ema=0.05`, `slab_scale=1.0`, `variance_ratio_scale=0.10`, `visit_shrinkage=0.25`, `kernel_bandwidth=0.12`, `replay_policy=\"none\"`, `rehearsal_batch=0`).",
+            "noise": "Zero scheduled critic-input or generator-output additive noise (`0.0`); intrinsic task MoG perturbation $\\sigma=0.025$ is preserved on every transformed particle row.",
+            "averaging": "Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). Pre-arrival serving queries only committed sufficient statistics and preceding detached context $c_{t-1}$.",
+        },
+        "configuration_notes": [
+            "`online-residual-prior-bce` isolates the prior/transport change relative to `online-feature-prior-bce`, keeping `CausalStateMemory` (`normalize_key=True`) and every optimizer/loss override unchanged while replacing `FeatureConditionalReconstruction` with `ResidualFeatureConditionalReconstruction`.",
+            "`online-residual-prior-linear-key` is a single-factor child of `online-residual-prior-bce` setting `normalize_key=False` (`key_gain=0.5`) in `CausalStateMemory`, preserving linear Euclidean norm across multi-patch compositional frames and continuous state-action encodings.",
+            "When $d_c=0$ (`seq_minimal_dense4`, `seq_minimal_tokens4`, `seq_img_bars4`, `seq_img_dwell_bars4`, `seq_img_variable_dwell`, `seq_img_rare_mode`), `ResidualFeatureConditionalReconstruction` delegates directly to `FeatureConditionalReconstruction` and preserves exact marginal empirical quantiles.",
+            "Zero trainable `nn.Parameter` tensors or random weights are added by the residual prior; all updates are deterministic closed-form matrix operations committed strictly after `GANTrainer.step` succeeds.",
+        ],
+        "sources": [
+            "particlestream/residual_prior.py",
+            "particlestream/feature_prior.py",
+            "particlestream/memory.py",
+            "particlestream/transport.py",
+            "particlestream/tier1.py",
+            "configs/forge/ideas/online-residual-prior-bce.json",
+            "configs/forge/ideas/online-residual-prior-linear-key.json",
+        ],
+        "references": [
+            {
+                "title": "Adjustment of an Inverse Matrix Corresponding to a Change in One Element of a Given Matrix",
+                "url": "https://doi.org/10.1214/aoms/1177729893",
+                "component": "Rank-1 Sherman-Morrison inverse-Gram recursion powering the exact online batch_size=1 RLS predictor.",
+            },
+            {
+                "title": "Bayesian Variable Selection in Linear Regression",
+                "url": "https://doi.org/10.1080/01621459.1988.10478693",
+                "component": "Spike-and-slab Bayes factor formulation adapted for precision-weighted discrete prototype vs. continuous slab gating.",
+            },
+            {
+                "title": "Deep Variational Information Bottleneck",
+                "url": "https://arxiv.org/abs/1612.00410",
+                "component": "Information-bottleneck motivation for regularizing direct generator context-shortcut weights so predictions route through the latent code.",
+            },
+            {
+                "title": "Generative Adversarial Networks",
+                "url": "https://arxiv.org/abs/1406.2661",
+                "component": "Non-saturating logistic adversarial objective paired with the residual conditional prior.",
+            },
+        ],
+    },
     "FeaturePrior-BCAP": {
         "overview": (
             "FeaturePrior-BCAP pairs the fixed BCAP critic input-gradient cap and a detached causal state "
@@ -125,7 +283,7 @@ FAMILY_DOCUMENTATION = {
             "averaging": "Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). Serving uses only preceding context $c_{t-1}$ and previously committed feature/outcome summaries.",
         },
         "configuration_notes": [
-            "FeaturePrior-BCAP is currently the sole Tier 1-qualifying global recipe (`online-feature-prior-bce`: 10/10 required passes, 1/10 stretch passes on `single_stream_stability` view 10).",
+            "FeaturePrior-BCAP established the first Tier 1-qualifying global recipe (`online-feature-prior-bce`: 10/10 required passes, 1/10 stretch passes on `single_stream_stability` view 10), serving as the direct parent of ResidualPrior-BCAP.",
             "Unlike competitive or context-balanced transport, FeaturePrior-BCAP executes zero extra generator forward probes per update: both $D$ and $G$ draw one uniform particle row at `batch_size=1`.",
             "Feature prototypes and context-outcome counts commit strictly after the single-arrival critic and generator updates complete, preserving causal pre-arrival serving.",
             "Because unseen contexts fall back to 1-NN lookup over at most 64 observed context keys while $G$ trains on $\\phi(x_t)+\\epsilon$, compositional held-out extrapolation (`addition2bit`, `kernel2x2`, `velocity_extrapolation`) and high-DoF continuous state-action manifolds (`robotics`) remain open stretch frontiers.",

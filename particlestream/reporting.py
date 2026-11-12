@@ -64,6 +64,15 @@ METHODS = {
         "and this policy uses no generator-center probes.",
         "feature_prior.py",
     ),
+    "ResidualPrior-BCAP": (
+        "ResidualPrior-BCAP replaces FeaturePrior-BCAP's nearest-neighbor context lookup on unseen "
+        "states with a closed-form online Sherman-Morrison RLS affine predictor, a precision-weighted "
+        "Mahalanobis spike-and-slab prototype posterior, and an empirical-Bayes kernel-gated live "
+        "residual quantile transform, paired with a Markov bottleneck penalty on direct generator "
+        "context-shortcut weights. All statistics live in detached buffers updated strictly after "
+        "successful batch_size=1 arrivals without replay, generator probes, or target retention.",
+        "residual_prior.py",
+    ),
 }
 
 
