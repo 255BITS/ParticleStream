@@ -53,6 +53,8 @@ One complete recipe per technique, ordered by required qualification and passes,
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | [0/10*](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) | — | — | [0/10*](families/gail-bcap.md#online-gail-bcap-bce-required) | 0/20 | `INCOMPLETE` |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | [0/10*](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) | — | — | [0/10*](families/gail-bcap.md#online-gail-bcap-hinge-required) | 0/20 | `INCOMPLETE` |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | [0/10*](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) | — | — | [0/10*](families/gail-bcap.md#online-gail-bcap-momentum-required) | 0/20 | `INCOMPLETE` |
+| [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | [0/10*](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) | — | — | [0/10*](families/gail-bcap.md#online-gail-bcap-snr-required) | 0/20 | `INCOMPLETE` |
+| [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | [0/10*](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) | — | — | [0/10*](families/gail-bcap.md#online-gail-bcap-spike-slab-required) | 0/20 | `INCOMPLETE` |
 | [KA2](families/ka2.md) | [`online-ka2`](families/ka2.md#online-ka2) | [0/10*](families/ka2.md#online-ka2-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-required) | 0/20 | `INCOMPLETE` |
 | [KA2](families/ka2.md) | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | [0/10*](families/ka2.md#online-ka2-clean-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-clean-required) | 0/20 | `INCOMPLETE` |
 | [KA2](families/ka2.md) | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | [0/10*](families/ka2.md#online-ka2-light-anchor-tier-1-required) | — | — | [0/10*](families/ka2.md#online-ka2-light-anchor-required) | 0/20 | `INCOMPLETE` |
@@ -95,6 +97,8 @@ These measurements retain their declared gates and budgets even when a required 
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | [0/2*](families/gail-bcap.md#online-gail-bcap-bce-tier-1-stretch) | [0/7*](families/gail-bcap.md#online-gail-bcap-bce-tier-2-stretch) | [0/1*](families/gail-bcap.md#online-gail-bcap-bce-tier-3-stretch) | [0/10*](families/gail-bcap.md#online-gail-bcap-bce-stretch) | 0/10 |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | [0/2*](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-stretch) | [0/7*](families/gail-bcap.md#online-gail-bcap-hinge-tier-2-stretch) | [0/1*](families/gail-bcap.md#online-gail-bcap-hinge-tier-3-stretch) | [0/10*](families/gail-bcap.md#online-gail-bcap-hinge-stretch) | 0/10 |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | [0/2*](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-stretch) | [0/7*](families/gail-bcap.md#online-gail-bcap-momentum-tier-2-stretch) | [0/1*](families/gail-bcap.md#online-gail-bcap-momentum-tier-3-stretch) | [0/10*](families/gail-bcap.md#online-gail-bcap-momentum-stretch) | 0/10 |
+| [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | [0/2*](families/gail-bcap.md#online-gail-bcap-snr-tier-1-stretch) | [0/7*](families/gail-bcap.md#online-gail-bcap-snr-tier-2-stretch) | [0/1*](families/gail-bcap.md#online-gail-bcap-snr-tier-3-stretch) | [0/10*](families/gail-bcap.md#online-gail-bcap-snr-stretch) | 0/10 |
+| [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | [0/2*](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-stretch) | [0/7*](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-2-stretch) | [0/1*](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-3-stretch) | [0/10*](families/gail-bcap.md#online-gail-bcap-spike-slab-stretch) | 0/10 |
 | [KA2](families/ka2.md) | [`online-ka2`](families/ka2.md#online-ka2) | [0/2*](families/ka2.md#online-ka2-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-stretch) | 0/10 |
 | [KA2](families/ka2.md) | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | [0/2*](families/ka2.md#online-ka2-clean-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-clean-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-clean-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-clean-stretch) | 0/10 |
 | [KA2](families/ka2.md) | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | [0/2*](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) | [0/7*](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) | [0/1*](families/ka2.md#online-ka2-light-anchor-tier-3-stretch) | [0/10*](families/ka2.md#online-ka2-light-anchor-stretch) | 0/10 |
@@ -169,6 +173,8 @@ Gates: `hq >= 0.9`, `modes == 4.0`, `finite_template_tv <= 0.15`. Budget: 480 up
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -214,6 +220,8 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -259,6 +267,8 @@ Gates: `next_frame_rmse <= 0.12`, `direction_acc >= 0.9`. Budget: 480 updates; 2
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -304,6 +314,8 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`. Budget: 48
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -349,6 +361,8 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -394,6 +408,8 @@ Gates: `hq >= 0.85`, `finite_template_tv <= 0.15`, `support_modes == 4.0`, `rare
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -439,6 +455,8 @@ Gates: `outcome_accuracy >= 0.9`, `prediction_rmse <= 0.12`. Budget: 480 updates
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -484,6 +502,8 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`, `trajector
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -529,6 +549,8 @@ Gates: `orbit_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.9`, `orbit_c
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -574,6 +596,8 @@ Gates: `cycle_rmse <= 0.12`, `s2c_rmse <= 0.12`, `c2s_rmse <= 0.12`, `xy_rmse <=
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-required) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-required) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-required) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-required) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-required) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-required) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-required) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-required) |
@@ -619,6 +643,8 @@ Gates: `valid_fraction >= 0.9`, `modes == 4.0`, `mass_tv <= 0.15`. Budget: 96 up
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) |
@@ -664,6 +690,8 @@ Gates: `valid_fraction == 1.0`, `modes == 4.0`, `mass_tv <= 0.1`. Budget: 96 upd
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-1-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-1-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-1-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-1-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-1-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-1-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-1-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-1-stretch) |
@@ -709,6 +737,8 @@ Gates: `seen_response_rmse <= 0.03`, `seen_max_abs_error <= 0.05`, `heldout_resp
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-2-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-2-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-2-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-2-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-2-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-2-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
@@ -754,6 +784,8 @@ Gates: `seen_exact_accuracy == 1.0`, `seen_min_bit_confidence >= 0.9`, `heldout_
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-2-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-2-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-2-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-2-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-2-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-2-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
@@ -799,6 +831,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-2-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-2-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-2-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-2-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-2-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-2-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
@@ -844,6 +878,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-2-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-2-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-2-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-2-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-2-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-2-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
@@ -889,6 +925,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-2-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-2-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-2-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-2-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-2-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-2-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
@@ -934,6 +972,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-2-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-2-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-2-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-2-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-2-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-2-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
@@ -979,6 +1019,8 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-2-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-2-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-2-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-2-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-2-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-2-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-2-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-2-stretch) |
@@ -1024,6 +1066,8 @@ Gates: `interpolation_centroid_rmse <= 0.01`, `interpolation_speed_error <= 0.01
 | [`online-gail-bcap-bce`](families/gail-bcap.md#online-gail-bcap-bce) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-bce-tier-3-stretch) |
 | [`online-gail-bcap-hinge`](families/gail-bcap.md#online-gail-bcap-hinge) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-hinge-tier-3-stretch) |
 | [`online-gail-bcap-momentum`](families/gail-bcap.md#online-gail-bcap-momentum) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-momentum-tier-3-stretch) |
+| [`online-gail-bcap-snr`](families/gail-bcap.md#online-gail-bcap-snr) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-snr-tier-3-stretch) |
+| [`online-gail-bcap-spike-slab`](families/gail-bcap.md#online-gail-bcap-spike-slab) | NOT_RUN | — | [details](families/gail-bcap.md#online-gail-bcap-spike-slab-tier-3-stretch) |
 | [`online-ka2`](families/ka2.md#online-ka2) | NOT_RUN | — | [details](families/ka2.md#online-ka2-tier-3-stretch) |
 | [`online-ka2-clean`](families/ka2.md#online-ka2-clean) | NOT_RUN | — | [details](families/ka2.md#online-ka2-clean-tier-3-stretch) |
 | [`online-ka2-light-anchor`](families/ka2.md#online-ka2-light-anchor) | NOT_RUN | — | [details](families/ka2.md#online-ka2-light-anchor-tier-3-stretch) |

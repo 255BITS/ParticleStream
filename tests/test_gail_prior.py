@@ -35,6 +35,8 @@ class ContextModel(nn.Module):
         self.context_dim = context_dim
         self.z_dim = 8
         self.register_buffer("active_context", torch.zeros(1, max(1, context_dim)))
+        if context_dim > 0:
+            self.fc = nn.Linear(8 + context_dim, 16)
 
 
 def make_gail_prior(*, context_dim: int = 0, **config):
@@ -87,6 +89,15 @@ def assignments(codes, router, frames):
         {"assoc_forgetting": 1.1},
         {"assoc_blend_scale": 0.0},
         {"assoc_max_blend": 1.2},
+        {"spike_slab_scale": -0.1},
+        {"spike_slab_scale": 1.0, "assoc_ridge": 0.0},
+        {"covariance_ema": 0.0},
+        {"covariance_ema": 1.1},
+        {"covariance_eps": 0.0},
+        {"variance_ratio_scale": 0.0},
+        {"visit_shrinkage": -0.1},
+        {"kernel_bandwidth": 0.0},
+        {"context_bypass_weight": -1.0},
         {"reconstruction_weight": 0.0, "cancel_linear_gan": True},
     ],
 )
@@ -260,3 +271,86 @@ def test_public_hinge_gail_trainer_preserves_batch_one_rng_and_session_isolation
     for key, value in trainer.transport.state_dict().items():
         if isinstance(value, torch.Tensor):
             assert torch.equal(value, saved_transport[key])
+
+
+def test_spike_slab_mahalanobis_and_context_bypass_regularizer():
+    model, router, prior = make_gail_prior(
+        context_dim=2,
+        assoc_ridge=0.1,
+        spike_slab_scale=1.0,
+        context_bypass_weight=5.0,
+        reconstruction_weight=10.0,
+        style_bonus_weight=0.05,
+        advantage_scale=0.0,
+        reconstruction_loss="mse",
+    )
+    assert router.assoc_extrapolation_law == "sherman_morrison_spike_slab_kernel_residual_v1"
+    assert router.assoc_weights.dtype == torch.float64
+    frames = bars4_templates()
+
+    # Check exact context-bypass gradient without committing an observation (or on a fresh router)
+    with torch.no_grad():
+        model.fc.weight.fill_(0.25)
+    model_grad, router_grad, prior_grad = make_gail_prior(
+        context_dim=2,
+        assoc_ridge=0.1,
+        spike_slab_scale=1.0,
+        context_bypass_weight=5.0,
+        reconstruction_weight=10.0,
+        style_bonus_weight=0.05,
+        advantage_scale=0.0,
+        reconstruction_loss="mse",
+    )
+    with torch.no_grad():
+        model_grad.fc.weight.fill_(0.25)
+    with router_grad.training_target(frames[0:1]):
+        prior_grad.sample(1, generator=torch.Generator().manual_seed(0))
+        prior_grad.sample(1, generator=torch.Generator().manual_seed(0))
+        generated = frames[0:1].clone().requires_grad_(True)
+        logits = torch.tensor([[0.0]], requires_grad=True)
+        reg = prior_grad.regularize(prior_grad.z, generated=generated, logits=logits)
+        (grad_fc,) = torch.autograd.grad(reg, model_grad.fc.weight)
+        assert torch.allclose(grad_fc[:, :8], torch.zeros_like(grad_fc[:, :8]))
+        assert torch.allclose(grad_fc[:, 8:], 10.0 * model_grad.fc.weight[:, 8:].detach(), atol=1e-6)
+
+    # Train 2D linear manifold on seen contexts (-1,0), (+1,0), (0,1); evaluate on unseen midpoint (0,0)
+    f_mid = 0.5 * (frames[0:1] + frames[2:3])
+    for _ in range(10):
+        model.active_context.copy_(torch.tensor([[-1.0, 0.0]]))
+        observe_gail(router, prior, frames[0:1])
+        model.active_context.copy_(torch.tensor([[1.0, 0.0]]))
+        observe_gail(router, prior, frames[2:3])
+        model.active_context.copy_(torch.tensor([[0.0, 1.0]]))
+        observe_gail(router, prior, f_mid)
+
+    # Seen context (-1, 0) snaps cleanly to discrete prototype frames[0:1]
+    model.active_context.copy_(torch.tensor([[-1.0, 0.0]]))
+    assert torch.allclose(clean_codes(prior)[0:1], router.encode(frames[0:1]), atol=1e-4)
+
+    # Unseen midpoint (0, 0) extrapolates via RLS + spike-and-slab to 0.5 * (f0 + f2)
+    model.active_context.copy_(torch.tensor([[0.0, 0.0]]))
+    mid_codes = clean_codes(prior)
+    assert torch.allclose(mid_codes[0:1], router.encode(f_mid), atol=2e-2)
+    diag = router.diagnostics()
+    assert diag["assoc_active"] is True
+    assert diag["assoc_updates"] == 30
+    assert diag["observation_state_retained"] is False
+
+
+def test_high_snr_feature_scale_quadruples_latent_energy_without_splitting_prototypes():
+    m_base, r_base, p_base = make_gail_prior(
+        feature_scale=2.0, feature_tolerance=0.15, spike_slab_scale=1.0, assoc_ridge=0.1
+    )
+    m_snr, r_snr, p_snr = make_gail_prior(
+        feature_scale=4.0, feature_tolerance=0.30, spike_slab_scale=2.0, assoc_ridge=0.1
+    )
+    assert m_base is not None and m_snr is not None
+    frames = bars4_templates()
+    for _ in range(3):
+        for i in range(4):
+            observe_gail(r_base, p_base, frames[i : i + 1])
+            observe_gail(r_snr, p_snr, frames[i : i + 1])
+    assert int(r_base.feature_count.item()) == int(r_snr.feature_count.item()) == 4
+    e_base = r_base.encode(frames[0:1]).square().sum().item()
+    e_snr = r_snr.encode(frames[0:1]).square().sum().item()
+    assert e_snr == pytest.approx(4.0 * e_base, rel=1e-6)

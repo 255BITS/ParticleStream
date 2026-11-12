@@ -754,6 +754,56 @@
   - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: stale receipt: task_fingerprint differ
   - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: stale receipt: adapter_source_sha256, task_fingerprint differ
 
+### `online-gail-bcap-snr` (`GAIL-BCAP`)
+- **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, New observed-feature conditional prior: fixed named deterministic orthogonal 8x64 encoder; at most 32 latent feature means and 64 observed-context outcome counts; learn statistics only after successful current-observation updates, Freeze storage prior; learned additive conditional transform preserves each sampled MoG perturbation and task capacity, samples empirical feature quantiles at nearest past context; no image output bypass or stored-frame replay, G-phase posterior encodes only the current arrived frame; BCE reconstruction weight 10 trains the unchanged image decoder; D and serving use learned conditional prior without current target or generator probes, Ablate associative-history context term; retain appearance, velocity, salient content and repetition age, Switch critic adversarial objective to Hinge loss paired with BCAP input-gradient cap and write_lr=0.5 causal-state fast-weight updates, Stabilized GAIL-BCAP generator objective: cancel unbounded linear Hinge generator slope and optimize prioritized BCE survival anchor minus bounded sigmoid critic style bonus (weight 0.1) modulated by causal discounted return advantage (gamma=0.99, scale=0.25), Entropy-regularized categorical outcome quantiles (bonus=0.01) over active observed prototypes per context; associative fast-weight extrapolation disabled (assoc_ridge=0, assoc_max_blend=0), Enable detached Sherman-Morrison recursive associative fast-weight operator (assoc_ridge=0.05, assoc_forgetting=1.0, assoc_blend_scale=0.25, assoc_max_blend=1.0) to extrapolate latent feature expectations smoothly beyond discrete context tolerance, Replace radial distance blending with float64 Sherman-Morrison RLS (assoc_ridge=0.1) + precision-weighted Mahalanobis spike-and-slab prototype transport (spike_slab_scale=1.0) and empirical-Bayes kernel-gated active-entropy residual quantiles, Add Markov context-bypass regularizer (context_bypass_weight=5.0), calibrated sigmoid style bonus (style_bonus_weight=0.05), and unnormalized linear causal key projection (normalize_key=false, key_gain=0.5) preserving Euclidean superposition norm, Lower causal salience contrast gate (contrast_threshold=0.005) so sparse 4-of-64-pixel precision robotics actions are retained near contact while exact zero-contrast distractors stay gated, Scale posterior feature projection by 2x (feature_scale=4.0, feature_tolerance=0.30, spike_slab_scale=2.0) to boost latent signal-to-noise ratio by 4x relative to task-owned prior_sigma=0.025, and fix episode-invariant imitation style gain (advantage_scale=0.0)
+- **Parent**: `online-gail-bcap-spike-slab`
+- **Status**: `INCOMPLETE` (`0/10` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_variable_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_rare_mode_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_delayed_cue` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+
+### `online-gail-bcap-spike-slab` (`GAIL-BCAP`)
+- **Changed factors**: ParticleGAN 0.9.6 public bcap_adam trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Explicit replay_policy=none: train every arriving observation once, batch_size=1, Predict before arrival; learn next-frame targets from the preceding detached context, Causal state reader queries detached associative memory and carries current image, velocity, salient history and bounded repetition age in the existing 16-dimensional context, New observed-feature conditional prior: fixed named deterministic orthogonal 8x64 encoder; at most 32 latent feature means and 64 observed-context outcome counts; learn statistics only after successful current-observation updates, Freeze storage prior; learned additive conditional transform preserves each sampled MoG perturbation and task capacity, samples empirical feature quantiles at nearest past context; no image output bypass or stored-frame replay, G-phase posterior encodes only the current arrived frame; BCE reconstruction weight 10 trains the unchanged image decoder; D and serving use learned conditional prior without current target or generator probes, Ablate associative-history context term; retain appearance, velocity, salient content and repetition age, Switch critic adversarial objective to Hinge loss paired with BCAP input-gradient cap and write_lr=0.5 causal-state fast-weight updates, Stabilized GAIL-BCAP generator objective: cancel unbounded linear Hinge generator slope and optimize prioritized BCE survival anchor minus bounded sigmoid critic style bonus (weight 0.1) modulated by causal discounted return advantage (gamma=0.99, scale=0.25), Entropy-regularized categorical outcome quantiles (bonus=0.01) over active observed prototypes per context; associative fast-weight extrapolation disabled (assoc_ridge=0, assoc_max_blend=0), Enable detached Sherman-Morrison recursive associative fast-weight operator (assoc_ridge=0.05, assoc_forgetting=1.0, assoc_blend_scale=0.25, assoc_max_blend=1.0) to extrapolate latent feature expectations smoothly beyond discrete context tolerance, Replace radial distance blending with float64 Sherman-Morrison RLS (assoc_ridge=0.1) + precision-weighted Mahalanobis spike-and-slab prototype transport (spike_slab_scale=1.0) and empirical-Bayes kernel-gated active-entropy residual quantiles, Add Markov context-bypass regularizer (context_bypass_weight=5.0), calibrated sigmoid style bonus (style_bonus_weight=0.05), and unnormalized linear causal key projection (normalize_key=false, key_gain=0.5) preserving Euclidean superposition norm
+- **Parent**: `online-gail-bcap-bce`
+- **Status**: `INCOMPLETE` (`0/10` required passes, qualified tier 0)
+  - Tier 1 `seq_img_round_robin_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_translating_bar_next` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_fork_rollout` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_variable_dwell_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_rare_mode_bars4` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_delayed_cue` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_persistent_fork` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_circle_orbit` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_img_square_circle_cycle` (required): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_dense4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 1 `seq_minimal_tokens4` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_kernel2x2` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_minimal_addition2bit` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_push` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_slide` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_fetch_pick_and_place` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 2 `seq_robotics_hand_reach` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+  - Tier 3 `seq_minimal_velocity_extrapolation` (stretch): **NOT_RUN** — terminal 0/- · reason: no receipt
+
 ### `online-ka2` (`KA2`)
 - **Changed factors**: ParticleGAN 0.9.6 public ka2 trainer preset, Shared 64-frame FIFO memory, seven replay samples and velocity context, Global non-saturating loss and cosine schedule (start=0.5, floor=0.05), Strict online baseline: explicitly disable every replay path; preserve the complete historical optimization recipe, One chronological observation per update; real/fake batch_size=1; causal serve-before-arrival prediction
 - **Parent**: `stream-ka2`

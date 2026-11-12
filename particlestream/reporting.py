@@ -78,10 +78,11 @@ METHODS = {
         "online world modeling. A Hinge critic with BCAP input-gradient capping pairs on the "
         "generator with a prioritized reconstruction anchor and a bounded sigmoid critic style "
         "bonus (canceling unbounded linear generator slopes), modulated by a causal discounted "
-        "return advantage baseline and entropy-regularized categorical outcome quantiles. When "
-        "enabled, a detached recursive associative fast-weight operator extrapolates latent "
-        "feature expectations for unseen contexts outside discrete bucket tolerance without "
-        "storing or replaying frames.",
+        "return advantage baseline and entropy-regularized categorical outcome quantiles. Unseen "
+        "contexts extrapolate through a detached Sherman-Morrison associative fast-weight operator "
+        "(either radial distance-blended or precision-weighted Mahalanobis spike-and-slab with "
+        "kernel-gated residual quantiles, Markov context-bypass regularization, and high-SNR "
+        "latent scaling) without storing or replaying frames.",
         "gail_prior.py",
     ),
 }

@@ -74,7 +74,13 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
     view = workspace.load_views()["single_stream_stability"]
     required = {assignment.task for assignment in view.assignments if assignment.importance == "required"}
     expected_source = adapter_source_digest(run_seq_image_task)
-    for candidate_id in ("online-gail-bcap-hinge", "online-gail-bcap-bce", "online-gail-bcap-momentum"):
+    for candidate_id in (
+        "online-gail-bcap-hinge",
+        "online-gail-bcap-bce",
+        "online-gail-bcap-momentum",
+        "online-gail-bcap-spike-slab",
+        "online-gail-bcap-snr",
+    ):
         result = workspace.qualify(candidate_id, view.id, device="cuda")
         assert result["status"] == "PASS" and result["eligible"] is True, candidate_id
         assert result["adapter_source_verified"] is True
@@ -108,3 +114,18 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
             gif = workspace.reports_dir / receipt["artifacts"]["goal_gif"]
             assert hashlib.sha256(gif.read_bytes()).hexdigest() == receipt["artifacts"]["gif_sha256"]
         assert all(configuration == shared[0] for configuration in shared)
+
+    snr_result = workspace.qualify("online-gail-bcap-snr", view.id, device="cuda")
+    stretch_outcomes = {
+        tid: outcome
+        for tier in snr_result["tiers"].values()
+        for tid, outcome in tier["tasks"].items()
+        if outcome["importance"] == "stretch"
+    }
+    for stretch_pass_id in (
+        "seq_minimal_tokens4",
+        "seq_minimal_addition2bit",
+        "seq_robotics_fetch_reach",
+        "seq_robotics_fetch_pick_and_place",
+    ):
+        assert stretch_outcomes[stretch_pass_id]["status"] == "PASS", stretch_pass_id
