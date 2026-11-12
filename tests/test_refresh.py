@@ -66,11 +66,11 @@ def test_default_refresh_measures_all_30_executable_recipes_and_20_tasks(mocked_
     workspace, calls, _, _ = mocked_workspace
     result = refresh.refresh_all(workspace, PRIMARY_VIEW.id, device="cpu")
     audit = load_audit(workspace)
-    assert result["completed_runs"] == audit["planned_runs"] == 600
-    assert len(audit["candidates"]) == 30
+    assert result["completed_runs"] == audit["planned_runs"] == 660
+    assert len(audit["candidates"]) == 33
     assert len(audit["historical_read_only"]) == 14
     assert all(cid.startswith("online-") for cid in audit["candidates"])
-    assert len(set(calls)) == len(calls) == 600
+    assert len(set(calls)) == len(calls) == 660
     assert set(audit["tasks"]) == set(workspace.load_tasks())
     assert audit["completed_at"] is not None
     assert audit["sessions"][0]["device_name"] == "cpu"
