@@ -10,6 +10,7 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
@@ -182,24 +183,24 @@
     "torch_version": "2.15.0+cu132"
   },
   "binding": {
-    "adapter_source_sha256": "49dcc71724d1b3e608189b5f6d67f50eee6d2cc88efaa691a459dd27147fad44",
+    "adapter_source_sha256": "15dc2c00a8a361460bcbab7edba610a80db1addf81e84b2e8478e035ae7796cc",
     "candidate_fingerprint": "6cde8880c4e1141fe8c08e1b11834867a573b7a360c6fe5ee1c0834288fef9a3",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "c784f21e62bba7bf66c54e951dab6113644a6eda2e35b28e90929c48c1a3d9a5"
+    "task_fingerprint": "cdb7be10a376c1dae12fef736508e1e5f3fc70554365095bae324aa8a2aae9ed"
   },
   "candidate_fingerprint": "6cde8880c4e1141fe8c08e1b11834867a573b7a360c6fe5ee1c0834288fef9a3",
   "candidate_id": "online-bcap-adam-causal",
-  "cohort_key": "9a6b278294de6fa00df6be97413cd43b29e34392c9cee07f0f4f465f53bcfed5",
-  "completed_at": "2026-11-12T05:50:09.483+00:00",
+  "cohort_key": "e4d4374a315a4ef138dd58a92a37ed92dc6802ec317c00453eda5ae36cfdf3d3",
+  "completed_at": "2026-11-12T15:29:24.754+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 14.8392
+    "wall_seconds": 9.4195
   },
   "device": "cuda",
   "error": null,
@@ -603,11 +604,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "c784f21e62bba7bf66c54e951dab6113644a6eda2e35b28e90929c48c1a3d9a5",
+  "task_fingerprint": "cdb7be10a376c1dae12fef736508e1e5f3fc70554365095bae324aa8a2aae9ed",
   "task_id": "seq_img_round_robin_bars4",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T05:50:09.483+00:00",
+  "timestamp": "2026-11-12T15:29:24.754+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

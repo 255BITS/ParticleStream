@@ -10,6 +10,7 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
@@ -176,24 +177,24 @@
     "torch_version": "2.15.0+cu132"
   },
   "binding": {
-    "adapter_source_sha256": "49dcc71724d1b3e608189b5f6d67f50eee6d2cc88efaa691a459dd27147fad44",
+    "adapter_source_sha256": "15dc2c00a8a361460bcbab7edba610a80db1addf81e84b2e8478e035ae7796cc",
     "candidate_fingerprint": "e7d672470cb865075a0e31920abecaea78bd0611c2d25e92fc23ceca937b4c13",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "99497b1985136bd299c4c06cdbeab141b4e248421d2f67fd407b485a522e7959"
+    "task_fingerprint": "6bd2638294f644932ce4dc0cda2cac8220b53034aa70ca3bfed185a5bd27b556"
   },
   "candidate_fingerprint": "e7d672470cb865075a0e31920abecaea78bd0611c2d25e92fc23ceca937b4c13",
   "candidate_id": "online-ka2-clean",
-  "cohort_key": "16bbcf5e21e09c331b2bf7141171e0530b5985e865570ee9f24663d23853292d",
-  "completed_at": "2026-11-12T07:26:55.791+00:00",
+  "cohort_key": "40167c504ffde38bda5d267c8d1bde01266977eb7283cf29e417b1e5df3b22bd",
+  "completed_at": "2026-11-12T17:58:32.574+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 7.522
+    "wall_seconds": 11.3526
   },
   "device": "cuda",
   "error": null,
@@ -597,11 +598,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "99497b1985136bd299c4c06cdbeab141b4e248421d2f67fd407b485a522e7959",
+  "task_fingerprint": "6bd2638294f644932ce4dc0cda2cac8220b53034aa70ca3bfed185a5bd27b556",
   "task_id": "seq_img_fork_rollout",
   "technique": "KA2",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T07:26:55.791+00:00",
+  "timestamp": "2026-11-12T17:58:32.574+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

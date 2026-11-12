@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 9605632,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 624,
-      "evaluation_seconds": 0.6337272051023319,
+      "evaluation_seconds": 0.898590499185957,
       "generator_parameters": 6385,
       "optimizer_updates": 192,
-      "process_peak_rss_kib": 2604912,
+      "process_peak_rss_kib": 2674940,
       "serving_d_forwards": 0,
       "serving_g_forwards": 192,
-      "training_and_evaluation_seconds": 3.0115724519710056,
+      "training_and_evaluation_seconds": 4.776653729029931,
       "training_d_forwards": 1152,
       "training_g_forwards": 384
     },
@@ -73,9 +73,10 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
-      "minimal_adapter.py": "848ca2c3db6d1797e6979fadea192b17633e96d83b7fd38ca3fb83a9940694be",
-      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_adapter.py": "34f1d1b375967f1d6b6ac801dbe5110214123a3437783262901c615d28ba079e",
+      "minimal_online.py": "02a2dd8e13acd478b69e1790cf7fe7d96e40e846b2248b6855cd96185f9b4c6b",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
       "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
@@ -269,24 +270,24 @@
     "torch_version": "2.15.0+cu132"
   },
   "binding": {
-    "adapter_source_sha256": "848ca2c3db6d1797e6979fadea192b17633e96d83b7fd38ca3fb83a9940694be",
+    "adapter_source_sha256": "34f1d1b375967f1d6b6ac801dbe5110214123a3437783262901c615d28ba079e",
     "candidate_fingerprint": "0701ee63be1d12ebd448ee4654f76d102e21cb1c75894f255aa8c85f2115f5d9",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "0969138e344e6faff8906ace28b6597a5691e64de37795782240c4c09bb7198d"
+    "task_fingerprint": "faa9058acbe9d34b4649d5a9aeeafa2578bcea4c2ad9a7ca9d95fb15f0a6a575"
   },
   "candidate_fingerprint": "0701ee63be1d12ebd448ee4654f76d102e21cb1c75894f255aa8c85f2115f5d9",
   "candidate_id": "online-ka2-ready-causal",
-  "cohort_key": "b5ebebc6f6cdb3036fc8aff8304faa2c7e3962ce2b5d5f78239537302b88d92b",
-  "completed_at": "2026-11-12T07:37:49.907+00:00",
+  "cohort_key": "7b5cc3f94ea7da7d3581de1c944c3ae5d51d19d33f8ce516ec889379c73f0b2d",
+  "completed_at": "2026-11-12T18:13:13.195+00:00",
   "completed_steps": 192,
   "cost": {
     "completed_steps": 192,
     "timeout_seconds": 300,
-    "wall_seconds": 5.4262
+    "wall_seconds": 7.2999
   },
   "device": "cuda",
   "error": null,
@@ -620,11 +621,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "0969138e344e6faff8906ace28b6597a5691e64de37795782240c4c09bb7198d",
+  "task_fingerprint": "faa9058acbe9d34b4649d5a9aeeafa2578bcea4c2ad9a7ca9d95fb15f0a6a575",
   "task_id": "seq_minimal_kernel2x2",
   "technique": "KA2",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T07:37:49.907+00:00",
+  "timestamp": "2026-11-12T18:13:13.195+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

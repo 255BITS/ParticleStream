@@ -630,3 +630,67 @@ contact-discontinuous robotics (`fetch_push`, `fetch_slide`, `hand_reach`) and
 closed-loop `seq_minimal_velocity_extrapolation`. Validation passes 545
 regression tests across all 7 documented technique families, 640 receipts and
 all local links and section anchors.
+
+### GAIL-BCAP family, Frontier (2) latent-SNR transport, and 740-run refresh (2026-11-12, view 10)
+
+The [current inventory](technique-inventory.md) and
+[`GAIL-BCAP` family page](families/gail-bcap.md) introduce five single-factor
+online recipes (`online-gail-bcap-hinge`, `online-gail-bcap-bce`,
+`online-gail-bcap-momentum`, `online-gail-bcap-spike-slab` and
+`online-gail-bcap-snr`) and refresh all 37 executable recipes across all 20
+tasks: 740 fresh, source-bound CUDA runs under protocol seed 0 and sequential
+real/fake batch size 1 (`replay_policy: "none"`, `rehearsal_batch: 0`, zero
+generator probes). The cohort records 102 numerical PASS and 638 FAIL outcomes,
+with zero INVALID or INCOMPLETE runs, zero replay or evaluation RNG deviations
+and finite states throughout. All 20 oracle controls pass and all 45 destructive
+controls fail; timestamps and receipt/GIF SHA-256 hashes are recorded in
+[refresh-audit.json](refresh-audit.json).
+
+`GAILConditionalReconstruction` translates generative adversarial imitation
+control into strict online world modeling by pairing a Hinge margin critic and
+fixed BCAP input-gradient cap with prioritized pixelwise BCE survival
+reconstruction minus a bounded sigmoid critic style bonus
+(`cancel_linear_gan=True`), causal return-advantage modulation and active
+prototype-support policy entropy (`policy_entropy_bonus=0.01`). All five
+`GAIL-BCAP` recipes qualify across 10/10 required Tier 1 tasks (50/50 terminal
+checks each). Upgrading radial Sherman-Morrison associative blending
+(`online-gail-bcap-bce`, 10/10 required, 1/10 stretch) to `float64`
+Sherman-Morrison RLS, precision-weighted Mahalanobis spike-and-slab prototype
+transport, empirical-Bayes kernel-gated active-entropy residual quantiles, a
+Markov context-bypass penalty (`context_bypass_weight=5.0`) and Euclidean causal
+keys (`online-gail-bcap-spike-slab`, `normalize_key: false`, `key_gain: 0.5`)
+advances `GAIL-BCAP` to #2 overall (10/10 required, 3/10 stretch:
+`seq_minimal_tokens4`, `seq_minimal_addition2bit` held-out exact `1.0` and
+`seq_robotics_fetch_reach` `3.48 mm <= 5.0 mm`, while lowering
+`seq_minimal_kernel2x2` held-out RMSE to `0.03551`).
+
+Inspecting physical robotics failure modes exposed two orthogonal bottlenecks:
+(1) `CausalStateMemory`'s `contrast_threshold=0.03` erased sparse 4-of-64-pixel
+action commands on sub-`4 cm` `Fetch*` transitions near grasp contact
+(`||a_t - c_0||_2 = 0.025 < 0.03`), leaving multi-episode pick-and-place
+partially action-blind (`2/5` terminal checks on `online-gail-bcap-spike-slab`),
+and (2) millimetre displacements projected at `feature_scale=2.0` had low
+posterior latent SNR relative to fixed task MoG noise `prior_sigma=0.025`.
+Lowering `contrast_threshold` to `0.005`, scaling posterior projection by `2x`
+(`feature_scale=4.0`, `feature_tolerance=0.30`, `spike_slab_scale=2.0`, yielding
+`4x` higher latent SNR) and setting episode-invariant style gain
+(`advantage_scale=0.0`) produces `online-gail-bcap-snr`, the #1 global reference
+in ParticleStream: 10/10 required passes and 3/10 stretch passes, cutting
+`seq_robotics_fetch_reach` physical RMSE by 46% to `1.92 mm` (`0.0019153 m`,
+`97.92%` direction accuracy vs `3.53 mm` on `online-residual-prior-linear-key`),
+lifting `seq_robotics_fetch_pick_and_place` from `2/5` to `4/5` terminal checks
+(`2.45 mm` final RMSE, `1.70 mm` live prequential RMSE, `86.0%` peak terminal
+direction accuracy, missing only pre-cooldown `step=400` at `0.719` vs `0.750`
+from unaveraged `batch_size=1` live-decoder sign jitter around `0.5`) and
+reducing `seq_robotics_fetch_slide` RMSE to `6.92 mm` (`80.39%` direction
+accuracy).
+
+Qualification remains Tier 1 because seven stretch tasks remain open under one
+unchanged global recipe: `seq_minimal_dense4` (8-dim isometric bottleneck),
+`seq_minimal_kernel2x2` (`0.0355`–`0.0400` held-out RMSE vs `0.03` gate under
+192 single-sample shared-decoder updates), `seq_robotics_fetch_pick_and_place`
+(pre-cooldown live-decoder sign jitter), contact-discontinuous manipulation
+(`fetch_push`, `fetch_slide`, 83-DoF `hand_reach`) and closed-loop unseen
+boundary columns on `seq_minimal_velocity_extrapolation`. Validation passes 576
+regression tests across all 8 documented technique families, 740 receipts and
+all 5,147 local links (including 2,651 exact section anchors).
