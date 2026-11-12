@@ -128,6 +128,7 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
         "seq_robotics_fetch_reach",
     ):
         assert stretch_outcomes[stretch_pass_id]["status"] == "PASS", stretch_pass_id
+    assert stretch_outcomes["seq_robotics_fetch_pick_and_place"]["terminal_passing"] >= 4
 
 
 def test_subspace_prior_recipes_qualify_all_ten_required_and_advance_stretch_frontier():
