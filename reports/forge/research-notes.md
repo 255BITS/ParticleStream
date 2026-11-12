@@ -539,3 +539,47 @@ checking source bindings, shared recipes, batch/RNG contracts, simulator traces
 and all 24 GIF frames and hashes. All 20 oracle controls pass and all 45
 destructive controls fail. All 4,133 local links, including 2,138 exact section
 anchors across the inventory and six family pages, resolve.
+
+### Parametric residual conditional prior and 640-run refresh (2026-11-12, view 10)
+
+The [current inventory](technique-inventory.md) and
+[`ResidualPrior-BCAP` family page](families/residualprior-bcap.md) introduce
+two strict single-factor online recipes (`online-residual-prior-bce` and
+`online-residual-prior-linear-key`) and refresh all 32 executable recipes across
+all 20 tasks: 640 fresh, source-bound CUDA runs under protocol seed 0 and
+sequential real/fake batch size 1 (`replay_policy: "none"`). The cohort records
+43 numerical PASS and 597 FAIL outcomes, with zero INVALID or INCOMPLETE runs,
+zero replay or evaluation RNG deviations and finite states throughout. All 20
+oracle controls pass and all 45 destructive controls fail; timestamps and
+receipt/GIF SHA-256 hashes are recorded in [refresh-audit.json](refresh-audit.json).
+
+`ResidualFeatureConditionalReconstruction` replaces nearest-prototype context
+snapping on novel contexts with an online `float64` Sherman-Morrison recursive
+least-squares predictor, a precision-weighted spike-and-slab posterior over
+context prototypes, empirical-Bayes kernel-gated live residual quantiles and a
+Markov bottleneck penalty on direct generator input-context shortcut weights.
+With unit-sphere causal-memory keys (`online-residual-prior-bce`,
+`normalize_key: true`), the residual prior preserves 10/10 required Tier 1
+passes and 1/10 stretch passes (`seq_minimal_tokens4`), isolating that the
+parametric conditional prior introduces no regression on discrete or bimodal
+forking streams (`seq_img_persistent_fork` 5/5). Removing unit-norm key
+projection (`online-residual-prior-linear-key`, `normalize_key: false`,
+`key_gain: 0.5`) preserves Euclidean multi-operand superposition in causal state
+memory and advances the global reference to 10/10 required passes and 3/10
+stretch passes: `seq_minimal_tokens4` (5/5), held-out compositional binary
+addition `seq_minimal_addition2bit` (5/5, `heldout_exact_accuracy=1.0`,
+`heldout_min_bit_confidence=0.96443` vs `0.0` on `online-feature-prior-bce`) and
+continuous kinematics `seq_robotics_fetch_reach` (5/5,
+`position_delta_rmse_m=0.0035343 <= 0.005` vs `0.0055261` on
+`online-feature-prior-bce`).
+
+Qualification remains Tier 1 because seven stretch tasks remain numerical
+failures under the single global recipe: `seq_minimal_dense4` (8-dim fixed
+isometric bottleneck), `seq_minimal_kernel2x2` (held-out `heldout_response_rmse`
+drops from `0.26142` to `0.038166`, matching seen `0.04305`, but misses the
+`0.03` RMSE and `0.05` max-abs pixel uniformity bounds within 192 updates),
+`seq_robotics_fetch_pick_and_place` (4/5 terminal checks, `2.80 mm` RMSE),
+contact-discontinuous robotics (`fetch_push`, `fetch_slide`, `hand_reach`) and
+closed-loop `seq_minimal_velocity_extrapolation`. Validation passes 545
+regression tests across all 7 documented technique families, 640 receipts and
+all local links and section anchors.
