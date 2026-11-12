@@ -1,12 +1,98 @@
+<!-- Generated Forge family report -->
+
 # KA2
 
 [← Technique leaderboard](../technique-inventory.md)
 
-KA2 uses a critic-local controller: input-gradient penalties and an averaged critic-gradient anchor are governed by penalty-call history and optimizer moment surprise. Noise, averaging for serving, readiness and damping remain configuration choices. In this short online suite, the ready recipes explicitly change critic beta2 so moment readiness can engage within 480 updates; that does not change a task's budget or gates.
+<a id="technique-overview"></a>
+## Technique overview
 
-[Implementation](../../../particlestream/tier1.py) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+KA2 pairs a critic-local Adam controller (`KA2CriticAdam`) with a readiness-gated two-phase input-gradient penalty and an adaptive EMA critic-gradient anchor. Before critic second-moment readiness crosses its threshold, KA2 applies an RMS-scaled warm-up penalty; once ready, it blends the warm-up term equally with an unnormalized $L_2$ cap and an EMA real-gradient proximity anchor whose release gate and tracking speed respond to Adam moment surprise.
 
-Each section describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
+[Implementation](../../../particlestream/tier1.py) · [Mathematical formulation](ka2.md#mathematical-formulation) · [Simplified pseudocode](ka2.md#simplified-pseudocode) · [Training details](ka2.md#training-details) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+
+<a id="mathematical-formulation"></a>
+## Mathematical formulation
+
+$G$ is the generator, $D$ the live critic with parameters $\theta_t$, $\bar D$ the critic parameter EMA with parameters $\bar\theta_t$, and $C,\bar C$ denote $D,\bar D$ wrapped with any declared fresh critic-input noise. $x_t$ is the single real arrival, $c_{t-1}$ the detached memory context, and $y_t$ the generated sample (including any scheduled output noise). $g_r=\nabla_x C(x_t,c_{t-1})$ and $g_f=\nabla_y C(y_t,c_{t-1})$ are per-sample input gradients across $d=64$ coordinates; $\lambda$ is penalty strength, $\kappa$ is the cap threshold, and $w$ is configured anchor weight (`reg_anchor_weight`). $R(t)=1-\beta_{2,D}^t$ is critic Adam second-moment readiness against threshold $R_{\mathrm{thresh}}=0.55085\approx 1-0.999^{800}$, $W_t\in\{0,1\}$ is the hysteresis anchor gate driven by short-to-baseline moment-surprise ratio $\rho_t$, and $\alpha_t\in[0,1]$ controls critic EMA decay $\delta_t=1-0.1\alpha_t$.
+
+**Early RMS, Late Capped and EMA Anchor Terms**
+
+$$
+\begin{aligned}A&=\frac{\lVert g_r\rVert_2^2}{d}+\left(\frac{\lVert g_f\rVert_2}{\sqrt d}-\kappa\right)_+^2,\\B_{\mathrm{cap}}&=(\lVert g_r\rVert_2-\kappa)_+^2+(\lVert g_f\rVert_2-\kappa)_+^2,\qquad P_{\mathrm{anchor}}=\frac{\lVert g_r-\operatorname{stopgrad}(\nabla_x\bar C(x_t,c_{t-1}))\rVert_2^2}{d}.\end{aligned}
+$$
+
+$A$ normalizes gradient magnitudes by $d=64$ ($\sqrt d=8$), whereas $B_{\mathrm{cap}}$ caps raw Euclidean norms directly. On the first blended call, $\bar D$ copies $D$ and $P_{\mathrm{anchor}}=0$; subsequent calls penalize real-gradient deviation from $\bar C$.
+
+**Moment-Readiness Handover**
+
+$$
+R_{\mathrm{KA2}}=\begin{cases}\dfrac{\lambda}{2}A,&R(t)<R_{\mathrm{thresh}},\\[8pt]\dfrac{\lambda}{2}\left[\dfrac12 A+\dfrac12\left(B_{\mathrm{cap}}+W_t w P_{\mathrm{anchor}}\right)\right],&R(t)\ge R_{\mathrm{thresh}}.\end{cases}
+$$
+
+In `particlegan==0.9.7`, handover triggers when $R(t)=1-\beta_{2,D}^t\ge 0.55085$. At preset $\beta_{2,D}=0.999$, a 480-step task reaches $R(480)\approx 0.381<0.55085$ and stays in warm-up $A$; `online-ka2-ready*` sets $\beta_{2,D}=0.99$ so blending engages at step $t=80$ ($R(80)\approx 0.5525$).
+
+**Surprise-Gated Hysteresis and Adaptive Critic EMA**
+
+$$
+W_t=\begin{cases}0,&W_{t-1}=1\land\rho_t>3.0,\\1,&W_{t-1}=0\land\rho_t<1.75,\\W_{t-1},&\text{otherwise},\end{cases}\qquad \delta_t=1-0.1\alpha_t,\qquad \bar\theta_t=\delta_t\bar\theta_{t-1}+(1-\delta_t)\theta_t.
+$$
+
+Once 25 blended calls establish baseline Adam moment surprise, $\rho_t>3$ releases the anchor ($W_t=0$) and speeds up $\alpha_t$, while $\rho_t<1.75$ restores $W_t=1$. Sixty consecutive high-surprise steps hard-reseed $\bar\theta_t\leftarrow\theta_t$.
+
+<a id="simplified-pseudocode"></a>
+## Simplified pseudocode
+
+```text
+Configure KA2CriticAdam, K3PGeneratorAdam, noise schedules and critic moment factor beta_{2,D}.
+For each chronological single-arrival step t:
+  Serve pre-arrival prediction under isolated eval RNG when task is predictive.
+  Draw particle row i_D and form detached fake y_D = stop_gradient(G(z_{i_D}, c_{t-1}) + gen_noise).
+  Evaluate input gradients g_r and g_f on noise-wrapped critic C; compute early RMS term A.
+  If 1 - beta_{2,D}^t < 0.55085, set R_KA2 = 0.5 * lambda * A.
+  Otherwise, initialize or query D_bar for P_anchor, update hysteresis gate W_t from surprise ratio rho_t,
+    and set R_KA2 = 0.5 * lambda * (0.5 * A + 0.5 * (B_cap + W_t * w * P_anchor)).
+  Backpropagate critic loss + R_KA2, apply spike guard after warmup, step D, and update/reseed D_bar from moment surprise.
+  With D fixed, draw i_G (uniform or routed), recompute y_G, apply A2 sparse-row damping if enabled, step G/P, and write c_t.
+```
+
+<a id="training-details"></a>
+## Training details
+
+| Characteristic | Behavior |
+| --- | --- |
+| Adversarial loss | Paired relativistic logistic in preset `online-ka2`; decoupled non-saturating logistic in `online-ka2-clean`, `online-ka2-light-anchor`, `online-ka2-ready*`, and `online-ka2-transport-causal`. |
+| Optimizer | `KA2CriticAdam` and `K3PGeneratorAdam` ($\beta_1=0$; $\beta_{2,D}=0.999$ in `online-ka2*` vs $0.99$ in `online-ka2-ready*` and `online-ka2-transport-causal`). |
+| Learning rates and annealing | Preset `online-ka2` uses `lr=0.00425` (`lr_anneal_start=0.6`, `lr_floor=0.01`); clean/ready online variants use `lr=0.005` (`lr_anneal_start=0.5`, `lr_floor=0.05`, `prior_lr_mult=2.0` or `1.0`). |
+| Parameter-gradient clipping | Adaptive per-tensor critic spike guard (`critic_grad_guard=True` in preset, disabled in `online-ka2-ready*`) limits tensor RMS to $5\times$ bias-corrected second-moment RMS after 200 steps. |
+| Critic penalties and anchors | Readiness-gated blend of early RMS penalty $A$ and late $L_2$ cap $B_{\mathrm{cap}}$ plus surprise-gated EMA gradient anchor ($w=1.0$ default, $w=0.1$ in `light-anchor`, $w=0.25$ in `ready*`). |
+| Damping and update guards | A2 sparse latent-row cosine damping (`latent_damping_max_rate=0.5` in preset, disabled in `online-ka2-ready*`). |
+| Online memory, prior and routing | `FastWeightMemory` velocity reader (`online-ka2*`), `kind="none"` (`online-ka2-stateless`), or `CausalStateMemory` (`online-ka2-ready-causal`, `online-ka2-transport-causal`); all active recipes enforce `replay_policy="none"` and `rehearsal_batch=0`. |
+| Training and sampling noise | Preset `online-ka2` applies decaying critic-input noise ($0.5\to 0$) and generator output noise ($0\to 0.029$); `clean` and `ready*` variants set both to $0.0$ for crisp binary $8\times 8$ gates. |
+| Parameter averaging and serving | Critic EMA $\bar D$ adapts in $\delta_t\in[0.9,1.0]$ once blended; generator EMA (`0.995` in preset, `0.0` in `clean`/`ready*`) is not used for serving (`serve_average=False`). |
+
+<a id="configuration-differences"></a>
+## Configuration differences
+
+- All measured strict-online KA2 candidates currently score `0/10` required passes (`online-ka2-transport-causal` reaches `1/10` stretch pass on `seq_minimal_tokens4`).
+- On 480-step online streams, preset $\beta_{2,D}=0.999$ never reaches blended mode ($R(480)<0.55085$), while $\beta_{2,D}=0.99$ (`online-ka2-ready`) activates the EMA critic anchor across switching regimes where anchoring to stale real-input gradients slows online adaptation.
+- Preset additive critic-input noise (`0.5`) and generator output noise (`0.029`) blur sharp binary $8\times 8$ bars below pixel-quality thresholds, motivating zero-noise overrides in `online-ka2-clean` and `online-ka2-ready*`.
+
+<details>
+<summary>Implementation and recipe sources</summary>
+
+These links support the explanation. Recorded results below remain bound to their own executed source.
+
+- [particlestream/tier1.py](../../../particlestream/tier1.py)
+- [particlestream/transport.py](../../../particlestream/transport.py)
+- [particlestream/memory.py](../../../particlestream/memory.py)
+- [configs/forge/ideas/online-ka2.json](../../../configs/forge/ideas/online-ka2.json)
+- [configs/forge/ideas/online-ka2-ready.json](../../../configs/forge/ideas/online-ka2-ready.json)
+- [configs/forge/ideas/online-ka2-transport-causal.json](../../../configs/forge/ideas/online-ka2-transport-causal.json)
+
+</details>
+
+Each section below describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
 
 The installed engine is pinned to ParticleGAN/Forge 0.9.7. Older version or replay wording in declaration history describes provenance; the effective configuration below controls execution.
 
@@ -1046,3 +1132,19 @@ Declared changes:
 Strict online successors: [`online-ka2-ready`](ka2.md#online-ka2-ready).
 
 [Preserved receipt directory](../receipts/cuda/stream-ka2-ready) · [Archived cohorts](../cohorts) · [Research history](../research-notes.md)
+
+<a id="refresh"></a>
+## Refresh
+
+```sh
+particlestream compile --device cuda
+```
+
+This page is generated alongside the leaderboard from committed source-bound receipts and declarations; editing a generated page cannot change a verdict or earn qualification.
+
+<a id="references"></a>
+## References
+
+- [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980). Second-moment statistics $v_t$ and bias-correction readiness $1-\beta_2^t$ used by `KA2CriticAdam`.
+- [Which Training Methods for GANs do actually Converge?](https://arxiv.org/abs/1801.04406). Zero-centered real-input gradient regularization motivating the early RMS penalty $A$.
+- [The relativistic discriminator: a key element missing from standard GAN](https://arxiv.org/abs/1807.00734). Paired relativistic logistic loss used in the default `ka2` preset.

@@ -1,12 +1,98 @@
+<!-- Generated Forge family report -->
+
 # FeaturePrior-BCAP
 
 [← Technique leaderboard](../technique-inventory.md)
 
-FeaturePrior-BCAP adds a learned conditional prior to BCAP and a causal memory reader. A fixed named orthogonal 8×64 projection encodes each arriving image. At most 32 feature means and 64 context/outcome summaries accumulate after successful updates. Serving draws empirical feature quantiles near the observed context while retaining every row's MoG perturbation. The storage prior is frozen; a weight-10 BCE current-observation posterior trains the image decoder. Serving receives neither the current target nor stored images, and this policy uses no generator-center probes.
+<a id="technique-overview"></a>
+## Technique overview
 
-[Implementation](../../../particlestream/feature_prior.py) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+FeaturePrior-BCAP pairs the fixed BCAP critic input-gradient cap and a detached causal state reader with a bounded observed-feature conditional prior. A fixed deterministic orthogonal 8×64 encoder projects each arriving 1×8×8 frame into latent space, updating at most 32 online feature prototypes and 64 context-outcome histograms only after successful optimizer steps. The generator trains its unchanged decoder via a weight-10 BCE current-observation posterior while freezing the storage prior; critic updates and causal pre-arrival serving draw empirical feature quantiles at the nearest observed past context without generator probes or frame replay.
 
-Each section describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
+[Implementation](../../../particlestream/feature_prior.py) · [Mathematical formulation](featureprior-bcap.md#mathematical-formulation) · [Simplified pseudocode](featureprior-bcap.md#simplified-pseudocode) · [Training details](featureprior-bcap.md#training-details) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+
+<a id="mathematical-formulation"></a>
+## Mathematical formulation
+
+$G$ is the task-owned residual generator, $D$ the raw-score convolutional critic, and $P$ the frozen $K$-row `MoGParticlePrior` ($K=32$, $d_z=8$, intrinsic scale $\sigma=0.025$) with base centers $\mu_i^{\mathrm{base}}\in\mathbb R^{d_z}$. At chronological step $t$, $x_t\in[0,1]^{1\times 8\times 8}$ is the single arriving frame, $\bar x_t=\operatorname{vec}(x_t)\in\mathbb R^{64}$, $\tilde x_t=\bar x_t-\operatorname{mean}(\bar x_t)\mathbf 1_{64}$ is the DC-centered vector, and $c_{t-1}\in\mathbb R^{d_c}$ ($d_c=16$) is the detached causal context from preceding arrivals. $W_k,W_v\in\mathbb R^{d_c\times 64}$ are fixed detached reader projections, $s_t\in\{0,1\}$ is the contrast salience gate ($\tau_{\mathrm{con}}=0.03$), $r_t$ is the retained salient key, $a_t\in\{0,\dots,H_{\mathrm{age}}\}$ ($H_{\mathrm{age}}=8$) is the repetition-age counter, and $\omega_{\mathrm{assoc}}$ is the associative read weight ($0$ in `online-feature-prior-bce`). $W_{\mathrm{enc}}\in\mathbb R^{d_z\times 64}$ is a fixed row-normalized deterministic orthogonal projection ($s_f=2$, $c_0=0.5$), $\hat\mu_m\in\mathbb R^{d_z}$ are online feature prototypes ($\tau_f=0.15$), $k_b^{\mathrm{ctx}}\in\mathbb R^{d_c}$ and $N_{b,m}\in\mathbb N_0$ are context keys and outcome counts ($C_{\max}=64$, $\tau_c=0.25$), $(a)_+=\max(a,0)$, and $\operatorname{softplus}(a)=\log(1+e^a)$.
+
+**Detached Causal State Reader**
+
+$$
+\begin{aligned}k_t&=s_t\frac{W_k\tilde x_t}{\lVert W_k\tilde x_t\rVert_2},\qquad r_t=s_t k_t+(1-s_t)r_{t-1},\qquad f_t=k_t+\tfrac12(k_t-k_{t-1})+(1-s_t)r_{t-1}+\omega_{\mathrm{assoc}}\tanh(M_t q_t),\\c_{t,0:d_c-1}&=s_{\mathrm{ctx}}\operatorname{clip}(f_{t,0:d_c-1},-1,1),\qquad c_{t,d_c-1}=s_{\mathrm{ctx}}\frac{a_t}{H_{\mathrm{age}}}.\end{aligned}
+$$
+
+Low-contrast arrivals ($s_t=0$) preserve the most recent salient key $r_{t-1}$ instead of overwriting context with normalized sensor noise, while the final coordinate encodes bounded repetition age $a_t/H_{\mathrm{age}}$ ($s_{\mathrm{ctx}}=3$). All writes run detached from optimizer autograd.
+
+**Observed-Feature Encoding and Empirical Quantile Prior**
+
+$$
+\begin{aligned}\phi(x_t)&=s_f\,W_{\mathrm{enc}}(\bar x_t-c_0\mathbf 1_{64}),\qquad b^*=\arg\min_{0\le b<C_{\mathrm{occ}}}\lVert k_b^{\mathrm{ctx}}-\tilde c_{t-1}\rVert_2,\\m^*(i)&=\min\!\left(K-1,\;\inf\left\{m\ge 0:\frac{\sum_{j=0}^m N_{b^*,j}}{\sum_{j=0}^{K-1}N_{b^*,j}}>\frac{i+0.5}{K}\right\}\right),\\z_i^{\mathrm{cond}}&=\hat\mu_{m^*(i)}+(z_i^{\mathrm{raw}}-\mu_i^{\mathrm{base}}),\qquad z_i^{\mathrm{post}}=\phi(x_t)+(z_i^{\mathrm{raw}}-\mu_i^{\mathrm{base}}).\end{aligned}
+$$
+
+Every draw retains its exact task-owned Gaussian perturbation $\epsilon_i=z_i^{\mathrm{raw}}-\mu_i^{\mathrm{base}}$. Critic sampling and live serving map particle row $i$ through the midpoint empirical CDF at the nearest observed context $b^*$ (falling back to $z_i^{\mathrm{raw}}$ before observations exist), whereas the generator training step substitutes the current-observation code $\phi(x_t)$.
+
+**Single-Arrival Adversarial and Posterior Reconstruction Objectives**
+
+$$
+\begin{aligned}\mathcal L_D&=\operatorname{softplus}(-D(x_t,c_{t-1}))+\operatorname{softplus}(D(\hat x_D,c_{t-1}))+\frac{\lambda}{2}\Big[(\lVert g_r\rVert_2-\kappa)_+^2+(\lVert g_f\rVert_2-\kappa)_+^2\Big],\\\mathcal L_G&=\operatorname{softplus}(-D(\hat x_G,c_{t-1}))+\lambda_{\mathrm{rec}}\,\operatorname{BCE}(\hat x_G,x_t).\end{aligned}
+$$
+
+Here $\hat x_D=G(z_{i_D}^{\mathrm{cond}},c_{t-1})$ is detached for the critic step and $\hat x_G=G(z_{i_G}^{\mathrm{post}},c_{t-1})$ trains the image decoder at $\lambda_{\mathrm{rec}}=10$, $\lambda=1$, and $\kappa=1$ with uniform single-particle draws $i_D,i_G\sim\mathcal U\{0,\dots,K-1\}$.
+
+<a id="simplified-pseudocode"></a>
+## Simplified pseudocode
+
+```text
+Initialize fixed orthogonal encoder W_enc, empty prototype table (<=32) and context table (<=64).
+For each chronological single-arrival step t:
+  Before revealing x_t, serve y_hat = G(z_cond(i_serve, c_{t-1}), c_{t-1}) under an isolated eval RNG.
+  Reveal single target frame x_t (batch_size = 1) and encode latent feature phi(x_t) = s_f W_enc (x_bar_t - c_0).
+  Draw uniform row i_D and transform z_D = z_cond(i_D, c_{t-1}) via empirical quantiles at nearest context b*.
+  Evaluate non-saturating critic loss on x_t and stop_gradient(G(z_D, c_{t-1})) plus fixed BCAP penalty; step D.
+  With D fixed, draw uniform row i_G and form current-observation posterior code z_G = phi(x_t) + eps_{i_G}.
+  Evaluate non-saturating generator loss + 10 * BCE(G(z_G, c_{t-1}), x_t); step G while keeping base prior P frozen.
+  After both updates succeed, merge phi(x_t) into nearest prototype mu_hat_m (tol 0.15) and c_{t-1} into context bucket b (tol 0.25, LRU cap 64); increment N_{b, m}.
+  Advance detached causal state c_t = CausalStateMemory.write(x_t) without storing or replaying frames.
+```
+
+<a id="training-details"></a>
+## Training details
+
+| Characteristic | Behavior |
+| --- | --- |
+| Adversarial loss | Decoupled non-saturating logistic adversarial loss for $D$ and $G$, paired on $G$ with pixelwise binary cross-entropy reconstruction ($\lambda_{\mathrm{rec}}=10$) from the current-observation feature posterior. |
+| Optimizer | Native Adam via `bcap_adam` ($\beta_1=0$, $\beta_2=0.99$, `prior_betas=(0, 0.99)`). The base MoG storage table is frozen (`prior_update="frozen"`). |
+| Learning rates and annealing | Base LR $0.005$ with `critic_lr_mult=1.0`, `prior_lr_mult=1.0`, holding constant through $50\%$ of the task horizon (`lr_anneal_start=0.5`) before cosine-decaying to $5\%$ (`lr_floor=0.05`). |
+| Parameter-gradient clipping | None (`critic_grad_guard=False`). Critic Lipschitz control acts smoothly through the BCAP input-gradient loss penalty. |
+| Critic penalties and anchors | Fixed one-sided squared $L_2$ BCAP cap on real and conditional-prior fake inputs ($\lambda=1.0$, $\kappa=1.0$) every update; no EMA critic anchor. |
+| Damping and update guards | No A2 sparse-row damping (`latent_damping_max_rate=0.0`) and no generator-center probes (`probe_law="no_generator_probes_v1"`). |
+| Online memory, prior and routing | Detached `CausalStateMemory` ($d_c=16$, `association_weight=0.0`, `contrast_threshold=0.03`, `change_threshold=0.04`, `age_horizon=8`) plus `FeatureConditionalReconstruction` (up to $32$ feature means and $64$ LRU context-outcome histograms; `replay_policy="none"`, `rehearsal_batch=0`). |
+| Training and sampling noise | Zero scheduled critic-input or generator-output additive noise (`noise_std_start=0.0`, `gen_output_noise_std=0.0`). Intrinsic task MoG perturbation $\sigma=0.025$ is preserved on every transformed row. |
+| Parameter averaging and serving | Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). Serving uses only preceding context $c_{t-1}$ and previously committed feature/outcome summaries. |
+
+<a id="configuration-differences"></a>
+## Configuration differences
+
+- FeaturePrior-BCAP is currently the sole Tier 1-qualifying global recipe (`online-feature-prior-bce`: 10/10 required passes, 1/10 stretch passes on `single_stream_stability` view 10).
+- Unlike competitive or context-balanced transport, FeaturePrior-BCAP executes zero extra generator forward probes per update: both $D$ and $G$ draw one uniform particle row at `batch_size=1`.
+- Feature prototypes and context-outcome counts commit strictly after the single-arrival critic and generator updates complete, preserving causal pre-arrival serving.
+- Because unseen contexts fall back to 1-NN lookup over at most 64 observed context keys while $G$ trains on $\phi(x_t)+\epsilon$, compositional held-out extrapolation (`addition2bit`, `kernel2x2`, `velocity_extrapolation`) and high-DoF continuous state-action manifolds (`robotics`) remain open stretch frontiers.
+
+<details>
+<summary>Implementation and recipe sources</summary>
+
+These links support the explanation. Recorded results below remain bound to their own executed source.
+
+- [particlestream/feature_prior.py](../../../particlestream/feature_prior.py)
+- [particlestream/memory.py](../../../particlestream/memory.py)
+- [particlestream/transport.py](../../../particlestream/transport.py)
+- [particlestream/tier1.py](../../../particlestream/tier1.py)
+- [configs/forge/ideas/online-feature-prior-bce.json](../../../configs/forge/ideas/online-feature-prior-bce.json)
+
+</details>
+
+Each section below describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
 
 The installed engine is pinned to ParticleGAN/Forge 0.9.7. Older version or replay wording in declaration history describes provenance; the effective configuration below controls execution.
 
@@ -137,3 +223,20 @@ Receipt identity: candidate_fingerprint `4f8ec6b6bf449a96ce37bc21303963338f80dc2
 | [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.029967`; `interpolation_speed_error=0.039319`; `interpolation_raw_rmse=0.026119`; `interpolation_point_validity=0.83333`; `interpolation_direction_accuracy=0.91667`; `extrapolation_centroid_rmse=0.083345`; `extrapolation_speed_error=0.074005`; `extrapolation_raw_rmse=0.053561`; `extrapolation_point_validity=0.58333`; `extrapolation_direction_accuracy=1`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-feature-prior-bce/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-feature-prior-bce_seq_minimal_velocity_extrapolation.gif) | 2026-11-07T17:55:13.053+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-feature-prior-bce --device cuda`.
+
+<a id="refresh"></a>
+## Refresh
+
+```sh
+particlestream compile --device cuda
+```
+
+This page is generated alongside the leaderboard from committed source-bound receipts and declarations; editing a generated page cannot change a verdict or earn qualification.
+
+<a id="references"></a>
+## References
+
+- [Generative Adversarial Networks](https://arxiv.org/abs/1406.2661). Non-saturating logistic adversarial objective paired with the conditional feature posterior.
+- [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980). First-order moment optimizer used for generator and critic updates.
+- [On the regularization of Wasserstein GANs](https://arxiv.org/abs/1709.08894). Related one-sided squared hinge gradient penalty; BCAP evaluates the cap directly at real and generated endpoints.
+- [Using Fast Weights to Attend to the Recent Past](https://arxiv.org/abs/1610.06258). Inspiration for bounded detached fast-weight state maintained alongside slow network weights.

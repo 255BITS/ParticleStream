@@ -1,12 +1,98 @@
+<!-- Generated Forge family report -->
+
 # BISPF
 
 [← Technique leaderboard](../technique-inventory.md)
 
-Born-Infeld Sinkhorn Particle Flow combines an elastic critic-gradient penalty on real, fake and transport-chord inputs with a zero-mean logit gauge. Its public presets also provide particle-prior regularization and thermal policies. ParticleStream's declared recipes override some preset choices: inspect each exact configuration rather than assuming every BISPF option is enabled. With a real and fake batch of one, a Sinkhorn coupling has only one pair.
+<a id="technique-overview"></a>
+## Technique overview
 
-[Implementation](../../../particlestream/tier1.py) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+Born-Infeld Sinkhorn Particle Flow (BISPF) is a critic-regularized ParticleGAN formulation without an EMA critic copy. It couples real and generated batches via scale-free entropic Optimal Transport (Sinkhorn-Knopp), bounds critic slopes with a two-regime Elastic Born-Infeld potential and a zero-mean logit gauge, and provides optional Stratified Blue-Noise Particle (SBNP) prior regularization and Harmonic Mode Capture thermal cooling. Under ParticleStream's `batch_size=1` sequential contract, the Sinkhorn coupling reduces to a single $(1,1)$ pair while retaining EMA residual/scale cap adaptation.
 
-Each section describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
+[Implementation](../../../particlestream/tier1.py) · [Mathematical formulation](bispf.md#mathematical-formulation) · [Simplified pseudocode](bispf.md#simplified-pseudocode) · [Training details](bispf.md#training-details) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+
+<a id="mathematical-formulation"></a>
+## Mathematical formulation
+
+$G$ is the generator, $D$ the raw-score critic, $P$ the $K$-particle task prior ($K=32$, $d_z=8$, $\sigma=0.025$), $x_t$ the single real arrival, $c_{t-1}$ the detached memory context, and $y_t=G(z_i,c_{t-1})$ the generated sample. $\Pi_\varepsilon$ is the Sinkhorn coupling at entropic scale $\varepsilon=0.15$ ($\Pi_\varepsilon=[1]$ when $B_r=B_f=1$), with Sinkhorn marginal-residual EMA $\bar r_t\in[0,1]$ and cloud-scale EMA $\bar s_t>0$ (decay $\gamma_{\mathrm{th}}=0.95$). $g_r=\nabla_x D(x_t,c_{t-1})$, $g_f=\nabla_y D(y_t,c_{t-1})$, and $g_c=\nabla_{x_{\mathrm{chord}}} D(x_{\mathrm{chord}},c_{t-1})$ are critic input gradients; $d=64$ counts $1\times 8\times 8$ image coordinates, $\kappa$ is the nominal cap, $\phi_\beta(u)=\beta^{-1}\log(1+e^{\beta u})$ ($\beta=30$) is the smooth Born-Infeld wall, $\lambda_{\mathrm{floor}}$ is the harmonic floor weight, $\lambda_{\mathrm{cap}}$ the elastic cap weight, $\alpha_c$ the chord blend, and $\gamma_{\mathrm{gauge}}$ the zero-mean logit gauge weight.
+
+**Elastic Born-Infeld Regularizer and Zero-Mean Logit Gauge**
+
+$$
+R_{\mathrm{BISPF}}=\frac{\lambda_{\mathrm{floor}}}{2 m_g d}\,\mathbb E\!\left[\sum_{g\in\mathcal G}\lVert g\rVert_2^2\right]+\frac{\lambda_{\mathrm{cap}}}{2}\,\mathbb E\!\left[\phi_\beta(\lVert g_r\rVert_2-\kappa_{\mathrm{eff}})^2+(1-\alpha_c)\phi_\beta(\lVert g_f\rVert_2-\kappa_{\mathrm{eff}})^2+\alpha_c\phi_\beta(\lVert g_c\rVert_2-\kappa_{\mathrm{eff}})^2\right]+\frac{\gamma_{\mathrm{gauge}}}{2}\bar D^2.
+$$
+
+Here $\bar D=\frac12(\mathbb E[D(x_t,c_{t-1})]+\mathbb E[D(y_t,c_{t-1})])$ pins the translational logit gauge without an EMA critic network. On 4D image tensors at default $\alpha_c=0.02\le 0.10$, the BISPF image gate bypasses pixel-chord interpolation ($\mathcal G=\{g_r,g_f\}$, $m_g=2$, effectively $\alpha_c=0$ in the cap) so discrete spatial modes are not blended across pixel space, using $\lambda_{\mathrm{floor}}^{\mathrm{img}}=5\times 10^{-4}$ and $\gamma_{\mathrm{gauge}}^{\mathrm{img}}=5\times 10^{-3}$.
+
+**Scale- and Residual-Adapted Image Cap**
+
+$$
+s_{\mathrm{img}}=\operatorname{clip}\!\left(\frac{\bar s_t}{s_{\mathrm{ref}}},\,0.15,\,1.0\right),\qquad \kappa_{\mathrm{eff}}=\frac{\kappa}{s_{\mathrm{img}}}\Big(0.6+1.1\big(1-\operatorname{clip}(\bar r_t,0,1)\big)\Big).
+$$
+
+With $s_{\mathrm{ref}}=4.899$, the effective slope wall $\kappa_{\mathrm{eff}}$ adapts smoothly from the observed Sinkhorn scale EMA $\bar s_t$ and residual EMA $\bar r_t$ even when each online arrival has `batch_size=1`.
+
+**Stratified Blue-Noise Particle (SBNP) Prior Regularizer**
+
+$$
+R_{\mathrm{SBNP}}(P)=\lambda_P\left(\mathcal T_{\mathrm{moment}}(P)+w_{\mathrm{repel}}\,\mathbb I(K>2k_{\mathrm{nn}}+d_z)\,\frac{1}{K k_{\mathrm{nn}}}\sum_{i=1}^K\sum_{m=1}^{k_{\mathrm{nn}}}\log\!\left(1+\frac{\bar r_{\mathrm{knn}}^2}{\lVert \mu_i-\mu_{\mathcal N_m(i)}\rVert_2^2+\epsilon}\right)\right).
+$$
+
+The `bispf` and `bispf_optimized` presets enable SBNP (`prior_regularizer="sbnp"`), whereas ParticleStream's tuned online BISPF recipes override `prior_regularizer="none"` (and `prior_update="frozen"` in `online-bispf-frozen`) so 32 particles can represent 4 discrete visual modes without repulsive blue-noise spreading.
+
+<a id="simplified-pseudocode"></a>
+## Simplified pseudocode
+
+```text
+Choose optimizer (DualNorm in bispf_optimized or BISPFCriticAdam in bispf), rates and prior policy.
+For each chronological single-arrival step t:
+  Serve pre-arrival prediction under isolated eval RNG when task requires causal prediction.
+  Draw particle row i_D and compute detached fake y_D = stop_gradient(G(z_{i_D}, c_{t-1})).
+  Evaluate single-pair Sinkhorn coupling Pi = [[1]] between x_t and y_D; update residual and scale EMAs.
+  Compute EBI harmonic floor + smooth softplus_beta cap at kappa_eff on input gradients plus zero-mean logit gauge.
+  Backpropagate critic non-saturating logistic loss + BISPF penalty and step D.
+  With D fixed, draw particle row i_G (uniform or routed), recompute differentiable fake y_G = G(z_{i_G}, c_{t-1}),
+    and backpropagate generator adversarial loss (+ declared prior or reconstruction terms).
+  Step G (and trainable prior P when unfrozen) and advance detached memory c_t = memory.write(x_t).
+```
+
+<a id="training-details"></a>
+## Training details
+
+| Characteristic | Behavior |
+| --- | --- |
+| Adversarial loss | Decoupled non-saturating logistic loss (`loss="non_saturating"`) across declared ParticleStream BISPF candidates; routed causal variant (`online-bispf-transport-causal`) adds MSE reconstruction. |
+| Optimizer | `bispf` preset uses `BISPFCriticAdam` / `K3PGeneratorAdam` ($\beta_1=0$, $\beta_2=0.99$ in tuned candidates); `bispf_optimized` uses DualNorm (`optimizer_svd_backend="batched"`). |
+| Learning rates and annealing | Preset `bispf` / `bispf_optimized` run constant high rates (`0.008` / `0.012`, `critic_lr_mult=1.5`, `prior_lr_mult=2.5`); tuned online BISPF candidates use `lr=0.005` cosine-annealed to `lr_floor=0.05` (with `lr_anneal_start=0.25` in `online-bispf-early*` and `online-bispf-frozen`). |
+| Parameter-gradient clipping | None (`critic_grad_guard=False`). Bounding acts through the smooth $\beta=30$ Elastic Born-Infeld potential. |
+| Critic penalties and anchors | Elastic Born-Infeld critic regularizer ($\kappa=1.0$, $\beta=30$, image floor $5\times 10^{-4}$) plus zero-mean logit gauge ($5\times 10^{-3}$ on images). Zero EMA critic anchor (`reg_anchor_weight=0.0`). |
+| Damping and update guards | Harmonic Mode Capture thermal cooler (`thermal_cooling=False` in `bispf`, enabled or `bispf_cooler_freeze_2d` in `bispf_optimized*`). No A2 row damping. |
+| Online memory, prior and routing | `FastWeightMemory` velocity reader on most BISPF candidates; `CausalStateMemory` + competitive transport on `online-bispf-transport-causal`. All active candidates enforce `replay_policy="none"` and `rehearsal_batch=0`. |
+| Training and sampling noise | Zero scheduled critic-input or generator-output noise (`0.0`); task-declared MoG $\sigma=0.025$ is preserved. |
+| Parameter averaging and serving | Live unaveraged weights (`ema_decay=0.0`, `serve_average=False`). |
+
+<a id="configuration-differences"></a>
+## Configuration differences
+
+- At `batch_size=1`, Sinkhorn coupling between one real and one generated sample is always the $1\times 1$ matrix $[1]$; BISPF therefore acts purely through its scale-adapted EBI gradient wall and zero-mean logit gauge rather than multi-sample OT pairing.
+- `online-bispf-frozen` is the strongest measured BISPF recipe (`1/10` required passes, passing `seq_img_round_robin_bars4`), confirming that freezing the 32-row MoG table prevents sparse-row drift on i.i.d. cycling.
+- Preset `online-bispf-optimized*` recipes inherit `lr=0.012`, `critic_lr_mult=1.5`, and repulsive `sbnp`, which destabilize single-sample $8\times 8$ streams (`DEAD_ENDS.md`).
+
+<details>
+<summary>Implementation and recipe sources</summary>
+
+These links support the explanation. Recorded results below remain bound to their own executed source.
+
+- [particlestream/tier1.py](../../../particlestream/tier1.py)
+- [particlestream/transport.py](../../../particlestream/transport.py)
+- [particlestream/memory.py](../../../particlestream/memory.py)
+- [configs/forge/ideas/online-bispf-frozen.json](../../../configs/forge/ideas/online-bispf-frozen.json)
+- [configs/forge/ideas/online-bispf-early.json](../../../configs/forge/ideas/online-bispf-early.json)
+- [configs/forge/ideas/online-bispf-transport-causal.json](../../../configs/forge/ideas/online-bispf-transport-causal.json)
+
+</details>
+
+Each section below describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
 
 The installed engine is pinned to ParticleGAN/Forge 0.9.7. Older version or replay wording in declaration history describes provenance; the effective configuration below controls execution.
 
@@ -1292,3 +1378,19 @@ Declared changes:
 Strict online successors: [`online-bispf-optimized-cool`](bispf.md#online-bispf-optimized-cool).
 
 [Preserved receipt directory](../receipts/cuda/stream-bispf-optimized-cool) · [Archived cohorts](../cohorts) · [Research history](../research-notes.md)
+
+<a id="refresh"></a>
+## Refresh
+
+```sh
+particlestream compile --device cuda
+```
+
+This page is generated alongside the leaderboard from committed source-bound receipts and declarations; editing a generated page cannot change a verdict or earn qualification.
+
+<a id="references"></a>
+## References
+
+- [Sinkhorn Distances: Lightspeed Computation of Optimal Transport](https://arxiv.org/abs/1306.0895). Entropic Optimal Transport Sinkhorn-Knopp coupling and marginal-residual statistics.
+- [Adam: A Method for Stochastic Optimization](https://arxiv.org/abs/1412.6980). First-order moment optimizer used in `bispf` recipes alongside DualNorm in `bispf_optimized`.
+- [The relativistic discriminator: a key element missing from standard GAN](https://arxiv.org/abs/1807.00734). Relativistic pairing foundation supported by the upstream BISPF preset family.

@@ -1,12 +1,88 @@
+<!-- Generated Forge family report -->
+
 # Global-Stream-BCAP
 
 [← Technique leaderboard](../technique-inventory.md)
 
-Global-Stream-BCAP combines BCAP and bounded frame memory with one declared non-saturating loss and cosine learning-rate schedule across tasks. Its strict online descendant retains these optimizer settings while removing rehearsal. The historical recipe's rehearsal buffer must not be confused with the current one-arrival, one-update execution contract.
+<a id="technique-overview"></a>
+## Technique overview
 
-[Implementation](../../../particlestream/memory.py) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+Global-Stream-BCAP combines `FastWeightMemory` ($d_c=16$ velocity reader) and the fixed BCAP critic cap with one global `batch_size=1` optimization recipe: decoupled non-saturating logistic loss, an unregularized trainable prior (`prior_regularizer="none"`), faster Adam second-moment tracking ($\beta_2=0.99$), and cosine learning-rate annealing. Its strict online declaration (`online-fast-weight-bcap-ns`) removes the 7-frame reservoir rehearsal batch used by the historical `fast-weight-bcap-ns` recipe.
 
-Each section describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
+[Implementation](../../../particlestream/memory.py) · [Mathematical formulation](global-stream-bcap.md#mathematical-formulation) · [Simplified pseudocode](global-stream-bcap.md#simplified-pseudocode) · [Training details](global-stream-bcap.md#training-details) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+
+<a id="mathematical-formulation"></a>
+## Mathematical formulation
+
+$G$ is the generator, $D$ the critic, and $P$ the trainable $K$-particle MoG prior ($K=32$, $d_z=8$, $\sigma=0.025$) with centers $\{\mu_i\}_{i=0}^{K-1}$. $x_t$ is the single real arrival at step $t\in\{1,\dots,T\}$, $c_{t-1}\in\mathbb R^{16}$ is the detached velocity context from `FastWeightMemory`, $\hat x_D=G(\mu_{i_D}+\sigma\epsilon_D,c_{t-1})$ is the detached critic fake, and $\hat x_G=G(\mu_{i_G}+\sigma\epsilon_G,c_{t-1})$ is the differentiable generator fake. $\eta_0=0.005$ is the base learning rate, $u_t=t/T$ is normalized progress, $u_0=0.5$ is the cosine anneal start, and $f=0.05$ is the LR floor.
+
+**Decoupled Non-Saturating BCAP Objective with Unregularized Prior**
+
+$$
+\begin{aligned}\mathcal L_D&=\operatorname{softplus}(-D(x_t,c_{t-1}))+\operatorname{softplus}(D(\hat x_D,c_{t-1}))+\frac{\lambda}{2}\Big[(\lVert g_r\rVert_2-\kappa)_+^2+(\lVert g_f\rVert_2-\kappa)_+^2\Big],\\\mathcal L_G&=\operatorname{softplus}(-D(\hat x_G,c_{t-1})).\end{aligned}
+$$
+
+Replacing relativistic pairing with independent real/fake logistic terms avoids single-arrival gradient inversion when $x_t$ and $\hat x_G$ belong to different valid modes, while `prior_regularizer="none"` lets the 32 MoG centers cluster onto discrete templates without repulsive spreading.
+
+**Delayed Cosine Learning-Rate Schedule**
+
+$$
+\eta(t)=\begin{cases}\eta_0,&u_t\le u_0,\\[6pt]\eta_0\left(f+\dfrac{1-f}{2}\left[1+\cos\!\left(\pi\dfrac{u_t-u_0}{1-u_0}\right)\right]\right),&u_t>u_0.\end{cases}
+$$
+
+Network groups step at $\eta(t)$ and trainable prior centers step at $2\eta(t)$ (`prior_lr_mult=2.0`), holding full plasticity through the first half of the stream before cooling to $5\%$ of $\eta_0$.
+
+<a id="simplified-pseudocode"></a>
+## Simplified pseudocode
+
+```text
+Initialize G, D, unregularized trainable MoG prior P and detached FastWeightMemory (d_c = 16).
+For each chronological single-arrival step t of T:
+  Update network LR eta(t) and prior LR 2 * eta(t) from the delayed cosine schedule (u_0 = 0.5, floor = 0.05).
+  Serve pre-arrival prediction y_hat = G(z_{i_serve}, c_{t-1}) under isolated eval RNG when predictive.
+  Draw uniform i_D and compute detached fake x_hat_D = stop_gradient(G(z_{i_D}, c_{t-1})).
+  Backpropagate non-saturating critic loss + fixed BCAP cap (lambda = 1, kappa = 1) on x_t alone; step D.
+  With D fixed, draw uniform i_G, compute x_hat_G = G(z_{i_G}, c_{t-1}), and backpropagate softplus(-D(x_hat_G, c_{t-1})).
+  Step G and trainable prior row mu_{i_G} without prior repulsion or generator probes.
+  Advance detached velocity context c_t = FastWeightMemory.write(x_t) with rehearsal_batch = 0.
+```
+
+<a id="training-details"></a>
+## Training details
+
+| Characteristic | Behavior |
+| --- | --- |
+| Adversarial loss | Decoupled non-saturating logistic loss (`loss="non_saturating"`) without auxiliary reconstruction. |
+| Optimizer | Native Adam (`bcap_adam`: $\beta_1=0$, $\beta_2=0.99$, `prior_betas=(0, 0.99)`). |
+| Learning rates and annealing | Base LR $0.005$, `critic_lr_mult=1.0`, `prior_lr_mult=2.0`, holding until `lr_anneal_start=0.5` then cosine-decaying to `lr_floor=0.05` (`prior_lr_floor=0.05`). |
+| Parameter-gradient clipping | None (`critic_grad_guard=False`). |
+| Critic penalties and anchors | Fixed real/fake one-sided squared $L_2$ BCAP cap ($\lambda=1.0$, $\kappa=1.0$). |
+| Damping and update guards | None (`latent_damping_max_rate=0.0`, `prior_regularizer="none"`). |
+| Online memory, prior and routing | Detached `FastWeightMemory` (`dim=16`, `reader="velocity"`), uniform unrouted particle draws. `online-fast-weight-bcap-ns` enforces `replay_policy="none"` and `rehearsal_batch=0` (removing historical `fast-weight-bcap-ns`'s `rehearsal_batch=7`). |
+| Training and sampling noise | Zero scheduled critic-input or generator-output additive noise (`0.0`); task MoG $\sigma=0.025$ is preserved. |
+| Parameter averaging and serving | Live unaveraged weights (`ema_decay=0.0`, `serve_average=False`). |
+
+<a id="configuration-differences"></a>
+## Configuration differences
+
+- Global-Stream-BCAP isolates the exact boundary between replay-assisted streaming and true single-stream online learning: removing the 7-frame FIFO rehearsal batch drops `fast-weight-bcap-ns` to `0/10` required passes (`online-fast-weight-bcap-ns`).
+- Without rehearsal, `dwell=16` identical-frame blocks overwrite the critic and pull unrouted trainable particles toward whichever mode currently occupies the stream (`seq_img_dwell_bars4` collapses to 2/4 modes), motivating the subsequent causal-state, context-balanced, and observed-feature prior families.
+
+<details>
+<summary>Implementation and recipe sources</summary>
+
+These links support the explanation. Recorded results below remain bound to their own executed source.
+
+- [particlestream/models.py](../../../particlestream/models.py)
+- [particlestream/memory.py](../../../particlestream/memory.py)
+- [particlestream/online.py](../../../particlestream/online.py)
+- [particlestream/tier1.py](../../../particlestream/tier1.py)
+- [configs/forge/ideas/online-fast-weight-bcap-ns.json](../../../configs/forge/ideas/online-fast-weight-bcap-ns.json)
+- [configs/forge/ideas/fast-weight-bcap-ns.json](../../../configs/forge/ideas/fast-weight-bcap-ns.json)
+
+</details>
+
+Each section below describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
 
 The installed engine is pinned to ParticleGAN/Forge 0.9.7. Older version or replay wording in declaration history describes provenance; the effective configuration below controls execution.
 
@@ -194,3 +270,19 @@ Declared changes:
 Strict online successors: [`online-fast-weight-bcap-ns`](global-stream-bcap.md#online-fast-weight-bcap-ns).
 
 [Preserved receipt directory](../receipts/cuda/fast-weight-bcap-ns) · [Archived cohorts](../cohorts) · [Research history](../research-notes.md)
+
+<a id="refresh"></a>
+## Refresh
+
+```sh
+particlestream compile --device cuda
+```
+
+This page is generated alongside the leaderboard from committed source-bound receipts and declarations; editing a generated page cannot change a verdict or earn qualification.
+
+<a id="references"></a>
+## References
+
+- [Generative Adversarial Networks](https://arxiv.org/abs/1406.2661). Non-saturating logistic adversarial objective replacing relativistic score pairing.
+- [SGDR: Stochastic Gradient Descent with Warm Restarts](https://arxiv.org/abs/1608.03983). Cosine learning-rate annealing schedule applied over the second half of the stream horizon.
+- [Using Fast Weights to Attend to the Recent Past](https://arxiv.org/abs/1610.06258). Detached fast-weight memory state maintained without backpropagating through time.

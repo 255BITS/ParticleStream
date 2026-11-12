@@ -1,12 +1,88 @@
+<!-- Generated Forge family report -->
+
 # FastWeight-BCAP
 
 [← Technique leaderboard](../technique-inventory.md)
 
-FastWeight-BCAP adds detached bounded memory to the BCAP trainer. The memory writes from arriving frames and conditions the task-owned generator and critic. Its strict online descendant disables replay. The original reader emphasizes recent frame change; it does not by itself establish delayed recall or use the accumulated associative matrix as a query.
+<a id="technique-overview"></a>
+## Technique overview
 
-[Implementation](../../../particlestream/memory.py) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+FastWeight-BCAP extends the preset `bcap_adam` trainer with a detached Hebbian fast-weight memory module (`FastWeightMemory`, $d_c=16$) that updates only on real arrivals and conditions both generator and critic without backpropagating through temporal history. Its strict online declaration (`online-fast-weight-bcap`) preserves the complete `bcap_adam` relativistic + VICReg optimization recipe while disabling frame replay.
 
-Each section describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
+[Implementation](../../../particlestream/memory.py) · [Mathematical formulation](fastweight-bcap.md#mathematical-formulation) · [Simplified pseudocode](fastweight-bcap.md#simplified-pseudocode) · [Training details](fastweight-bcap.md#training-details) · [Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)
+
+<a id="mathematical-formulation"></a>
+## Mathematical formulation
+
+$G$ is the generator, $D$ the critic, and $P$ the trainable $K$-particle MoG prior ($K=32$, $d_z=8$, $\sigma=0.025$). At step $t$, $x_t\in[0,1]^{1\times 8\times 8}$ is the arriving real frame with flattened vector $\bar x_t=\operatorname{vec}(x_t)\in\mathbb R^{64}$. $W_k,W_v\in\mathbb R^{d_c\times 64}$ ($d_c=16$) are fixed projections inside `FastWeightMemory`, $M_t\in\mathbb R^{d_c\times d_c}$ is the detached Hebbian fast-weight matrix with decay $\gamma=0.90$ and write rate $\eta_w=0.35$, and $c_t\in\mathbb R^{d_c}$ is the detached velocity context passed to step $t+1$. $\Delta(x,y)=D(x,c_{t-1})-D(y,c_{t-1})$ is the paired relativistic score difference and $R_{\mathrm{VICReg}}(P)$ is the preset prior regularizer.
+
+**Detached Hebbian Writer and Thresholded Velocity Reader**
+
+$$
+\begin{aligned}k_t&=\frac{W_k\bar x_t}{\lVert W_k\bar x_t\rVert_2},\qquad v_t=\frac{W_v\bar x_t}{\lVert W_v\bar x_t\rVert_2},\qquad M_t=\gamma M_{t-1}+\eta_w\,v_t k_{t-1}^\top,\\c_t&=\begin{cases}3.0\,\dfrac{k_t-k_{t-1}}{\lVert k_t-k_{t-1}\rVert_2},&\lVert k_{t-1}\rVert_2>0\land\lVert k_t-k_{t-1}\rVert_2>0.35,\\[6pt]\mathbf 0_{d_c},&\text{otherwise}.\end{cases}\end{aligned}
+$$
+
+Only real observations mutate $(M_t,k_{t-1})$ inside `torch.no_grad()`. Because the original `velocity` reader emits the normalized key difference $k_t-k_{t-1}$ without querying $M_t$, it cleanly disambiguates 1-step motion (`translating_bar_next`) but collapses to $\mathbf 0_{d_c}$ across repeated distractors ($k_t=k_{t-1}$).
+
+**Single-Arrival Relativistic BCAP and VICReg Objectives**
+
+$$
+\begin{aligned}\mathcal L_D&=\operatorname{softplus}\big(-\Delta(x_t,\hat x_D)\big)+\frac{\lambda}{2}\Big[(\lVert g_r\rVert_2-\kappa)_+^2+(\lVert g_f\rVert_2-\kappa)_+^2\Big],\\\mathcal L_G&=\operatorname{softplus}\big(\Delta(x_t,\hat x_G)\big)+\lambda_{\mathrm{prior}}R_{\mathrm{VICReg}}(P).\end{aligned}
+$$
+
+With empty `recipe_overrides`, `online-fast-weight-bcap` inherits `bcap_adam`'s constant-LR relativistic pairing and repulsive `vicreg` prior regularizer over uniform `batch_size=1` draws $\hat x_D,\hat x_G$.
+
+<a id="simplified-pseudocode"></a>
+## Simplified pseudocode
+
+```text
+Initialize G, D, trainable MoG prior P and detached FastWeightMemory (d_c = 16).
+For each chronological single-arrival step t:
+  On predictive streams at arrival 0, warm-start c_0 = FastWeightMemory.write(x_0) without stepping G or D.
+  Serve pre-arrival prediction y_hat = G(z_{i_serve}, c_{t-1}) under isolated eval RNG.
+  Draw uniform i_D and compute detached fake x_hat_D = stop_gradient(G(z_{i_D}, c_{t-1})).
+  Backpropagate relativistic critic loss softplus(D(x_hat_D, c_{t-1}) - D(x_t, c_{t-1})) + BCAP cap; step D.
+  With D fixed, draw uniform i_G, compute x_hat_G = G(z_{i_G}, c_{t-1}), and evaluate relativistic G loss + VICReg prior loss.
+  Step G and trainable prior P at constant preset learning rates.
+  Update detached M_t and emit thresholded velocity context c_t = FastWeightMemory.write(x_t) (zero replay).
+```
+
+<a id="training-details"></a>
+## Training details
+
+| Characteristic | Behavior |
+| --- | --- |
+| Adversarial loss | Preset paired relativistic logistic loss (`loss="relativistic"`) on raw critic scores. |
+| Optimizer | Native Adam (`bcap_adam` preset: $\beta_1=0$, $\beta_2=0.999$). |
+| Learning rates and annealing | Constant unannealed `bcap_adam` rates (`lr=0.00425`, `critic_lr_mult=1.0`, `prior_lr_mult=2.0`, `lr_floor=1.0`). |
+| Parameter-gradient clipping | None (`critic_grad_guard=False`). |
+| Critic penalties and anchors | Fixed real/fake one-sided squared $L_2$ BCAP cap ($\lambda=1.0$, $\kappa=1.0$). |
+| Damping and update guards | None (`latent_damping_max_rate=0.0`); `prior_regularizer="vicreg"` spreads trainable latent centers. |
+| Online memory, prior and routing | Detached `FastWeightMemory` (`dim=16`, `decay=0.9`, `write_lr=0.35`, `reader="velocity"`), uniform particle sampling, `replay_policy="none"`, `rehearsal_batch=0`. |
+| Training and sampling noise | Zero scheduled critic-input or generator-output additive noise; task-declared MoG $\sigma=0.025$ is preserved. |
+| Parameter averaging and serving | Live unaveraged weights (`ema_decay=0.0`, `serve_average=False`). |
+
+<a id="configuration-differences"></a>
+## Configuration differences
+
+- `online-fast-weight-bcap` passes `seq_img_translating_bar_next` (`1/10` required passes), proving that detached key-difference conditioning alone resolves 1-step interior motion ambiguity without replay.
+- On unconditional multi-mode streams (`bars4`, `dwell_bars4`), pairing `batch_size=1` relativistic score subtraction with unannealed updates and repulsive `vicreg` prior regularization prevents stable 4-mode convergence.
+- The historical parent `fast-weight-bcap` omitted explicit `replay_policy="none"` fields and remains preserved as read-only provenance.
+
+<details>
+<summary>Implementation and recipe sources</summary>
+
+These links support the explanation. Recorded results below remain bound to their own executed source.
+
+- [particlestream/models.py](../../../particlestream/models.py)
+- [particlestream/memory.py](../../../particlestream/memory.py)
+- [particlestream/online.py](../../../particlestream/online.py)
+- [particlestream/tier1.py](../../../particlestream/tier1.py)
+- [configs/forge/ideas/online-fast-weight-bcap.json](../../../configs/forge/ideas/online-fast-weight-bcap.json)
+
+</details>
+
+Each section below describes one exact global recipe. Configuration and parent deltas come from the declarations; results come from Forge's current source-bound receipts. Required and stretch evidence stay separate. A final metric can meet its gate while the sustained verdict fails: every one of the last five checks must pass.
 
 The installed engine is pinned to ParticleGAN/Forge 0.9.7. Older version or replay wording in declaration history describes provenance; the effective configuration below controls execution.
 
@@ -145,3 +221,19 @@ Declared changes:
 Strict online successors: [`online-fast-weight-bcap`](fastweight-bcap.md#online-fast-weight-bcap).
 
 [Preserved receipt directory](../receipts/cuda/fast-weight-bcap) · [Archived cohorts](../cohorts) · [Research history](../research-notes.md)
+
+<a id="refresh"></a>
+## Refresh
+
+```sh
+particlestream compile --device cuda
+```
+
+This page is generated alongside the leaderboard from committed source-bound receipts and declarations; editing a generated page cannot change a verdict or earn qualification.
+
+<a id="references"></a>
+## References
+
+- [Using Fast Weights to Attend to the Recent Past](https://arxiv.org/abs/1610.06258). Detached fast-weight associative state updated online from arriving activations.
+- [The relativistic discriminator: a key element missing from standard GAN](https://arxiv.org/abs/1807.00734). Paired relativistic logistic objective inherited from the `bcap_adam` preset.
+- [VICReg: Variance-Invariance-Covariance Regularization for Self-Supervised Learning](https://arxiv.org/abs/2105.04906). Variance-covariance prior regularizer inherited from the `bcap_adam` preset.
