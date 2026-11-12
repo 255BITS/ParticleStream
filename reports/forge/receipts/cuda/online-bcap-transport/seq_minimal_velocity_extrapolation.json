@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 9405440,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 2304,
-      "evaluation_seconds": 3.9038746471633203,
+      "evaluation_seconds": 4.052150673116557,
       "generator_parameters": 6385,
       "optimizer_updates": 384,
-      "process_peak_rss_kib": 2566440,
+      "process_peak_rss_kib": 2564656,
       "serving_d_forwards": 0,
       "serving_g_forwards": 384,
-      "training_and_evaluation_seconds": 11.347637112019584,
+      "training_and_evaluation_seconds": 12.047657007002272,
       "training_d_forwards": 2304,
       "training_g_forwards": 13056
     },
@@ -128,15 +128,17 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
-      "minimal_adapter.py": "848ca2c3db6d1797e6979fadea192b17633e96d83b7fd38ca3fb83a9940694be",
-      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
+      "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
       "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -374,24 +376,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "848ca2c3db6d1797e6979fadea192b17633e96d83b7fd38ca3fb83a9940694be",
+    "adapter_source_sha256": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
     "candidate_fingerprint": "40feedd54a83b5ffb2352e474b69984092e9e7ae3b1eac85684a0d2cfaf51f6d",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "2c06a8784b3e1b3d2fb7fb440f81ebb536a9d7d529961c697a1615e5b1fe3514"
+    "task_fingerprint": "ee4ab8913d9586f3fe137b69f9b88dc170c438aa65df0ab95afdd884a5b38c96"
   },
   "candidate_fingerprint": "40feedd54a83b5ffb2352e474b69984092e9e7ae3b1eac85684a0d2cfaf51f6d",
   "candidate_id": "online-bcap-transport",
-  "cohort_key": "61fa0c70fe52b46248fbb406491052a899ddaf4c6ebc2137f21919e3cf0a8c30",
-  "completed_at": "2026-11-12T06:24:27.131+00:00",
+  "cohort_key": "e126cef18cf87dee2526a6279fc9d9eafc8a8c2646683692909bc12eec325413",
+  "completed_at": "2026-11-12T18:39:23.304+00:00",
   "completed_steps": 384,
   "cost": {
     "completed_steps": 384,
     "timeout_seconds": 300,
-    "wall_seconds": 13.5274
+    "wall_seconds": 14.3227
   },
   "device": "cuda",
   "error": null,
@@ -1061,11 +1063,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "2c06a8784b3e1b3d2fb7fb440f81ebb536a9d7d529961c697a1615e5b1fe3514",
+  "task_fingerprint": "ee4ab8913d9586f3fe137b69f9b88dc170c438aa65df0ab95afdd884a5b38c96",
   "task_id": "seq_minimal_velocity_extrapolation",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T06:24:27.131+00:00",
+  "timestamp": "2026-11-12T18:39:23.304+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

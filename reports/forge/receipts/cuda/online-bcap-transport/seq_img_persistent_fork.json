@@ -10,11 +10,13 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -235,24 +237,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "49dcc71724d1b3e608189b5f6d67f50eee6d2cc88efaa691a459dd27147fad44",
+    "adapter_source_sha256": "66d5710e6dd33f957e723c8ec5ed6bdc50d01d3482470691656c939f15e9deaa",
     "candidate_fingerprint": "40feedd54a83b5ffb2352e474b69984092e9e7ae3b1eac85684a0d2cfaf51f6d",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "787763d66e9252caddecacdc66c77c885bd57bbc253af05e93ee1d0b01c01805"
+    "task_fingerprint": "565c2687743fa1ad2e3265f6d769f6aa2f658217fd2e43ad5a12cc99c3bfce48"
   },
   "candidate_fingerprint": "40feedd54a83b5ffb2352e474b69984092e9e7ae3b1eac85684a0d2cfaf51f6d",
   "candidate_id": "online-bcap-transport",
-  "cohort_key": "a3ce94d1f5f90a397b7e939a6715b7a381aeb5a8663c2060a8128c80c0def7d0",
-  "completed_at": "2026-11-12T06:21:40.749+00:00",
+  "cohort_key": "1c37768440f3b2f2e1ce6024ae791538da40c9acc290b25e07da3584f4352547",
+  "completed_at": "2026-11-12T18:35:24.872+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 19.3599
+    "wall_seconds": 32.3065
   },
   "device": "cuda",
   "error": null,
@@ -925,11 +927,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "787763d66e9252caddecacdc66c77c885bd57bbc253af05e93ee1d0b01c01805",
+  "task_fingerprint": "565c2687743fa1ad2e3265f6d769f6aa2f658217fd2e43ad5a12cc99c3bfce48",
   "task_id": "seq_img_persistent_fork",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T06:21:40.749+00:00",
+  "timestamp": "2026-11-12T18:35:24.872+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

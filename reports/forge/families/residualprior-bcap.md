@@ -105,6 +105,141 @@ Each section below describes one exact global recipe. Configuration and parent d
 
 The installed engine is pinned to ParticleGAN/Forge 0.9.7. Older version or replay wording in declaration history describes provenance; the effective configuration below controls execution.
 
+<a id="online-residual-prior-linear-key"></a>
+## `online-residual-prior-linear-key`
+
+[Exact declaration](../../../configs/forge/ideas/online-residual-prior-linear-key.json)
+
+Parent: [`online-residual-prior-bce`](residualprior-bcap.md#online-residual-prior-bce).
+
+Declared changes:
+
+- Unnormalized salient causal key projection (normalize_key=false, key_gain=0.5) preserves Euclidean superposition norm across compositional and continuous kinematic inputs while retaining contrast gating
+
+### Configuration delta from parent
+
+| Field | Parent | This recipe |
+| --- | --- | --- |
+| `memory_policy.key_gain` | _unset_ | `0.5` |
+| `memory_policy.normalize_key` | _unset_ | `false` |
+
+### Effective declaration
+
+```json
+{
+  "memory_policy": {
+    "age_horizon": 8.0,
+    "association_weight": 0.0,
+    "change_threshold": 0.04,
+    "context_scale": 3.0,
+    "contrast_threshold": 0.03,
+    "decay": 0.9,
+    "dim": 16,
+    "key_gain": 0.5,
+    "kind": "fast_weight",
+    "normalize_key": false,
+    "reader": "causal_state",
+    "rehearsal_batch": 0,
+    "replay_policy": "none",
+    "reservoir_size": 64,
+    "transport": {
+      "context_bypass_weight": 5.0,
+      "context_capacity": 64,
+      "context_clip": 8.0,
+      "context_tolerance": 0.25,
+      "covariance_ema": 0.05,
+      "covariance_eps": 0.0001,
+      "feature_scale": 2.0,
+      "feature_tolerance": 0.15,
+      "image_center": 0.5,
+      "kernel_bandwidth": 0.35,
+      "outcome_decay": 1.0,
+      "reconstruction_loss": "binary_cross_entropy",
+      "reconstruction_weight": 10.0,
+      "rls_ridge": 0.1,
+      "router": "residual_feature_conditional",
+      "slab_scale": 1.0,
+      "temperature": 0.0,
+      "usage_decay": 1.0,
+      "usage_penalty": 0.0,
+      "variance_ratio_scale": 0.15,
+      "visit_shrinkage": 0.25
+    },
+    "write_lr": 0.35
+  },
+  "recipe_overrides": {
+    "betas": [
+      0.0,
+      0.999
+    ],
+    "loss": "non_saturating",
+    "lr": 0.005,
+    "lr_anneal_start": 0.5,
+    "lr_floor": 0.05,
+    "lr_schedule": "cosine",
+    "network_lr_floor": 0.05,
+    "prior_update": "frozen"
+  },
+  "recipe_preset": "bcap_adam"
+}
+```
+
+Current `cuda`, seed 0: **PASS**, 10/10 required passes (10 measured), 3/10 stretch passes (10 measured); qualified tier 1.
+
+Receipt identity: candidate_fingerprint `1dea3f5242caf231176371c83503b3439d69e06cbae9aedb8cbe237de17478f6`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
+
+<a id="online-residual-prior-linear-key-required"></a>
+### Required evidence
+
+<a id="online-residual-prior-linear-key-tier-1-required"></a>
+#### Tier 1 required
+
+| Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
+| --- | --- | --- | --- | --- | --- |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_round_robin_bars4.gif) | 2026-11-12T20:56:20.716+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0.03125` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_dwell_bars4.gif) | 2026-11-12T20:56:28.451+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **PASS** | 5/5 | `next_frame_rmse=0.008856`; `direction_acc=1` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_translating_bar_next.gif) | 2026-11-12T20:56:38.966+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **PASS** | 5/5 | `hq=1`; `within_state_modes=2`; `branch_tv=0` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_fork_rollout.gif) | 2026-11-12T20:56:49.608+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_variable_dwell_bars4.gif) | 2026-11-12T20:56:57.254+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **PASS** | 5/5 | `hq=1`; `finite_template_tv=0`; `support_modes=4`; `rare_mass=0.0625`; `rare_mass=0.0625` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_rare_mode_bars4.gif) | 2026-11-12T20:57:04.952+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **PASS** | 5/5 | `outcome_accuracy=1`; `prediction_rmse=0.026427` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_delayed_cue.gif) | 2026-11-12T20:57:15.549+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **PASS** | 5/5 | `hq=1`; `within_state_modes=2`; `branch_tv=0.09375`; `trajectory_consistency=1` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_persistent_fork.gif) | 2026-11-12T20:57:42.162+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **PASS** | 5/5 | `orbit_rmse=0.020518`; `xy_rmse=0.003371`; `step_accuracy=1`; `orbit_completion=1`; `waypoint_modes=8` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_circle_orbit.gif) | 2026-11-12T20:58:13.547+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **PASS** | 5/5 | `cycle_rmse=0.020386`; `s2c_rmse=0.020614`; `c2s_rmse=0.020157`; `xy_rmse=0.005701`; `step_accuracy=1`; `cycle_completion=1`; `waypoint_modes=8` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_img_square_circle_cycle.gif) | 2026-11-12T20:59:12.551+00:00 |
+
+<a id="online-residual-prior-linear-key-stretch"></a>
+### Stretch evidence
+
+<a id="online-residual-prior-linear-key-tier-1-stretch"></a>
+#### Tier 1 stretch
+
+| Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
+| --- | --- | --- | --- | --- | --- |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_minimal_dense4.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_minimal_dense4.gif) | 2026-11-12T20:59:16.147+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **PASS** | 5/5 | `valid_fraction=1`; `modes=4`; `mass_tv=0` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_minimal_tokens4.gif) | 2026-11-12T20:59:19.919+00:00 |
+
+<a id="online-residual-prior-linear-key-tier-2-stretch"></a>
+#### Tier 2 stretch
+
+| Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
+| --- | --- | --- | --- | --- | --- |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.04305`; `seen_max_abs_error=0.17417`; `heldout_response_rmse=0.038166`; `heldout_max_abs_error=0.090952`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_minimal_kernel2x2.gif) | 2026-11-12T20:59:27.232+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **PASS** | 5/5 | `seen_exact_accuracy=1`; `seen_min_bit_confidence=0.96531`; `heldout_exact_accuracy=1`; `heldout_min_bit_confidence=0.96443` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_minimal_addition2bit.gif) | 2026-11-12T20:59:34.647+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **PASS** | 5/5 | `position_delta_rmse_m=0.0035343`; `relative_mse=0.044448`; `moving_direction_accuracy=0.95833`; `finite_fraction=1` | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_robotics_fetch_reach.gif) | 2026-11-12T20:59:49.603+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.010359`; `relative_mse=0.71504`; `moving_direction_accuracy=0.74419`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_robotics_fetch_push.gif) | 2026-11-12T21:00:06.336+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0073618`; `relative_mse=0.32987`; `moving_direction_accuracy=0.72549`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_robotics_fetch_slide.gif) | 2026-11-12T21:00:23.070+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 4/5 | `position_delta_rmse_m=0.002799`; `relative_mse=0.049913`; `moving_direction_accuracy=0.77193`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75 | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_robotics_fetch_pick_and_place.gif) | 2026-11-12T21:00:38.711+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0081776`; `relative_mse=0.98914`; `moving_direction_accuracy=0.6215`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_robotics_hand_reach.gif) | 2026-11-12T21:00:53.332+00:00 |
+
+<a id="online-residual-prior-linear-key-tier-3-stretch"></a>
+#### Tier 3 stretch
+
+| Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
+| --- | --- | --- | --- | --- | --- |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.034183`; `interpolation_speed_error=0.047889`; `interpolation_raw_rmse=0.048552`; `interpolation_point_validity=0.083333`; `interpolation_direction_accuracy=0.91667`; `extrapolation_centroid_rmse=0.17539`; `extrapolation_speed_error=0.16964`; `extrapolation_raw_rmse=0.098298`; `extrapolation_point_validity=0.16667`; `extrapolation_direction_accuracy=0.75`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_raw_rmse <= 0.12; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-residual-prior-linear-key/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-residual-prior-linear-key_seq_minimal_velocity_extrapolation.gif) | 2026-11-12T21:01:11.885+00:00 |
+
+Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-residual-prior-linear-key --device cuda`.
+
 <a id="online-residual-prior-bce"></a>
 ## `online-residual-prior-bce`
 
@@ -191,7 +326,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **PASS**, 10/10 required passes (10 measured), 1/10 stretch passes (10 measured); qualified tier 1.
+
+Receipt identity: candidate_fingerprint `8d524b72a95ff9f642df58edf11c3fa522f05b6e3c9a5653f266eedd29a47e28`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-residual-prior-bce-required"></a>
 ### Required evidence
@@ -201,16 +338,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_round_robin_bars4.gif) | 2026-11-12T20:51:32.502+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0.03125` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_dwell_bars4.gif) | 2026-11-12T20:51:40.415+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **PASS** | 5/5 | `next_frame_rmse=0.009906`; `direction_acc=1` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_translating_bar_next.gif) | 2026-11-12T20:51:51.226+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **PASS** | 5/5 | `hq=1`; `within_state_modes=2`; `branch_tv=0` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_fork_rollout.gif) | 2026-11-12T20:52:01.912+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_variable_dwell_bars4.gif) | 2026-11-12T20:52:09.593+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **PASS** | 5/5 | `hq=1`; `finite_template_tv=0`; `support_modes=4`; `rare_mass=0.0625`; `rare_mass=0.0625` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_rare_mode_bars4.gif) | 2026-11-12T20:52:17.538+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **PASS** | 5/5 | `outcome_accuracy=1`; `prediction_rmse=0.029977` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_delayed_cue.gif) | 2026-11-12T20:52:27.755+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **PASS** | 5/5 | `hq=1`; `within_state_modes=2`; `branch_tv=0.03125`; `trajectory_consistency=1` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_persistent_fork.gif) | 2026-11-12T20:52:53.046+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **PASS** | 5/5 | `orbit_rmse=0.023236`; `xy_rmse=0.005273`; `step_accuracy=1`; `orbit_completion=1`; `waypoint_modes=8` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_circle_orbit.gif) | 2026-11-12T20:53:22.615+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **PASS** | 5/5 | `cycle_rmse=0.020737`; `s2c_rmse=0.021127`; `c2s_rmse=0.020347`; `xy_rmse=0.006415`; `step_accuracy=1`; `cycle_completion=1`; `waypoint_modes=8` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_img_square_circle_cycle.gif) | 2026-11-12T20:54:15.917+00:00 |
 
 <a id="online-residual-prior-bce-stretch"></a>
 ### Stretch evidence
@@ -220,163 +357,30 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_minimal_dense4.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_minimal_dense4.gif) | 2026-11-12T20:54:19.493+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **PASS** | 5/5 | `valid_fraction=1`; `modes=4`; `mass_tv=0` | [receipt](../receipts/cuda/online-residual-prior-bce/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_minimal_tokens4.gif) | 2026-11-12T20:54:23.277+00:00 |
 
 <a id="online-residual-prior-bce-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.047976`; `seen_max_abs_error=0.22047`; `heldout_response_rmse=0.066654`; `heldout_max_abs_error=0.14824`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_minimal_kernel2x2.gif) | 2026-11-12T20:54:30.466+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **FAIL** | 0/5 | `seen_exact_accuracy=1`; `seen_min_bit_confidence=0.93636`; `heldout_exact_accuracy=0.25`; `heldout_min_bit_confidence=2.3467e-15`; failed terminal bounds: heldout_exact_accuracy == 1.0; heldout_min_bit_confidence >= 0.9 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_minimal_addition2bit.gif) | 2026-11-12T20:54:37.731+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0050827`; `relative_mse=0.091926`; `moving_direction_accuracy=0.95833`; `finite_fraction=1`; failed terminal bounds: position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_robotics_fetch_reach.gif) | 2026-11-12T20:54:52.706+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.011576`; `relative_mse=0.89294`; `moving_direction_accuracy=0.67442`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_robotics_fetch_push.gif) | 2026-11-12T20:55:08.595+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0082458`; `relative_mse=0.41384`; `moving_direction_accuracy=0.68627`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_robotics_fetch_slide.gif) | 2026-11-12T20:55:24.599+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **FAIL** | 3/5 | `position_delta_rmse_m=0.002891`; `relative_mse=0.053249`; `moving_direction_accuracy=0.77193`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_robotics_fetch_pick_and_place.gif) | 2026-11-12T20:55:39.765+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0083971`; `relative_mse=1.043`; `moving_direction_accuracy=0.58879`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_robotics_hand_reach.gif) | 2026-11-12T20:55:54.391+00:00 |
 
 <a id="online-residual-prior-bce-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.031094`; `interpolation_speed_error=0.042178`; `interpolation_raw_rmse=0.037342`; `interpolation_point_validity=0.16667`; `interpolation_direction_accuracy=0.91667`; `extrapolation_centroid_rmse=0.1451`; `extrapolation_speed_error=0.093398`; `extrapolation_raw_rmse=0.086448`; `extrapolation_point_validity=0.25`; `extrapolation_direction_accuracy=0.66667`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-residual-prior-bce/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-residual-prior-bce_seq_minimal_velocity_extrapolation.gif) | 2026-11-12T20:56:11.762+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-residual-prior-bce --device cuda`.
-
-<a id="online-residual-prior-linear-key"></a>
-## `online-residual-prior-linear-key`
-
-[Exact declaration](../../../configs/forge/ideas/online-residual-prior-linear-key.json)
-
-Parent: [`online-residual-prior-bce`](residualprior-bcap.md#online-residual-prior-bce).
-
-Declared changes:
-
-- Unnormalized salient causal key projection (normalize_key=false, key_gain=0.5) preserves Euclidean superposition norm across compositional and continuous kinematic inputs while retaining contrast gating
-
-### Configuration delta from parent
-
-| Field | Parent | This recipe |
-| --- | --- | --- |
-| `memory_policy.key_gain` | _unset_ | `0.5` |
-| `memory_policy.normalize_key` | _unset_ | `false` |
-
-### Effective declaration
-
-```json
-{
-  "memory_policy": {
-    "age_horizon": 8.0,
-    "association_weight": 0.0,
-    "change_threshold": 0.04,
-    "context_scale": 3.0,
-    "contrast_threshold": 0.03,
-    "decay": 0.9,
-    "dim": 16,
-    "key_gain": 0.5,
-    "kind": "fast_weight",
-    "normalize_key": false,
-    "reader": "causal_state",
-    "rehearsal_batch": 0,
-    "replay_policy": "none",
-    "reservoir_size": 64,
-    "transport": {
-      "context_bypass_weight": 5.0,
-      "context_capacity": 64,
-      "context_clip": 8.0,
-      "context_tolerance": 0.25,
-      "covariance_ema": 0.05,
-      "covariance_eps": 0.0001,
-      "feature_scale": 2.0,
-      "feature_tolerance": 0.15,
-      "image_center": 0.5,
-      "kernel_bandwidth": 0.35,
-      "outcome_decay": 1.0,
-      "reconstruction_loss": "binary_cross_entropy",
-      "reconstruction_weight": 10.0,
-      "rls_ridge": 0.1,
-      "router": "residual_feature_conditional",
-      "slab_scale": 1.0,
-      "temperature": 0.0,
-      "usage_decay": 1.0,
-      "usage_penalty": 0.0,
-      "variance_ratio_scale": 0.15,
-      "visit_shrinkage": 0.25
-    },
-    "write_lr": 0.35
-  },
-  "recipe_overrides": {
-    "betas": [
-      0.0,
-      0.999
-    ],
-    "loss": "non_saturating",
-    "lr": 0.005,
-    "lr_anneal_start": 0.5,
-    "lr_floor": 0.05,
-    "lr_schedule": "cosine",
-    "network_lr_floor": 0.05,
-    "prior_update": "frozen"
-  },
-  "recipe_preset": "bcap_adam"
-}
-```
-
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
-
-<a id="online-residual-prior-linear-key-required"></a>
-### Required evidence
-
-<a id="online-residual-prior-linear-key-tier-1-required"></a>
-#### Tier 1 required
-
-| Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
-| --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-
-<a id="online-residual-prior-linear-key-stretch"></a>
-### Stretch evidence
-
-<a id="online-residual-prior-linear-key-tier-1-stretch"></a>
-#### Tier 1 stretch
-
-| Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
-| --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-
-<a id="online-residual-prior-linear-key-tier-2-stretch"></a>
-#### Tier 2 stretch
-
-| Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
-| --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | stale receipt: task_fingerprint differ | — | — |
-
-<a id="online-residual-prior-linear-key-tier-3-stretch"></a>
-#### Tier 3 stretch
-
-| Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
-| --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | stale receipt: adapter_source_sha256, task_fingerprint differ | — | — |
-
-Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-residual-prior-linear-key --device cuda`.
 
 <a id="refresh"></a>
 ## Refresh

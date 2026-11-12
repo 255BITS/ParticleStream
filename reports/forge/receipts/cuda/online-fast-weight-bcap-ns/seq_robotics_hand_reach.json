@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 9316864,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 1536,
-      "evaluation_seconds": 1.529772134963423,
+      "evaluation_seconds": 1.5300567900994793,
       "generator_parameters": 6385,
       "optimizer_updates": 480,
-      "process_peak_rss_kib": 2575372,
+      "process_peak_rss_kib": 2577008,
       "serving_d_forwards": 0,
       "serving_g_forwards": 480,
-      "training_and_evaluation_seconds": 7.772404590039514,
+      "training_and_evaluation_seconds": 8.083570761955343,
       "training_d_forwards": 2880,
       "training_g_forwards": 960
     },
@@ -89,9 +89,10 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
-      "minimal_adapter.py": "848ca2c3db6d1797e6979fadea192b17633e96d83b7fd38ca3fb83a9940694be",
-      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
+      "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
       "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
@@ -100,6 +101,7 @@
       "robotics_adapter.py": "2019a709ed0b112c3c3c335e4ce8cececbdba7c8f947bb200243b1b7d918e2f2",
       "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -307,17 +309,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "ec23a70c69dd469582d300c4338c64ca57d89bb0f11be412511ddc2d1bbc1d6f"
+    "task_fingerprint": "ae2398267c2178c5af18aaee60acab0336c864d01255b1d6628429229982dbc3"
   },
   "candidate_fingerprint": "2c9308c504e410afb7aa51abdf79b8adbe75ed4b2d9de22bae2b184663ad01b8",
   "candidate_id": "online-fast-weight-bcap-ns",
-  "cohort_key": "df80abf6e9c409899bdb13be83a165456ebd198e93a1eb24ebc298c519800490",
-  "completed_at": "2026-11-12T07:19:16.175+00:00",
+  "cohort_key": "b1e4c205f3ab0d87bbb1acd7f25c2871d66c9abfef6c113ea0f269addd0742de",
+  "completed_at": "2026-11-12T19:53:18.991+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 9.8984
+    "wall_seconds": 10.3931
   },
   "device": "cuda",
   "error": null,
@@ -756,11 +758,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "ec23a70c69dd469582d300c4338c64ca57d89bb0f11be412511ddc2d1bbc1d6f",
+  "task_fingerprint": "ae2398267c2178c5af18aaee60acab0336c864d01255b1d6628429229982dbc3",
   "task_id": "seq_robotics_hand_reach",
   "technique": "Global-Stream-BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T07:19:16.175+00:00",
+  "timestamp": "2026-11-12T19:53:18.991+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

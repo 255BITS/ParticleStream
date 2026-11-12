@@ -209,7 +209,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **PASS**, 10/10 required passes (10 measured), 4/10 stretch passes (10 measured); qualified tier 1.
+
+Receipt identity: candidate_fingerprint `6bca1c10b4cc64672f8c76da12e9a22377a1b3ea31c4e30a3762b977b74649ad`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-subspace-prior-required"></a>
 ### Required evidence
@@ -219,16 +221,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_round_robin_bars4.gif) | 2026-11-12T21:01:20.889+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0.03125` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_dwell_bars4.gif) | 2026-11-12T21:01:28.668+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **PASS** | 5/5 | `next_frame_rmse=0.008993`; `direction_acc=1` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_translating_bar_next.gif) | 2026-11-12T21:01:39.349+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **PASS** | 5/5 | `hq=1`; `within_state_modes=2`; `branch_tv=0` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_fork_rollout.gif) | 2026-11-12T21:01:50.284+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_variable_dwell_bars4.gif) | 2026-11-12T21:01:58.039+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **PASS** | 5/5 | `hq=1`; `finite_template_tv=0`; `support_modes=4`; `rare_mass=0.0625`; `rare_mass=0.0625` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_rare_mode_bars4.gif) | 2026-11-12T21:02:05.766+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **PASS** | 5/5 | `outcome_accuracy=1`; `prediction_rmse=0.014743` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_delayed_cue.gif) | 2026-11-12T21:02:16.427+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **PASS** | 5/5 | `hq=1`; `within_state_modes=2`; `branch_tv=0.09375`; `trajectory_consistency=1` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_persistent_fork.gif) | 2026-11-12T21:02:44.546+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **PASS** | 5/5 | `orbit_rmse=0.014098`; `xy_rmse=0.003055`; `step_accuracy=1`; `orbit_completion=1`; `waypoint_modes=8` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_circle_orbit.gif) | 2026-11-12T21:03:16.438+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **PASS** | 5/5 | `cycle_rmse=0.016599`; `s2c_rmse=0.015102`; `c2s_rmse=0.018097`; `xy_rmse=0.005131`; `step_accuracy=1`; `cycle_completion=1`; `waypoint_modes=8` | [receipt](../receipts/cuda/online-subspace-prior/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-subspace-prior_seq_img_square_circle_cycle.gif) | 2026-11-12T21:04:17.890+00:00 |
 
 <a id="online-subspace-prior-stretch"></a>
 ### Stretch evidence
@@ -238,28 +240,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-subspace-prior/seq_minimal_dense4.json) · [goal.gif](../gifs/online-subspace-prior_seq_minimal_dense4.gif) | 2026-11-12T21:04:21.467+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **PASS** | 5/5 | `valid_fraction=1`; `modes=4`; `mass_tv=0` | [receipt](../receipts/cuda/online-subspace-prior/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-subspace-prior_seq_minimal_tokens4.gif) | 2026-11-12T21:04:25.208+00:00 |
 
 <a id="online-subspace-prior-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.039582`; `seen_max_abs_error=0.11184`; `heldout_response_rmse=0.045592`; `heldout_max_abs_error=0.11319`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-subspace-prior/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-subspace-prior_seq_minimal_kernel2x2.gif) | 2026-11-12T21:04:32.338+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **PASS** | 5/5 | `seen_exact_accuracy=1`; `seen_min_bit_confidence=0.98169`; `heldout_exact_accuracy=1`; `heldout_min_bit_confidence=0.98208` | [receipt](../receipts/cuda/online-subspace-prior/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-subspace-prior_seq_minimal_addition2bit.gif) | 2026-11-12T21:04:39.630+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **PASS** | 5/5 | `position_delta_rmse_m=0.0033255`; `relative_mse=0.039351`; `moving_direction_accuracy=0.95833`; `finite_fraction=1` | [receipt](../receipts/cuda/online-subspace-prior/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-subspace-prior_seq_robotics_fetch_reach.gif) | 2026-11-12T21:04:54.790+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.011294`; `relative_mse=0.84983`; `moving_direction_accuracy=0.5814`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-subspace-prior/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-subspace-prior_seq_robotics_fetch_push.gif) | 2026-11-12T21:05:10.738+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0054987`; `relative_mse=0.18403`; `moving_direction_accuracy=0.80392`; `finite_fraction=1`; failed terminal bounds: position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-subspace-prior/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-subspace-prior_seq_robotics_fetch_slide.gif) | 2026-11-12T21:05:26.559+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **PASS** | 5/5 | `position_delta_rmse_m=0.0032385`; `relative_mse=0.066821`; `moving_direction_accuracy=0.84211`; `finite_fraction=1` | [receipt](../receipts/cuda/online-subspace-prior/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-subspace-prior_seq_robotics_fetch_pick_and_place.gif) | 2026-11-12T21:05:43.258+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0076632`; `relative_mse=0.86861`; `moving_direction_accuracy=0.6729`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-subspace-prior/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-subspace-prior_seq_robotics_hand_reach.gif) | 2026-11-12T21:05:58.327+00:00 |
 
 <a id="online-subspace-prior-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.24778`; `interpolation_speed_error=0.17187`; `interpolation_raw_rmse=0.18251`; `interpolation_point_validity=0.22917`; `interpolation_direction_accuracy=0.58333`; `extrapolation_centroid_rmse=0.27326`; `extrapolation_speed_error=0.30099`; `extrapolation_raw_rmse=0.08688`; `extrapolation_point_validity=0.10417`; `extrapolation_direction_accuracy=0.58333`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_raw_rmse <= 0.12; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-subspace-prior/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-subspace-prior_seq_minimal_velocity_extrapolation.gif) | 2026-11-12T21:06:17.313+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-subspace-prior --device cuda`.
 
@@ -349,7 +351,9 @@ Declared changes:
 }
 ```
 
-Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 stretch passes (0 measured); qualified tier 0.
+Current `cuda`, seed 0: **PASS**, 10/10 required passes (10 measured), 4/10 stretch passes (10 measured); qualified tier 1.
+
+Receipt identity: candidate_fingerprint `fe23201e150c1e9f7231077fcd11291f369cb84824629456f432477a42beaa41`; engine_source_sha256 `f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774`. Each receipt also binds its task and adapter source.
 
 <a id="online-subspace-prior-fine-salience-required"></a>
 ### Required evidence
@@ -359,16 +363,16 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_img_round_robin_bars4`](../technique-inventory.md#seq_img_round_robin_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_round_robin_bars4.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_round_robin_bars4.gif) | 2026-11-12T21:06:26.657+00:00 |
+| [`seq_img_dwell_bars4`](../technique-inventory.md#seq_img_dwell_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0.03125` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_dwell_bars4.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_dwell_bars4.gif) | 2026-11-12T21:06:34.332+00:00 |
+| [`seq_img_translating_bar_next`](../technique-inventory.md#seq_img_translating_bar_next) | **PASS** | 5/5 | `next_frame_rmse=0.008993`; `direction_acc=1` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_translating_bar_next.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_translating_bar_next.gif) | 2026-11-12T21:06:45.465+00:00 |
+| [`seq_img_fork_rollout`](../technique-inventory.md#seq_img_fork_rollout) | **PASS** | 5/5 | `hq=1`; `within_state_modes=2`; `branch_tv=0` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_fork_rollout.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_fork_rollout.gif) | 2026-11-12T21:06:56.503+00:00 |
+| [`seq_img_variable_dwell_bars4`](../technique-inventory.md#seq_img_variable_dwell_bars4) | **PASS** | 5/5 | `hq=1`; `modes=4`; `finite_template_tv=0` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_variable_dwell_bars4.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_variable_dwell_bars4.gif) | 2026-11-12T21:07:04.268+00:00 |
+| [`seq_img_rare_mode_bars4`](../technique-inventory.md#seq_img_rare_mode_bars4) | **PASS** | 5/5 | `hq=1`; `finite_template_tv=0`; `support_modes=4`; `rare_mass=0.0625`; `rare_mass=0.0625` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_rare_mode_bars4.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_rare_mode_bars4.gif) | 2026-11-12T21:07:12.230+00:00 |
+| [`seq_img_delayed_cue`](../technique-inventory.md#seq_img_delayed_cue) | **PASS** | 5/5 | `outcome_accuracy=1`; `prediction_rmse=0.014743` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_delayed_cue.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_delayed_cue.gif) | 2026-11-12T21:07:23.270+00:00 |
+| [`seq_img_persistent_fork`](../technique-inventory.md#seq_img_persistent_fork) | **PASS** | 5/5 | `hq=1`; `within_state_modes=2`; `branch_tv=0.09375`; `trajectory_consistency=1` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_persistent_fork.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_persistent_fork.gif) | 2026-11-12T21:07:51.606+00:00 |
+| [`seq_img_circle_orbit`](../technique-inventory.md#seq_img_circle_orbit) | **PASS** | 5/5 | `orbit_rmse=0.014098`; `xy_rmse=0.003055`; `step_accuracy=1`; `orbit_completion=1`; `waypoint_modes=8` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_circle_orbit.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_circle_orbit.gif) | 2026-11-12T21:08:23.984+00:00 |
+| [`seq_img_square_circle_cycle`](../technique-inventory.md#seq_img_square_circle_cycle) | **PASS** | 5/5 | `cycle_rmse=0.016599`; `s2c_rmse=0.015102`; `c2s_rmse=0.018097`; `xy_rmse=0.005131`; `step_accuracy=1`; `cycle_completion=1`; `waypoint_modes=8` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_img_square_circle_cycle.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_img_square_circle_cycle.gif) | 2026-11-12T21:09:25.786+00:00 |
 
 <a id="online-subspace-prior-fine-salience-stretch"></a>
 ### Stretch evidence
@@ -378,28 +382,28 @@ Current `cuda`, seed 0: **INCOMPLETE**, 0/10 required passes (0 measured), 0/10 
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_dense4`](../technique-inventory.md#seq_minimal_dense4) | **FAIL** | 0/5 | `valid_fraction=0`; `modes=0`; `mass_tv=1`; failed terminal bounds: mass_tv <= 0.15; modes == 4.0; valid_fraction >= 0.9 | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_minimal_dense4.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_minimal_dense4.gif) | 2026-11-12T21:09:29.522+00:00 |
+| [`seq_minimal_tokens4`](../technique-inventory.md#seq_minimal_tokens4) | **PASS** | 5/5 | `valid_fraction=1`; `modes=4`; `mass_tv=0` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_minimal_tokens4.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_minimal_tokens4.gif) | 2026-11-12T21:09:33.236+00:00 |
 
 <a id="online-subspace-prior-fine-salience-tier-2-stretch"></a>
 #### Tier 2 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **NOT_RUN** | — | no receipt | — | — |
-| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_kernel2x2`](../technique-inventory.md#seq_minimal_kernel2x2) | **FAIL** | 0/5 | `seen_response_rmse=0.039582`; `seen_max_abs_error=0.11184`; `heldout_response_rmse=0.045592`; `heldout_max_abs_error=0.11319`; failed terminal bounds: heldout_max_abs_error <= 0.05; heldout_response_rmse <= 0.03; seen_max_abs_error <= 0.05; seen_response_rmse <= 0.03 | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_minimal_kernel2x2.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_minimal_kernel2x2.gif) | 2026-11-12T21:09:40.835+00:00 |
+| [`seq_minimal_addition2bit`](../technique-inventory.md#seq_minimal_addition2bit) | **PASS** | 5/5 | `seen_exact_accuracy=1`; `seen_min_bit_confidence=0.98169`; `heldout_exact_accuracy=1`; `heldout_min_bit_confidence=0.98208` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_minimal_addition2bit.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_minimal_addition2bit.gif) | 2026-11-12T21:09:48.225+00:00 |
+| [`seq_robotics_fetch_reach`](../technique-inventory.md#seq_robotics_fetch_reach) | **PASS** | 5/5 | `position_delta_rmse_m=0.0018584`; `relative_mse=0.012289`; `moving_direction_accuracy=0.97917`; `finite_fraction=1` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_robotics_fetch_reach.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_robotics_fetch_reach.gif) | 2026-11-12T21:10:03.954+00:00 |
+| [`seq_robotics_fetch_push`](../technique-inventory.md#seq_robotics_fetch_push) | **FAIL** | 0/5 | `position_delta_rmse_m=0.012057`; `relative_mse=0.96863`; `moving_direction_accuracy=0.65116`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_robotics_fetch_push.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_robotics_fetch_push.gif) | 2026-11-12T21:10:19.433+00:00 |
+| [`seq_robotics_fetch_slide`](../technique-inventory.md#seq_robotics_fetch_slide) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0060265`; `relative_mse=0.22105`; `moving_direction_accuracy=0.86275`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005 | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_robotics_fetch_slide.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_robotics_fetch_slide.gif) | 2026-11-12T21:10:35.475+00:00 |
+| [`seq_robotics_fetch_pick_and_place`](../technique-inventory.md#seq_robotics_fetch_pick_and_place) | **PASS** | 5/5 | `position_delta_rmse_m=0.0032385`; `relative_mse=0.066821`; `moving_direction_accuracy=0.84211`; `finite_fraction=1` | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_robotics_fetch_pick_and_place.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_robotics_fetch_pick_and_place.gif) | 2026-11-12T21:10:52.166+00:00 |
+| [`seq_robotics_hand_reach`](../technique-inventory.md#seq_robotics_hand_reach) | **FAIL** | 0/5 | `position_delta_rmse_m=0.0076632`; `relative_mse=0.86861`; `moving_direction_accuracy=0.6729`; `finite_fraction=1`; failed terminal bounds: moving_direction_accuracy >= 0.75; position_delta_rmse_m <= 0.005; relative_mse <= 0.8 | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_robotics_hand_reach.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_robotics_hand_reach.gif) | 2026-11-12T21:11:07.383+00:00 |
 
 <a id="online-subspace-prior-fine-salience-tier-3-stretch"></a>
 #### Tier 3 stretch
 
 | Task and gates | Verdict | Terminal checks | Final gate readings / failure | Evidence | Completed UTC |
 | --- | --- | --- | --- | --- | --- |
-| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **NOT_RUN** | — | no receipt | — | — |
+| [`seq_minimal_velocity_extrapolation`](../technique-inventory.md#seq_minimal_velocity_extrapolation) | **FAIL** | 0/5 | `interpolation_centroid_rmse=0.24778`; `interpolation_speed_error=0.17187`; `interpolation_raw_rmse=0.18251`; `interpolation_point_validity=0.22917`; `interpolation_direction_accuracy=0.58333`; `extrapolation_centroid_rmse=0.33525`; `extrapolation_speed_error=0.5396`; `extrapolation_raw_rmse=0.08688`; `extrapolation_point_validity=0.10417`; `extrapolation_direction_accuracy=0.54167`; failed terminal bounds: extrapolation_centroid_rmse <= 0.01; extrapolation_direction_accuracy == 1.0; extrapolation_point_validity == 1.0; extrapolation_speed_error <= 0.01; interpolation_centroid_rmse <= 0.01; interpolation_direction_accuracy == 1.0; interpolation_point_validity == 1.0; interpolation_raw_rmse <= 0.12; interpolation_speed_error <= 0.01 | [receipt](../receipts/cuda/online-subspace-prior-fine-salience/seq_minimal_velocity_extrapolation.json) · [goal.gif](../gifs/online-subspace-prior-fine-salience_seq_minimal_velocity_extrapolation.gif) | 2026-11-12T21:11:26.118+00:00 |
 
 Reproduce this exact global recipe on every task: `particlestream compare --all-tasks --candidate online-subspace-prior-fine-salience --device cuda`.
 

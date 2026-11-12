@@ -10,11 +10,13 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
+      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -176,24 +178,24 @@
     "torch_version": "2.15.0+cu132"
   },
   "binding": {
-    "adapter_source_sha256": "49dcc71724d1b3e608189b5f6d67f50eee6d2cc88efaa691a459dd27147fad44",
+    "adapter_source_sha256": "66d5710e6dd33f957e723c8ec5ed6bdc50d01d3482470691656c939f15e9deaa",
     "candidate_fingerprint": "5667f5aea18b98d039c0ad9bbbfaa4d2b5efd920472d78b7481c10f5ffb70a03",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "1414bc890bdf83302106929cfc9d723beeda29fa7d75e70f0b060c2547d89966"
+    "task_fingerprint": "75374e012d898660a837f2ffa8e9737248abb3e4747afe80d801a7f053e26add"
   },
   "candidate_fingerprint": "5667f5aea18b98d039c0ad9bbbfaa4d2b5efd920472d78b7481c10f5ffb70a03",
   "candidate_id": "online-bispf-early",
-  "cohort_key": "ebe6182fb4b77a58caf5324f064203680d5d013c89a5112d873c0c0ab3edc0c0",
-  "completed_at": "2026-11-12T06:40:05.652+00:00",
+  "cohort_key": "6e705ad128e2d24463d82351dd0e79f9ab5a54081dc8ca5b469a5f725c23b56e",
+  "completed_at": "2026-11-12T19:00:28.544+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 9.0442
+    "wall_seconds": 9.8987
   },
   "device": "cuda",
   "error": null,
@@ -545,11 +547,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "1414bc890bdf83302106929cfc9d723beeda29fa7d75e70f0b060c2547d89966",
+  "task_fingerprint": "75374e012d898660a837f2ffa8e9737248abb3e4747afe80d801a7f053e26add",
   "task_id": "seq_img_delayed_cue",
   "technique": "BISPF",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T06:40:05.652+00:00",
+  "timestamp": "2026-11-12T19:00:28.544+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }
