@@ -16,6 +16,7 @@
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -237,24 +238,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "15dc2c00a8a361460bcbab7edba610a80db1addf81e84b2e8478e035ae7796cc",
+    "adapter_source_sha256": "66d5710e6dd33f957e723c8ec5ed6bdc50d01d3482470691656c939f15e9deaa",
     "candidate_fingerprint": "40feedd54a83b5ffb2352e474b69984092e9e7ae3b1eac85684a0d2cfaf51f6d",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "58429c8f103a63d4d863edd0bacefb3db5890b23c9a2ee75acc3f0cd13229f70"
+    "task_fingerprint": "7a25ae8be501f7879464ad03b25c99bbdde7d371cfb59b578574a92b2609dad5"
   },
   "candidate_fingerprint": "40feedd54a83b5ffb2352e474b69984092e9e7ae3b1eac85684a0d2cfaf51f6d",
   "candidate_id": "online-bcap-transport",
-  "cohort_key": "fe4132ade8c3040076205abb3b269145eab847ada74e8e0e6fa352c7a5d4477d",
-  "completed_at": "2026-11-12T15:53:45.028+00:00",
+  "cohort_key": "6b2cd2200385c3c2afe0bd2c26fa0bd2732c34489476c72fd8c42dc1a240d12e",
+  "completed_at": "2026-11-12T18:35:57.224+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 18.5796
+    "wall_seconds": 32.3353
   },
   "device": "cuda",
   "error": null,
@@ -694,11 +695,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "58429c8f103a63d4d863edd0bacefb3db5890b23c9a2ee75acc3f0cd13229f70",
+  "task_fingerprint": "7a25ae8be501f7879464ad03b25c99bbdde7d371cfb59b578574a92b2609dad5",
   "task_id": "seq_img_circle_orbit",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T15:53:45.028+00:00",
+  "timestamp": "2026-11-12T18:35:57.224+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

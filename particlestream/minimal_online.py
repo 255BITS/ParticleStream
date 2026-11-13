@@ -165,7 +165,8 @@ def isolated_session(session):
                                     buffer.detach().clone(), None, None))
             for name, value in vars(module).items():
                 if name in {"_target", "_phase", "_selected", "_pending_context", "_pending_feature",
-                            "_pending_reward", "_pending_style", "_pending_gain"}:
+                            "_pending_reward", "_pending_style", "_pending_gain",
+                            "_pending_basis_row", "_pending_basis_gain"}:
                     attributes.append((module, name, _copy_state(value)))
         session_fields = ("pending_context", "arrivals", "updates", "predictions", "max_real_batch",
                           "max_fake_batch", "source_only_arrivals", "_pair_open", "_prediction_ready")

@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 9392640,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 2304,
-      "evaluation_seconds": 4.846403856878169,
+      "evaluation_seconds": 4.818897660006769,
       "generator_parameters": 6385,
       "optimizer_updates": 384,
-      "process_peak_rss_kib": 2592260,
+      "process_peak_rss_kib": 2573988,
       "serving_d_forwards": 0,
       "serving_g_forwards": 384,
-      "training_and_evaluation_seconds": 10.740689266007394,
+      "training_and_evaluation_seconds": 10.40865928097628,
       "training_d_forwards": 2304,
       "training_g_forwards": 768
     },
@@ -130,14 +130,15 @@
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
       "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
-      "minimal_adapter.py": "34f1d1b375967f1d6b6ac801dbe5110214123a3437783262901c615d28ba079e",
-      "minimal_online.py": "02a2dd8e13acd478b69e1790cf7fe7d96e40e846b2248b6855cd96185f9b4c6b",
+      "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
+      "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
       "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -316,24 +317,24 @@
     "torch_version": "2.15.0+cu132"
   },
   "binding": {
-    "adapter_source_sha256": "34f1d1b375967f1d6b6ac801dbe5110214123a3437783262901c615d28ba079e",
+    "adapter_source_sha256": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
     "candidate_fingerprint": "6c0e647f7c7b5bada184cc4b79970e9268f953b097611ea7753753dd07c58bbd",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "0ce2ddfc4c10a5b617b1c5cfd485a1b65a1673349cdae8849f74f99135f5216a"
+    "task_fingerprint": "ee4ab8913d9586f3fe137b69f9b88dc170c438aa65df0ab95afdd884a5b38c96"
   },
   "candidate_fingerprint": "6c0e647f7c7b5bada184cc4b79970e9268f953b097611ea7753753dd07c58bbd",
   "candidate_id": "online-bispf-slow-prior",
-  "cohort_key": "69e3dead631772157042792866a447d41a96ab2a82f915069993a5dedb3bd28d",
-  "completed_at": "2026-11-12T16:56:29.422+00:00",
+  "cohort_key": "fab65f3d9d49ac3a3b7d288ba6d2bc478582939b0fe54c0b8cafc1c47121b4b9",
+  "completed_at": "2026-11-12T19:40:54.569+00:00",
   "completed_steps": 384,
   "cost": {
     "completed_steps": 384,
     "timeout_seconds": 300,
-    "wall_seconds": 12.9385
+    "wall_seconds": 12.7609
   },
   "device": "cuda",
   "error": null,
@@ -995,11 +996,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "0ce2ddfc4c10a5b617b1c5cfd485a1b65a1673349cdae8849f74f99135f5216a",
+  "task_fingerprint": "ee4ab8913d9586f3fe137b69f9b88dc170c438aa65df0ab95afdd884a5b38c96",
   "task_id": "seq_minimal_velocity_extrapolation",
   "technique": "BISPF",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T16:56:29.422+00:00",
+  "timestamp": "2026-11-12T19:40:54.569+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

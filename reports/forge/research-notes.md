@@ -1,5 +1,68 @@
 # ParticleStream research notes
 
+## `SubspacePrior-BCAP` Family and 780-Run View 10 Qualification, 2026-11-12
+
+Added the `SubspacePrior-BCAP` technique family (`particlestream/subspace_prior.py`,
+`SubspaceResidualConditionalReconstruction`) in a two-step single-factor ablation ladder over
+`online-residual-prior-linear-key` under the strict `batch_size=1`, `replay_policy="none"`,
+`rehearsal_batch=0`, `seed=0` online protocol:
+
+- **`online-subspace-prior`** (parent `online-residual-prior-linear-key`): keeps `CausalStateMemory`
+  (`contrast_threshold=0.03`, `normalize_key=False`, `key_gain=0.5`, `association_weight=0.0`)
+  completely unchanged while introducing `SubspaceResidualConditionalReconstruction`:
+  1. **Precision-Whitened Anchored Gram-Schmidt Innovation Subspace + JL Tail** (`subspace_dims=6`,
+     `subspace_abs_tol=0.008`, `subspace_rel_tol=0.12`, `subspace_nu0=0.10`, `feature_scale=2.1`):
+     causally anchors up to six mutually orthonormal two-pass Gram-Schmidt innovation directions
+     scaled once at discovery by $g_k = (\lVert r_{t_k}\rVert_2^2 + \nu_0^2)^{-1/2}$ alongside a
+     2-row deterministic orthogonal JL tail (`E_0[6:8]`). Eliminates random `8×64` nullspace loss
+     and 1:1 MoG Wiener attenuation ($\sigma=0.025$) on millimetre physical micro-displacements
+     while keeping high-contrast Tier 1 visual tasks near norm `~2.1` with zero retroactive
+     coordinate drift.
+  2. **Semiparametric Global RLS + Continuous Nadaraya-Watson Kernel-Ridge Residual** (`nw_weight=1.0`,
+     `nw_bandwidth=0.65`, `nw_ridge=0.06`): records exact unquantized per-bucket latent means
+     $\bar z_b \in \mathbb{R}^8$ and adds a smooth continuous local residual gated by
+     $(1 - g_{\mathrm{disc},t})$ alongside discrete empirical quantiles gated by $g_{\mathrm{disc},t}$.
+  3. **Calmed Single-Arrival Optimization** (`d_lr_mult=0.02`, `reconstruction_weight=100.0`,
+     `betas=[0.4, 0.999]`, `lr=0.007`, `lr_anneal_start=0.55`, `lr_floor=0.06`,
+     `network_lr_floor=0.06`).
+- **`online-subspace-prior-fine-salience`** (parent `online-subspace-prior`): strict single-factor
+  delta lowering `memory_policy.contrast_threshold` from `0.03` to `0.002` so sparse 4-of-64-pixel
+  precision robotics actions remain salient near contact while exact zero-contrast uniform
+  distractors (`RMS == 0.0` on `seq_img_delayed_cue`) remain gated.
+
+Fresh source-bound CUDA execution across all **39 executable global recipes × 20 tasks (780
+sequential runs: 130 PASS, 650 FAIL, 0 INVALID, 0 INCOMPLETE; 20 oracle PASS controls, 45
+destructive FAIL controls)** establishes `SubspacePrior-BCAP` as the new global reference on
+`single_stream_stability` (view 10):
+- Both **`online-subspace-prior`** and **`online-subspace-prior-fine-salience`** qualify at **Tier 1
+  (`PASS`, `10/10` required tasks, `50/50` terminal checks)** and advance stretch passes to **`4/10`
+  (`20/20` terminal checks across `seq_minimal_tokens4`, `seq_minimal_addition2bit`,
+  `seq_robotics_fetch_reach`, and `seq_robotics_fetch_pick_and_place`)** — becoming the first
+  recipes in `ParticleStream` to pass 6-DoF grasp-lift-carry `FetchPickAndPlace-v4` online at
+  `batch_size=1` (`5/5` sustained terminal checks, `position_delta_rmse_m = 0.0032 m`,
+  `moving_direction_accuracy = 0.8421`, `live_prequential_rmse_m = 0.0013 m` vs `4/5 FAIL` for
+  `online-residual-prior-linear-key` and `online-gail-bcap-snr`).
+- On `seq_robotics_fetch_slide`, `online-subspace-prior` reduces held-out RMSE from `0.0074 m`
+  (`online-residual-prior-linear-key`) and `0.0069 m` (`online-gail-bcap-snr`) to **`0.0055 m`**
+  (`relative_mse = 0.1840`, `dir = 0.8039`).
+- Lowering `contrast_threshold` (`0.03 -> 0.002`) in `online-subspace-prior-fine-salience` cuts
+  `seq_robotics_fetch_reach` held-out RMSE by **42%** (`0.0033 m -> 0.0019 m`, `relative_mse`
+  `0.0394 -> 0.0123`, `dir = 0.9792`, `live_prequential_rmse_m = 0.0022 m`) and raises
+  `seq_robotics_fetch_slide` direction accuracy (`0.8039 -> 0.8627`) while preserving exact `1.0000`
+  delayed-cue accuracy (`prediction_rmse = 0.0147`).
+
+Documented negative ablations (do not repeat):
+- **Dynamic pixel-tilted Chebyshev BCE** (`softmax(tau * |x_hat - x|)` per sample): introduces
+  non-stationary per-pixel gradient variance across `batch_size=1` mode switches, degrading
+  `seq_minimal_tokens4` (`1.00 -> 0.75`) and `seq_minimal_addition2bit` bit confidence without
+  resolving zero-padded `Conv2d` corner bias on `seq_minimal_kernel2x2`.
+- **Unwhitened anchored subspace with `feature_scale >= 1.8`**: inflates high-contrast visual latent
+  norms (`||v||_2 ~ 4.0`) to `8–12`, dropping `seq_img_fork_rollout` from `5/5` to `4/5`; discovery
+  precision whitening ($\nu_0 = 0.10$) resolves both high-contrast and micro-displacement regimes.
+- **High terminal LR floors (`lr_floor >= 0.35`)** and **split-lag causal context (`lag_dims >= 8`)**:
+  respectively prevent Robbins-Monro step-size annealing on noisy simulator steps and amplify
+  `previous_branch` context variance on `seq_img_fork_rollout`.
+
 ## Stabilized `GAIL-BCAP` Family and 660-Run View 10 Qualification, 2026-11-12
 
 Added the `GAIL-BCAP` technique family (`particlestream/gail_prior.py`,

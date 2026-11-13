@@ -467,6 +467,7 @@
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -1095,24 +1096,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "15dc2c00a8a361460bcbab7edba610a80db1addf81e84b2e8478e035ae7796cc",
+    "adapter_source_sha256": "66d5710e6dd33f957e723c8ec5ed6bdc50d01d3482470691656c939f15e9deaa",
     "candidate_fingerprint": "1dea3f5242caf231176371c83503b3439d69e06cbae9aedb8cbe237de17478f6",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "a2a2faf24c82fcd14cf7fe41f602c5abdbfedc1edfb7954f8195e213c5c20cae"
+    "task_fingerprint": "7584e1672687a715a73101b659c4f2293087b36e03aabede5f28b235b4eab159"
   },
   "candidate_fingerprint": "1dea3f5242caf231176371c83503b3439d69e06cbae9aedb8cbe237de17478f6",
   "candidate_id": "online-residual-prior-linear-key",
-  "cohort_key": "8f29dd7093e45e7532e6c92192b5195ac68c19bd551d6bd47a55be40e984b926",
-  "completed_at": "2026-11-12T18:37:40.550+00:00",
+  "cohort_key": "e0b0e6c759601354501d4ad2fb9f2ca5d92e155ad1eb221a18d15d8c4ba10522",
+  "completed_at": "2026-11-12T20:59:12.551+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 123.4645
+    "wall_seconds": 58.9779
   },
   "device": "cuda",
   "error": null,
@@ -1687,11 +1688,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "a2a2faf24c82fcd14cf7fe41f602c5abdbfedc1edfb7954f8195e213c5c20cae",
+  "task_fingerprint": "7584e1672687a715a73101b659c4f2293087b36e03aabede5f28b235b4eab159",
   "task_id": "seq_img_square_circle_cycle",
   "technique": "ResidualPrior-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-12T18:37:40.550+00:00",
+  "timestamp": "2026-11-12T20:59:12.551+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

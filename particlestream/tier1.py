@@ -32,6 +32,7 @@ from .balanced_transport import ContextBalancedReconstruction
 from .feature_prior import FeatureConditionalReconstruction
 from .gail_prior import GAILConditionalReconstruction
 from .residual_prior import ResidualFeatureConditionalReconstruction
+from .subspace_prior import SubspaceResidualConditionalReconstruction
 from .forge import StreamWorkspace
 from .challenge_adapter import (
     CHALLENGE_TASKS, CHALLENGE_MODES, PREDICTIVE_CHALLENGE_MODES,
@@ -130,7 +131,7 @@ IMPLEMENTATION = {
     for name in (
         "models.py", "streams.py", "online.py", "challenges.py", "challenge_adapter.py",
         "memory.py", "transport.py", "balanced_transport.py", "feature_prior.py",
-        "residual_prior.py", "gail_prior.py",
+        "residual_prior.py", "gail_prior.py", "subspace_prior.py",
     )
 }
 
@@ -370,11 +371,17 @@ def run_seq_image_task(
         router = trainer_options["transport"].pop("router", "competitive")
         if router == "context_balanced":
             trainer_options["router_class"] = ContextBalancedReconstruction
-        elif router in {"feature_conditional", "residual_feature_conditional", "gail_conditional"}:
+        elif router in {
+            "feature_conditional",
+            "residual_feature_conditional",
+            "gail_conditional",
+            "subspace_residual_conditional",
+        }:
             trainer_options["router_class"] = {
                 "feature_conditional": FeatureConditionalReconstruction,
                 "residual_feature_conditional": ResidualFeatureConditionalReconstruction,
                 "gail_conditional": GAILConditionalReconstruction,
+                "subspace_residual_conditional": SubspaceResidualConditionalReconstruction,
             }[router]
             if "encoder_seed" in trainer_options["transport"]:
                 raise ValueError("feature encoder initialization uses the protocol's named init stream")

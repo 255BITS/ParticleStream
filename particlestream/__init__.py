@@ -6,6 +6,7 @@ from .transport import TransportGANTrainer
 from .feature_prior import FeatureConditionalReconstruction
 from .gail_prior import GAILConditionalReconstruction
 from .residual_prior import ResidualFeatureConditionalReconstruction
+from .subspace_prior import SubspaceResidualConditionalReconstruction
 from .challenges import (
     CIRCLE_WAYPOINTS,
     SQUARE_WAYPOINTS,
@@ -46,6 +47,7 @@ __all__ = [
     "FeatureConditionalReconstruction",
     "GAILConditionalReconstruction",
     "ResidualFeatureConditionalReconstruction",
+    "SubspaceResidualConditionalReconstruction",
     "ForkStream",
     "SequentialBarsStream",
     "StreamImageCritic",

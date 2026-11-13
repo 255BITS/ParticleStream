@@ -16,6 +16,7 @@
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -242,24 +243,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "15dc2c00a8a361460bcbab7edba610a80db1addf81e84b2e8478e035ae7796cc",
+    "adapter_source_sha256": "66d5710e6dd33f957e723c8ec5ed6bdc50d01d3482470691656c939f15e9deaa",
     "candidate_fingerprint": "2cd4dc852fdf263ec9c37a9f691768fe8dd93cdfc5ce1abb7c877dcee9a03f77",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "cdb7be10a376c1dae12fef736508e1e5f3fc70554365095bae324aa8a2aae9ed"
+    "task_fingerprint": "e36cda987d20c1bd25ca260ee4a9ee7492b83355a7e916cd95a80c84a682780d"
   },
   "candidate_fingerprint": "2cd4dc852fdf263ec9c37a9f691768fe8dd93cdfc5ce1abb7c877dcee9a03f77",
   "candidate_id": "online-bcap-transport-causal",
-  "cohort_key": "f0571aed131e3310fa5e88828aaafa16dad89f6c32c3c58e185c8bbe525e764b",
-  "completed_at": "2026-11-12T15:56:37.126+00:00",
+  "cohort_key": "88f22090b548f94d51e481fa5c0760f2cd6374847624a9785cd749452aaa4a84",
+  "completed_at": "2026-11-12T18:39:35.616+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 13.0444
+    "wall_seconds": 11.1006
   },
   "device": "cuda",
   "error": null,
@@ -671,11 +672,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "cdb7be10a376c1dae12fef736508e1e5f3fc70554365095bae324aa8a2aae9ed",
+  "task_fingerprint": "e36cda987d20c1bd25ca260ee4a9ee7492b83355a7e916cd95a80c84a682780d",
   "task_id": "seq_img_round_robin_bars4",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T15:56:37.126+00:00",
+  "timestamp": "2026-11-12T18:39:35.616+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

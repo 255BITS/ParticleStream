@@ -84,6 +84,7 @@
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -310,24 +311,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "15dc2c00a8a361460bcbab7edba610a80db1addf81e84b2e8478e035ae7796cc",
+    "adapter_source_sha256": "66d5710e6dd33f957e723c8ec5ed6bdc50d01d3482470691656c939f15e9deaa",
     "candidate_fingerprint": "eff6330e8d0bedde23727e598c9f12a05fdc152fa0cb0db9ced818e95526dfa9",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "a2a2faf24c82fcd14cf7fe41f602c5abdbfedc1edfb7954f8195e213c5c20cae"
+    "task_fingerprint": "7584e1672687a715a73101b659c4f2293087b36e03aabede5f28b235b4eab159"
   },
   "candidate_fingerprint": "eff6330e8d0bedde23727e598c9f12a05fdc152fa0cb0db9ced818e95526dfa9",
   "candidate_id": "online-bispf-transport-causal",
-  "cohort_key": "951547042b5b52eb4049e70b1c3bf004c9e7cb7a4ade29225d00b286120e9aca",
-  "completed_at": "2026-11-12T16:59:54.124+00:00",
+  "cohort_key": "4a2b569b08b90f4689e43fa9715e0518724b4bf9f1fb8105a1c852c2ecfe3ea3",
+  "completed_at": "2026-11-12T19:44:09.312+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 50.5066
+    "wall_seconds": 46.6527
   },
   "device": "cuda",
   "error": null,
@@ -910,11 +911,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "a2a2faf24c82fcd14cf7fe41f602c5abdbfedc1edfb7954f8195e213c5c20cae",
+  "task_fingerprint": "7584e1672687a715a73101b659c4f2293087b36e03aabede5f28b235b4eab159",
   "task_id": "seq_img_square_circle_cycle",
   "technique": "BISPF",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T16:59:54.124+00:00",
+  "timestamp": "2026-11-12T19:44:09.312+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

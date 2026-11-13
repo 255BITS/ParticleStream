@@ -16,6 +16,7 @@
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
       "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
     },
     "memory_policy": {
@@ -242,24 +243,24 @@
     }
   },
   "binding": {
-    "adapter_source_sha256": "15dc2c00a8a361460bcbab7edba610a80db1addf81e84b2e8478e035ae7796cc",
+    "adapter_source_sha256": "66d5710e6dd33f957e723c8ec5ed6bdc50d01d3482470691656c939f15e9deaa",
     "candidate_fingerprint": "2cd4dc852fdf263ec9c37a9f691768fe8dd93cdfc5ce1abb7c877dcee9a03f77",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "68c0c33768334636f22decbb9802bbd07181d756e8b7217af44369d30242b54a"
+    "task_fingerprint": "8c681cf67ebb6e1661651a9088f413eb63d252137b4919c2e368349e3a3275e1"
   },
   "candidate_fingerprint": "2cd4dc852fdf263ec9c37a9f691768fe8dd93cdfc5ce1abb7c877dcee9a03f77",
   "candidate_id": "online-bcap-transport-causal",
-  "cohort_key": "fe9c35fa44ffd0aeb5ec99c28a726f87944b96e3b69a64ce10adbb361a83a78d",
-  "completed_at": "2026-11-12T15:57:46.351+00:00",
+  "cohort_key": "f7362d36d6c1256c7ecdc573a5584d814aead1e6c10691a35f676cda9b76c58a",
+  "completed_at": "2026-11-12T18:40:37.391+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 12.8909
+    "wall_seconds": 15.0622
   },
   "device": "cuda",
   "error": null,
@@ -697,11 +698,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "68c0c33768334636f22decbb9802bbd07181d756e8b7217af44369d30242b54a",
+  "task_fingerprint": "8c681cf67ebb6e1661651a9088f413eb63d252137b4919c2e368349e3a3275e1",
   "task_id": "seq_img_rare_mode_bars4",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T15:57:46.351+00:00",
+  "timestamp": "2026-11-12T18:40:37.391+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }
