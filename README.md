@@ -66,6 +66,19 @@ Standard Forge 24-checkpoint evaluation strip for `seq_img_square_circle_cycle`:
 
 ---
 
+## Standalone MuJoCo Robotics Visual Demo (`FetchPickAndPlace-v4`)
+
+Beyond the Forge benchmark suite, [`demos/mujoco_pick_and_place_demo.py`](demos/mujoco_pick_and_place_demo.py) runs a purely visual, zero-replay (`batch_size=1`) showcase on real 3D `FetchPickAndPlace-v4` contact and manipulation transitions:
+
+- **3D Holographic Ghost Rollouts (`RoboticsSession` + `GAIL-BCAP`)**: All 32 particles predict next-step 3D gripper and block displacements *before* each physics step, while 4 mixture modes roll out **6 steps ahead in closed loop without teacher forcing**, projected directly into the MuJoCo camera view.
+- **Live RGB Pixel Dreamer (`48×64` Visual World Model)**: Simultaneously dreams upcoming `48×64` RGB camera frames online from scratch—crystallizing from random static at Step 1 into the moving robot arm, cyan gripper jaws, and `+58 cm` lifted block within 480 single-frame arrivals.
+
+![MuJoCo Pick-and-Place Holographic World Model](docs/media/demos/mujoco-pick-and-place.gif)
+
+See [`demos/README.md`](demos/README.md) to render custom GIF/MP4 runs or compare stateless vs. causal-memory recipes.
+
+---
+
 ## Install & Quickstart
 
 Activate the project environment (with `particlegan==0.9.7` installed) and install `particlestream` in editable mode:
