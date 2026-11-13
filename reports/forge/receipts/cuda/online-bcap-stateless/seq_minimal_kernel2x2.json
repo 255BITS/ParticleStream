@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 8912896,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 624,
-      "evaluation_seconds": 0.40103453875053674,
+      "evaluation_seconds": 0.46307349600829184,
       "generator_parameters": 6385,
       "optimizer_updates": 192,
-      "process_peak_rss_kib": 2562448,
+      "process_peak_rss_kib": 2571704,
       "serving_d_forwards": 0,
       "serving_g_forwards": 192,
-      "training_and_evaluation_seconds": 2.2138157290173694,
+      "training_and_evaluation_seconds": 3.0600193979917094,
       "training_d_forwards": 1152,
       "training_g_forwards": 384
     },
@@ -73,7 +73,7 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
+      "gail_prior.py": "ad59401a8a39d7150f90f9703b7cba367f6e31fb34cddd733ca3ccffb7cdb29a",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
       "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
@@ -84,7 +84,7 @@
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
-      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+      "transport.py": "2f976af63532647dd035808a461c84a60ccd2bbf39b1c6e27220fb0e6a329845"
     },
     "memory_policy": {
       "kind": "none",
@@ -265,17 +265,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "553edc0706ba7080a63e6e3e6d62a674ae92d9921bcbd5ed8c8b1dd829afade5"
+    "task_fingerprint": "aa73adb63f266288fdb280f41326b07281d40b150795989842af89e5477d93cf"
   },
   "candidate_fingerprint": "d9ae959b3ccfbaca0fa40a0867b434a69892dbd185b804ccaf4b99e3bc51e714",
   "candidate_id": "online-bcap-stateless",
-  "cohort_key": "610b99f35a700d73fb0ca199e731940974f1b99b084ae037a62ad383129559ff",
-  "completed_at": "2026-11-12T18:31:41.302+00:00",
+  "cohort_key": "ce448d480c406d0e2c68abd1ac647659c5f90a1faafdb7f13931acf62d067baa",
+  "completed_at": "2026-11-13T07:07:29.297+00:00",
   "completed_steps": 192,
   "cost": {
     "completed_steps": 192,
     "timeout_seconds": 300,
-    "wall_seconds": 4.5391
+    "wall_seconds": 5.5105
   },
   "device": "cuda",
   "error": null,
@@ -609,11 +609,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "553edc0706ba7080a63e6e3e6d62a674ae92d9921bcbd5ed8c8b1dd829afade5",
+  "task_fingerprint": "aa73adb63f266288fdb280f41326b07281d40b150795989842af89e5477d93cf",
   "task_id": "seq_minimal_kernel2x2",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T18:31:41.302+00:00",
+  "timestamp": "2026-11-13T07:07:29.297+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

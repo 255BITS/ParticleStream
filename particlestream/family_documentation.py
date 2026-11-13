@@ -493,25 +493,27 @@ FAMILY_DOCUMENTATION = {
             "input-gradient cap with a prioritized survival-plus-style generator objective: unbounded linear Hinge "
             "generator slopes are canceled in favor of pixelwise BCE reconstruction minus a bounded sigmoid critic "
             "style bonus modulated by causal return advantage and active-prototype policy entropy. Frontier recipes "
-            "replace radial distance blending with `float64` Sherman-Morrison RLS, precision-weighted Mahalanobis "
-            "spike-and-slab prototype transport, empirical-Bayes kernel-gated active-entropy residual quantiles, "
-            "Markov context-bypass regularization, and high-SNR posterior latent scaling for millimetre robotics."
+            "upgrade conditional transport with precision-whitened two-pass Gram-Schmidt innovation subspaces, "
+            "`float64` Sherman-Morrison RLS, Mahalanobis spike-and-slab prototype gating, exact Matérn-3/2 kernel "
+            "ridge regression (`KRR`) over unquantized context-bucket latent means, causal horizon-invariant "
+            "exponential cooling, and polynomial Primal-Dual Schedule-Free generator iterate averaging."
         ),
         "symbols": (
             "$G$ is the task-owned residual generator, $D$ the raw-score convolutional critic, and $P$ the frozen "
             "$K$-row `MoGParticlePrior` ($K=32$, $d_z=8$, intrinsic scale $\\sigma=0.025$). At chronological arrival $t$, "
             "$x_t\\in[0,1]^{1\\times 8\\times 8}$ is the single target frame, $c_{t-1}\\in\\mathbb R^{d_c}$ ($d_c=16$) is "
-            "the detached causal-state context (`write_lr` $\\eta_w=0.5$, contrast gate $\\tau_{\\mathrm{con}}\\in\\{0.03,0.005\\}$), "
-            "and $\\phi(x_t)=s_f W_{\\mathrm{enc}}(\\bar x_t-c_0\\mathbf 1_{64})$ is the deterministic orthogonal latent feature "
-            "code ($s_f\\in\\{2,4\\}$, $c_0=0.5$). $\\lambda_{\\mathrm{rec}}=10$ is the survival reconstruction weight, "
-            "$w_{\\mathrm{style}}\\in\\{0.1,0.05\\}$ the bounded style bonus weight, $\\sigma_{\\mathrm{sig}}(u)=(1+e^{-u})^{-1}$ "
-            "the logistic sigmoid, $\\gamma_R=0.99$ the causal return discount, $R_t$ and $(b_t,v_t)$ the post-commit "
-            "discounted return trace and running moments, $\\alpha_A\\in\\{0.25,0\\}$ the advantage modulation scale, and "
-            "$\\lambda_{\\mathrm{ctx}}\\in\\{0,5\\}$ the Markov context-bypass weight on $W_{fc,\\mathrm{ctx}}$. "
-            "$\\eta_H=0.01$ is the active-prototype policy entropy bonus over observed bucket counts $N_{b^*,m}$, "
-            "$(M_t\\in\\mathbb R^{d_z\\times(d_c+1)}, P_t\\in\\mathbb R^{(d_c+1)\\times(d_c+1)})$ is the detached "
-            "Sherman-Morrison RLS operator ($\\lambda_{\\mathrm{ridge}}\\in\\{0.05,0.1\\}$), $\\Sigma_t\\in\\mathbb R^{d_z\\times d_z}$ "
-            "is the residual covariance EMA, and $\\tau_{\\mathrm{slab}}\\in\\{0,1,2\\}$ is the Mahalanobis spike-and-slab scale."
+            "the detached causal-state context (`write_lr` $\\eta_w=0.5$, contrast gate $\\tau_{\\mathrm{con}}\\in\\{0.03,0.005,0.002\\}$), "
+            "and $\\phi_t(x_t)\\in\\mathbb R^{d_z}$ encodes $v_t=\\bar x_t-c_0\\mathbf 1_{64}$ ($c_0=0.5$) via either fixed "
+            "orthogonal rows ($K_{\\mathrm{sub}}=0$, $s_f\\in\\{2,4\\}$) or $K_{\\mathrm{sub}}=6$ precision-whitened "
+            "Gram-Schmidt innovation rows ($\\nu_0=0.10$, $s_f=2.1$) plus 2 deterministic JL rows. "
+            "$\\lambda_{\\mathrm{rec}}\\in\\{10,100\\}$ is the survival BCE weight, $w_{\\mathrm{style}}\\in\\{0.1,0.05,0.002\\}$ "
+            "the bounded style bonus weight, $\\sigma_{\\mathrm{sig}}(u)=(1+e^{-u})^{-1}$ the logistic sigmoid, "
+            "$\\gamma_R=0.99$ the causal return discount, $R_t$ and $(b_t,v_t)$ the post-commit return trace and moments, "
+            "$\\alpha_A\\in\\{0.25,0\\}$ the advantage scale, $\\lambda_{\\mathrm{ctx}}\\in\\{0,5\\}$ the Markov bottleneck weight, "
+            "$\\eta_H=0.01$ the active-prototype policy entropy bonus, $(M_t,P_t,\\Sigma_t)$ the `float64` RLS and residual "
+            "covariance state, $(K_{\\mathrm{mat}},h_{\\mathrm{res}},\\lambda_{\\mathrm{krr}})$ the Matérn-3/2 KRR kernel "
+            "($h_{\\mathrm{res}}=1.15$, $\\lambda_{\\mathrm{krr}}=0.06$), and $(z_t^{\\mathrm{sf}},x_t^{\\mathrm{sf}},y_t^{\\mathrm{sf}})$ "
+            "the Schedule-Free dual, primal, and interpolation generator states ($\\beta_{\\mathrm{sf}}=0.88$, $k_{\\mathrm{sf}}=4$, $c_{\\min}=0.02$)."
         ),
         "equations": [
             {
@@ -528,8 +530,9 @@ FAMILY_DOCUMENTATION = {
                 ),
                 "explanation": (
                     "Canceling the default unbounded Hinge generator term $-D(\\hat x_G,c_{t-1})$ prevents single-sample "
-                    "critic spikes from destabilizing the shared decoder, while $\\lambda_{\\mathrm{ctx}}\\lVert W_{fc,\\mathrm{ctx}}\\rVert_F^2$ "
-                    "forces unseen context generalization through the conditional latent prior rather than direct input shortcuts."
+                    "critic spikes from destabilizing the shared decoder; scaling $\\lambda_{\\mathrm{rec}}=100$ with "
+                    "$w_{\\mathrm{style}}=0.002$ (`online-gail-bcap-subspace`, `online-gail-bcap-schedule-free`) strengthens "
+                    "posterior pixel anchoring $10\\times$ while keeping effective style weight $\\lambda_{\\mathrm{rec}}w_{\\mathrm{style}}=0.20$ calibrated."
                 ),
             },
             {
@@ -550,57 +553,76 @@ FAMILY_DOCUMENTATION = {
                 ),
             },
             {
-                "label": "Sherman-Morrison RLS + Mahalanobis Spike-and-Slab Kernel Residual Transport",
+                "label": "Precision-Whitened Innovation Subspace, Spike-and-Slab RLS, and Matérn-3/2 KRR Transport",
                 "latex": (
                     "\\begin{aligned}"
-                    "\\bar c&=\\begin{bmatrix}c_{t-1}\\\\ 1\\end{bmatrix},\\qquad "
-                    "\\hat z_{\\mathrm{lin}}(\\bar c)=M_{t-1}\\bar c,\\qquad "
-                    "d_m^2=(\\hat\\mu_m-\\hat z_{\\mathrm{lin}})^\\top \\tilde\\Sigma_t^{-1}(\\hat\\mu_m-\\hat z_{\\mathrm{lin}}),\\\\"
-                    "\\beta_t&=g_{\\mathrm{disc}}\\,\\sigma_{\\mathrm{sig}}\\!\\left(\\tfrac12\\log\\frac{\\det(\\tilde\\Sigma_t+\\tau_{\\mathrm{slab}}^2 I)}{\\det\\tilde\\Sigma_t}-\\tfrac12\\min_m d_m^2\\right),\\qquad "
-                    "\\hat z_{\\mathrm{ctx}}=(1-\\beta_t)\\hat z_{\\mathrm{lin}}+\\beta_t\\hat\\mu_{m_{\\mathrm{best}}},\\\\"
-                    "z_i^{\\mathrm{cond}}&=\\hat z_{\\mathrm{ctx}}(c_{t-1})+\\gamma(c_{t-1})\\Big(\\hat\\mu_{m^*(i)}-\\hat z_{\\mathrm{ctx}}(k_{b^*}^{\\mathrm{ctx}})\\Big)+\\epsilon_i."
+                    "r_t&=\\big(I-U_{k_{t-1}}U_{k_{t-1}}^\\top\\big)^2 v_t,\\qquad "
+                    "g_{k_{t-1}}=\\big(\\lVert r_t\\rVert_2^2+\\nu_0^2\\big)^{-1/2},\\qquad "
+                    "\\kappa_{3/2}(d)=\\left(1+\\frac{\\sqrt{3}\\,d}{h_{\\mathrm{res}}}\\right)\\exp\\!\\left(-\\frac{\\sqrt{3}\\,d}{h_{\\mathrm{res}}}\\right),\\\\"
+                    "\\hat r_{\\mathrm{krr}}(c)&=k_{3/2}(c)^\\top\\!\\left(K_{3/2}+\\operatorname{diag}\\!\\left(\\frac{\\lambda_{\\mathrm{krr}}}{\\min(V_b,4)}\\right)\\right)^{-1}R_{\\mathrm{rls}},\\qquad "
+                    "\\hat z_{\\mathrm{base}}(c)=\\hat z_{\\mathrm{ctx}}(c)+(1-g_{\\mathrm{disc},t})\\hat r_{\\mathrm{krr}}(c),\\\\"
+                    "z_i^{\\mathrm{cond}}(c)&=\\hat z_{\\mathrm{base}}(c)+\\gamma_t(c)\\Big(\\hat\\mu_{m^*(i)}-\\hat z_{\\mathrm{ctx}}(k_{b^*}^{\\mathrm{ctx}})\\Big)+\\epsilon_i."
                     "\\end{aligned}"
                 ),
                 "explanation": (
-                    "When $\\tau_{\\mathrm{slab}}=0$ (`online-gail-bcap-bce`), unseen contexts blend radially toward "
-                    "$\\Pi_{4 s_f}(M_{t-1}\\bar c)$ beyond $\\tau_c$. When $\\tau_{\\mathrm{slab}}>0$ (`online-gail-bcap-spike-slab`, "
-                    "`online-gail-bcap-snr`), precision-weighted Mahalanobis Bayes factors snap discrete manifolds to clean "
-                    "prototypes while keeping continuous kinematic predictions smooth, and $s_f=4$ boosts posterior SNR "
-                    "$s_f^2/\\sigma^2$ by $4\\times$ on millimetre robotics displacements."
+                    "In `online-gail-bcap-subspace` and `online-gail-bcap-schedule-free`, $K_{\\mathrm{sub}}=6$ anchored "
+                    "Gram-Schmidt directions capture exact active target subspaces while solving an exact $B_t\\times B_t$ "
+                    "(`B_t <= 64`) `float64` Matérn-3/2 kernel ridge system over unquantized per-bucket RLS residuals "
+                    "$R_{\\mathrm{rls},b}=\\bar z_b-M_t\\bar k_b^{\\mathrm{ctx}}$ eliminates Nadaraya-Watson cluster-density bias near contact."
+                ),
+            },
+            {
+                "label": "Horizon-Invariant Causal Exponential Cooling and Primal-Dual Schedule-Free Generator",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\eta(t)&=\\eta_0\\,r_{\\mathrm{dec}}^{t/S_{\\mathrm{dec}}},\\qquad "
+                    "c_t=\\min\\!\\left(1,\\,\\max\\!\\left(\\frac{k_{\\mathrm{sf}}}{t+k_{\\mathrm{sf}}-1},\\,c_{\\min}\\right)\\right),\\\\"
+                    "y_t^{\\mathrm{sf}}&=(1-\\beta_{\\mathrm{sf}})z_{t-1}^{\\mathrm{sf}}+\\beta_{\\mathrm{sf}}x_{t-1}^{\\mathrm{sf}},\\qquad "
+                    "z_t^{\\mathrm{sf}}=z_{t-1}^{\\mathrm{sf}}+\\big(y_t^{\\mathrm{sf},+}-y_t^{\\mathrm{sf}}\\big),\\qquad "
+                    "x_t^{\\mathrm{sf}}=(1-c_t)x_{t-1}^{\\mathrm{sf}}+c_t z_t^{\\mathrm{sf}}."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "Replacing horizon-coupled cosine annealing with causal step-count cooling (`lr=0.014`, "
+                    "$r_{\\mathrm{dec}}=0.55$, $S_{\\mathrm{dec}}=100$) and evaluating single-arrival gradients at "
+                    "$y_t^{\\mathrm{sf}}$ (`betas=[0, 0.999]`, $\\beta_{\\mathrm{sf}}=0.88$, $k_{\\mathrm{sf}}=4$, "
+                    "$c_{\\min}=0.02$) maintains fast binary-mask acquisition across 96-step minimal streams (`dense4`) "
+                    "while serving smooth 50-step primal averages $x_t^{\\mathrm{sf}}$ across 480-step image and robotics streams."
                 ),
             },
         ],
         "pseudocode": [
-            "Initialize fixed orthogonal encoder W_enc, frozen MoG prior P, empty prototype/context tables, and P_0 = (1 / assoc_ridge) I.",
-            "For each chronological single-arrival step t:",
-            "  Before revealing x_t, serve y_hat = G(z_cond(i_serve, c_{t-1}), c_{t-1}) under an isolated eval RNG.",
-            "  Reveal single target frame x_t (batch_size = 1) and encode phi(x_t) = s_f W_enc (x_bar_t - c_0).",
-            "  Draw uniform row i_D; form z_D via GAIL active-entropy quantiles + Sherman-Morrison associative / spike-and-slab transport.",
-            "  Evaluate Hinge critic loss max(0, 1 - D(x_t)) + max(0, 1 + D(G(z_D))) + fixed BCAP cap penalty; step D.",
-            "  With D fixed, draw uniform row i_G and form posterior code z_G = phi(x_t) + eps_{i_G}.",
-            "  Cancel -D(x_hat_G) slope and backpropagate 10 * (BCE(x_hat_G, x_t) - w_style * g_{t-1} * sigmoid(D(x_hat_G))) + lambda_ctx ||W_{fc,ctx}||_F^2; step G.",
-            "  After both updates succeed, commit phi(x_t) and c_{t-1} to prototype/context counts, update return baseline, and update Sherman-Morrison RLS + residual covariance.",
-            "  Advance detached causal state c_t = CausalStateMemory.write(x_t, write_lr = 0.5) with replay_policy = 'none'.",
+            "Initialize fallback orthogonal encoder E_0, frozen MoG prior P, empty subspace/prototype/context buffers, P_0 = (1 / assoc_ridge) I, and Schedule-Free state (z_0 = x_0 = theta_G).",
+            "For each chronological single-arrival step t (batch_size = 1, replay = none):",
+            "  Before revealing x_t, serve y_hat = G_{x_{t-1}}(z_cond(i_serve, c_{t-1}), c_{t-1}) under an isolated eval RNG.",
+            "  Reveal single target frame x_t; stage Gram-Schmidt innovation row if enabled and encode phi_t(x_t).",
+            "  If schedule_free_beta > 0, interpolate generator parameters to y_t = (1 - beta_sf) z_{t-1} + beta_sf x_{t-1}.",
+            "  Draw uniform row i_D; form z_D via active-entropy quantiles + RLS / spike-and-slab + (1 - g_disc) * Matern32_KRR(c_{t-1}); step D with Hinge + BCAP cap.",
+            "  With D fixed, draw uniform row i_G and form posterior code z_G = phi_t(x_t) + eps_{i_G}; cancel -D(x_hat_G) slope and step G on survival BCE - bounded style bonus + Markov penalty.",
+            "  If schedule_free_beta > 0, update dual z_t = z_{t-1} + (y_t^+ - y_t) and primal x_t = (1 - c_t) x_{t-1} + c_t z_t, leaving G at x_t for causal serving.",
+            "  After optimizer updates succeed, commit staged innovation row, prototypes, context buckets + unquantized means, return baseline, and float64 RLS + covariance.",
+            "  Advance detached causal state c_t = CausalStateMemory.write(x_t, write_lr = 0.5) without storing or replaying frames.",
         ],
         "training_details": {
-            "loss": "Hinge margin adversarial critic loss (`loss=\"hinge\"`), paired on $G$ with canceled linear critic slope (`cancel_linear_gan=True`), prioritized pixelwise BCE survival anchor ($\\lambda_{\\mathrm{rec}}=10$), bounded sigmoid style bonus ($w_{\\mathrm{style}}\\in\\{0.1,0.05\\}$), and optional Markov context-bypass penalty (`context_bypass_weight=5.0`).",
-            "optimizer": "Native Adam via `bcap_adam` ($\\beta_1=0, \\beta_2=0.999$ in Hinge/BCE/SpikeSlab/SNR recipes; $\\beta_1=0.5, \\beta_2=0.999$ in `online-gail-bcap-momentum`). Base MoG storage table is frozen (`prior_update=\"frozen\"`).",
-            "learning_rates": "Base LR $0.005$ (`critic_lr_mult=1.0`, `prior_lr_mult=1.0`), constant through $50\\%$ of task budget (`lr_anneal_start=0.5`) then cosine-annealed to `lr_floor=0.05` (`network_lr_floor=0.05`).",
+            "loss": "Hinge margin adversarial critic loss (`loss=\"hinge\"`), paired on $G$ with canceled linear critic slope (`cancel_linear_gan=True`), prioritized pixelwise BCE survival anchor ($\\lambda_{\\mathrm{rec}}=10$ in Hinge..SNR; $100$ in Subspace/Schedule-Free), bounded sigmoid style bonus ($w_{\\mathrm{style}}\\in\\{0.1,0.05,0.002\\}$), and Markov context-bypass penalty (`context_bypass_weight=5.0` from Spike-Slab onward).",
+            "optimizer": "Native Adam via `bcap_adam` (`betas=(0, 0.999)` in Hinge/BCE/Spike-Slab/SNR; `(0.5, 0.999)` in Momentum; `(0.4, 0.999)` in Subspace; `(0, 0.999)` paired with polynomial Primal-Dual Schedule-Free $\\beta_{\\mathrm{sf}}=0.88$ in Schedule-Free). Base MoG storage table is frozen (`prior_update=\"frozen\"`).",
+            "learning_rates": "Hinge..SNR use `lr=0.005`, `critic_lr_mult=1.0`, cosine-annealed from `0.5` to `0.05`; `online-gail-bcap-subspace` uses `lr=0.007`, `d_lr_mult=0.02`, cosine-annealed from `0.55` to `0.06`; `online-gail-bcap-schedule-free` uses horizon-invariant causal `lr_schedule=\"exponential\"` (`lr=0.014`, `d_lr_mult=0.02`, `lr_decay_rate=0.55`, `lr_decay_steps=100`, `lr_floor=0.05`).",
             "gradient_clipping": "None (`critic_grad_guard=False`). Unbounded generator critic gradients are eliminated structurally via the bounded sigmoid style bonus and BCAP input-gradient cap.",
             "critic_penalty": "Fixed one-sided squared $L_2$ BCAP cap on real and conditional-prior fake inputs ($\\lambda=1.0$, $\\kappa=1.0$) every critic step; no EMA critic anchor.",
-            "damping_and_guards": "No A2 sparse-row damping (`latent_damping_max_rate=0.0`), zero generator-center probes (`probe_law=\"no_generator_probes_v1\"`), radial norm bound $\\lVert\\hat\\phi_{\\mathrm{assoc}}\\rVert_2\\le 4 s_f$ in radial mode, and regularized Mahalanobis covariance $\\tilde\\Sigma_t\\succeq 10^{-4}I$ in spike-and-slab mode.",
-            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `write_lr=0.5`, `association_weight=0.0`, optional unnormalized linear keys `normalize_key=False, key_gain=0.5` and precision action gate `contrast_threshold=0.005`) paired with `GAILConditionalReconstruction` (`router=\"gail_conditional\"`, `policy_entropy_bonus=0.01`, `replay_policy=\"none\"`, `rehearsal_batch=0`).",
-            "noise": "Zero scheduled critic-input or generator-output additive noise (`0.0`). Intrinsic task MoG perturbation $\\sigma=0.025$ is preserved on every conditional and posterior latent draw; `online-gail-bcap-snr` scales $s_f=4.0$ (`feature_tolerance=0.30`, `spike_slab_scale=2.0`) for $4\\times$ higher latent SNR.",
-            "averaging": "Live unaveraged generator weights (`ema_decay=0.0`, `serve_average=False`). All prototype, histogram, return-baseline, Sherman-Morrison, and residual-covariance commits occur strictly after each arrival's updates.",
+            "damping_and_guards": "No A2 sparse-row damping (`latent_damping_max_rate=0.0`), zero generator-center probes (`probe_law=\"no_generator_probes_v1\"`), regularized Mahalanobis covariance $\\tilde\\Sigma_t\\succeq 10^{-4}I$, and exact ridge-stabilized Matérn-3/2 KRR ($\\lambda_{\\mathrm{krr}}=0.06$).",
+            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `write_lr=0.5` in Hinge..SNR and `0.35` in Subspace/Schedule-Free, `association_weight=0.0`, unnormalized linear keys `normalize_key=False, key_gain=0.5` from Spike-Slab onward, fine contrast gate `0.002` in Subspace/Schedule-Free) paired with `GAILConditionalReconstruction` (`router=\"gail_conditional\"`, `policy_entropy_bonus=0.01`, `subspace_dims=6`, `residual_kernel=\"matern32_krr\"`, `replay_policy=\"none\"`, `rehearsal_batch=0`).",
+            "noise": "Zero scheduled critic-input or generator-output additive noise (`0.0`). Intrinsic task MoG perturbation $\\sigma=0.025$ is preserved on every conditional and posterior latent draw; precision-whitened innovation rows (`subspace_nu0=0.10`, `feature_scale=2.1`) amplify millimetre robotics SNR by $\\sim 6.25\\times$ without clipping high-contrast images.",
+            "averaging": "Hinge..Subspace serve live weights (`ema_decay=0.0`, `serve_average=False`); `online-gail-bcap-schedule-free` serves the polynomial Primal-Dual Schedule-Free iterate $x_t^{\\mathrm{sf}}$ ($c_t=\\max(4/(t+3),0.02)$) while interrogating gradients at $y_t^{\\mathrm{sf}}=0.12 z_{t-1}^{\\mathrm{sf}}+0.88 x_{t-1}^{\\mathrm{sf}}$.",
         },
         "configuration_notes": [
-            "GAIL-BCAP forms a five-step single-factor ablation ladder over `online-feature-prior-bce`: `online-gail-bcap-hinge` (10/10 required, 1/10 stretch) isolates Hinge + prioritized BCE survival/sigmoid style bonus + causal return advantage + active policy entropy; `online-gail-bcap-bce` (10/10 required, 1/10 stretch) enables radial Sherman-Morrison associative extrapolation; `online-gail-bcap-momentum` tests $\\beta_1=0.5$; `online-gail-bcap-spike-slab` (10/10 required, 3/10 stretch) upgrades associative extrapolation to Mahalanobis spike-and-slab + Markov context bottleneck + linear causal keys; and `online-gail-bcap-snr` (10/10 required, 3/10 stretch) resolves robotics action contrast erasure (`contrast_threshold=0.005`) and posterior latent SNR (`feature_scale=4.0`).",
-            "`online-gail-bcap-snr` and `online-gail-bcap-spike-slab` rank #1 and #2 overall on `single_stream_stability` view 10 (`13/20` total tasks passed: all 10 required Tier 1 tasks plus `seq_minimal_tokens4`, `seq_minimal_addition2bit`, and `seq_robotics_fetch_reach`), with `online-gail-bcap-snr` cutting `seq_robotics_fetch_reach` physical RMSE by 46% (`1.92 mm` at `97.9%` direction accuracy vs `3.53 mm` on `online-residual-prior-linear-key`).",
-            "On `seq_robotics_fetch_pick_and_place`, lowering `contrast_threshold` (`0.03 -> 0.005`) and raising posterior SNR (`feature_scale: 2.0 -> 4.0`) lifts `online-gail-bcap-snr` from `2/5` (`online-gail-bcap-spike-slab`) to `4/5` terminal checks (`2.45 mm` final RMSE, `1.70 mm` live prequential RMSE, `86.0%` peak terminal direction accuracy), missing only pre-cooldown `step=400` (`0.719` vs `0.750`) due to unaveraged `batch_size=1` live-decoder sign jitter around `0.5`.",
+            "GAIL-BCAP forms a seven-recipe single-factor ablation ladder over `online-feature-prior-bce`: `online-gail-bcap-hinge` (10/10 required, 1/10 stretch) -> `online-gail-bcap-bce` (10/10 required, 1/10 stretch) -> `online-gail-bcap-momentum` -> `online-gail-bcap-spike-slab` (10/10 required, 3/10 stretch) -> `online-gail-bcap-snr` (10/10 required, 3/10 stretch) -> `online-gail-bcap-subspace` (10/10 required, 4/10 stretch) -> `online-gail-bcap-schedule-free` (10/10 required, 5/10 stretch).",
+            "`online-gail-bcap-subspace` upgrades `online-gail-bcap-snr` with precision-whitened anchored Gram-Schmidt innovation subspaces (`subspace_dims=6`), exact `float64` Matérn-3/2 KRR over unquantized per-bucket RLS residuals (`residual_kernel=\"matern32_krr\"`, `residual_bandwidth=1.15`, `residual_ridge=0.06`), fine-salience action gating (`contrast_threshold=0.002`, `write_lr=0.35`), and critic-calmed Hinge-BCAP calibration (`d_lr_mult=0.02`, `reconstruction_weight=100.0`, `style_bonus_weight=0.002`), passing `seq_robotics_fetch_pick_and_place` (`5/5`, `2.28 mm` RMSE) and cutting `seq_robotics_fetch_reach` RMSE to `1.79 mm`.",
+            "`online-gail-bcap-schedule-free` is a strict single-factor optimization child of `online-gail-bcap-subspace` changing only the generator schedule (`lr_schedule=\"exponential\"`, `lr=0.014`, `lr_decay_rate=0.55`, `lr_decay_steps=100`, `lr_floor=0.05`) and replacing Adam $\\beta_1=0.4$ with polynomial Primal-Dual Schedule-Free averaging (`betas=[0.0, 0.999]`, `schedule_free_beta=0.88`, `schedule_free_poly_k=4.0`, `schedule_free_c_min=0.02`). It ranks #1 overall on `single_stream_stability` view 10 (`15/20` total tasks passed: `10/10` required + `5/10` stretch), delivering the first-ever `5/5` pass on `seq_minimal_dense4` (`valid_fraction=1.00`, `mass_tv=0.00`) alongside `seq_minimal_tokens4`, `seq_minimal_addition2bit` (`99.4%` min bit confidence), `seq_robotics_fetch_reach` (`1.79 mm`), and `seq_robotics_fetch_pick_and_place` (`2.26 mm`, `78.9%` final / `86.0%` peak direction accuracy).",
             "Executed strictly with `batch_size=1` (real and fake), `seed=0`, `replay_policy=\"none\"`, `rehearsal_batch=0`, and zero generator probes across all 20 tasks.",
         ],
         "sources": [
             "particlestream/gail_prior.py",
+            "particlestream/transport.py",
             "particlestream/feature_prior.py",
             "particlestream/memory.py",
             "particlestream/tier1.py",
@@ -609,6 +631,8 @@ FAMILY_DOCUMENTATION = {
             "configs/forge/ideas/online-gail-bcap-momentum.json",
             "configs/forge/ideas/online-gail-bcap-spike-slab.json",
             "configs/forge/ideas/online-gail-bcap-snr.json",
+            "configs/forge/ideas/online-gail-bcap-subspace.json",
+            "configs/forge/ideas/online-gail-bcap-schedule-free.json",
         ],
         "references": [
             {
@@ -627,14 +651,19 @@ FAMILY_DOCUMENTATION = {
                 "component": "Discounted return baseline and variance-standardized advantage gain for online policy updates.",
             },
             {
-                "title": "Using Fast Weights to Attend to the Recent Past",
-                "url": "https://arxiv.org/abs/1610.06258",
-                "component": "Detached associative fast-weight operator extrapolating unseen contexts alongside slow weights.",
-            },
-            {
                 "title": "Bayesian Variable Selection in Linear Regression",
                 "url": "https://doi.org/10.1080/01621459.1988.10478693",
                 "component": "Spike-and-slab Bayes factor formulation powering Mahalanobis discrete-vs-continuous prototype gating.",
+            },
+            {
+                "title": "Numerics of Gram-Schmidt Orthogonalization",
+                "url": "https://doi.org/10.1016/0024-3795(94)90493-6",
+                "component": "Two-pass classical Gram-Schmidt reorthogonalization anchoring precision-whitened online innovation directions.",
+            },
+            {
+                "title": "The Road Less Scheduled",
+                "url": "https://arxiv.org/abs/2405.15682",
+                "component": "Primal-Dual Schedule-Free iterate interpolation (y_t, z_t, x_t) paired with causal horizon-invariant step cooling.",
             },
         ],
     },

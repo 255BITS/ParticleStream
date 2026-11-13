@@ -192,8 +192,41 @@ class TransportGANTrainer(GANTrainer):
     def step(self, real, *, generator_real=None, collect_stats=False):
         if generator_real is not None:
             raise ValueError("transport uses only the current arriving target")
+        sf_beta = float(getattr(self.transport, "schedule_free_beta", 0.0))
+        if sf_beta <= 0.0:
+            with self.transport.training_target(real):
+                return super().step(real, collect_stats=collect_stats)
         with self.transport.training_target(real):
-            return super().step(real, collect_stats=collect_stats)
+            g_params = [p for p in self.G.parameters() if p.requires_grad]
+            n_sf = int(getattr(self.transport, "_sf_param_count", 0))
+            if len(g_params) != n_sf:
+                raise RuntimeError("Schedule-Free buffer count does not match generator parameters")
+            z_bufs = [getattr(self.transport, f"sf_z_{i}") for i in range(n_sf)]
+            x_bufs = [getattr(self.transport, f"sf_x_{i}") for i in range(n_sf)]
+            with torch.no_grad():
+                y_pre = []
+                for p, zp, xp in zip(g_params, z_bufs, x_bufs):
+                    yt = (1.0 - sf_beta) * zp + sf_beta * xp
+                    p.copy_(yt)
+                    y_pre.append(yt.clone())
+            try:
+                result = super().step(real, collect_stats=collect_stats)
+            except Exception:
+                with torch.no_grad():
+                    for p, xp in zip(g_params, x_bufs):
+                        p.copy_(xp)
+                raise
+            with torch.no_grad():
+                self.transport.sf_steps.add_(1)
+                t = int(self.transport.sf_steps.item())
+                poly_k = float(self.transport.schedule_free_poly_k)
+                c_min = float(self.transport.schedule_free_c_min)
+                ct = min(1.0, max(poly_k / (t + poly_k - 1.0), c_min))
+                for p, yt, zp, xp in zip(g_params, y_pre, z_bufs, x_bufs):
+                    zp.add_(p.detach() - yt)
+                    xp.lerp_(zp, ct)
+                    p.copy_(xp)
+            return result
 
     def transport_diagnostics(self):
         return self.transport.diagnostics()

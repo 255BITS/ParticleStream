@@ -9,10 +9,12 @@ Adapts the converging control mechanisms of ``43.gailcart.py`` to strict single-
    moment standardization into a bounded advantage gain ``1 + beta_A * tanh(A_{t-1})``.
 3. Entropy-regularized categorical policy quantiles over observed context outcomes.
 4. Detached recursive associative fast-weight operator ``M_assoc`` mapping homogeneous
-   context vectors to latent feature expectations — either via radial distance-gated
-   blending or precision-weighted Mahalanobis spike-and-slab prototype transport with
-   empirical-Bayes kernel residual quantiles and Markov context-bypass regularization —
-   without storing or replaying frames.
+   context vectors to latent feature expectations — via radial distance-gated blending,
+   precision-weighted Mahalanobis spike-and-slab prototype transport, optional causally
+   anchored two-pass Gram-Schmidt innovation subspaces, Matérn-3/2 kernel ridge regression
+   over unquantized per-bucket latent means, Markov context-bypass regularization, and
+   primal-dual polynomial Schedule-Free generator iterate averaging — without storing or
+   replaying frames.
 """
 from __future__ import annotations
 
@@ -23,6 +25,7 @@ import torch
 from torch import nn
 
 from .feature_prior import FeatureConditionalReconstruction
+from .transport import CompetitiveReconstruction
 
 
 class GAILConditionalReconstruction(FeatureConditionalReconstruction):
@@ -46,9 +49,20 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         "visit_shrinkage",
         "kernel_bandwidth",
         "context_bypass_weight",
+        "subspace_dims",
+        "subspace_abs_tol",
+        "subspace_rel_tol",
+        "subspace_nu0",
+        "residual_kernel",
+        "residual_bandwidth",
+        "residual_ridge",
+        "schedule_free_beta",
+        "schedule_free_poly_k",
+        "schedule_free_c_min",
         "gail_style_law",
         "gail_return_law",
         "assoc_extrapolation_law",
+        "schedule_free_law",
     )
 
     def __init__(
@@ -71,10 +85,24 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         visit_shrinkage: float = 0.25,
         kernel_bandwidth: float = 0.35,
         context_bypass_weight: float = 0.0,
+        subspace_dims: int = 0,
+        subspace_abs_tol: float = 0.008,
+        subspace_rel_tol: float = 0.12,
+        subspace_nu0: float = 0.10,
+        residual_kernel: str = "none",
+        residual_bandwidth: float = 1.15,
+        residual_ridge: float = 0.06,
+        schedule_free_beta: float = 0.0,
+        schedule_free_poly_k: float = 4.0,
+        schedule_free_c_min: float = 0.0,
         **kwargs,
     ):
         if not isinstance(cancel_linear_gan, bool):
             raise ValueError("cancel_linear_gan must be a boolean")
+        if type(subspace_dims) is not int or not 0 <= subspace_dims <= 64:
+            raise ValueError("subspace_dims must be an integer in [0, 64]")
+        if residual_kernel not in ("none", "nw", "matern32_krr"):
+            raise ValueError("residual_kernel must be 'none', 'nw', or 'matern32_krr'")
         for name, value in (
             ("style_bonus_weight", style_bonus_weight),
             ("return_discount", return_discount),
@@ -91,6 +119,14 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             ("visit_shrinkage", visit_shrinkage),
             ("kernel_bandwidth", kernel_bandwidth),
             ("context_bypass_weight", context_bypass_weight),
+            ("subspace_abs_tol", subspace_abs_tol),
+            ("subspace_rel_tol", subspace_rel_tol),
+            ("subspace_nu0", subspace_nu0),
+            ("residual_bandwidth", residual_bandwidth),
+            ("residual_ridge", residual_ridge),
+            ("schedule_free_beta", schedule_free_beta),
+            ("schedule_free_poly_k", schedule_free_poly_k),
+            ("schedule_free_c_min", schedule_free_c_min),
         ):
             if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
                 raise ValueError(f"{name} must be a finite number")
@@ -114,6 +150,8 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             raise ValueError("spike_slab_scale must be nonnegative")
         if spike_slab_scale > 0.0 and assoc_ridge <= 0.0:
             raise ValueError("spike_slab_scale > 0 requires positive assoc_ridge")
+        if residual_kernel != "none" and spike_slab_scale <= 0.0:
+            raise ValueError("continuous residual_kernel requires spike_slab_scale > 0")
         if not 0.0 < covariance_ema <= 1.0:
             raise ValueError("covariance_ema must be in (0, 1]")
         if covariance_eps <= 0.0:
@@ -126,6 +164,20 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             raise ValueError("kernel_bandwidth must be positive")
         if context_bypass_weight < 0.0:
             raise ValueError("context_bypass_weight must be nonnegative")
+        for name, value in (
+            ("subspace_abs_tol", subspace_abs_tol),
+            ("subspace_rel_tol", subspace_rel_tol),
+            ("subspace_nu0", subspace_nu0),
+            ("residual_bandwidth", residual_bandwidth),
+            ("residual_ridge", residual_ridge),
+            ("schedule_free_poly_k", schedule_free_poly_k),
+        ):
+            if value <= 0.0:
+                raise ValueError(f"{name} must be positive")
+        if not 0.0 <= schedule_free_beta < 1.0:
+            raise ValueError("schedule_free_beta must be in [0, 1)")
+        if not 0.0 <= schedule_free_c_min <= 1.0:
+            raise ValueError("schedule_free_c_min must be in [0, 1]")
 
         super().__init__(generator, **kwargs)
         if cancel_linear_gan and self.penalty_weight <= 0.0:
@@ -147,6 +199,18 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.visit_shrinkage = float(visit_shrinkage)
         self.kernel_bandwidth = float(kernel_bandwidth)
         self.context_bypass_weight = float(context_bypass_weight)
+        self.subspace_dims = subspace_dims
+        self.subspace_abs_tol = float(subspace_abs_tol)
+        self.subspace_rel_tol = float(subspace_rel_tol)
+        self.subspace_nu0 = float(subspace_nu0)
+        self.residual_kernel = residual_kernel
+        self.residual_bandwidth = float(residual_bandwidth)
+        self.residual_ridge = float(residual_ridge)
+        self.schedule_free_beta = float(schedule_free_beta)
+        self.schedule_free_poly_k = float(schedule_free_poly_k)
+        self.schedule_free_c_min = float(schedule_free_c_min)
+        if self.subspace_dims > 0:
+            self.encoder_law = "precision_whitened_gram_schmidt_subspace_plus_jl_v1"
         self.gail_style_law = (
             "prioritized_survival_sigmoid_style_hinge_cancel_v1"
             if cancel_linear_gan
@@ -154,11 +218,21 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         )
         self.gail_return_law = "causal_ema_standardized_advantage_tanh_v1"
         if self.spike_slab_scale > 0.0:
-            self.assoc_extrapolation_law = "sherman_morrison_spike_slab_kernel_residual_v1"
+            if self.residual_kernel == "matern32_krr":
+                self.assoc_extrapolation_law = "sherman_morrison_spike_slab_matern32_krr_v1"
+            elif self.residual_kernel == "nw":
+                self.assoc_extrapolation_law = "sherman_morrison_spike_slab_nw_residual_v1"
+            else:
+                self.assoc_extrapolation_law = "sherman_morrison_spike_slab_kernel_residual_v1"
         elif self.assoc_ridge > 0.0 and self.assoc_max_blend > 0.0:
             self.assoc_extrapolation_law = "recursive_ridge_fast_weight_radial_bound_v1"
         else:
             self.assoc_extrapolation_law = "disabled_v1"
+        self.schedule_free_law = (
+            "primal_dual_polynomial_schedule_free_v1"
+            if self.schedule_free_beta > 0.0
+            else "live_weights_v1"
+        )
 
         buf_dtype = torch.float64 if self.spike_slab_scale > 0.0 else torch.float32
         self.register_buffer("return_trace", torch.zeros(()))
@@ -172,13 +246,29 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.register_buffer("residual_cov", torch.empty(0, 0, dtype=buf_dtype))
         self.register_buffer("quantization_ema", torch.zeros((), dtype=buf_dtype))
         self.register_buffer("assoc_updates", torch.zeros((), dtype=torch.long))
+        self.register_buffer("subspace_basis", torch.empty(0, 0))
+        self.register_buffer("subspace_gains", torch.empty(0))
+        self.register_buffer("subspace_count", torch.zeros((), dtype=torch.long))
+        self.register_buffer("context_features", torch.empty(0, 0, dtype=buf_dtype))
+        self.register_buffer("sf_steps", torch.zeros((), dtype=torch.long))
+        self._sf_param_count = 0
+        if self.schedule_free_beta > 0.0:
+            g_params = [p for p in generator.parameters() if p.requires_grad]
+            self._sf_param_count = len(g_params)
+            for idx_p, param in enumerate(g_params):
+                self.register_buffer(f"sf_z_{idx_p}", param.detach().clone())
+                self.register_buffer(f"sf_x_{idx_p}", param.detach().clone())
         self._pending_reward = None
         self._pending_style = None
         self._pending_gain = None
+        self._pending_basis_row = None
+        self._pending_basis_gain = None
 
     def bind(self, base_prior):
         super().bind(base_prior)
         dimension = base_prior.z_dim
+        if self.subspace_dims > dimension:
+            raise ValueError("subspace_dims cannot exceed z_dim")
         context_dimension = self._current_context().numel()
         aug_dim = context_dimension + 1 if context_dimension > 0 else 0
         z_ref = base_prior.z
@@ -190,6 +280,51 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.last_style_bonus = self.last_style_bonus.to(z_ref)
         self.last_advantage_gain = self.last_advantage_gain.to(z_ref)
         self.assoc_updates = self.assoc_updates.to(device)
+        self.subspace_count = self.subspace_count.to(device)
+        self.sf_steps = self.sf_steps.to(device)
+
+        if self.subspace_dims > 0:
+            if self.subspace_basis.numel():
+                if (
+                    tuple(self.subspace_basis.shape) != (self.subspace_dims, 64)
+                    or tuple(self.subspace_gains.shape) != (self.subspace_dims,)
+                ):
+                    raise ValueError("GAIL subspace capacity differs from bound configuration")
+                self.subspace_basis = self.subspace_basis.to(z_ref)
+                self.subspace_gains = self.subspace_gains.to(z_ref)
+            else:
+                self.subspace_basis = z_ref.new_zeros(self.subspace_dims, 64)
+                self.subspace_gains = z_ref.new_ones(self.subspace_dims)
+        else:
+            self.subspace_basis = self.subspace_basis.to(z_ref)
+            self.subspace_gains = self.subspace_gains.to(z_ref)
+
+        if self.residual_kernel != "none":
+            if self.context_features.numel():
+                if tuple(self.context_features.shape) != (self.context_capacity, dimension):
+                    raise ValueError("GAIL context_features capacity differs from task prior")
+                self.context_features = self.context_features.to(device=device, dtype=torch.float64)
+            else:
+                self.context_features = torch.zeros(
+                    self.context_capacity, dimension, device=device, dtype=torch.float64
+                )
+        else:
+            buf_dtype = torch.float64 if self.spike_slab_scale > 0.0 else z_ref.dtype
+            self.context_features = self.context_features.to(device=device, dtype=buf_dtype)
+
+        if self.schedule_free_beta > 0.0:
+            model = self._generator()
+            g_params = [] if model is None else [p for p in model.parameters() if p.requires_grad]
+            if g_params and len(g_params) != self._sf_param_count:
+                raise ValueError("generator trainable parameter count differs from Schedule-Free buffers")
+            for idx_p in range(self._sf_param_count):
+                ref = g_params[idx_p] if g_params else z_ref
+                z_buf = getattr(self, f"sf_z_{idx_p}")
+                x_buf = getattr(self, f"sf_x_{idx_p}")
+                if g_params and tuple(z_buf.shape) != tuple(ref.shape):
+                    raise ValueError("generator parameter shape differs from Schedule-Free buffer")
+                setattr(self, f"sf_z_{idx_p}", z_buf.to(ref))
+                setattr(self, f"sf_x_{idx_p}", x_buf.to(ref))
 
         if self.spike_slab_scale > 0.0:
             if aug_dim > 0:
@@ -231,6 +366,48 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 self.assoc_cov_inv = (1.0 / self.assoc_ridge) * torch.eye(
                     aug_dim, device=device, dtype=z_ref.dtype
                 )
+
+    @torch.no_grad()
+    def _candidate_innovation(self, frame: torch.Tensor) -> tuple[torch.Tensor, float] | None:
+        k = int(self.subspace_count.item())
+        if k >= self.subspace_dims:
+            return None
+        v = frame.detach().reshape(64).to(device=self.encoder.device, dtype=torch.float64) - self.image_center
+        v_norm = float(torch.linalg.vector_norm(v).item())
+        r = v.clone()
+        if k > 0:
+            basis64 = self.subspace_basis[:k].to(dtype=torch.float64)
+            proj1 = basis64 @ r
+            r = r - basis64.t() @ proj1
+            proj2 = basis64 @ r
+            r = r - basis64.t() @ proj2
+        r_norm = float(torch.linalg.vector_norm(r).item())
+        if r_norm > self.subspace_abs_tol and (r_norm / (v_norm + 1e-3)) > self.subspace_rel_tol:
+            unit = (r / r_norm).to(self.subspace_basis.dtype)
+            gain = 1.0 / math.sqrt(r_norm * r_norm + self.subspace_nu0 * self.subspace_nu0)
+            return unit, gain
+        return None
+
+    @torch.no_grad()
+    def encode(self, frame):
+        if self.subspace_dims == 0:
+            return super().encode(frame)
+        if (
+            not isinstance(frame, torch.Tensor)
+            or tuple(frame.shape) != (1, 1, 8, 8)
+            or not frame.is_floating_point()
+            or not bool(torch.isfinite(frame).all())
+        ):
+            raise ValueError("feature encoder requires one finite image")
+        v = frame.detach().reshape(1, 64).to(self.encoder) - self.image_center
+        k = int(self.subspace_count.item())
+        rows = self.encoder.clone()
+        rows[: self.subspace_dims].zero_()
+        if k > 0:
+            rows[:k].copy_(self.subspace_basis[:k] * self.subspace_gains[:k].unsqueeze(1))
+        if self._pending_basis_row is not None and k < self.subspace_dims:
+            rows[k].copy_(self._pending_basis_row * float(self._pending_basis_gain))
+        return self.feature_scale * (v @ rows.t())
 
     def _causal_advantage_gain(self) -> float:
         if self.advantage_scale == 0.0 or int(self.gail_updates.item()) < 2:
@@ -297,11 +474,21 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         if self._target is not None:
             raise RuntimeError("a GAIL-prior update is already active")
         self._pending_reward = self._pending_style = self._pending_gain = None
+        self._pending_basis_row = self._pending_basis_gain = None
         try:
-            with super().training_target(frame):
+            with CompetitiveReconstruction.training_target(self, frame):
+                self._pending_context = self._current_context()
+                if self.subspace_dims > 0:
+                    cand = self._candidate_innovation(frame)
+                    if cand is not None:
+                        self._pending_basis_row, self._pending_basis_gain = cand
+                self._pending_feature = self.encode(frame)[0]
                 yield
+            self._commit_observation(self._pending_context, self._pending_feature)
         finally:
+            self._pending_context = self._pending_feature = None
             self._pending_reward = self._pending_style = self._pending_gain = None
+            self._pending_basis_row = self._pending_basis_gain = None
 
     def transform(self, codes, idx=None, *, base_prior, generator=None, training=True):
         if idx is None:
@@ -313,18 +500,50 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         context = self._pending_context if self._target is not None else self._current_context()
 
         if self.spike_slab_scale > 0.0 and context.numel() > 0:
-            if int(self.assoc_updates.item()) == 0 or int(self.context_count.item()) == 0:
+            updates = int(self.assoc_updates.item())
+            b_count = int(self.context_count.item())
+            if updates == 0 or b_count == 0:
                 return codes
             with torch.no_grad():
                 z_ctx = self._prior_mean(context)
+                g_disc = self._disc_gate()
+                z_base = z_ctx
+                if self.residual_kernel != "none" and updates > context.numel() and (1.0 - g_disc) > 1e-6:
+                    keys64 = self.context_keys[:b_count].to(dtype=torch.float64)
+                    c64 = context.detach().to(device=keys64.device, dtype=torch.float64)
+                    k_aug = torch.cat((keys64, keys64.new_ones(b_count, 1)), dim=-1)
+                    res_keys = self.context_features[:b_count] - (k_aug @ self.assoc_weights.t())
+                    visit_cap = self.context_visits[:b_count].to(dtype=torch.float64).clamp(min=1.0, max=4.0)
+                    if self.residual_kernel == "matern32_krr":
+                        pw_dist = torch.cdist(keys64, keys64)
+                        s3 = math.sqrt(3.0)
+                        scaled_pw = s3 * pw_dist / self.residual_bandwidth
+                        k_mat = (1.0 + scaled_pw) * torch.exp(-scaled_pw.clamp_max(80.0))
+                        alpha = torch.linalg.solve(
+                            k_mat + torch.diag(self.residual_ridge / visit_cap), res_keys
+                        )
+                        d_c = torch.linalg.vector_norm(keys64 - c64.unsqueeze(0), dim=-1)
+                        scaled_dc = s3 * d_c / self.residual_bandwidth
+                        k_vec = (1.0 + scaled_dc) * torch.exp(-scaled_dc.clamp_max(80.0))
+                        z_base = z_ctx + (1.0 - g_disc) * (k_vec @ alpha)
+                    else:
+                        dist_sq_all = (keys64 - c64.unsqueeze(0)).square().sum(dim=-1)
+                        weights = visit_cap * torch.exp(
+                            -(dist_sq_all / (2.0 * self.residual_bandwidth * self.residual_bandwidth)).clamp_max(80.0)
+                        )
+                        w_sum = float(weights.sum().item())
+                        if w_sum > 1e-12:
+                            r_nw = (weights.unsqueeze(-1) * res_keys).sum(dim=0) / (self.residual_ridge + w_sum)
+                            z_base = z_ctx + (1.0 - g_disc) * r_nw
+
                 bucket = self._lookup_context(context, require_match=False)
                 if bucket is None:
-                    return z_ctx.to(codes).unsqueeze(0) + perturbation
+                    return z_base.to(codes).unsqueeze(0) + perturbation
                 features = self._active_quantile_indices(
                     self.context_outcomes[bucket], idx, base_prior.num_particles
                 )
                 if features is None:
-                    return z_ctx.to(codes).unsqueeze(0) + perturbation
+                    return z_base.to(codes).unsqueeze(0) + perturbation
                 empirical = self.feature_centroids[features].to(dtype=torch.float64)
                 key = self.context_keys[bucket]
                 dist_sq = float((context.double() - key.double()).square().sum().item())
@@ -337,11 +556,11 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                     if excess_visits > 0
                     else 0.0
                 )
-                gamma = visit_gate * self._disc_gate() * kernel
+                gamma = visit_gate * g_disc * kernel
                 if gamma <= 1e-8:
-                    return z_ctx.to(codes).unsqueeze(0) + perturbation
+                    return z_base.to(codes).unsqueeze(0) + perturbation
                 z_key = self._prior_mean(key)
-                combined = z_ctx.unsqueeze(0) + gamma * (empirical - z_key.unsqueeze(0))
+                combined = z_base.unsqueeze(0) + gamma * (empirical - z_key.unsqueeze(0))
                 return combined.to(codes) + perturbation
 
         count = int(self.context_count.item())
@@ -412,7 +631,23 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
 
     @torch.no_grad()
     def _commit_observation(self, context, feature):
+        k = int(self.subspace_count.item())
+        if self._pending_basis_row is not None and k < self.subspace_dims:
+            self.subspace_basis[k].copy_(self._pending_basis_row)
+            self.subspace_gains[k].fill_(float(self._pending_basis_gain))
+            self.subspace_count.add_(1)
         super()._commit_observation(context, feature)
+        if self.residual_kernel != "none":
+            b_count = int(self.context_count.item())
+            if context.numel() > 0 and b_count > 0:
+                bucket = int(self.context_last_update[:b_count].argmax().item())
+                c_visits = int(self.context_visits[bucket].item())
+                z64 = feature.detach().to(device=self.context_features.device, dtype=torch.float64)
+                if c_visits <= 1:
+                    self.context_features[bucket].copy_(z64)
+                else:
+                    self.context_features[bucket].add_((z64 - self.context_features[bucket]) / c_visits)
+
         if self._pending_reward is not None:
             reward = float(self._pending_reward)
             n = int(self.gail_updates.item())
@@ -469,14 +704,19 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
 
     def diagnostics(self):
         result = super().diagnostics()
+        k = int(self.subspace_count.item())
         result.update(
             critic_sampling="gail_context_conditional_prior",
             generator_sampling="current_observation_gail_posterior",
             gail_style_law=self.gail_style_law,
             gail_return_law=self.gail_return_law,
             assoc_extrapolation_law=self.assoc_extrapolation_law,
+            schedule_free_law=self.schedule_free_law,
             gail_updates=int(self.gail_updates.item()),
             assoc_updates=int(self.assoc_updates.item()),
+            subspace_count=k,
+            subspace_gains=self.subspace_gains[:k].detach().cpu().tolist(),
+            schedule_free_steps=int(self.sf_steps.item()),
             return_trace=float(self.return_trace.item()),
             return_mean=float(self.return_mean.item()),
             return_std=float(self.return_var.clamp_min(0.0).sqrt().item()),
@@ -500,6 +740,8 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 self._pending_context is not None
                 or self._pending_feature is not None
                 or self._pending_reward is not None
+                or self._pending_basis_row is not None
+                or self._pending_basis_gain is not None
             ),
         )
         return result

@@ -3,16 +3,16 @@
   "artifacts": {
     "compute": {
       "critic_parameters": 9473,
-      "cuda_peak_allocated_bytes": 9967616,
+      "cuda_peak_allocated_bytes": 9764352,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 1536,
-      "evaluation_seconds": 1.55814226961229,
+      "evaluation_seconds": 1.4631361291976646,
       "generator_parameters": 6385,
       "optimizer_updates": 480,
-      "process_peak_rss_kib": 2646956,
+      "process_peak_rss_kib": 2698736,
       "serving_d_forwards": 0,
       "serving_g_forwards": 480,
-      "training_and_evaluation_seconds": 9.000668450957164,
+      "training_and_evaluation_seconds": 8.01445554709062,
       "training_d_forwards": 2880,
       "training_g_forwards": 960
     },
@@ -89,7 +89,7 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
+      "gail_prior.py": "ad59401a8a39d7150f90f9703b7cba367f6e31fb34cddd733ca3ccffb7cdb29a",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
       "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
@@ -102,7 +102,7 @@
       "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
-      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+      "transport.py": "2f976af63532647dd035808a461c84a60ccd2bbf39b1c6e27220fb0e6a329845"
     },
     "memory_policy": {
       "decay": 0.9,
@@ -309,17 +309,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "ae2398267c2178c5af18aaee60acab0336c864d01255b1d6628429229982dbc3"
+    "task_fingerprint": "a56b0e36e6063adecb44e63b627211db7425d39047d941cc609b1cc01dc03245"
   },
   "candidate_fingerprint": "a4e55cc1635ce80f042db8b4ba21457497dd5d9966ab25098e99f27d55ab502b",
   "candidate_id": "online-ka2-light-anchor",
-  "cohort_key": "bcfb7d6e85f768ce2972060d971a2f7c9491263a06dddf268e89d610118d5508",
-  "completed_at": "2026-11-12T20:36:06.935+00:00",
+  "cohort_key": "6a3721c9bb818f1a7341287b426e045d986550048c1871b936edcf6ab721f176",
+  "completed_at": "2026-11-13T09:08:19.080+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 11.4222
+    "wall_seconds": 10.1941
   },
   "device": "cuda",
   "error": null,
@@ -758,11 +758,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "ae2398267c2178c5af18aaee60acab0336c864d01255b1d6628429229982dbc3",
+  "task_fingerprint": "a56b0e36e6063adecb44e63b627211db7425d39047d941cc609b1cc01dc03245",
   "task_id": "seq_robotics_hand_reach",
   "technique": "KA2",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T20:36:06.935+00:00",
+  "timestamp": "2026-11-13T09:08:19.080+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

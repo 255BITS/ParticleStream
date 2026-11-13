@@ -98,6 +98,23 @@ def assignments(codes, router, frames):
         {"visit_shrinkage": -0.1},
         {"kernel_bandwidth": 0.0},
         {"context_bypass_weight": -1.0},
+        {"subspace_dims": -1},
+        {"subspace_dims": 65},
+        {"subspace_dims": True},
+        {"subspace_dims": 9},
+        {"subspace_abs_tol": 0.0},
+        {"subspace_rel_tol": 0.0},
+        {"subspace_nu0": 0.0},
+        {"residual_kernel": "rbf"},
+        {"residual_kernel": "matern32_krr", "spike_slab_scale": 0.0},
+        {"residual_bandwidth": 0.0},
+        {"residual_ridge": 0.0},
+        {"schedule_free_beta": -0.1},
+        {"schedule_free_beta": 1.0},
+        {"schedule_free_beta": True},
+        {"schedule_free_poly_k": 0.0},
+        {"schedule_free_c_min": -0.01},
+        {"schedule_free_c_min": 1.1},
         {"reconstruction_weight": 0.0, "cancel_linear_gan": True},
     ],
 )
@@ -354,3 +371,160 @@ def test_high_snr_feature_scale_quadruples_latent_energy_without_splitting_proto
     e_base = r_base.encode(frames[0:1]).square().sum().item()
     e_snr = r_snr.encode(frames[0:1]).square().sum().item()
     assert e_snr == pytest.approx(4.0 * e_base, rel=1e-6)
+
+
+def test_precision_whitened_subspace_and_matern32_krr_nonlinear_extrapolation():
+    model, router, prior = make_gail_prior(
+        context_dim=2,
+        feature_scale=2.1,
+        feature_tolerance=0.60,
+        assoc_ridge=0.1,
+        spike_slab_scale=1.0,
+        subspace_dims=6,
+        subspace_abs_tol=0.008,
+        subspace_rel_tol=0.12,
+        subspace_nu0=0.10,
+        residual_kernel="matern32_krr",
+        residual_bandwidth=0.80,
+        residual_ridge=0.02,
+    )
+    assert router.encoder_law == "precision_whitened_gram_schmidt_subspace_plus_jl_v1"
+    assert router.assoc_extrapolation_law == "sherman_morrison_spike_slab_matern32_krr_v1"
+
+    # Train nonlinear quadratic surface across 2D contexts so quantization_ema > 0 and g_disc -> 0
+    frames = bars4_templates()
+    u0, u1, u2 = frames[0:1] - 0.5, frames[1:2] - 0.5, frames[2:3] - 0.5
+    rng = torch.Generator().manual_seed(7)
+    pts = (torch.rand(64, 2, generator=rng) * 3.0) - 1.5
+    pts = pts[pts.norm(dim=-1) > 0.25]
+    for pt in pts:
+        model.active_context.copy_(pt.unsqueeze(0))
+        r2 = float((pt.square().sum() / 4.5).item())
+        frame = (0.5 + 0.45 * r2 * u0 + 0.25 * float(pt[0].item() / 1.5) * u1 + 0.25 * float(pt[1].item() / 1.5) * u2).clamp(0.0, 1.0)
+        observe_gail(router, prior, frame)
+
+    k = int(router.subspace_count.item())
+    assert k == 3
+    basis = router.subspace_basis[:k].double()
+    assert torch.allclose(basis @ basis.t(), torch.eye(k, dtype=torch.float64), atol=1e-6)
+    assert router._disc_gate() < 0.5
+
+    # Aborting a step with a novel orthogonal innovation rolls back staged subspace basis cleanly
+    saved_state = deepcopy(router.state_dict())
+    with pytest.raises(RuntimeError, match="abort innovation"):
+        with router.training_target(frames[3:4]):
+            prior.sample(1, generator=torch.Generator().manual_seed(0))
+            prior.sample(1, generator=torch.Generator().manual_seed(0))
+            raise RuntimeError("abort innovation")
+    for key, val in router.state_dict().items():
+        if isinstance(val, torch.Tensor):
+            assert torch.equal(val, saved_state[key])
+    assert router.diagnostics()["observation_state_retained"] is False
+
+    # Evaluate unseen c = (0, 0): pure linear RLS predicts positive mean(r^2), whereas Matérn-3/2 KRR bends toward 0
+    model.active_context.copy_(torch.tensor([[0.0, 0.0]]))
+    target_zero = router.encode(torch.full((1, 1, 8, 8), 0.5))
+    pred_krr = clean_codes(prior)[0:1]
+    z_lin_zero = (router.assoc_weights @ torch.tensor([0.0, 0.0, 1.0], dtype=torch.float64)).to(pred_krr).unsqueeze(0)
+    err_krr = (pred_krr - target_zero).square().sum().item()
+    err_lin = (z_lin_zero - target_zero).square().sum().item()
+    assert err_krr < 0.5 * err_lin
+
+
+def test_schedule_free_primal_dual_averaging_and_transactional_session_isolation():
+    streams = NamedStreams(seed=0)
+    with streams.fork("init", component="models", purpose="construction"):
+        generator = StreamImageGenerator(context_dim=16)
+        critic = StreamImageCritic(context_dim=16)
+        _init_module(generator, streams, "generator")
+        _init_module(critic, streams, "discriminator")
+    recipe = get_recipe(
+        "bcap_adam",
+        batch_size=1,
+        num_particles=32,
+        z_dim=8,
+        prior_kind="mog",
+        standardize=False,
+        prior_update="frozen",
+        total_steps=16,
+        loss="hinge",
+        lr=0.014,
+        betas=[0.0, 0.999],
+        d_lr_mult=0.02,
+        lr_schedule="exponential",
+        lr_decay_rate=0.55,
+        lr_decay_steps=100,
+    )
+    base = recipe.replace(prior_update="learned").make_prior(
+        sigma=0.025,
+        generator=streams.generator("init", component="prior", purpose="locations"),
+    )
+    _init_module(base, streams, "prior")
+    recipe.apply_prior_policy(base)
+    trainer = TransportGANTrainer(
+        recipe,
+        generator,
+        critic,
+        prior=base,
+        max_steps=8,
+        router_class=GAILConditionalReconstruction,
+        transport={
+            "encoder_seed": streams.seed_for("init", component="feature_encoder", purpose="projection"),
+            "reconstruction_loss": "binary_cross_entropy",
+            "reconstruction_weight": 100.0,
+            "style_bonus_weight": 0.002,
+            "advantage_scale": 0.0,
+            "assoc_ridge": 0.1,
+            "spike_slab_scale": 1.0,
+            "subspace_dims": 6,
+            "residual_kernel": "matern32_krr",
+            "schedule_free_beta": 0.88,
+            "schedule_free_poly_k": 4.0,
+            "schedule_free_c_min": 0.02,
+        },
+        latent_generator=streams.generator("prior", component="latent", purpose="indices"),
+        penalty_generator=streams.generator("noise", component="penalty", purpose="training"),
+        noise_generator=streams.generator("noise", component="generator", purpose="output"),
+        prior_noise_generator=streams.generator("noise", component="prior", purpose="gaussian"),
+        model_generator=streams.generator("noise", component="models", purpose="stochastic_layers"),
+        eval_generator=streams.generator("eval", component="sampler", purpose="samples"),
+    )
+    session = PairedOnlineSession(
+        trainer,
+        generator,
+        critic,
+        serving_generator=streams.generator("eval", component="serving", purpose="prediction"),
+    )
+    frames = bars4_templates()
+    for step_idx in range(3):
+        session.source(frames[step_idx : step_idx + 1])
+        with streams.isolated_evaluation():
+            _ = session.predict()
+        assert streams.last_eval_audit["unintended_rng_deviations"] == 0
+        stats = session.observe_target(frames[(step_idx + 1) % 4 : (step_idx + 1) % 4 + 1])
+        assert torch.isfinite(stats["loss_g"]) and torch.isfinite(stats["loss_d"])
+
+    diag = trainer.transport_diagnostics()
+    assert diag["schedule_free_law"] == "primal_dual_polynomial_schedule_free_v1"
+    assert diag["schedule_free_steps"] == 3
+    g_params = [p for p in generator.parameters() if p.requires_grad]
+    for i, param in enumerate(g_params):
+        assert torch.equal(param.detach(), getattr(trainer.transport, f"sf_x_{i}"))
+    assert any(
+        not torch.allclose(getattr(trainer.transport, f"sf_x_{i}"), getattr(trainer.transport, f"sf_z_{i}"))
+        for i in range(len(g_params))
+    )
+
+    saved_g = [p.detach().clone() for p in g_params]
+    saved_transport = deepcopy(trainer.transport.state_dict())
+    with pytest.raises(ValueError):
+        trainer.step(torch.full((1, 1, 8, 8), 2.0))
+    for p, saved in zip(g_params, saved_g):
+        assert torch.equal(p.detach(), saved)
+    with streams.isolated_evaluation(), isolated_session(session):
+        _ = trainer.sample(32, fixed_first_n=True)
+    assert streams.last_eval_audit["unintended_rng_deviations"] == 0
+    for key, val in trainer.transport.state_dict().items():
+        if isinstance(val, torch.Tensor):
+            assert torch.equal(val, saved_transport[key])
+

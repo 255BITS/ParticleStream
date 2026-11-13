@@ -80,6 +80,8 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
         "online-gail-bcap-momentum",
         "online-gail-bcap-spike-slab",
         "online-gail-bcap-snr",
+        "online-gail-bcap-subspace",
+        "online-gail-bcap-schedule-free",
     ):
         result = workspace.qualify(candidate_id, view.id, device="cuda")
         assert result["status"] == "PASS" and result["eligible"] is True, candidate_id
@@ -129,6 +131,37 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
     ):
         assert stretch_outcomes[stretch_pass_id]["status"] == "PASS", stretch_pass_id
     assert stretch_outcomes["seq_robotics_fetch_pick_and_place"]["terminal_passing"] >= 4
+
+    subspace_result = workspace.qualify("online-gail-bcap-subspace", view.id, device="cuda")
+    subspace_stretch = {
+        tid: outcome
+        for tier in subspace_result["tiers"].values()
+        for tid, outcome in tier["tasks"].items()
+        if outcome["importance"] == "stretch"
+    }
+    for stretch_pass_id in (
+        "seq_minimal_tokens4",
+        "seq_minimal_addition2bit",
+        "seq_robotics_fetch_reach",
+        "seq_robotics_fetch_pick_and_place",
+    ):
+        assert subspace_stretch[stretch_pass_id]["status"] == "PASS", stretch_pass_id
+
+    sf_result = workspace.qualify("online-gail-bcap-schedule-free", view.id, device="cuda")
+    sf_stretch = {
+        tid: outcome
+        for tier in sf_result["tiers"].values()
+        for tid, outcome in tier["tasks"].items()
+        if outcome["importance"] == "stretch"
+    }
+    for stretch_pass_id in (
+        "seq_minimal_dense4",
+        "seq_minimal_tokens4",
+        "seq_minimal_addition2bit",
+        "seq_robotics_fetch_reach",
+        "seq_robotics_fetch_pick_and_place",
+    ):
+        assert sf_stretch[stretch_pass_id]["status"] == "PASS", stretch_pass_id
 
 
 def test_subspace_prior_recipes_qualify_all_ten_required_and_advance_stretch_frontier():

@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 201652736,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 2304,
-      "evaluation_seconds": 3.8385796579532325,
+      "evaluation_seconds": 4.50015747314319,
       "generator_parameters": 6385,
       "optimizer_updates": 384,
-      "process_peak_rss_kib": 2320584,
+      "process_peak_rss_kib": 2320232,
       "serving_d_forwards": 0,
       "serving_g_forwards": 384,
-      "training_and_evaluation_seconds": 17.02333132806234,
+      "training_and_evaluation_seconds": 26.183938310015947,
       "training_d_forwards": 2304,
       "training_g_forwards": 768
     },
@@ -128,7 +128,7 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
+      "gail_prior.py": "ad59401a8a39d7150f90f9703b7cba367f6e31fb34cddd733ca3ccffb7cdb29a",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
       "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
@@ -139,7 +139,7 @@
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
-      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+      "transport.py": "2f976af63532647dd035808a461c84a60ccd2bbf39b1c6e27220fb0e6a329845"
     },
     "memory_policy": {
       "decay": 0.9,
@@ -324,17 +324,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "ee4ab8913d9586f3fe137b69f9b88dc170c438aa65df0ab95afdd884a5b38c96"
+    "task_fingerprint": "c41c509701f106ede5003c124e6968aac56684060d3857a4a57ee5312c2621d9"
   },
   "candidate_fingerprint": "7f1a73501855c2ea32f71334e689559ed197390e7be4c9963c7db0b1c113b151",
   "candidate_id": "online-bcap",
-  "cohort_key": "f5136bcf9532e1c40efac640f6f2674fde74fcc79ba0a75760a2d5586ee461dc",
-  "completed_at": "2026-11-12T18:04:03.378+00:00",
+  "cohort_key": "c9312cc0277156d6e0185cc564ee76d354f8d2c20e7dcbfd2bc6972666ae0357",
+  "completed_at": "2026-11-13T06:39:25.976+00:00",
   "completed_steps": 384,
   "cost": {
     "completed_steps": 384,
     "timeout_seconds": 300,
-    "wall_seconds": 19.3382
+    "wall_seconds": 28.612
   },
   "device": "cuda",
   "error": null,
@@ -996,11 +996,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "ee4ab8913d9586f3fe137b69f9b88dc170c438aa65df0ab95afdd884a5b38c96",
+  "task_fingerprint": "c41c509701f106ede5003c124e6968aac56684060d3857a4a57ee5312c2621d9",
   "task_id": "seq_minimal_velocity_extrapolation",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T18:04:03.378+00:00",
+  "timestamp": "2026-11-13T06:39:25.976+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }
