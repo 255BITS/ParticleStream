@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 9653248,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 624,
-      "evaluation_seconds": 2.0458224358735606,
+      "evaluation_seconds": 4.076640789513476,
       "generator_parameters": 6385,
       "optimizer_updates": 192,
-      "process_peak_rss_kib": 2653692,
+      "process_peak_rss_kib": 2699696,
       "serving_d_forwards": 0,
       "serving_g_forwards": 192,
-      "training_and_evaluation_seconds": 5.15254768403247,
+      "training_and_evaluation_seconds": 9.58391341904644,
       "training_d_forwards": 1152,
       "training_g_forwards": 384
     },
@@ -80,7 +80,7 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
+      "gail_prior.py": "ad59401a8a39d7150f90f9703b7cba367f6e31fb34cddd733ca3ccffb7cdb29a",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
       "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
@@ -91,7 +91,7 @@
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
-      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+      "transport.py": "2f976af63532647dd035808a461c84a60ccd2bbf39b1c6e27220fb0e6a329845"
     },
     "memory_policy": {
       "age_horizon": 8.0,
@@ -848,17 +848,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "7c4b4a15b58e704b5d6748244f38af2181ad4d050ea1d2a3d2fcd833367c853e"
+    "task_fingerprint": "592902a182f9611eb4d7611677bd8e606016a30ea2800ed9ed031539908b8fa0"
   },
   "candidate_fingerprint": "1dea3f5242caf231176371c83503b3439d69e06cbae9aedb8cbe237de17478f6",
   "candidate_id": "online-residual-prior-linear-key",
-  "cohort_key": "29b9fc6d3285b677d327c872c78d2b253896fc4c0e4428cf09cdbcf3a07fe735",
-  "completed_at": "2026-11-12T20:59:34.647+00:00",
+  "cohort_key": "26f5e08d4cd1177d525aa38c64a1ddbcef39ef847a7b8903ca51403c2d876be2",
+  "completed_at": "2026-11-13T09:39:30.594+00:00",
   "completed_steps": 192,
   "cost": {
     "completed_steps": 192,
     "timeout_seconds": 300,
-    "wall_seconds": 7.397
+    "wall_seconds": 12.0515
   },
   "device": "cuda",
   "error": null,
@@ -1261,11 +1261,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "7c4b4a15b58e704b5d6748244f38af2181ad4d050ea1d2a3d2fcd833367c853e",
+  "task_fingerprint": "592902a182f9611eb4d7611677bd8e606016a30ea2800ed9ed031539908b8fa0",
   "task_id": "seq_minimal_addition2bit",
   "technique": "ResidualPrior-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-12T20:59:34.647+00:00",
+  "timestamp": "2026-11-13T09:39:30.594+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

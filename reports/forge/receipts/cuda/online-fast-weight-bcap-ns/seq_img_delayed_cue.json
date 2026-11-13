@@ -10,14 +10,14 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "gail_prior.py": "f9e8b1a53131b432f3cc9b239950acb0506d98f0aae1f9d8d34e70c9daf94c06",
+      "gail_prior.py": "ad59401a8a39d7150f90f9703b7cba367f6e31fb34cddd733ca3ccffb7cdb29a",
       "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
-      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+      "transport.py": "2f976af63532647dd035808a461c84a60ccd2bbf39b1c6e27220fb0e6a329845"
     },
     "memory_policy": {
       "decay": 0.9,
@@ -185,17 +185,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "75374e012d898660a837f2ffa8e9737248abb3e4747afe80d801a7f053e26add"
+    "task_fingerprint": "f3345f6d7d30bebe446387ed41e1601b0f2f70ef603fbc76be53b16172bc6a52"
   },
   "candidate_fingerprint": "2c9308c504e410afb7aa51abdf79b8adbe75ed4b2d9de22bae2b184663ad01b8",
   "candidate_id": "online-fast-weight-bcap-ns",
-  "cohort_key": "665c3fb9fe3bea70a9111bfa852f8bcf41c8a4d890a43281d7637161e871b20e",
-  "completed_at": "2026-11-12T19:51:12.975+00:00",
+  "cohort_key": "67cab36a7439ae4a05014a14ea8433b7e856d712b5c83ca79e718f7a79cacd4e",
+  "completed_at": "2026-11-13T08:06:22.330+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 8.3152
+    "wall_seconds": 7.1374
   },
   "device": "cuda",
   "error": null,
@@ -547,11 +547,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "75374e012d898660a837f2ffa8e9737248abb3e4747afe80d801a7f053e26add",
+  "task_fingerprint": "f3345f6d7d30bebe446387ed41e1601b0f2f70ef603fbc76be53b16172bc6a52",
   "task_id": "seq_img_delayed_cue",
   "technique": "Global-Stream-BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-12T19:51:12.975+00:00",
+  "timestamp": "2026-11-13T08:06:22.330+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

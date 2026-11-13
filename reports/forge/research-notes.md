@@ -1,5 +1,77 @@
 # ParticleStream research notes
 
+## `GAIL-BCAP` Frontier 3 (`online-gail-bcap-subspace` & `online-gail-bcap-schedule-free`) and 820-Run View 10 Qualification, 2026-11-13
+
+Extended the `GAIL-BCAP` technique family (`particlestream/gail_prior.py`,
+`particlestream/transport.py`) with two explicit single-factor global recipes branching from
+`online-gail-bcap-snr` under the strict `batch_size=1`, `replay_policy="none"`,
+`rehearsal_batch=0`, `seed=0` online protocol:
+
+- **`online-gail-bcap-subspace`** (parent `online-gail-bcap-snr`):
+  1. **Precision-Whitened Anchored Gram-Schmidt Innovation Subspace + JL Tail** (`subspace_dims=6`,
+     `subspace_abs_tol=0.008`, `subspace_rel_tol=0.12`, `subspace_nu0=0.10`, `feature_scale=2.1`,
+     `feature_tolerance=0.15`, `spike_slab_scale=1.0`): anchors up to six mutually orthonormal
+     two-pass Gram-Schmidt directions with discovery-time precision whitening alongside a 2-row
+     deterministic orthogonal JL fallback, preserving exact backward compatibility (`subspace_dims=0`)
+     for earlier `online-gail-bcap-*` recipes.
+  2. **Exact `float64` Matérn-3/2 Kernel Ridge Regression (`KRR`) Residual** (`residual_kernel="matern32_krr"`,
+     `residual_bandwidth=1.15`, `residual_ridge=0.06`): solves
+     $(K_{3/2} + \operatorname{diag}(\lambda_{\mathrm{krr}} / \min(V_b, 4)))\Alpha = R_{\mathrm{rls}}$
+     over unquantized per-bucket RLS residuals ($B_t \le 64$) gated by $(1 - g_{\mathrm{disc},t})$,
+     eliminating Nadaraya-Watson cluster-density bias near contact.
+  3. **Fine-Salience Causal Reader & Calmed Hinge-BCAP Posterior Calibration** (`contrast_threshold=0.002`,
+     `write_lr=0.35`, `d_lr_mult=0.02`, `reconstruction_weight=100.0`, `style_bonus_weight=0.002`,
+     `betas=[0.4, 0.999]`, `lr=0.007`, `lr_anneal_start=0.55`, `lr_floor=0.06`): scales survival BCE
+     $10\times$ while scaling $w_{\mathrm{style}}$ by $0.1\times$ (`0.05 -> 0.002`, effective style
+     bonus weight `0.20`) so Hinge-BCAP imitation gradients stay calibrated.
+- **`online-gail-bcap-schedule-free`** (parent `online-gail-bcap-subspace`): strict single-factor
+  optimization delta changing **only** the generator schedule to causal horizon-invariant exponential
+  cooling (`lr_schedule="exponential"`, `lr=0.014`, `lr_decay_rate=0.55`, `lr_decay_steps=100`,
+  `lr_floor=0.05`, `network_lr_floor=0.05`) and replacing Adam $\beta_1=0.4$ with polynomial
+  Primal-Dual Schedule-Free generator iterate averaging (`betas=[0.0, 0.999]`,
+  `schedule_free_beta=0.88`, `schedule_free_poly_k=4.0`, `schedule_free_c_min=0.02`), evaluating
+  single-arrival gradients at $y_t = 0.12 z_{t-1} + 0.88 x_{t-1}$ and serving $x_t = (1 - c_t) x_{t-1} + c_t z_t$
+  with $c_t = \max(4/(t+3), 0.02)$.
+
+Fresh source-bound CUDA execution across all **41 executable global recipes × 20 tasks (820
+sequential runs: 159 PASS, 661 FAIL, 0 INVALID, 0 INCOMPLETE; 20 oracle PASS controls, 45
+destructive FAIL controls)** establishes **`online-gail-bcap-schedule-free`** (`GAIL-BCAP`) as the
+new `#1` global reference on `single_stream_stability` (view 10):
+- **`online-gail-bcap-schedule-free`** qualifies at **Tier 1 (`PASS`, `10/10` required tasks,
+  `50/50` terminal checks)** and breaks the `4/10` stretch ceiling to **`5/10` stretch passes
+  (`25/25` terminal checks across `seq_minimal_dense4`, `seq_minimal_tokens4`,
+  `seq_minimal_addition2bit`, `seq_robotics_fetch_reach`, and `seq_robotics_fetch_pick_and_place` —
+  `15/20` total tasks passed, including all `12/12` Tier 1 tasks)**:
+  - **`seq_minimal_dense4`** (`96` updates): first-ever `5/5` sustained pass in `ParticleStream`
+    (`valid_fraction = 1.0000`, `modes = 4.0`, `mass_tv = 0.0000` vs `0/5 FAIL`, `valid_fraction = 0.0000`
+    for every cosine-annealed candidate), proving that causal step-count cooling ($\eta(t) = 0.014 \cdot 0.55^{t/100}$,
+    independent of task horizon $T$) plus zero-lag polynomial Primal-Dual Schedule-Free averaging
+    eliminates the `T=96` vs `T=480` horizon trade-off without peeking at `total_steps`.
+  - **`seq_minimal_addition2bit`**: `5/5 PASS`, `heldout_exact_accuracy = 1.0000`,
+    `heldout_min_bit_confidence = 0.9938` (`live_prequential_rmse = 0.0003`).
+  - **`seq_robotics_fetch_reach`**: `5/5 PASS`, `position_delta_rmse_m = 0.0018 m` (`1.79 mm`,
+    `relative_mse = 0.0114`, `moving_direction_accuracy = 0.9583`).
+  - **`seq_robotics_fetch_pick_and_place`**: `5/5 PASS`, `position_delta_rmse_m = 0.0023 m` (`2.26 mm`
+    — **30% lower** than `online-subspace-prior-fine-salience`'s `3.22 mm`),
+    `relative_mse = 0.0324`, `moving_direction_accuracy = 0.7895` (`0.8596` peak).
+  - **`seq_minimal_kernel2x2`**: cuts `heldout_response_rmse` below the `0.03` gate for the first
+    time (`0.0284`, `heldout_max_abs_error = 0.0729`, `live_prequential_rmse = 0.0299`), leaving
+    zero-padded `Conv2d` corner max-abs error (`0.1276` vs `<= 0.05`) as the sole remaining barrier.
+- **`online-gail-bcap-subspace`** ranks `#2` overall (`10/10` required + `4/10` stretch = `14/20`
+  total passes), achieving `position_delta_rmse_m = 0.0018 m` on `FetchReach`, `0.0023 m` (`5/5 PASS`)
+  on `FetchPickAndPlace`, and `0.0056 m` (`moving_direction_accuracy = 0.8824`, `relative_mse = 0.1897`)
+  on `seq_robotics_fetch_slide`.
+
+Documented negative ablations (do not repeat):
+- **Split-channel lag-diff `CausalStateMemory` (`cur_dims=8, lag_dims=7`)**: halving current-key
+  projection capacity to `8` dims creates severe state collisions on 6-DoF manipulation, dropping
+  `seq_robotics_fetch_pick_and_place` from `5/5` to `0/5` (`dir = 0.649`).
+- **Degree-2 polynomial RLS (`120` upper-triangular quadratic features)**: memorizes all `12` seen
+  `addition2bit` contexts with zero training residual ($\operatorname{tr}(\Sigma_t) \to 0$), collapsing
+  the precision-weighted spike-and-slab carry/XOR subspace and breaking `seq_minimal_addition2bit` (`0/5`).
+- **Step-size-squared weighting ($c_t \propto \eta_t^2$) in Schedule-Free primal averaging**: freezes
+  primal iterate $x_t$ prematurely after decay onset, leaving `seq_minimal_dense4` at `0/5` (`valid_fraction = 0.50`).
+
 ## `SubspacePrior-BCAP` Family and 780-Run View 10 Qualification, 2026-11-12
 
 Added the `SubspacePrior-BCAP` technique family (`particlestream/subspace_prior.py`,
