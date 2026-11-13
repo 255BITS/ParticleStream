@@ -80,9 +80,10 @@ METHODS = {
         "bonus (canceling unbounded linear generator slopes), modulated by a causal discounted "
         "return advantage baseline and entropy-regularized categorical outcome quantiles. Unseen "
         "contexts extrapolate through a detached Sherman-Morrison associative fast-weight operator "
-        "(either radial distance-blended or precision-weighted Mahalanobis spike-and-slab with "
-        "kernel-gated residual quantiles, Markov context-bypass regularization, and high-SNR "
-        "latent scaling) without storing or replaying frames.",
+        "(radial distance-blended or precision-weighted Mahalanobis spike-and-slab with kernel-gated "
+        "residual quantiles, Markov context-bypass regularization, precision-whitened Gram-Schmidt "
+        "innovation subspaces, Matérn-3/2 kernel ridge residuals, and causal primal-dual Schedule-Free "
+        "generator optimization) without storing or replaying frames.",
         "gail_prior.py",
     ),
     "SubspacePrior-BCAP": (
