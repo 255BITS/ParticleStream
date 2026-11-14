@@ -4,7 +4,7 @@ Generated from `particlegan_forge` qualification of receipts under `reports/forg
 
 Click a technique for its explanation, a recipe for its exact configuration and parent delta, or a score for gates, measurements, source-bound receipts and actual-training GIFs. One global recipe supplies every score in a row. Stretch results do not grant qualification credit.
 
-**Latest refresh: completed, 860/860 runs recorded.** Started 2026-11-13T20:51:32.325566+00:00; completed 2026-11-13T23:46:56.473396+00:00. Controls: 20 oracle PASS, 45 destructive FAIL. [Refresh audit and artifact hashes](refresh-audit.json).
+**Latest refresh: completed, 880/880 runs recorded.** Started 2026-11-14T01:24:44.489229+00:00; completed 2026-11-14T05:00:38.871675+00:00. Controls: 20 oracle PASS, 45 destructive FAIL. [Refresh audit and artifact hashes](refresh-audit.json).
 
 `*` means at least one current task result is missing. A displayed zero counts passes; the measured column distinguishes an observed failure from missing or stale evidence. Historical recipes are listed separately and receive no current score.
 
@@ -14,7 +14,7 @@ One complete recipe per technique, ordered by required qualification and passes,
 
 | Technique | Exact global recipe | Tier 1 required | Tier 2 required | Tier 3 required | Total required | Measured tasks | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | [10/10](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) | — | — | [10/10](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-required) | 20/20 | `PASS` |
+| [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | [10/10](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) | — | — | [10/10](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-required) | 20/20 | `PASS` |
 | [SubspacePrior-BCAP](families/subspaceprior-bcap.md) | [`online-subspace-prior`](families/subspaceprior-bcap.md#online-subspace-prior) | [10/10](families/subspaceprior-bcap.md#online-subspace-prior-tier-1-required) | — | — | [10/10](families/subspaceprior-bcap.md#online-subspace-prior-required) | 20/20 | `PASS` |
 | [ResidualPrior-BCAP](families/residualprior-bcap.md) | [`online-residual-prior-linear-key`](families/residualprior-bcap.md#online-residual-prior-linear-key) | [10/10](families/residualprior-bcap.md#online-residual-prior-linear-key-tier-1-required) | — | — | [10/10](families/residualprior-bcap.md#online-residual-prior-linear-key-required) | 20/20 | `PASS` |
 | [FeaturePrior-BCAP](families/featureprior-bcap.md) | [`online-feature-prior-bce`](families/featureprior-bcap.md#online-feature-prior-bce) | [10/10](families/featureprior-bcap.md#online-feature-prior-bce-tier-1-required) | — | — | [10/10](families/featureprior-bcap.md#online-feature-prior-bce-required) | 20/20 | `PASS` |
@@ -28,6 +28,7 @@ One complete recipe per technique, ordered by required qualification and passes,
 
 | Technique | Exact global recipe | Tier 1 required | Tier 2 required | Tier 3 required | Total required | Measured tasks | Status |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | [10/10](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) | — | — | [10/10](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-required) | 20/20 | `PASS` |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | [10/10](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) | — | — | [10/10](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-required) | 20/20 | `PASS` |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | [10/10](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) | — | — | [10/10](families/gail-bcap.md#online-gail-bcap-debiased-krr-required) | 20/20 | `PASS` |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | [10/10](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) | — | — | [10/10](families/gail-bcap.md#online-gail-bcap-schedule-free-required) | 20/20 | `PASS` |
@@ -78,6 +79,7 @@ These measurements retain their declared gates and budgets even when a required 
 
 | Technique | Recipe | Tier 1 stretch | Tier 2 stretch | Tier 3 stretch | Total stretch | Measured stretch |
 | --- | --- | --- | --- | --- | --- | --- |
+| [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | [2/2](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-stretch) | [5/7](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-2-stretch) | [1/1](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-3-stretch) | [8/10](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-stretch) | 10/10 |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | [2/2](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-stretch) | [5/7](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-2-stretch) | [0/1](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-3-stretch) | [7/10](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-stretch) | 10/10 |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | [2/2](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-stretch) | [4/7](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-2-stretch) | [0/1](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-3-stretch) | [6/10](families/gail-bcap.md#online-gail-bcap-debiased-krr-stretch) | 10/10 |
 | [GAIL-BCAP](families/gail-bcap.md) | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | [2/2](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-stretch) | [3/7](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-2-stretch) | [0/1](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-3-stretch) | [5/10](families/gail-bcap.md#online-gail-bcap-schedule-free-stretch) | 10/10 |
@@ -124,7 +126,7 @@ These measurements retain their declared gates and budgets even when a required 
 
 ## Readout and recommendation
 
-Use [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) as the measured global reference: it passes 10/10 required tasks and 7/10 stretch tasks (10 stretch tasks measured). Qualification reaches tier 1. Inspect the failing stretch gates before claiming broader capability.
+Use [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) as the measured global reference: it passes 10/10 required tasks and 8/10 stretch tasks (10 stretch tasks measured). Qualification reaches tier 1. Inspect the failing stretch gates before claiming broader capability.
 
 ## Historical declarations
 
@@ -160,6 +162,7 @@ Gates: `hq >= 0.9`, `modes == 4.0`, `finite_template_tv <= 0.15`. Budget: 480 up
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_round_robin_bars4.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_round_robin_bars4.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_round_robin_bars4.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_round_robin_bars4.gif) |
@@ -213,6 +216,7 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_dwell_bars4.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_dwell_bars4.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_dwell_bars4.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_dwell_bars4.gif) |
@@ -266,6 +270,7 @@ Gates: `next_frame_rmse <= 0.12`, `direction_acc >= 0.9`. Budget: 480 updates; 2
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_translating_bar_next.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_translating_bar_next.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_translating_bar_next.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_translating_bar_next.gif) |
@@ -319,6 +324,7 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`. Budget: 48
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_fork_rollout.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_fork_rollout.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_fork_rollout.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_fork_rollout.gif) |
@@ -372,6 +378,7 @@ Gates: `hq >= 0.85`, `modes == 4.0`, `finite_template_tv <= 0.2`. Budget: 480 up
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_variable_dwell_bars4.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_variable_dwell_bars4.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_variable_dwell_bars4.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_variable_dwell_bars4.gif) |
@@ -425,6 +432,7 @@ Gates: `hq >= 0.85`, `finite_template_tv <= 0.15`, `support_modes == 4.0`, `rare
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_rare_mode_bars4.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_rare_mode_bars4.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_rare_mode_bars4.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_rare_mode_bars4.gif) |
@@ -478,6 +486,7 @@ Gates: `outcome_accuracy >= 0.9`, `prediction_rmse <= 0.12`. Budget: 480 updates
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_delayed_cue.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_delayed_cue.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_delayed_cue.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_delayed_cue.gif) |
@@ -531,6 +540,7 @@ Gates: `hq >= 0.85`, `within_state_modes == 2.0`, `branch_tv <= 0.2`, `trajector
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_persistent_fork.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_persistent_fork.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_persistent_fork.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_persistent_fork.gif) |
@@ -584,6 +594,7 @@ Gates: `orbit_rmse <= 0.12`, `xy_rmse <= 0.15`, `step_accuracy >= 0.9`, `orbit_c
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_circle_orbit.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_circle_orbit.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_circle_orbit.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_circle_orbit.gif) |
@@ -637,6 +648,7 @@ Gates: `cycle_rmse <= 0.12`, `s2c_rmse <= 0.12`, `c2s_rmse <= 0.12`, `xy_rmse <=
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-required) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_img_square_circle_cycle.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-required) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_img_square_circle_cycle.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-required) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_img_square_circle_cycle.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-required) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_img_square_circle_cycle.gif) |
@@ -690,6 +702,7 @@ Gates: `valid_fraction >= 0.9`, `modes == 4.0`, `mass_tv <= 0.15`. Budget: 96 up
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_minimal_dense4.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_minimal_dense4.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_minimal_dense4.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_minimal_dense4.gif) |
@@ -743,6 +756,7 @@ Gates: `valid_fraction == 1.0`, `modes == 4.0`, `mass_tv <= 0.1`. Budget: 96 upd
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-1-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_minimal_tokens4.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-1-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_minimal_tokens4.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-1-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_minimal_tokens4.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-1-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_minimal_tokens4.gif) |
@@ -796,6 +810,7 @@ Gates: `seen_response_rmse <= 0.03`, `seen_max_abs_error <= 0.05`, `heldout_resp
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_minimal_kernel2x2.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_minimal_kernel2x2.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_minimal_kernel2x2.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_minimal_kernel2x2.gif) |
@@ -849,6 +864,7 @@ Gates: `seen_exact_accuracy == 1.0`, `seen_min_bit_confidence >= 0.9`, `heldout_
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_minimal_addition2bit.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_minimal_addition2bit.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_minimal_addition2bit.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_minimal_addition2bit.gif) |
@@ -902,6 +918,7 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_robotics_fetch_reach.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_robotics_fetch_reach.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_robotics_fetch_reach.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_robotics_fetch_reach.gif) |
@@ -955,6 +972,7 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_robotics_fetch_push.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_robotics_fetch_push.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_robotics_fetch_push.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_robotics_fetch_push.gif) |
@@ -1008,6 +1026,7 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_robotics_fetch_slide.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_robotics_fetch_slide.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_robotics_fetch_slide.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_robotics_fetch_slide.gif) |
@@ -1061,6 +1080,7 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_robotics_fetch_pick_and_place.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_robotics_fetch_pick_and_place.gif) |
@@ -1114,6 +1134,7 @@ Gates: `position_delta_rmse_m <= 0.005`, `relative_mse <= 0.8`, `moving_directio
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_robotics_hand_reach.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_robotics_hand_reach.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_robotics_hand_reach.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-2-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_robotics_hand_reach.gif) |
@@ -1167,6 +1188,7 @@ Gates: `interpolation_centroid_rmse <= 0.01`, `interpolation_speed_error <= 0.01
 
 | Recipe | Verdict | Terminal checks | Evidence |
 | --- | --- | --- | --- |
+| [`online-gail-bcap-kinematic-equivariant`](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant) | PASS | 5/5 | [details](families/gail-bcap.md#online-gail-bcap-kinematic-equivariant-tier-3-stretch) · [goal.gif](gifs/online-gail-bcap-kinematic-equivariant_seq_minimal_velocity_extrapolation.gif) |
 | [`online-gail-bcap-dirichlet-sobolev`](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-dirichlet-sobolev-tier-3-stretch) · [goal.gif](gifs/online-gail-bcap-dirichlet-sobolev_seq_minimal_velocity_extrapolation.gif) |
 | [`online-gail-bcap-debiased-krr`](families/gail-bcap.md#online-gail-bcap-debiased-krr) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-debiased-krr-tier-3-stretch) · [goal.gif](gifs/online-gail-bcap-debiased-krr_seq_minimal_velocity_extrapolation.gif) |
 | [`online-gail-bcap-schedule-free`](families/gail-bcap.md#online-gail-bcap-schedule-free) | FAIL | 0/5 | [details](families/gail-bcap.md#online-gail-bcap-schedule-free-tier-3-stretch) · [goal.gif](gifs/online-gail-bcap-schedule-free_seq_minimal_velocity_extrapolation.gif) |
