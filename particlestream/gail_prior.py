@@ -56,6 +56,15 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         "residual_kernel",
         "residual_bandwidth",
         "residual_ridge",
+        "krr_capacity",
+        "subspace_birth_debias",
+        "consistent_fork_branch",
+        "disc_gate_style",
+        "sobolev_weight",
+        "sobolev_sigma",
+        "dirichlet_bypass_weight",
+        "boundary_quartic_gain",
+        "dirichlet_c_boost",
         "schedule_free_beta",
         "schedule_free_poly_k",
         "schedule_free_c_min",
@@ -92,6 +101,15 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         residual_kernel: str = "none",
         residual_bandwidth: float = 1.15,
         residual_ridge: float = 0.06,
+        krr_capacity: int = 0,
+        subspace_birth_debias: bool = False,
+        consistent_fork_branch: bool = False,
+        disc_gate_style: bool = False,
+        sobolev_weight: float = 0.0,
+        sobolev_sigma: float = 1e-7,
+        dirichlet_bypass_weight: float = 0.0,
+        boundary_quartic_gain: float = 0.0,
+        dirichlet_c_boost: float = 0.0,
         schedule_free_beta: float = 0.0,
         schedule_free_poly_k: float = 4.0,
         schedule_free_c_min: float = 0.0,
@@ -99,10 +117,20 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
     ):
         if not isinstance(cancel_linear_gan, bool):
             raise ValueError("cancel_linear_gan must be a boolean")
+        if not isinstance(subspace_birth_debias, bool):
+            raise ValueError("subspace_birth_debias must be a boolean")
+        if not isinstance(consistent_fork_branch, bool):
+            raise ValueError("consistent_fork_branch must be a boolean")
+        if not isinstance(disc_gate_style, bool):
+            raise ValueError("disc_gate_style must be a boolean")
         if type(subspace_dims) is not int or not 0 <= subspace_dims <= 64:
             raise ValueError("subspace_dims must be an integer in [0, 64]")
+        if type(krr_capacity) is not int or not 0 <= krr_capacity <= 2048:
+            raise ValueError("krr_capacity must be an integer in [0, 2048]")
         if residual_kernel not in ("none", "nw", "matern32_krr"):
             raise ValueError("residual_kernel must be 'none', 'nw', or 'matern32_krr'")
+        if krr_capacity > 0 and residual_kernel != "matern32_krr":
+            raise ValueError("krr_capacity > 0 requires residual_kernel='matern32_krr'")
         for name, value in (
             ("style_bonus_weight", style_bonus_weight),
             ("return_discount", return_discount),
@@ -124,6 +152,11 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             ("subspace_nu0", subspace_nu0),
             ("residual_bandwidth", residual_bandwidth),
             ("residual_ridge", residual_ridge),
+            ("sobolev_weight", sobolev_weight),
+            ("sobolev_sigma", sobolev_sigma),
+            ("dirichlet_bypass_weight", dirichlet_bypass_weight),
+            ("boundary_quartic_gain", boundary_quartic_gain),
+            ("dirichlet_c_boost", dirichlet_c_boost),
             ("schedule_free_beta", schedule_free_beta),
             ("schedule_free_poly_k", schedule_free_poly_k),
             ("schedule_free_c_min", schedule_free_c_min),
@@ -150,6 +183,8 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             raise ValueError("spike_slab_scale must be nonnegative")
         if spike_slab_scale > 0.0 and assoc_ridge <= 0.0:
             raise ValueError("spike_slab_scale > 0 requires positive assoc_ridge")
+        if subspace_birth_debias and (spike_slab_scale <= 0.0 or assoc_ridge <= 0.0):
+            raise ValueError("subspace_birth_debias requires positive spike_slab_scale and assoc_ridge")
         if residual_kernel != "none" and spike_slab_scale <= 0.0:
             raise ValueError("continuous residual_kernel requires spike_slab_scale > 0")
         if not 0.0 < covariance_ema <= 1.0:
@@ -164,12 +199,17 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             raise ValueError("kernel_bandwidth must be positive")
         if context_bypass_weight < 0.0:
             raise ValueError("context_bypass_weight must be nonnegative")
+        if sobolev_weight < 0.0 or dirichlet_bypass_weight < 0.0 or boundary_quartic_gain < 0.0:
+            raise ValueError("Dirichlet Sobolev and calibration weights must be nonnegative")
+        if not 0.0 <= dirichlet_c_boost <= 1.0:
+            raise ValueError("dirichlet_c_boost must be in [0, 1]")
         for name, value in (
             ("subspace_abs_tol", subspace_abs_tol),
             ("subspace_rel_tol", subspace_rel_tol),
             ("subspace_nu0", subspace_nu0),
             ("residual_bandwidth", residual_bandwidth),
             ("residual_ridge", residual_ridge),
+            ("sobolev_sigma", sobolev_sigma),
             ("schedule_free_poly_k", schedule_free_poly_k),
         ):
             if value <= 0.0:
@@ -206,20 +246,44 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.residual_kernel = residual_kernel
         self.residual_bandwidth = float(residual_bandwidth)
         self.residual_ridge = float(residual_ridge)
+        self.krr_capacity = krr_capacity
+        self.subspace_birth_debias = subspace_birth_debias
+        self.consistent_fork_branch = consistent_fork_branch
+        self.disc_gate_style = disc_gate_style
+        self.sobolev_weight = float(sobolev_weight)
+        self.sobolev_sigma = float(sobolev_sigma)
+        self.dirichlet_bypass_weight = float(dirichlet_bypass_weight)
+        self.boundary_quartic_gain = float(boundary_quartic_gain)
+        self.dirichlet_c_boost = float(dirichlet_c_boost)
         self.schedule_free_beta = float(schedule_free_beta)
         self.schedule_free_poly_k = float(schedule_free_poly_k)
         self.schedule_free_c_min = float(schedule_free_c_min)
         if self.subspace_dims > 0:
             self.encoder_law = "precision_whitened_gram_schmidt_subspace_plus_jl_v1"
-        self.gail_style_law = (
-            "prioritized_survival_sigmoid_style_hinge_cancel_v1"
-            if cancel_linear_gan
-            else "prioritized_survival_additive_sigmoid_style_v1"
+        has_dirichlet = (
+            self.sobolev_weight > 0.0
+            or self.dirichlet_bypass_weight > 0.0
+            or self.boundary_quartic_gain > 0.0
         )
+        if has_dirichlet:
+            self.gail_style_law = (
+                "dirichlet_sobolev_quartic_survival_sigmoid_style_hinge_cancel_v1"
+                if cancel_linear_gan
+                else "dirichlet_sobolev_quartic_survival_additive_sigmoid_style_v1"
+            )
+        else:
+            self.gail_style_law = (
+                "prioritized_survival_sigmoid_style_hinge_cancel_v1"
+                if cancel_linear_gan
+                else "prioritized_survival_additive_sigmoid_style_v1"
+            )
         self.gail_return_law = "causal_ema_standardized_advantage_tanh_v1"
         if self.spike_slab_scale > 0.0:
             if self.residual_kernel == "matern32_krr":
-                self.assoc_extrapolation_law = "sherman_morrison_spike_slab_matern32_krr_v1"
+                if self.krr_capacity > 0 or self.subspace_birth_debias:
+                    self.assoc_extrapolation_law = "debiased_subspace_rls_spike_slab_unbucketed_matern32_krr_v1"
+                else:
+                    self.assoc_extrapolation_law = "sherman_morrison_spike_slab_matern32_krr_v1"
             elif self.residual_kernel == "nw":
                 self.assoc_extrapolation_law = "sherman_morrison_spike_slab_nw_residual_v1"
             else:
@@ -228,13 +292,17 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             self.assoc_extrapolation_law = "recursive_ridge_fast_weight_radial_bound_v1"
         else:
             self.assoc_extrapolation_law = "disabled_v1"
-        self.schedule_free_law = (
-            "primal_dual_polynomial_schedule_free_v1"
-            if self.schedule_free_beta > 0.0
-            else "live_weights_v1"
-        )
+        if self.schedule_free_beta > 0.0 and self.dirichlet_c_boost > 0.0:
+            self.schedule_free_law = "dirichlet_gated_primal_dual_polynomial_schedule_free_v1"
+        else:
+            self.schedule_free_law = (
+                "primal_dual_polynomial_schedule_free_v1"
+                if self.schedule_free_beta > 0.0
+                else "live_weights_v1"
+            )
 
-        buf_dtype = torch.float64 if self.spike_slab_scale > 0.0 else torch.float32
+        use_f64 = self.spike_slab_scale > 0.0 or has_dirichlet or self.dirichlet_c_boost > 0.0
+        buf_dtype = torch.float64 if use_f64 else torch.float32
         self.register_buffer("return_trace", torch.zeros(()))
         self.register_buffer("return_mean", torch.zeros(()))
         self.register_buffer("return_var", torch.zeros(()))
@@ -250,6 +318,14 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.register_buffer("subspace_gains", torch.empty(0))
         self.register_buffer("subspace_count", torch.zeros((), dtype=torch.long))
         self.register_buffer("context_features", torch.empty(0, 0, dtype=buf_dtype))
+        self.register_buffer("krr_keys", torch.empty(0, 0, dtype=buf_dtype))
+        self.register_buffer("krr_vals", torch.empty(0, 0, dtype=buf_dtype))
+        self.register_buffer("krr_sub_k", torch.empty(0, dtype=torch.long))
+        self.register_buffer("krr_step", torch.empty(0, dtype=torch.long))
+        self.register_buffer("krr_count", torch.zeros((), dtype=torch.long))
+        self.register_buffer("row_cov_inv", torch.empty(0, 0, 0, dtype=buf_dtype))
+        self.register_buffer("dirichlet_ema", torch.zeros((), dtype=buf_dtype))
+        self.register_buffer("dirichlet_steps", torch.zeros((), dtype=torch.long))
         self.register_buffer("sf_steps", torch.zeros((), dtype=torch.long))
         self._sf_param_count = 0
         if self.schedule_free_beta > 0.0:
@@ -263,6 +339,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self._pending_gain = None
         self._pending_basis_row = None
         self._pending_basis_gain = None
+        self._pending_dirichlet_energy = None
 
     def bind(self, base_prior):
         super().bind(base_prior)
@@ -281,7 +358,18 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.last_advantage_gain = self.last_advantage_gain.to(z_ref)
         self.assoc_updates = self.assoc_updates.to(device)
         self.subspace_count = self.subspace_count.to(device)
+        self.krr_count = self.krr_count.to(device)
+        self.dirichlet_steps = self.dirichlet_steps.to(device)
         self.sf_steps = self.sf_steps.to(device)
+        use_f64 = (
+            self.spike_slab_scale > 0.0
+            or self.sobolev_weight > 0.0
+            or self.dirichlet_bypass_weight > 0.0
+            or self.boundary_quartic_gain > 0.0
+            or self.dirichlet_c_boost > 0.0
+        )
+        dir_dtype = torch.float64 if use_f64 else z_ref.dtype
+        self.dirichlet_ema = self.dirichlet_ema.to(device=device, dtype=dir_dtype)
 
         if self.subspace_dims > 0:
             if self.subspace_basis.numel():
@@ -309,8 +397,44 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                     self.context_capacity, dimension, device=device, dtype=torch.float64
                 )
         else:
-            buf_dtype = torch.float64 if self.spike_slab_scale > 0.0 else z_ref.dtype
-            self.context_features = self.context_features.to(device=device, dtype=buf_dtype)
+            self.context_features = self.context_features.to(device=device, dtype=dir_dtype)
+
+        if self.krr_capacity > 0:
+            k_dim = max(1, context_dimension)
+            if self.krr_keys.numel():
+                if (
+                    tuple(self.krr_keys.shape) != (self.krr_capacity, k_dim)
+                    or tuple(self.krr_vals.shape) != (self.krr_capacity, dimension)
+                    or tuple(self.krr_sub_k.shape) != (self.krr_capacity,)
+                    or tuple(self.krr_step.shape) != (self.krr_capacity,)
+                ):
+                    raise ValueError("GAIL KRR buffer capacity differs from bound configuration")
+                self.krr_keys = self.krr_keys.to(device=device, dtype=torch.float64)
+                self.krr_vals = self.krr_vals.to(device=device, dtype=torch.float64)
+                self.krr_sub_k = self.krr_sub_k.to(device=device)
+                self.krr_step = self.krr_step.to(device=device)
+            else:
+                self.krr_keys = torch.zeros(self.krr_capacity, k_dim, device=device, dtype=torch.float64)
+                self.krr_vals = torch.zeros(self.krr_capacity, dimension, device=device, dtype=torch.float64)
+                self.krr_sub_k = torch.zeros(self.krr_capacity, device=device, dtype=torch.long)
+                self.krr_step = torch.zeros(self.krr_capacity, device=device, dtype=torch.long)
+        else:
+            self.krr_keys = self.krr_keys.to(device=device, dtype=dir_dtype)
+            self.krr_vals = self.krr_vals.to(device=device, dtype=dir_dtype)
+            self.krr_sub_k = self.krr_sub_k.to(device=device)
+            self.krr_step = self.krr_step.to(device=device)
+
+        if self.subspace_birth_debias and self.spike_slab_scale > 0.0 and aug_dim > 0:
+            expected_rc = (dimension, aug_dim, aug_dim)
+            if self.row_cov_inv.numel():
+                if tuple(self.row_cov_inv.shape) != expected_rc:
+                    raise ValueError("GAIL row_cov_inv shape differs from bound configuration")
+                self.row_cov_inv = self.row_cov_inv.to(device=device, dtype=torch.float64)
+            else:
+                base_eye = (1.0 / self.assoc_ridge) * torch.eye(aug_dim, device=device, dtype=torch.float64)
+                self.row_cov_inv = base_eye.unsqueeze(0).repeat(dimension, 1, 1)
+        else:
+            self.row_cov_inv = self.row_cov_inv.to(device=device, dtype=dir_dtype)
 
         if self.schedule_free_beta > 0.0:
             model = self._generator()
@@ -425,15 +549,17 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         return math.exp(-min(ratio * ratio, 80.0))
 
     @torch.no_grad()
-    def _prior_mean(self, context: torch.Tensor) -> torch.Tensor:
-        """Compute precision-gated spike-and-slab prior mean for one 1D context."""
+    def _prior_mean_with_branch(
+        self, context: torch.Tensor, *, forced_branch: int | None = None
+    ) -> tuple[torch.Tensor, int]:
+        """Compute precision-gated spike-and-slab prior mean and active prototype branch."""
         c64 = context.detach().to(device=self.assoc_weights.device, dtype=torch.float64)
         cbar = torch.cat((c64, c64.new_ones(1)), dim=0)
         z_lin = self.assoc_weights @ cbar
         m_count = int(self.feature_count.item())
         updates = int(self.assoc_updates.item())
         if m_count == 0 or updates <= c64.numel():
-            return z_lin
+            return z_lin, -1
         d_z = z_lin.numel()
         eye = torch.eye(d_z, device=z_lin.device, dtype=torch.float64)
         s_reg = 0.5 * (self.residual_cov + self.residual_cov.t()) + self.covariance_eps * eye
@@ -441,16 +567,48 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         diff = protos - z_lin.unsqueeze(0)
         solved = torch.linalg.solve(s_reg, diff.t()).t()
         maha = (diff * solved).sum(dim=-1).clamp_min(0.0)
-        best = int(maha.argmin().item())
+        branch = (
+            int(maha.argmin().item())
+            if forced_branch is None or forced_branch < 0 or forced_branch >= m_count
+            else forced_branch
+        )
         disc_gate = self._disc_gate()
         slab_var = self.spike_slab_scale * self.spike_slab_scale
         log_bf = (
             0.5 * float((torch.linalg.slogdet(s_reg + slab_var * eye)[1] - torch.linalg.slogdet(s_reg)[1]).item())
-            - 0.5 * float(maha[best].item())
+            - 0.5 * float(maha[branch].item())
         )
         slab_gate = 1.0 / (1.0 + math.exp(-max(min(log_bf, 60.0), -60.0)))
         beta = disc_gate * slab_gate
-        return (1.0 - beta) * z_lin + beta * protos[best]
+        return (1.0 - beta) * z_lin + beta * protos[branch], branch
+
+    @torch.no_grad()
+    def _prior_mean(self, context: torch.Tensor) -> torch.Tensor:
+        """Compute precision-gated spike-and-slab prior mean for one 1D context."""
+        return self._prior_mean_with_branch(context)[0]
+
+    @torch.no_grad()
+    def causal_dirichlet_precision(self, target: torch.Tensor) -> float:
+        """Empirical-Bayes smoothness precision separating spatially constant vs structured streams."""
+        t_row = target[:, :, 1:, :] - target[:, :, :-1, :]
+        t_col = target[:, :, :, 1:] - target[:, :, :, :-1]
+        e_now = 0.5 * (float(t_row.square().mean().item()) + float(t_col.square().mean().item()))
+        e_ema = float(self.dirichlet_ema.item()) if int(self.dirichlet_steps.item()) > 0 else e_now
+        e_eff = max(e_now, e_ema)
+        return 1.0 / (1.0 + e_eff / (self.sobolev_sigma * self.sobolev_sigma))
+
+    @staticmethod
+    def _fisher_sobolev_seminorm(generated: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+        """Bernoulli-Fisher preconditioned discrete Sobolev H^1 spatial gradient seminorm."""
+        t_row = target[:, :, 1:, :] - target[:, :, :-1, :]
+        t_col = target[:, :, :, 1:] - target[:, :, :, :-1]
+        with torch.no_grad():
+            slope = (generated.detach() * (1.0 - generated.detach())).clamp_min(0.0)
+            w_row = 0.25 / (0.5 * (slope[:, :, 1:, :] + slope[:, :, :-1, :]) + 0.015)
+            w_col = 0.25 / (0.5 * (slope[:, :, :, 1:] + slope[:, :, :, :-1]) + 0.015)
+        d_row = (generated[:, :, 1:, :] - generated[:, :, :-1, :]) - t_row
+        d_col = (generated[:, :, :, 1:] - generated[:, :, :, :-1]) - t_col
+        return 0.5 * ((w_row * d_row.square()).mean() + (w_col * d_col.square()).mean())
 
     def _active_quantile_indices(self, counts: torch.Tensor, idx: torch.Tensor, num_particles: int):
         total = counts.sum()
@@ -475,9 +633,22 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             raise RuntimeError("a GAIL-prior update is already active")
         self._pending_reward = self._pending_style = self._pending_gain = None
         self._pending_basis_row = self._pending_basis_gain = None
+        self._pending_dirichlet_energy = None
         try:
             with CompetitiveReconstruction.training_target(self, frame):
                 self._pending_context = self._current_context()
+                if (
+                    self.sobolev_weight > 0.0
+                    or self.dirichlet_bypass_weight > 0.0
+                    or self.boundary_quartic_gain > 0.0
+                    or self.dirichlet_c_boost > 0.0
+                ):
+                    with torch.no_grad():
+                        t_row = frame[:, :, 1:, :] - frame[:, :, :-1, :]
+                        t_col = frame[:, :, :, 1:] - frame[:, :, :, :-1]
+                        self._pending_dirichlet_energy = 0.5 * (
+                            float(t_row.square().mean().item()) + float(t_col.square().mean().item())
+                        )
                 if self.subspace_dims > 0:
                     cand = self._candidate_innovation(frame)
                     if cand is not None:
@@ -489,6 +660,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             self._pending_context = self._pending_feature = None
             self._pending_reward = self._pending_style = self._pending_gain = None
             self._pending_basis_row = self._pending_basis_gain = None
+            self._pending_dirichlet_energy = None
 
     def transform(self, codes, idx=None, *, base_prior, generator=None, training=True):
         if idx is None:
@@ -501,14 +673,86 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
 
         if self.spike_slab_scale > 0.0 and context.numel() > 0:
             updates = int(self.assoc_updates.item())
+            c_dim = context.numel()
+            if self.krr_capacity > 0:
+                k_cnt = int(self.krr_count.item())
+                if updates == 0 or k_cnt == 0:
+                    return codes
+                with torch.no_grad():
+                    z_ctx, branch_c = self._prior_mean_with_branch(context)
+                    g_disc = self._disc_gate()
+                    z_base = z_ctx
+                    if self.residual_kernel == "matern32_krr" and updates > c_dim and (1.0 - g_disc) > 1e-6:
+                        if self.subspace_birth_debias:
+                            now_k = int(self.subspace_count.item())
+                            valid = self.krr_sub_k[:k_cnt] >= now_k
+                            if int(valid.sum().item()) > c_dim:
+                                keys64 = self.krr_keys[:k_cnt, :c_dim][valid]
+                                vals64 = self.krr_vals[:k_cnt][valid]
+                            else:
+                                keys64 = self.krr_keys[:k_cnt, :c_dim]
+                                vals64 = self.krr_vals[:k_cnt]
+                        else:
+                            keys64 = self.krr_keys[:k_cnt, :c_dim]
+                            vals64 = self.krr_vals[:k_cnt]
+                        n_pts = len(keys64)
+                        c64 = context.detach().to(device=keys64.device, dtype=torch.float64)
+                        k_aug = torch.cat((keys64, keys64.new_ones(n_pts, 1)), dim=-1)
+                        res_keys = vals64 - (k_aug @ self.assoc_weights.t())
+                        s3 = math.sqrt(3.0)
+                        pw = s3 * torch.cdist(keys64, keys64) / self.residual_bandwidth
+                        k_mat = (1.0 + pw) * torch.exp(-pw.clamp_max(80.0))
+                        alpha = torch.linalg.solve(
+                            k_mat + self.residual_ridge * torch.eye(n_pts, device=keys64.device, dtype=torch.float64),
+                            res_keys,
+                        )
+                        dc = s3 * torch.linalg.vector_norm(keys64 - c64.unsqueeze(0), dim=-1) / self.residual_bandwidth
+                        k_vec = (1.0 + dc) * torch.exp(-dc.clamp_max(80.0))
+                        z_base = z_ctx + (1.0 - g_disc) * (k_vec @ alpha)
+
+                    bucket = self._lookup_context(context, require_match=False)
+                    if bucket is None:
+                        return z_base.to(codes).unsqueeze(0) + perturbation
+                    counts = self.context_outcomes[bucket]
+                    features = self._active_quantile_indices(counts, idx, base_prior.num_particles)
+                    if features is None:
+                        return z_base.to(codes).unsqueeze(0) + perturbation
+                    empirical = self.feature_centroids[features].to(dtype=torch.float64)
+                    key = self.context_keys[bucket]
+                    dist_sq = float((context.double() - key.double()).square().sum().item())
+                    kernel = math.exp(-min(dist_sq / (self.kernel_bandwidth * self.kernel_bandwidth), 80.0))
+                    excess_visits = max(int(self.context_visits[bucket].item()) - 1, 0)
+                    visit_gate = (
+                        1.0
+                        if self.visit_shrinkage == 0.0 and excess_visits > 0
+                        else excess_visits / (excess_visits + self.visit_shrinkage)
+                        if excess_visits > 0
+                        else 0.0
+                    )
+                    gamma = visit_gate * g_disc * kernel
+                    if gamma <= 1e-8:
+                        return z_base.to(codes).unsqueeze(0) + perturbation
+                    if (
+                        self.consistent_fork_branch
+                        and updates > 2 * c_dim
+                        and int(self.feature_count.item()) < len(self.feature_centroids)
+                        and g_disc > 0.5
+                        and int((counts > 0).sum().item()) >= 2
+                    ):
+                        z_key, _ = self._prior_mean_with_branch(key, forced_branch=branch_c)
+                    else:
+                        z_key = self._prior_mean(key)
+                    combined = z_base.unsqueeze(0) + gamma * (empirical - z_key.unsqueeze(0))
+                    return combined.to(codes) + perturbation
+
             b_count = int(self.context_count.item())
             if updates == 0 or b_count == 0:
                 return codes
             with torch.no_grad():
-                z_ctx = self._prior_mean(context)
+                z_ctx, branch_c = self._prior_mean_with_branch(context)
                 g_disc = self._disc_gate()
                 z_base = z_ctx
-                if self.residual_kernel != "none" and updates > context.numel() and (1.0 - g_disc) > 1e-6:
+                if self.residual_kernel != "none" and updates > c_dim and (1.0 - g_disc) > 1e-6:
                     keys64 = self.context_keys[:b_count].to(dtype=torch.float64)
                     c64 = context.detach().to(device=keys64.device, dtype=torch.float64)
                     k_aug = torch.cat((keys64, keys64.new_ones(b_count, 1)), dim=-1)
@@ -539,8 +783,9 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 bucket = self._lookup_context(context, require_match=False)
                 if bucket is None:
                     return z_base.to(codes).unsqueeze(0) + perturbation
+                counts = self.context_outcomes[bucket]
                 features = self._active_quantile_indices(
-                    self.context_outcomes[bucket], idx, base_prior.num_particles
+                    counts, idx, base_prior.num_particles
                 )
                 if features is None:
                     return z_base.to(codes).unsqueeze(0) + perturbation
@@ -559,7 +804,16 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 gamma = visit_gate * g_disc * kernel
                 if gamma <= 1e-8:
                     return z_base.to(codes).unsqueeze(0) + perturbation
-                z_key = self._prior_mean(key)
+                if (
+                    self.consistent_fork_branch
+                    and updates > 2 * c_dim
+                    and int(self.feature_count.item()) < len(self.feature_centroids)
+                    and g_disc > 0.5
+                    and int((counts > 0).sum().item()) >= 2
+                ):
+                    z_key, _ = self._prior_mean_with_branch(key, forced_branch=branch_c)
+                else:
+                    z_key = self._prior_mean(key)
                 combined = z_base.unsqueeze(0) + gamma * (empirical - z_key.unsqueeze(0))
                 return combined.to(codes) + perturbation
 
@@ -599,7 +853,30 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         return selected_centers + perturbation
 
     def regularize(self, raw_rows, *, sampled_codes=None, indices=None, generated=None, logits=None):
-        anchor_loss = super().regularize(raw_rows, generated=generated)
+        raw_anchor = super().regularize(raw_rows, generated=generated)
+        has_dirichlet = (
+            self.sobolev_weight > 0.0
+            or self.dirichlet_bypass_weight > 0.0
+            or self.boundary_quartic_gain > 0.0
+        )
+        alpha_dir = 0.0
+        if has_dirichlet and self._target is not None and generated is not None:
+            alpha_dir = self.causal_dirichlet_precision(self._target)
+            if alpha_dir > 1e-6:
+                with torch.no_grad():
+                    t_bar = float(self._target.mean().item())
+                    w_bnd = 1.0 + self.boundary_quartic_gain * ((2.0 * t_bar - 1.0) ** 4)
+                bce_scale = (1.0 - alpha_dir) + alpha_dir * w_bnd
+                anchor_loss = bce_scale * raw_anchor
+                if self.sobolev_weight > 0.0:
+                    anchor_loss = anchor_loss + (alpha_dir * self.sobolev_weight) * self._fisher_sobolev_seminorm(
+                        generated, self._target
+                    )
+            else:
+                anchor_loss = raw_anchor
+        else:
+            anchor_loss = raw_anchor
+
         if logits is None:
             if self.style_bonus_weight == 0.0 and not self.cancel_linear_gan:
                 total = anchor_loss
@@ -610,27 +887,48 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 raise ValueError("GAIL style regularization requires finite floating critic logits")
             style_bonus = torch.sigmoid(logits).mean()
             gain = self._causal_advantage_gain()
-            total = anchor_loss - (self.style_bonus_weight * gain) * style_bonus
+            style_gate = (
+                max(self._disc_gate(), alpha_dir)
+                if (self.disc_gate_style and int(self.assoc_updates.item()) > 0 and self.spike_slab_scale > 0.0)
+                else 1.0
+            )
+            eff_style_weight = self.style_bonus_weight * style_gate
+            total = anchor_loss - (eff_style_weight * gain) * style_bonus
             if self.cancel_linear_gan:
                 total = total + logits.mean() / self.penalty_weight
             with torch.no_grad():
-                survival = math.exp(-min(50.0, float(anchor_loss.detach().item())))
+                survival = math.exp(-min(50.0, float(raw_anchor.detach().item())))
                 style_val = float(style_bonus.detach().item())
-                self._pending_reward = survival + self.style_bonus_weight * style_val
+                self._pending_reward = survival + eff_style_weight * style_val
                 self._pending_style = style_val
                 self._pending_gain = gain
-        if self.context_bypass_weight > 0.0 and self.penalty_weight > 0.0:
+        eff_cbw = self.context_bypass_weight + (alpha_dir * self.dirichlet_bypass_weight if alpha_dir > 1e-6 else 0.0)
+        if eff_cbw > 0.0 and self.penalty_weight > 0.0:
             model = self._generator()
             fc = getattr(model, "fc", None)
             z_dim = int(getattr(model, "z_dim", 0))
             c_dim = int(getattr(model, "context_dim", 0))
             if c_dim > 0 and isinstance(fc, nn.Linear) and fc.weight.shape[1] == z_dim + c_dim:
                 w_ctx = fc.weight[:, z_dim:]
-                total = total + (self.context_bypass_weight / self.penalty_weight) * w_ctx.square().sum()
+                total = total + (eff_cbw / self.penalty_weight) * w_ctx.square().sum()
         return total
 
     @torch.no_grad()
     def _commit_observation(self, context, feature):
+        born_k = int(self.subspace_count.item()) if self._pending_basis_row is not None else -1
+        prev_w = (
+            self.assoc_weights.clone()
+            if self.subspace_birth_debias and self.assoc_weights.numel() > 0
+            else None
+        )
+        if self._pending_dirichlet_energy is not None:
+            e_grad = float(self._pending_dirichlet_energy)
+            if int(self.dirichlet_steps.item()) == 0:
+                self.dirichlet_ema.fill_(e_grad)
+            else:
+                self.dirichlet_ema.mul_(0.9).add_(0.1 * e_grad)
+            self.dirichlet_steps.add_(1)
+
         k = int(self.subspace_count.item())
         if self._pending_basis_row is not None and k < self.subspace_dims:
             self.subspace_basis[k].copy_(self._pending_basis_row)
@@ -702,6 +1000,42 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             q_err = (feature.double() - proto64).square().sum()
             self.quantization_ema.mul_(1.0 - self.covariance_ema).add_(q_err, alpha=self.covariance_ema)
 
+        now_k = int(self.subspace_count.item())
+        if self.subspace_birth_debias and prev_w is not None and self.row_cov_inv.numel() > 0:
+            d_z = self.assoc_weights.shape[0]
+            if 0 <= born_k < self.subspace_dims:
+                prev_w[born_k].zero_()
+                self.row_cov_inv[born_k].copy_(
+                    (1.0 / self.assoc_ridge) * torch.eye(len(aug), device=aug.device, dtype=torch.float64)
+                )
+            for row_i in range(d_z):
+                if row_i < self.subspace_dims and row_i >= now_k:
+                    self.assoc_weights[row_i].zero_()
+                    continue
+                cov_i = self.row_cov_inv[row_i]
+                p_aug_i = cov_i @ aug
+                denom_i = 1.0 + float((aug @ p_aug_i).clamp_min(0.0).item())
+                kalman_i = p_aug_i / denom_i
+                res_i = float(feature[row_i].double().item()) - float((prev_w[row_i] @ aug).item())
+                self.assoc_weights[row_i].copy_(prev_w[row_i] + res_i * kalman_i)
+                cov_i_raw = cov_i - torch.outer(kalman_i, p_aug_i)
+                if self.assoc_forgetting < 1.0:
+                    p0 = (1.0 / self.assoc_ridge) * torch.eye(len(aug), device=aug.device, dtype=torch.float64)
+                    cov_i_raw = self.assoc_forgetting * cov_i_raw + (1.0 - self.assoc_forgetting) * p0
+                self.row_cov_inv[row_i].copy_(0.5 * (cov_i_raw + cov_i_raw.t()))
+
+        if self.krr_capacity > 0:
+            cnt = int(self.krr_count.item())
+            c64 = context.detach().to(device=self.krr_keys.device, dtype=torch.float64)
+            z64 = feature.detach().to(device=self.krr_vals.device, dtype=torch.float64)
+            slot = cnt if cnt < self.krr_capacity else int(self.krr_step.argmin().item())
+            if cnt < self.krr_capacity:
+                self.krr_count.add_(1)
+            self.krr_keys[slot, : len(c64)].copy_(c64)
+            self.krr_vals[slot].copy_(z64)
+            self.krr_sub_k[slot].fill_(now_k)
+            self.krr_step[slot].copy_(self.assoc_updates)
+
     def diagnostics(self):
         result = super().diagnostics()
         k = int(self.subspace_count.item())
@@ -716,6 +1050,9 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             assoc_updates=int(self.assoc_updates.item()),
             subspace_count=k,
             subspace_gains=self.subspace_gains[:k].detach().cpu().tolist(),
+            krr_count=int(self.krr_count.item()),
+            dirichlet_steps=int(self.dirichlet_steps.item()),
+            dirichlet_ema=float(self.dirichlet_ema.item()),
             schedule_free_steps=int(self.sf_steps.item()),
             return_trace=float(self.return_trace.item()),
             return_mean=float(self.return_mean.item()),
@@ -742,6 +1079,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 or self._pending_reward is not None
                 or self._pending_basis_row is not None
                 or self._pending_basis_gain is not None
+                or self._pending_dirichlet_energy is not None
             ),
         )
         return result

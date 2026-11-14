@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 9561088,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 1536,
-      "evaluation_seconds": 1.4573878740193322,
+      "evaluation_seconds": 1.4660583715885878,
       "generator_parameters": 6385,
       "optimizer_updates": 480,
-      "process_peak_rss_kib": 2698736,
+      "process_peak_rss_kib": 2722956,
       "serving_d_forwards": 0,
       "serving_g_forwards": 480,
-      "training_and_evaluation_seconds": 8.44402918999549,
+      "training_and_evaluation_seconds": 8.497118203900754,
       "training_d_forwards": 2880,
       "training_g_forwards": 960
     },
@@ -104,8 +104,8 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "gail_prior.py": "ad59401a8a39d7150f90f9703b7cba367f6e31fb34cddd733ca3ccffb7cdb29a",
-      "memory.py": "49ef7298823edb69d729bbbd7ff244471d7475894310922a0a472ea8d04f0f79",
+      "gail_prior.py": "8c5ec8b58c58a8bd5b74aba97eaee16bde1affd54e653ca8d743bda704142248",
+      "memory.py": "080ab5e3e8f35d1bb060c86044d894fb909351f6e2faec609e824f2e5a1f8232",
       "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
       "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
@@ -117,7 +117,7 @@
       "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
-      "transport.py": "2f976af63532647dd035808a461c84a60ccd2bbf39b1c6e27220fb0e6a329845"
+      "transport.py": "4f197f15b3e8a8d181da1034e5b810cdf9f8c26e8deb0a2a9760f15cb5e3d856"
     },
     "memory_policy": {
       "decay": 0.9,
@@ -327,17 +327,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "cfadc3d31fc6011c01047165d6f2950d5c2c48fef2ac8b7cd9a0791e5f32a3f2"
+    "task_fingerprint": "f0247180e01c5883f99aa6e1b638b42d2064e769adc9c4e4a1ca4b00b26dbaf7"
   },
   "candidate_fingerprint": "231f209dd7dbdd3d067596f4c0d0842ed36a2a1135190e924445869f8fab17fa",
   "candidate_id": "online-ka2-ready",
-  "cohort_key": "82896212e0cef2f39bd9dc0e6223a33f5f3080bd1cbb2054597c29e53567f5a6",
-  "completed_at": "2026-11-13T09:10:59.858+00:00",
+  "cohort_key": "45d0b460228654afc2ab49fb263202098ac8387c2c383867581ee10cdc00d46d",
+  "completed_at": "2026-11-13T23:15:38.006+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 10.6079
+    "wall_seconds": 10.6399
   },
   "device": "cuda",
   "error": null,
@@ -854,11 +854,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "cfadc3d31fc6011c01047165d6f2950d5c2c48fef2ac8b7cd9a0791e5f32a3f2",
+  "task_fingerprint": "f0247180e01c5883f99aa6e1b638b42d2064e769adc9c4e4a1ca4b00b26dbaf7",
   "task_id": "seq_robotics_fetch_push",
   "technique": "KA2",
   "terminal_passing": 0,
-  "timestamp": "2026-11-13T09:10:59.858+00:00",
+  "timestamp": "2026-11-13T23:15:38.006+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

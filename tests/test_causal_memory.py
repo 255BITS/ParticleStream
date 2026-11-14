@@ -175,10 +175,49 @@ def test_invalid_observations_fail_without_mutation(frame):
 
 @pytest.mark.parametrize("settings", [{"dim": 1}, {"age_horizon": 0}, {"decay": 1},
                                      {"context_scale": float("nan")}, {"contrast_threshold": -.01},
-                                     {"normalize_key": "yes"}, {"key_gain": 0.0}, {"key_gain": True}])
+                                     {"normalize_key": "yes"}, {"key_gain": 0.0}, {"key_gain": True},
+                                     {"prev_val_weight": -0.1}, {"prev_val_weight": True},
+                                     {"prev_val_weight": float("nan")}])
 def test_invalid_policy_settings_fail(settings):
     with pytest.raises(ValueError):
         CausalStateMemory(**settings)
+
+
+def test_prev_val_weight_retains_preceding_frame_orthogonally_without_new_parameters():
+    legacy = make_stream_memory({"kind": "fast_weight", "dim": 16})
+    mem_pv = make_stream_memory({
+        "kind": "fast_weight",
+        "dim": 16,
+        "reader": "causal_state",
+        "association_weight": 0.0,
+        "normalize_key": False,
+        "key_gain": 0.5,
+        "prev_val_weight": 1.0,
+    })
+    _init_module(mem_pv, NamedStreams(seed=0), "memory")
+    assert {name: tuple(v.shape) for name, v in legacy.named_parameters()} == {
+        name: tuple(v.shape) for name, v in mem_pv.named_parameters()
+    }
+    state_a = torch.full((1, 1, 8, 8), 0.5)
+    state_a[:, :, :2, :] = 0.9
+    state_b = torch.full((1, 1, 8, 8), 0.5)
+    state_b[:, :, 4:6, :] = 0.1
+    action = torch.full((1, 1, 8, 8), 0.5)
+    action[:, :, 6:8, :2] = 0.8
+
+    mem_pv.reset_state()
+    _ = mem_pv.write(state_a)
+    saved = {k: v.clone() for k, v in mem_pv.state_dict().items()}
+    preview_a = mem_pv.read_context(action)
+    assert all(torch.equal(v, mem_pv.state_dict()[k]) for k, v in saved.items())
+    ctx_after_a = mem_pv.write(action)
+    assert torch.equal(preview_a, ctx_after_a)
+
+    mem_pv.reset_state()
+    assert torch.count_nonzero(mem_pv.prev_val) == 0
+    _ = mem_pv.write(state_b)
+    ctx_after_b = mem_pv.write(action)
+    assert (ctx_after_a - ctx_after_b).norm() > 0.5
 
 
 def test_linear_key_mode_preserves_additive_superposition_and_gates_distractors():

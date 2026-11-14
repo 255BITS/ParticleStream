@@ -115,6 +115,20 @@ def assignments(codes, router, frames):
         {"schedule_free_poly_k": 0.0},
         {"schedule_free_c_min": -0.01},
         {"schedule_free_c_min": 1.1},
+        {"krr_capacity": -1},
+        {"krr_capacity": 4096},
+        {"krr_capacity": True},
+        {"krr_capacity": 64, "residual_kernel": "none", "spike_slab_scale": 1.0, "assoc_ridge": 0.1},
+        {"subspace_birth_debias": "yes"},
+        {"subspace_birth_debias": True, "spike_slab_scale": 0.0},
+        {"consistent_fork_branch": 1},
+        {"sobolev_weight": -1.0},
+        {"sobolev_weight": True},
+        {"sobolev_sigma": 0.0},
+        {"dirichlet_bypass_weight": -0.5},
+        {"boundary_quartic_gain": -0.1},
+        {"dirichlet_c_boost": -0.01},
+        {"dirichlet_c_boost": 1.2},
         {"reconstruction_weight": 0.0, "cancel_linear_gan": True},
     ],
 )
@@ -527,4 +541,97 @@ def test_schedule_free_primal_dual_averaging_and_transactional_session_isolation
     for key, val in trainer.transport.state_dict().items():
         if isinstance(val, torch.Tensor):
             assert torch.equal(val, saved_transport[key])
+
+
+def test_debiased_subspace_unbucketed_krr_and_consistent_fork_branch():
+    model, router, prior = make_gail_prior(
+        context_dim=2,
+        feature_scale=2.1,
+        feature_tolerance=0.15,
+        assoc_ridge=0.08,
+        spike_slab_scale=1.0,
+        subspace_dims=6,
+        subspace_abs_tol=0.008,
+        subspace_rel_tol=0.055,
+        subspace_nu0=0.10,
+        residual_kernel="matern32_krr",
+        residual_bandwidth=0.72,
+        residual_ridge=0.025,
+        krr_capacity=64,
+        subspace_birth_debias=True,
+        consistent_fork_branch=True,
+        disc_gate_style=True,
+    )
+    assert router.assoc_extrapolation_law == "debiased_subspace_rls_spike_slab_unbucketed_matern32_krr_v1"
+    assert router.disc_gate_style is True
+    frames = bars4_templates()
+    # Observe only 1 orthogonal template for 6 steps: subspace_count == 1, so rows 1..5 stay strictly zero-debiased
+    for step_i in range(6):
+        model.active_context.copy_(torch.tensor([[0.1 * step_i, -0.2]]))
+        observe_gail(router, prior, frames[0:1])
+    assert int(router.subspace_count.item()) == 1
+    assert torch.count_nonzero(router.assoc_weights[1:6]) == 0
+    assert int(router.krr_count.item()) == 6
+
+    # Introduce a second orthogonal template at step 7: row 1 initializes fresh at birth without pre-birth zero shrinkage
+    model.active_context.copy_(torch.tensor([[1.0, 0.5]]))
+    observe_gail(router, prior, frames[1:2])
+    assert int(router.subspace_count.item()) == 2
+    assert torch.count_nonzero(router.assoc_weights[1]) > 0
+    assert torch.count_nonzero(router.assoc_weights[2:6]) == 0
+    diag = router.diagnostics()
+    assert diag["krr_count"] == 7
+    assert diag["observation_state_retained"] is False
+
+
+def test_dirichlet_precision_fisher_sobolev_gates_constant_vs_structured_frames():
+    model, router, prior = make_gail_prior(
+        context_dim=4,
+        reconstruction_weight=100.0,
+        style_bonus_weight=0.002,
+        advantage_scale=0.0,
+        context_bypass_weight=5.0,
+        sobolev_weight=36.0,
+        sobolev_sigma=1e-7,
+        dirichlet_bypass_weight=55.0,
+        boundary_quartic_gain=0.85,
+        dirichlet_c_boost=0.02,
+        schedule_free_beta=0.88,
+    )
+    assert router.gail_style_law == "dirichlet_sobolev_quartic_survival_sigmoid_style_hinge_cancel_v1"
+    assert router.schedule_free_law == "dirichlet_gated_primal_dual_polynomial_schedule_free_v1"
+
+    const_frame = torch.full((1, 1, 8, 8), 0.9)
+    assert router.causal_dirichlet_precision(const_frame) == pytest.approx(1.0, rel=1e-9)
+    structured_frame = bars4_templates()[0:1]
+    assert router.causal_dirichlet_precision(structured_frame) < 1e-7
+
+    # Constant-field update activates Fisher-Sobolev ripple suppression and commits dirichlet_steps == 1
+    rippled = const_frame.clone()
+    rippled[:, :, ::2, ::2] = 0.7
+    rippled = rippled.requires_grad_(True)
+    with router.training_target(const_frame):
+        prior.sample(1, generator=torch.Generator().manual_seed(0))
+        prior.sample(1, generator=torch.Generator().manual_seed(0))
+        loss = prior.regularize(
+            prior.z,
+            generated=rippled,
+            logits=torch.tensor([[0.0]], requires_grad=True),
+        )
+        (grad_gen,) = torch.autograd.grad(loss, rippled)
+        assert torch.isfinite(grad_gen).all() and float(grad_gen.abs().max().item()) > 1.0
+    assert int(router.dirichlet_steps.item()) == 1
+    assert float(router.dirichlet_ema.item()) == 0.0
+
+    # Aborted structured step rolls back dirichlet_ema and dirichlet_steps cleanly
+    saved = deepcopy(router.state_dict())
+    with pytest.raises(RuntimeError, match="abort dirichlet"):
+        with router.training_target(structured_frame):
+            prior.sample(1, generator=torch.Generator().manual_seed(0))
+            prior.sample(1, generator=torch.Generator().manual_seed(0))
+            raise RuntimeError("abort dirichlet")
+    for k, v in router.state_dict().items():
+        if isinstance(v, torch.Tensor):
+            assert torch.equal(v, saved[k])
+
 

@@ -82,6 +82,8 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
         "online-gail-bcap-snr",
         "online-gail-bcap-subspace",
         "online-gail-bcap-schedule-free",
+        "online-gail-bcap-debiased-krr",
+        "online-gail-bcap-dirichlet-sobolev",
     ):
         result = workspace.qualify(candidate_id, view.id, device="cuda")
         assert result["status"] == "PASS" and result["eligible"] is True, candidate_id
@@ -162,6 +164,41 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
         "seq_robotics_fetch_pick_and_place",
     ):
         assert sf_stretch[stretch_pass_id]["status"] == "PASS", stretch_pass_id
+
+    dkrr_result = workspace.qualify("online-gail-bcap-debiased-krr", view.id, device="cuda")
+    dkrr_stretch = {
+        tid: outcome
+        for tier in dkrr_result["tiers"].values()
+        for tid, outcome in tier["tasks"].items()
+        if outcome["importance"] == "stretch"
+    }
+    for stretch_pass_id in (
+        "seq_minimal_dense4",
+        "seq_minimal_tokens4",
+        "seq_minimal_addition2bit",
+        "seq_robotics_fetch_reach",
+        "seq_robotics_fetch_pick_and_place",
+        "seq_robotics_fetch_slide",
+    ):
+        assert dkrr_stretch[stretch_pass_id]["status"] == "PASS", stretch_pass_id
+
+    dsob_result = workspace.qualify("online-gail-bcap-dirichlet-sobolev", view.id, device="cuda")
+    dsob_stretch = {
+        tid: outcome
+        for tier in dsob_result["tiers"].values()
+        for tid, outcome in tier["tasks"].items()
+        if outcome["importance"] == "stretch"
+    }
+    for stretch_pass_id in (
+        "seq_minimal_dense4",
+        "seq_minimal_tokens4",
+        "seq_minimal_addition2bit",
+        "seq_minimal_kernel2x2",
+        "seq_robotics_fetch_reach",
+        "seq_robotics_fetch_pick_and_place",
+        "seq_robotics_fetch_slide",
+    ):
+        assert dsob_stretch[stretch_pass_id]["status"] == "PASS", stretch_pass_id
 
 
 def test_subspace_prior_recipes_qualify_all_ten_required_and_advance_stretch_frontier():

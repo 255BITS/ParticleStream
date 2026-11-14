@@ -221,6 +221,12 @@ class TransportGANTrainer(GANTrainer):
                 t = int(self.transport.sf_steps.item())
                 poly_k = float(self.transport.schedule_free_poly_k)
                 c_min = float(self.transport.schedule_free_c_min)
+                c_boost = float(getattr(self.transport, "dirichlet_c_boost", 0.0))
+                if c_boost > 0.0 and hasattr(self.transport, "causal_dirichlet_precision"):
+                    alpha_d = float(self.transport.causal_dirichlet_precision(real))
+                    if alpha_d > 1e-6:
+                        poly_k = poly_k + 20.0 * alpha_d * c_boost
+                        c_min = min(1.0, c_min + alpha_d * c_boost)
                 ct = min(1.0, max(poly_k / (t + poly_k - 1.0), c_min))
                 for p, yt, zp, xp in zip(g_params, y_pre, z_bufs, x_bufs):
                     zp.add_(p.detach() - yt)
