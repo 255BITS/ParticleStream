@@ -1,5 +1,279 @@
 # ParticleStream research notes
 
+## `GAIL-BCAP` Frontier 4 (`online-gail-bcap-debiased-krr` & `online-gail-bcap-dirichlet-sobolev`) and 860-Run View 10 Qualification, 2026-11-13
+
+Extended the `GAIL-BCAP` single-factor ladder (`particlestream/memory.py`,
+`particlestream/gail_prior.py`, `particlestream/transport.py`) with two explicit global recipes
+branching from `online-gail-bcap-schedule-free` under the strict `batch_size=1`,
+`replay_policy="none"`, `rehearsal_batch=0`, `seed=0` online protocol:
+
+- **`online-gail-bcap-debiased-krr`** (parent `online-gail-bcap-schedule-free`):
+  1. **Orthogonal Previous-Frame Value Readout in `CausalStateMemory`** (`prev_val_weight=1.0`):
+     augments the detached causal context reader with the previous step's fixed orthogonal value
+     projection $v_{t-1} = s_{t-1} W_v \tilde x_{t-1}$, disambiguating pre-impact state-action
+     histories from post-impact sliding states without adding trainable `nn.Parameter` tensors or
+     storing frames.
+  2. **Pre-Birth Subspace Zero-Debiasing & Unbucketed 512-Point Matérn-3/2 KRR** (`subspace_birth_debias=True`,
+     `subspace_rel_tol=0.055`, `assoc_ridge=0.08`, `krr_capacity=512`, `residual_bandwidth=0.72`,
+     `residual_ridge=0.025`): maintains per-coordinate `float64` Sherman-Morrison inverse-Gram
+     matrices $P_{t,r}$ that initialize fresh at subspace row birth ($k_t > k_{t-1}$) rather than
+     accumulating pre-birth zero shrinkage, and solves Matérn-3/2 KRR over up to $512$ unbucketed
+     post-birth `(context, latent)` pairs (`0` stored frames) instead of collapsing trajectories into
+     `context_tolerance=0.25` cluster centroids.
+  3. **Consistent Discrete-Fork Branch Anchoring & Discreteness-Gated Style Bonus**
+     (`consistent_fork_branch=True`, `disc_gate_style=True`, `betas=[0.0, 0.95]`, `lr=0.016`,
+     `lr_decay_rate=0.58`, `schedule_free_poly_k=2.4`, `schedule_free_c_min=0.005`): evaluates the
+     residual quantile control variate with the same discrete/continuous operator as the query context
+     (eliminating systematic shift on `seq_img_fork_rollout`, `branch_tv = 0.0000`) while gating
+     effective adversarial style weight by $\max(g_{\mathrm{disc},t}, \alpha_{\mathrm{dir},t})$ so
+     single-sample critic slopes retain full crispness on discrete/multimodal and constant-field
+     streams while eliminating `1–1.5 mm` adversarial bias on continuous unimodal physics.
+- **`online-gail-bcap-dirichlet-sobolev`** (parent `online-gail-bcap-debiased-krr`): strict
+  single-factor spatial-regularization delta adding causal Empirical-Bayes Dirichlet-precision gated
+  ($\alpha_{\mathrm{dir},t} = (1 + \max(E_\nabla(x_t), \bar E_{\nabla,t-1})/\sigma_\nabla^2)^{-1}$,
+  $\sigma_\nabla = 10^{-7}$) Fisher-Sobolev $H^1$ seminorm (`sobolev_weight=36.0`), quartic extremal
+  boundary logit calibration (`boundary_quartic_gain=0.85`), Dirichlet Markov context-bypass shrinkage
+  (`dirichlet_bypass_weight=55.0`), and Schedule-Free polynomial/floor boost (`dirichlet_c_boost=0.02`,
+  restoring $k_{\mathrm{sf}}=2.8$ and $c_{\min}=0.025$ when $\alpha_{\mathrm{dir},t}=1$). Because
+  $\alpha_{\mathrm{dir},t}=1$ on spatially constant fields ($E_\nabla(x_t)=0$) and
+  $\alpha_{\mathrm{dir},t} < 10^{-7}$ on every spatially structured task, it suppresses $2\times 2$
+  transposed-convolution ripple and context-bypass overfitting on `seq_minimal_kernel2x2` with zero
+  perturbation across all 19 other tasks.
+
+Fresh source-bound CUDA execution across all **43 executable global recipes × 20 tasks (860
+sequential runs: 192 PASS, 668 FAIL, 0 INVALID, 0 INCOMPLETE; 20 oracle PASS controls, 45
+destructive FAIL controls)** establishes **`online-gail-bcap-dirichlet-sobolev`** (`#1`, **`17/20`**)
+and **`online-gail-bcap-debiased-krr`** (`#2`, **`16/20`**) at the top of `single_stream_stability`
+(view 10):
+- **`online-gail-bcap-dirichlet-sobolev`** qualifies at **Tier 1 (`PASS`, `10/10` required tasks,
+  `50/50` terminal checks)** and advances the stretch frontier from `5/10` to **`7/10` stretch passes
+  (`35/35` terminal checks across `seq_minimal_dense4`, `seq_minimal_tokens4`,
+  `seq_minimal_addition2bit`, `seq_minimal_kernel2x2`, `seq_robotics_fetch_reach`,
+  `seq_robotics_fetch_pick_and_place`, and `seq_robotics_fetch_slide` — `17/20` total tasks passed)**:
+  - **`seq_robotics_fetch_slide`**: first-ever `5/5` sustained pass in `ParticleStream`, cutting
+    `position_delta_rmse_m` by **31%** (`0.0065 m -> 0.0045 m`, `4.47 mm <= 5.00 mm`) and
+    `relative_mse` by **52%** (`0.2550 -> 0.1218`, `moving_direction_accuracy = 0.8824`,
+    `live_prequential_rmse_m = 0.0040 m`).
+  - **`seq_minimal_kernel2x2`**: first-ever `5/5` sustained pass in `ParticleStream`, cutting
+    `heldout_response_rmse` by **55%** (`0.0284 -> 0.0129 <= 0.03`), `heldout_max_abs_error` by
+    **58%** (`0.0729 -> 0.0309 <= 0.05`), and `seen_max_abs_error` by **69%**
+    (`0.1276 -> 0.0400 <= 0.05`).
+  - **`seq_robotics_fetch_pick_and_place`**: `5/5 PASS`, cutting `position_delta_rmse_m` by another
+    **36%** (`0.0023 m -> 0.0015 m`, `1.45 mm`), `relative_mse` by **59%** (`0.0324 -> 0.0134`), and
+    lifting `moving_direction_accuracy` from `0.7895` to **`0.9123`** (`live_prequential_rmse_m = 0.0012 m`).
+  - **`seq_robotics_fetch_reach`**: `5/5 PASS`, `position_delta_rmse_m = 0.0016 m` (`1.60 mm`,
+    `relative_mse = 0.0091`, `moving_direction_accuracy = 0.9583`).
+  - **`seq_minimal_addition2bit`**: `5/5 PASS`, `heldout_exact_accuracy = 1.0000`,
+    `heldout_min_bit_confidence = 0.9997` (`1.0000` on `online-gail-bcap-debiased-krr`,
+    `live_prequential_rmse = 0.0000`).
+  - **Ceiling-bounded stretch diagnostics**: cuts `seq_minimal_velocity_extrapolation`
+    `centroid_rmse` by **60%** (`0.3008 -> 0.1204`, `extrapolation_direction_accuracy = 0.9583`) and
+    lowers `seq_robotics_hand_reach` `relative_mse` below `1.0` (`1.0325 -> 0.8376`,
+    `position_delta_rmse_m = 0.0075 m`).
+- **Structural / information-theoretic ceilings on the remaining 3 stretch tasks (`17/20` ceiling
+  under current fixed-projection + pixel-decoder architecture)**:
+  1. `seq_minimal_velocity_extrapolation`: held-out high-speed bar rollouts place `47.5%` of target
+     mass on boundary columns `0` and `7`, which receive identically `0.0` training support across
+     the entire stream (pixelwise BCE drives unsupported boundary decoder logits to $-\infty$).
+  2. `seq_robotics_fetch_push`: held-out Case 3 contains a `-90.2 mm` single-step off-table puck drop
+     whose unobserved discontinuity alone contributes a `9.21 mm` floor above the `5.00 mm` gate.
+  3. `seq_robotics_hand_reach`: compressing a 20-D i.i.d. uniform shadow-hand action through 15
+     non-age fixed linear context coordinates incurs an irreducible `6.07 mm` Eckart-Young projection
+     nullspace floor above the `4.00 mm` gate.
+
+Documented negative ablations (do not repeat):
+- **Covariance-whitened, diagonal-standardized, or active-subspace KRR distance metrics**: yielded
+  `0/5` on `FetchSlide` (`5.44–6.30 mm`), confirming the bottleneck was single-sample critic drift
+  and bucket quantization rather than Euclidean context anisotropy.
+- **Aggressive causal Huber innovation clipping ($\tau \in [1.2, 3.8]$) on RLS/KRR updates**:
+  attenuated legitimate `30–60 mm` puck-strike contact innovations alongside off-table drops (`0/5`,
+  `5.63–6.66 mm`).
+- **Larger Schedule-Free polynomial numerator ($k_{\mathrm{sf}} \in [3.4, 3.8]$) or global
+  `context_bypass_weight >= 20` on continuous streams**: amplified late-episode contact perturbations
+  on `FetchSlide` (`0/5–3/5`) or underfit multi-step visual orbits.
+
+## `GAIL-BCAP` Frontier 3 (`online-gail-bcap-subspace` & `online-gail-bcap-schedule-free`) and 820-Run View 10 Qualification, 2026-11-13
+
+Extended the `GAIL-BCAP` technique family (`particlestream/gail_prior.py`,
+`particlestream/transport.py`) with two explicit single-factor global recipes branching from
+`online-gail-bcap-snr` under the strict `batch_size=1`, `replay_policy="none"`,
+`rehearsal_batch=0`, `seed=0` online protocol:
+
+- **`online-gail-bcap-subspace`** (parent `online-gail-bcap-snr`):
+  1. **Precision-Whitened Anchored Gram-Schmidt Innovation Subspace + JL Tail** (`subspace_dims=6`,
+     `subspace_abs_tol=0.008`, `subspace_rel_tol=0.12`, `subspace_nu0=0.10`, `feature_scale=2.1`,
+     `feature_tolerance=0.15`, `spike_slab_scale=1.0`): anchors up to six mutually orthonormal
+     two-pass Gram-Schmidt directions with discovery-time precision whitening alongside a 2-row
+     deterministic orthogonal JL fallback, preserving exact backward compatibility (`subspace_dims=0`)
+     for earlier `online-gail-bcap-*` recipes.
+  2. **Exact `float64` Matérn-3/2 Kernel Ridge Regression (`KRR`) Residual** (`residual_kernel="matern32_krr"`,
+     `residual_bandwidth=1.15`, `residual_ridge=0.06`): solves
+     $(K_{3/2} + \operatorname{diag}(\lambda_{\mathrm{krr}} / \min(V_b, 4)))\Alpha = R_{\mathrm{rls}}$
+     over unquantized per-bucket RLS residuals ($B_t \le 64$) gated by $(1 - g_{\mathrm{disc},t})$,
+     eliminating Nadaraya-Watson cluster-density bias near contact.
+  3. **Fine-Salience Causal Reader & Calmed Hinge-BCAP Posterior Calibration** (`contrast_threshold=0.002`,
+     `write_lr=0.35`, `d_lr_mult=0.02`, `reconstruction_weight=100.0`, `style_bonus_weight=0.002`,
+     `betas=[0.4, 0.999]`, `lr=0.007`, `lr_anneal_start=0.55`, `lr_floor=0.06`): scales survival BCE
+     $10\times$ while scaling $w_{\mathrm{style}}$ by $0.1\times$ (`0.05 -> 0.002`, effective style
+     bonus weight `0.20`) so Hinge-BCAP imitation gradients stay calibrated.
+- **`online-gail-bcap-schedule-free`** (parent `online-gail-bcap-subspace`): strict single-factor
+  optimization delta changing **only** the generator schedule to causal horizon-invariant exponential
+  cooling (`lr_schedule="exponential"`, `lr=0.014`, `lr_decay_rate=0.55`, `lr_decay_steps=100`,
+  `lr_floor=0.05`, `network_lr_floor=0.05`) and replacing Adam $\beta_1=0.4$ with polynomial
+  Primal-Dual Schedule-Free generator iterate averaging (`betas=[0.0, 0.999]`,
+  `schedule_free_beta=0.88`, `schedule_free_poly_k=4.0`, `schedule_free_c_min=0.02`), evaluating
+  single-arrival gradients at $y_t = 0.12 z_{t-1} + 0.88 x_{t-1}$ and serving $x_t = (1 - c_t) x_{t-1} + c_t z_t$
+  with $c_t = \max(4/(t+3), 0.02)$.
+
+Fresh source-bound CUDA execution across all **41 executable global recipes × 20 tasks (820
+sequential runs: 159 PASS, 661 FAIL, 0 INVALID, 0 INCOMPLETE; 20 oracle PASS controls, 45
+destructive FAIL controls)** establishes **`online-gail-bcap-schedule-free`** (`GAIL-BCAP`) as the
+new `#1` global reference on `single_stream_stability` (view 10):
+- **`online-gail-bcap-schedule-free`** qualifies at **Tier 1 (`PASS`, `10/10` required tasks,
+  `50/50` terminal checks)** and breaks the `4/10` stretch ceiling to **`5/10` stretch passes
+  (`25/25` terminal checks across `seq_minimal_dense4`, `seq_minimal_tokens4`,
+  `seq_minimal_addition2bit`, `seq_robotics_fetch_reach`, and `seq_robotics_fetch_pick_and_place` —
+  `15/20` total tasks passed, including all `12/12` Tier 1 tasks)**:
+  - **`seq_minimal_dense4`** (`96` updates): first-ever `5/5` sustained pass in `ParticleStream`
+    (`valid_fraction = 1.0000`, `modes = 4.0`, `mass_tv = 0.0000` vs `0/5 FAIL`, `valid_fraction = 0.0000`
+    for every cosine-annealed candidate), proving that causal step-count cooling ($\eta(t) = 0.014 \cdot 0.55^{t/100}$,
+    independent of task horizon $T$) plus zero-lag polynomial Primal-Dual Schedule-Free averaging
+    eliminates the `T=96` vs `T=480` horizon trade-off without peeking at `total_steps`.
+  - **`seq_minimal_addition2bit`**: `5/5 PASS`, `heldout_exact_accuracy = 1.0000`,
+    `heldout_min_bit_confidence = 0.9938` (`live_prequential_rmse = 0.0003`).
+  - **`seq_robotics_fetch_reach`**: `5/5 PASS`, `position_delta_rmse_m = 0.0018 m` (`1.79 mm`,
+    `relative_mse = 0.0114`, `moving_direction_accuracy = 0.9583`).
+  - **`seq_robotics_fetch_pick_and_place`**: `5/5 PASS`, `position_delta_rmse_m = 0.0023 m` (`2.26 mm`
+    — **30% lower** than `online-subspace-prior-fine-salience`'s `3.22 mm`),
+    `relative_mse = 0.0324`, `moving_direction_accuracy = 0.7895` (`0.8596` peak).
+  - **`seq_minimal_kernel2x2`**: cuts `heldout_response_rmse` below the `0.03` gate for the first
+    time (`0.0284`, `heldout_max_abs_error = 0.0729`, `live_prequential_rmse = 0.0299`), leaving
+    zero-padded `Conv2d` corner max-abs error (`0.1276` vs `<= 0.05`) as the sole remaining barrier.
+- **`online-gail-bcap-subspace`** ranks `#2` overall (`10/10` required + `4/10` stretch = `14/20`
+  total passes), achieving `position_delta_rmse_m = 0.0018 m` on `FetchReach`, `0.0023 m` (`5/5 PASS`)
+  on `FetchPickAndPlace`, and `0.0056 m` (`moving_direction_accuracy = 0.8824`, `relative_mse = 0.1897`)
+  on `seq_robotics_fetch_slide`.
+
+Documented negative ablations (do not repeat):
+- **Split-channel lag-diff `CausalStateMemory` (`cur_dims=8, lag_dims=7`)**: halving current-key
+  projection capacity to `8` dims creates severe state collisions on 6-DoF manipulation, dropping
+  `seq_robotics_fetch_pick_and_place` from `5/5` to `0/5` (`dir = 0.649`).
+- **Degree-2 polynomial RLS (`120` upper-triangular quadratic features)**: memorizes all `12` seen
+  `addition2bit` contexts with zero training residual ($\operatorname{tr}(\Sigma_t) \to 0$), collapsing
+  the precision-weighted spike-and-slab carry/XOR subspace and breaking `seq_minimal_addition2bit` (`0/5`).
+- **Step-size-squared weighting ($c_t \propto \eta_t^2$) in Schedule-Free primal averaging**: freezes
+  primal iterate $x_t$ prematurely after decay onset, leaving `seq_minimal_dense4` at `0/5` (`valid_fraction = 0.50`).
+
+## `SubspacePrior-BCAP` Family and 780-Run View 10 Qualification, 2026-11-12
+
+Added the `SubspacePrior-BCAP` technique family (`particlestream/subspace_prior.py`,
+`SubspaceResidualConditionalReconstruction`) in a two-step single-factor ablation ladder over
+`online-residual-prior-linear-key` under the strict `batch_size=1`, `replay_policy="none"`,
+`rehearsal_batch=0`, `seed=0` online protocol:
+
+- **`online-subspace-prior`** (parent `online-residual-prior-linear-key`): keeps `CausalStateMemory`
+  (`contrast_threshold=0.03`, `normalize_key=False`, `key_gain=0.5`, `association_weight=0.0`)
+  completely unchanged while introducing `SubspaceResidualConditionalReconstruction`:
+  1. **Precision-Whitened Anchored Gram-Schmidt Innovation Subspace + JL Tail** (`subspace_dims=6`,
+     `subspace_abs_tol=0.008`, `subspace_rel_tol=0.12`, `subspace_nu0=0.10`, `feature_scale=2.1`):
+     causally anchors up to six mutually orthonormal two-pass Gram-Schmidt innovation directions
+     scaled once at discovery by $g_k = (\lVert r_{t_k}\rVert_2^2 + \nu_0^2)^{-1/2}$ alongside a
+     2-row deterministic orthogonal JL tail (`E_0[6:8]`). Eliminates random `8×64` nullspace loss
+     and 1:1 MoG Wiener attenuation ($\sigma=0.025$) on millimetre physical micro-displacements
+     while keeping high-contrast Tier 1 visual tasks near norm `~2.1` with zero retroactive
+     coordinate drift.
+  2. **Semiparametric Global RLS + Continuous Nadaraya-Watson Kernel-Ridge Residual** (`nw_weight=1.0`,
+     `nw_bandwidth=0.65`, `nw_ridge=0.06`): records exact unquantized per-bucket latent means
+     $\bar z_b \in \mathbb{R}^8$ and adds a smooth continuous local residual gated by
+     $(1 - g_{\mathrm{disc},t})$ alongside discrete empirical quantiles gated by $g_{\mathrm{disc},t}$.
+  3. **Calmed Single-Arrival Optimization** (`d_lr_mult=0.02`, `reconstruction_weight=100.0`,
+     `betas=[0.4, 0.999]`, `lr=0.007`, `lr_anneal_start=0.55`, `lr_floor=0.06`,
+     `network_lr_floor=0.06`).
+- **`online-subspace-prior-fine-salience`** (parent `online-subspace-prior`): strict single-factor
+  delta lowering `memory_policy.contrast_threshold` from `0.03` to `0.002` so sparse 4-of-64-pixel
+  precision robotics actions remain salient near contact while exact zero-contrast uniform
+  distractors (`RMS == 0.0` on `seq_img_delayed_cue`) remain gated.
+
+Fresh source-bound CUDA execution across all **39 executable global recipes × 20 tasks (780
+sequential runs: 130 PASS, 650 FAIL, 0 INVALID, 0 INCOMPLETE; 20 oracle PASS controls, 45
+destructive FAIL controls)** establishes `SubspacePrior-BCAP` as the new global reference on
+`single_stream_stability` (view 10):
+- Both **`online-subspace-prior`** and **`online-subspace-prior-fine-salience`** qualify at **Tier 1
+  (`PASS`, `10/10` required tasks, `50/50` terminal checks)** and advance stretch passes to **`4/10`
+  (`20/20` terminal checks across `seq_minimal_tokens4`, `seq_minimal_addition2bit`,
+  `seq_robotics_fetch_reach`, and `seq_robotics_fetch_pick_and_place`)** — becoming the first
+  recipes in `ParticleStream` to pass 6-DoF grasp-lift-carry `FetchPickAndPlace-v4` online at
+  `batch_size=1` (`5/5` sustained terminal checks, `position_delta_rmse_m = 0.0032 m`,
+  `moving_direction_accuracy = 0.8421`, `live_prequential_rmse_m = 0.0013 m` vs `4/5 FAIL` for
+  `online-residual-prior-linear-key` and `online-gail-bcap-snr`).
+- On `seq_robotics_fetch_slide`, `online-subspace-prior` reduces held-out RMSE from `0.0074 m`
+  (`online-residual-prior-linear-key`) and `0.0069 m` (`online-gail-bcap-snr`) to **`0.0055 m`**
+  (`relative_mse = 0.1840`, `dir = 0.8039`).
+- Lowering `contrast_threshold` (`0.03 -> 0.002`) in `online-subspace-prior-fine-salience` cuts
+  `seq_robotics_fetch_reach` held-out RMSE by **42%** (`0.0033 m -> 0.0019 m`, `relative_mse`
+  `0.0394 -> 0.0123`, `dir = 0.9792`, `live_prequential_rmse_m = 0.0022 m`) and raises
+  `seq_robotics_fetch_slide` direction accuracy (`0.8039 -> 0.8627`) while preserving exact `1.0000`
+  delayed-cue accuracy (`prediction_rmse = 0.0147`).
+
+Documented negative ablations (do not repeat):
+- **Dynamic pixel-tilted Chebyshev BCE** (`softmax(tau * |x_hat - x|)` per sample): introduces
+  non-stationary per-pixel gradient variance across `batch_size=1` mode switches, degrading
+  `seq_minimal_tokens4` (`1.00 -> 0.75`) and `seq_minimal_addition2bit` bit confidence without
+  resolving zero-padded `Conv2d` corner bias on `seq_minimal_kernel2x2`.
+- **Unwhitened anchored subspace with `feature_scale >= 1.8`**: inflates high-contrast visual latent
+  norms (`||v||_2 ~ 4.0`) to `8–12`, dropping `seq_img_fork_rollout` from `5/5` to `4/5`; discovery
+  precision whitening ($\nu_0 = 0.10$) resolves both high-contrast and micro-displacement regimes.
+- **High terminal LR floors (`lr_floor >= 0.35`)** and **split-lag causal context (`lag_dims >= 8`)**:
+  respectively prevent Robbins-Monro step-size annealing on noisy simulator steps and amplify
+  `previous_branch` context variance on `seq_img_fork_rollout`.
+
+## Stabilized `GAIL-BCAP` Family and 660-Run View 10 Qualification, 2026-11-12
+
+Added the `GAIL-BCAP` technique family (`particlestream/gail_prior.py`,
+`GAILConditionalReconstruction`), translating stabilized generative adversarial imitation
+control into ParticleGAN's public `PriorManipulator` API under ParticleStream's strict
+`batch_size=1` online protocol (`replay_policy="none"`, `rehearsal_batch=0`, `seed=0`,
+zero generator probes).
+
+Three global candidate recipes form an explicit single-factor ablation ladder over
+`online-feature-prior-bce`:
+- **`online-gail-bcap-hinge`** (parent `online-feature-prior-bce`): replaces the non-saturating
+  logistic critic with a Hinge margin critic (`loss="hinge"`), increases detached causal-state
+  fast-weight `write_lr` (`0.35 -> 0.5`), cancels the default unbounded linear Hinge generator
+  slope (`cancel_linear_gan=True`) in favor of prioritized pixelwise BCE survival reconstruction
+  minus a bounded sigmoid critic style bonus (`style_bonus_weight=0.1`) modulated by a causal
+  post-commit discounted return advantage (`return_discount=0.99`, `advantage_scale=0.25`), and
+  draws entropy-regularized categorical quantiles (`policy_entropy_bonus=0.01`) strictly over
+  active observed prototypes per context (`assoc_ridge=0.0`, `assoc_max_blend=0.0`).
+- **`online-gail-bcap-bce`** (parent `online-gail-bcap-hinge`): enables a detached
+  Sherman-Morrison recursive ridge fast-weight operator (`assoc_ridge=0.05`,
+  `assoc_forgetting=1.0`, `assoc_blend_scale=0.25`, `assoc_max_blend=1.0`) inside
+  `GAILConditionalReconstruction` to smoothly extrapolate radially bounded latent feature
+  expectations beyond discrete context tolerance (`d_min > 0.25`) while preserving exact
+  discrete multimodal quantiles on observed contexts (`d_min <= 0.25`).
+- **`online-gail-bcap-momentum`** (parent `online-gail-bcap-bce`): enables nonzero Adam
+  first-moment smoothing (`betas=[0.5, 0.999]`) across sequential `batch_size=1` arrivals.
+
+Fresh source-bound CUDA execution across all **33 executable global recipes × 20 tasks
+(660 sequential runs, 20 oracle PASS controls, 45 destructive FAIL controls)** qualifies all
+three `GAIL-BCAP` global recipes at **Tier 1 (`PASS`, `10/10` required tasks, `50/50` terminal
+checks, `1/10` stretch tasks)** alongside `online-feature-prior-bce`:
+- Enabling the Sherman-Morrison associative fast-weight operator in `online-gail-bcap-bce`
+  reduces unseen `seq_minimal_kernel2x2` `heldout_response_rmse` by **3.0x** (`0.2654` in
+  `online-gail-bcap-hinge` and `0.2614` in `online-feature-prior-bce` down to `0.0868`,
+  `heldout_max_abs_error` `0.4311 -> 0.1895`), cuts `seq_img_translating_bar_next`
+  `next_frame_rmse` by **25%** (`0.0085 -> 0.0064`), lowers `seq_img_delayed_cue`
+  `prediction_rmse` (`0.0242 -> 0.0231`), `seq_img_circle_orbit` `orbit_rmse`
+  (`0.0126 -> 0.0119`), `seq_img_square_circle_cycle` `cycle_rmse` (`0.0127 -> 0.0125`), and
+  `seq_robotics_fetch_pick_and_place` `position_delta_rmse_m` (`0.0027m -> 0.0026m`, `4/5`
+  terminal checks), while preserving `1.0000` quality and exact rare-branch support (`0.0625`)
+  on all discrete multimodal tasks.
+- Adding `betas=[0.5, 0.999]` in `online-gail-bcap-momentum` further improves
+  `seq_minimal_velocity_extrapolation` (`direction_accuracy = 1.0000` on both interpolation
+  and extrapolation, `extrapolation_speed_error` `0.0740 -> 0.0379`, **1.95x** lower) and
+  `seq_minimal_kernel2x2` `seen_response_rmse` (`0.0419 -> 0.0353`), while slightly increasing
+  `seq_robotics_fetch_pick_and_place` terminal variance (`2/5` vs `4/5` terminal checks).
+
 ## Bidirectional Square-Circle CycleGAN (`seq_img_square_circle_cycle`) and View 7 Qualification, 2026-11-06
 
 Added `seq_img_square_circle_cycle` as the tenth required task in `single_stream_stability`
@@ -539,3 +813,111 @@ checking source bindings, shared recipes, batch/RNG contracts, simulator traces
 and all 24 GIF frames and hashes. All 20 oracle controls pass and all 45
 destructive controls fail. All 4,133 local links, including 2,138 exact section
 anchors across the inventory and six family pages, resolve.
+
+### Parametric residual conditional prior and 640-run refresh (2026-11-12, view 10)
+
+The [current inventory](technique-inventory.md) and
+[`ResidualPrior-BCAP` family page](families/residualprior-bcap.md) introduce
+two strict single-factor online recipes (`online-residual-prior-bce` and
+`online-residual-prior-linear-key`) and refresh all 32 executable recipes across
+all 20 tasks: 640 fresh, source-bound CUDA runs under protocol seed 0 and
+sequential real/fake batch size 1 (`replay_policy: "none"`). The cohort records
+43 numerical PASS and 597 FAIL outcomes, with zero INVALID or INCOMPLETE runs,
+zero replay or evaluation RNG deviations and finite states throughout. All 20
+oracle controls pass and all 45 destructive controls fail; timestamps and
+receipt/GIF SHA-256 hashes are recorded in [refresh-audit.json](refresh-audit.json).
+
+`ResidualFeatureConditionalReconstruction` replaces nearest-prototype context
+snapping on novel contexts with an online `float64` Sherman-Morrison recursive
+least-squares predictor, a precision-weighted spike-and-slab posterior over
+context prototypes, empirical-Bayes kernel-gated live residual quantiles and a
+Markov bottleneck penalty on direct generator input-context shortcut weights.
+With unit-sphere causal-memory keys (`online-residual-prior-bce`,
+`normalize_key: true`), the residual prior preserves 10/10 required Tier 1
+passes and 1/10 stretch passes (`seq_minimal_tokens4`), isolating that the
+parametric conditional prior introduces no regression on discrete or bimodal
+forking streams (`seq_img_persistent_fork` 5/5). Removing unit-norm key
+projection (`online-residual-prior-linear-key`, `normalize_key: false`,
+`key_gain: 0.5`) preserves Euclidean multi-operand superposition in causal state
+memory and advances the global reference to 10/10 required passes and 3/10
+stretch passes: `seq_minimal_tokens4` (5/5), held-out compositional binary
+addition `seq_minimal_addition2bit` (5/5, `heldout_exact_accuracy=1.0`,
+`heldout_min_bit_confidence=0.96443` vs `0.0` on `online-feature-prior-bce`) and
+continuous kinematics `seq_robotics_fetch_reach` (5/5,
+`position_delta_rmse_m=0.0035343 <= 0.005` vs `0.0055261` on
+`online-feature-prior-bce`).
+
+Qualification remains Tier 1 because seven stretch tasks remain numerical
+failures under the single global recipe: `seq_minimal_dense4` (8-dim fixed
+isometric bottleneck), `seq_minimal_kernel2x2` (held-out `heldout_response_rmse`
+drops from `0.26142` to `0.038166`, matching seen `0.04305`, but misses the
+`0.03` RMSE and `0.05` max-abs pixel uniformity bounds within 192 updates),
+`seq_robotics_fetch_pick_and_place` (4/5 terminal checks, `2.80 mm` RMSE),
+contact-discontinuous robotics (`fetch_push`, `fetch_slide`, `hand_reach`) and
+closed-loop `seq_minimal_velocity_extrapolation`. Validation passes 545
+regression tests across all 7 documented technique families, 640 receipts and
+all local links and section anchors.
+
+### GAIL-BCAP family, Frontier (2) latent-SNR transport, and 740-run refresh (2026-11-12, view 10)
+
+The [current inventory](technique-inventory.md) and
+[`GAIL-BCAP` family page](families/gail-bcap.md) introduce five single-factor
+online recipes (`online-gail-bcap-hinge`, `online-gail-bcap-bce`,
+`online-gail-bcap-momentum`, `online-gail-bcap-spike-slab` and
+`online-gail-bcap-snr`) and refresh all 37 executable recipes across all 20
+tasks: 740 fresh, source-bound CUDA runs under protocol seed 0 and sequential
+real/fake batch size 1 (`replay_policy: "none"`, `rehearsal_batch: 0`, zero
+generator probes). The cohort records 102 numerical PASS and 638 FAIL outcomes,
+with zero INVALID or INCOMPLETE runs, zero replay or evaluation RNG deviations
+and finite states throughout. All 20 oracle controls pass and all 45 destructive
+controls fail; timestamps and receipt/GIF SHA-256 hashes are recorded in
+[refresh-audit.json](refresh-audit.json).
+
+`GAILConditionalReconstruction` translates generative adversarial imitation
+control into strict online world modeling by pairing a Hinge margin critic and
+fixed BCAP input-gradient cap with prioritized pixelwise BCE survival
+reconstruction minus a bounded sigmoid critic style bonus
+(`cancel_linear_gan=True`), causal return-advantage modulation and active
+prototype-support policy entropy (`policy_entropy_bonus=0.01`). All five
+`GAIL-BCAP` recipes qualify across 10/10 required Tier 1 tasks (50/50 terminal
+checks each). Upgrading radial Sherman-Morrison associative blending
+(`online-gail-bcap-bce`, 10/10 required, 1/10 stretch) to `float64`
+Sherman-Morrison RLS, precision-weighted Mahalanobis spike-and-slab prototype
+transport, empirical-Bayes kernel-gated active-entropy residual quantiles, a
+Markov context-bypass penalty (`context_bypass_weight=5.0`) and Euclidean causal
+keys (`online-gail-bcap-spike-slab`, `normalize_key: false`, `key_gain: 0.5`)
+advances `GAIL-BCAP` to #2 overall (10/10 required, 3/10 stretch:
+`seq_minimal_tokens4`, `seq_minimal_addition2bit` held-out exact `1.0` and
+`seq_robotics_fetch_reach` `3.48 mm <= 5.0 mm`, while lowering
+`seq_minimal_kernel2x2` held-out RMSE to `0.03551`).
+
+Inspecting physical robotics failure modes exposed two orthogonal bottlenecks:
+(1) `CausalStateMemory`'s `contrast_threshold=0.03` erased sparse 4-of-64-pixel
+action commands on sub-`4 cm` `Fetch*` transitions near grasp contact
+(`||a_t - c_0||_2 = 0.025 < 0.03`), leaving multi-episode pick-and-place
+partially action-blind (`2/5` terminal checks on `online-gail-bcap-spike-slab`),
+and (2) millimetre displacements projected at `feature_scale=2.0` had low
+posterior latent SNR relative to fixed task MoG noise `prior_sigma=0.025`.
+Lowering `contrast_threshold` to `0.005`, scaling posterior projection by `2x`
+(`feature_scale=4.0`, `feature_tolerance=0.30`, `spike_slab_scale=2.0`, yielding
+`4x` higher latent SNR) and setting episode-invariant style gain
+(`advantage_scale=0.0`) produces `online-gail-bcap-snr`, the #1 global reference
+in ParticleStream: 10/10 required passes and 3/10 stretch passes, cutting
+`seq_robotics_fetch_reach` physical RMSE by 46% to `1.92 mm` (`0.0019153 m`,
+`97.92%` direction accuracy vs `3.53 mm` on `online-residual-prior-linear-key`),
+lifting `seq_robotics_fetch_pick_and_place` from `2/5` to `4/5` terminal checks
+(`2.45 mm` final RMSE, `1.70 mm` live prequential RMSE, `86.0%` peak terminal
+direction accuracy, missing only pre-cooldown `step=400` at `0.719` vs `0.750`
+from unaveraged `batch_size=1` live-decoder sign jitter around `0.5`) and
+reducing `seq_robotics_fetch_slide` RMSE to `6.92 mm` (`80.39%` direction
+accuracy).
+
+Qualification remains Tier 1 because seven stretch tasks remain open under one
+unchanged global recipe: `seq_minimal_dense4` (8-dim isometric bottleneck),
+`seq_minimal_kernel2x2` (`0.0355`–`0.0400` held-out RMSE vs `0.03` gate under
+192 single-sample shared-decoder updates), `seq_robotics_fetch_pick_and_place`
+(pre-cooldown live-decoder sign jitter), contact-discontinuous manipulation
+(`fetch_push`, `fetch_slide`, 83-DoF `hand_reach`) and closed-loop unseen
+boundary columns on `seq_minimal_velocity_extrapolation`. Validation passes 576
+regression tests across all 8 documented technique families, 740 receipts and
+all 5,147 local links (including 2,651 exact section anchors).

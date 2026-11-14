@@ -16,6 +16,9 @@ CAUSAL_STATE_DEFAULTS = {
     "context_scale": 3.0,
     "association_weight": 0.125,
     "age_horizon": 8,
+    "normalize_key": True,
+    "key_gain": 0.5,
+    "prev_val_weight": 0.0,
 }
 
 
@@ -37,9 +40,17 @@ class CausalStateMemory(FastWeightMemory):
     def __init__(self, dim: int = 16, decay: float = 0.90, write_lr: float = 0.35,
                  reservoir_size: int = 64, *, contrast_threshold: float = 0.03,
                  change_threshold: float = 0.04, context_scale: float = 3.0,
-                 association_weight: float = 0.125, age_horizon: int = 8):
+                 association_weight: float = 0.125, age_horizon: int = 8,
+                 normalize_key: bool = True, key_gain: float = 0.5,
+                 prev_val_weight: float = 0.0):
         if int(dim) < 2 or int(reservoir_size) < 1 or int(age_horizon) < 1:
             raise ValueError("causal state memory requires dim>=2, reservoir_size>=1, age_horizon>=1")
+        if not isinstance(normalize_key, bool):
+            raise ValueError("normalize_key must be a boolean")
+        if isinstance(key_gain, bool) or not math.isfinite(float(key_gain)) or float(key_gain) <= 0:
+            raise ValueError("key_gain must be finite and positive")
+        if isinstance(prev_val_weight, bool) or not math.isfinite(float(prev_val_weight)) or float(prev_val_weight) < 0:
+            raise ValueError("prev_val_weight must be finite and nonnegative")
         settings = (decay, write_lr, contrast_threshold, change_threshold, context_scale, association_weight)
         if not all(math.isfinite(float(value)) for value in settings):
             raise ValueError("memory settings must be finite")
@@ -53,6 +64,10 @@ class CausalStateMemory(FastWeightMemory):
         self.context_scale = float(context_scale)
         self.association_weight = float(association_weight)
         self.age_horizon = int(age_horizon)
+        self.normalize_key = normalize_key
+        self.key_gain = float(key_gain)
+        self.prev_val_weight = float(prev_val_weight)
+        self.register_buffer("prev_val", torch.zeros(1, self.dim))
         self.register_buffer("retained_key", torch.zeros(1, self.dim))
         self.register_buffer("repetition_age", torch.tensor(0, dtype=torch.long))
         self.register_buffer("last_frame", torch.zeros(1, 1, 8, 8))
@@ -60,6 +75,7 @@ class CausalStateMemory(FastWeightMemory):
 
     def reset_state(self) -> None:
         super().reset_state()
+        self.prev_val.zero_()
         self.retained_key.zero_()
         self.repetition_age.zero_()
         self.last_frame.zero_()
@@ -76,7 +92,17 @@ class CausalStateMemory(FastWeightMemory):
         flat = frame.reshape(1, -1)
         centered = flat - flat.mean(dim=-1, keepdim=True)
         salient = bool(centered.square().mean().sqrt() >= self.contrast_threshold)
-        key = F.normalize(self.key_proj(centered), dim=-1) if salient else torch.zeros_like(self.prev_key)
+        if salient:
+            projected_key = self.key_proj(centered)
+            key = F.normalize(projected_key, dim=-1) if self.normalize_key else self.key_gain * projected_key
+            if self.prev_val_weight > 0.0:
+                projected_val = self.val_proj(centered)
+                val_raw = F.normalize(projected_val, dim=-1) if self.normalize_key else self.key_gain * projected_val
+            else:
+                val_raw = torch.zeros_like(self.prev_key)
+        else:
+            key = torch.zeros_like(self.prev_key)
+            val_raw = torch.zeros_like(self.prev_key)
         value = F.normalize(self.val_proj(centered), dim=-1) if salient else torch.zeros_like(self.prev_key)
         initialized = int(self.reservoir_count.item()) > 0
         difference = key - self.prev_key if initialized else torch.zeros_like(key)
@@ -87,19 +113,24 @@ class CausalStateMemory(FastWeightMemory):
         query = key if salient else retained
         recalled = torch.tanh(query @ matrix.t())
         fallback = torch.zeros_like(retained) if salient else retained
-        features = key + 0.5 * difference + fallback + self.association_weight * recalled
+        if self.prev_val_weight > 0.0:
+            p_val = self.prev_val if initialized else torch.zeros_like(key)
+            features = key + 0.5 * difference + self.prev_val_weight * p_val + fallback + self.association_weight * recalled
+        else:
+            features = key + 0.5 * difference + fallback + self.association_weight * recalled
         context = torch.zeros_like(self.active_context)
         context[:, :-1] = self.context_scale * features[:, :-1].clamp(-1.0, 1.0)
         context[:, -1] = self.context_scale * age / self.age_horizon
-        return key, retained, matrix, age, context
+        return key, val_raw, retained, matrix, age, context
 
     def write(self, frame: torch.Tensor) -> torch.Tensor:
         """Consume one observed image and return an independent detached context."""
         frame = self._check_frame(frame)
         with torch.no_grad():
-            key, retained, matrix, age, context = self._next_state(frame)
+            key, val_raw, retained, matrix, age, context = self._next_state(frame)
             self.matrix.copy_(matrix)
             self.prev_key.copy_(key)
+            self.prev_val.copy_(val_raw)
             self.retained_key.copy_(retained)
             self.repetition_age.fill_(age)
             self.last_frame.copy_(frame)

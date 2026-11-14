@@ -7,6 +7,7 @@ import shutil
 
 import pytest
 
+from particlestream.family_documentation import validate_family_documentation
 from particlestream.forge import StreamWorkspace
 from particlestream.reporting import compile_linked_reports
 from particlestream.suite import REGISTRY
@@ -23,16 +24,36 @@ def workspace(tmp_path):
 
 def test_every_technique_recipe_and_count_link_reaches_its_generated_section(workspace):
     families = compile_linked_reports(workspace, view_id="single_stream_stability", device="cpu")
-    assert len(families) == 6
+    assert len(families) == 9
     inventory = workspace.reports_dir / "technique-inventory.md"
     text = inventory.read_text()
     active = text.split("## All executable recipes\n", 1)[1].split("## Stretch experiments", 1)[0]
     historical = text.split("## Historical declarations\n", 1)[1].split("## Per-Task Breakdown", 1)[0]
-    assert active.count("| `INCOMPLETE` |") == 30
+    assert active.count("| `INCOMPLETE` |") == 43
     assert historical.count("| READ_ONLY |") == 14
     assert "`stream-bcap-adam`" not in active
     assert "[0/10*]" in active and "0/20" in active
     assert not (workspace.reports_dir / "leaderboard.md").exists()
+    validated_docs = validate_family_documentation(ROOT)
+    assert len(validated_docs) == 9
+    for family_path in map(Path, families):
+        family_text = family_path.read_text()
+        assert family_text.startswith("<!-- Generated Forge family report -->\n"), family_path
+        assert (
+            family_text.index("## Technique overview")
+            < family_text.index("## Mathematical formulation")
+            < family_text.index("$$")
+            < family_text.index("## Simplified pseudocode")
+            < family_text.index("## Training details")
+            < family_text.index("## Configuration differences")
+            < family_text.index("## Refresh")
+            < family_text.index("## References")
+        ), family_path
+        assert "## Simplified pseudocode\n\n```text\n" in family_text, family_path
+        assert "| Parameter-gradient clipping |" in family_text, family_path
+        assert "<summary>Implementation and recipe sources</summary>" in family_text, family_path
+        fence_lines = [line for line in family_text.splitlines() if line == "$$"]
+        assert len(fence_lines) >= 4 and len(fence_lines) % 2 == 0, family_path
     documents = [inventory, *map(Path, families)]
     checked = 0
     for document in documents:

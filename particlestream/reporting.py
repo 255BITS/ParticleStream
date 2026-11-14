@@ -12,6 +12,7 @@ from pathlib import Path
 from particlegan_forge import atomic_text
 from particlegan_forge.tiers import resolve_device
 
+from .family_documentation import FAMILY_DOCUMENTATION, TRAINING_DETAILS, validate_family_documentation
 from .online import validate_execution_policy
 
 
@@ -62,6 +63,37 @@ METHODS = {
         "trains the image decoder. Serving receives neither the current target nor stored images, "
         "and this policy uses no generator-center probes.",
         "feature_prior.py",
+    ),
+    "ResidualPrior-BCAP": (
+        "ResidualPrior-BCAP replaces FeaturePrior-BCAP's nearest-neighbor context lookup on unseen "
+        "states with a closed-form online Sherman-Morrison RLS affine predictor, a precision-weighted "
+        "Mahalanobis spike-and-slab prototype posterior, and an empirical-Bayes kernel-gated live "
+        "residual quantile transform, paired with a Markov bottleneck penalty on direct generator "
+        "context-shortcut weights. All statistics live in detached buffers updated strictly after "
+        "successful batch_size=1 arrivals without replay, generator probes, or target retention.",
+        "residual_prior.py",
+    ),
+    "GAIL-BCAP": (
+        "GAIL-BCAP adapts stabilized generative adversarial imitation control to strict batch-one "
+        "online world modeling. A Hinge critic with BCAP input-gradient capping pairs on the "
+        "generator with a prioritized reconstruction anchor and a bounded sigmoid critic style "
+        "bonus (canceling unbounded linear generator slopes), modulated by a causal discounted "
+        "return advantage baseline and entropy-regularized categorical outcome quantiles. Unseen "
+        "contexts extrapolate through a detached Sherman-Morrison associative fast-weight operator "
+        "(radial distance-blended or precision-weighted Mahalanobis spike-and-slab with kernel-gated "
+        "residual quantiles, Markov context-bypass regularization, precision-whitened Gram-Schmidt "
+        "innovation subspaces, Matérn-3/2 kernel ridge residuals, and causal primal-dual Schedule-Free "
+        "generator optimization) without storing or replaying frames.",
+        "gail_prior.py",
+    ),
+    "SubspacePrior-BCAP": (
+        "SubspacePrior-BCAP replaces blind fixed 8×64 random projection on the leading six latent "
+        "coordinates with a causally anchored two-pass Gram-Schmidt innovation subspace scaled once at "
+        "discovery by precision-whitening gains, paired with a 2-row deterministic Johnson-Lindenstrauss "
+        "tail and a semiparametric global RLS plus unquantized Nadaraya-Watson kernel-ridge residual "
+        "prior. This eliminates random-projection nullspace loss and 1:1 MoG Wiener attenuation on "
+        "millimetre physical micro-displacements without retroactive coordinate drift or stored frames.",
+        "subspace_prior.py",
     ),
 }
 
@@ -161,17 +193,106 @@ def _evidence(workspace, candidate, task, outcome, device):
             terminal, readings, " · ".join(links) or "—", stamp]
 
 
-def _family_report(workspace, technique, members, declarations, qualifications, tasks, view, device):
+def _family_documentation_lines(technique, explanation, source, documentation):
+    doc = documentation.get(technique)
+    page = f"{slug(technique)}.md"
+    if doc is None:
+        return [
+            _anchor("technique-overview"),
+            "## Technique overview",
+            "",
+            explanation,
+            "",
+            f"[Implementation](../../../particlestream/{source}) · "
+            "[Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)",
+            "",
+        ]
+    nav = [
+        f"[Implementation](../../../particlestream/{source})",
+        f"[Mathematical formulation]({page}#mathematical-formulation)",
+        f"[Simplified pseudocode]({page}#simplified-pseudocode)",
+        f"[Training details]({page}#training-details)",
+        "[Protocol](../../../EXPERIMENTATION.md)",
+        "[Terminology](../../../RESEARCH_GLOSSARY.md)",
+    ]
+    lines = [
+        _anchor("technique-overview"),
+        "## Technique overview",
+        "",
+        doc["overview"],
+        "",
+        " · ".join(nav),
+        "",
+        _anchor("mathematical-formulation"),
+        "## Mathematical formulation",
+        "",
+        doc["symbols"],
+        "",
+    ]
+    for equation in doc["equations"]:
+        lines.extend([
+            f"**{equation['label']}**",
+            "",
+            "$$",
+            equation["latex"],
+            "$$",
+            "",
+            equation["explanation"],
+            "",
+        ])
+    lines.extend([
+        _anchor("simplified-pseudocode"),
+        "## Simplified pseudocode",
+        "",
+        "```text",
+        *doc["pseudocode"],
+        "```",
+        "",
+        _anchor("training-details"),
+        "## Training details",
+        "",
+        *_table(
+            ["Characteristic", "Behavior"],
+            [[label, doc["training_details"][key]] for key, label in TRAINING_DETAILS],
+        ),
+        _anchor("configuration-differences"),
+        "## Configuration differences",
+        "",
+        *[f"- {note}" for note in doc["configuration_notes"]],
+        "",
+        "<details>",
+        "<summary>Implementation and recipe sources</summary>",
+        "",
+        "These links support the explanation. Recorded results below remain bound to their own executed source.",
+        "",
+        *[f"- [{src}](../../../{src})" for src in doc["sources"]],
+        "",
+        "</details>",
+        "",
+    ])
+    return lines
+
+
+def _family_report(workspace, technique, members, declarations, qualifications, tasks, view, device, documentation):
     explanation, source = METHODS.get(technique, (f"Declared {technique} training family.", "tier1.py"))
-    lines = [f"# {technique}", "", "[← Technique leaderboard](../technique-inventory.md)", "",
-             explanation, "", f"[Implementation](../../../particlestream/{source}) · "
-             "[Protocol](../../../EXPERIMENTATION.md) · [Terminology](../../../RESEARCH_GLOSSARY.md)", "",
-             "Each section describes one exact global recipe. Configuration and parent deltas come from "
-             "the declarations; results come from Forge's current source-bound receipts. Required and "
-             "stretch evidence stay separate. A final metric can meet its gate while the sustained verdict "
-             "fails: every one of the last five checks must pass.", "",
-             "The installed engine is pinned to ParticleGAN/Forge 0.9.7. Older version or replay wording "
-             "in declaration history describes provenance; the effective configuration below controls execution.", ""]
+    doc = documentation.get(technique)
+    lines = [
+        "<!-- Generated Forge family report -->",
+        "",
+        f"# {technique}",
+        "",
+        "[← Technique leaderboard](../technique-inventory.md)",
+        "",
+        *_family_documentation_lines(technique, explanation, source, documentation),
+        "Each section below describes one exact global recipe. Configuration and parent deltas come from "
+        "the declarations; results come from Forge's current source-bound receipts. Required and "
+        "stretch evidence stay separate. A final metric can meet its gate while the sustained verdict "
+        "fails: every one of the last five checks must pass.",
+        "",
+        "The installed engine is pinned to ParticleGAN/Forge 0.9.7. Older version or replay wording "
+        "in declaration history describes provenance; the effective configuration below controls execution.",
+        "",
+    ]
     for candidate in members:
         try:
             validate_execution_policy(candidate)
@@ -235,11 +356,36 @@ def _family_report(workspace, technique, members, declarations, qualifications, 
                 lines.extend(_table(["Task and gates", "Verdict", "Terminal checks", "Final gate readings / failure", "Evidence", "Completed UTC"], rows))
         lines.extend([f"Reproduce this exact global recipe on every task: `particlestream compare --all-tasks "
                       f"--candidate {candidate.id} --device {device}`.", ""])
+    lines.extend([
+        _anchor("refresh"),
+        "## Refresh",
+        "",
+        "```sh",
+        f"particlestream compile --device {device}",
+        "```",
+        "",
+        "This page is generated alongside the leaderboard from committed source-bound receipts and declarations; "
+        "editing a generated page cannot change a verdict or earn qualification.",
+        "",
+    ])
+    if doc is not None:
+        lines.extend([_anchor("references"), "## References", ""])
+        if not doc["references"]:
+            lines.extend([
+                "This technique is repository-specific; no dedicated paper reference is declared. "
+                "Its implementation and recipe sources are linked above.",
+                "",
+            ])
+        else:
+            lines.extend([f"- [{ref['title']}]({ref['url']}). {ref['component']}" for ref in doc["references"]])
+            lines.append("")
     return "\n".join(lines).rstrip() + "\n"
 
 
 def compile_linked_reports(workspace, *, view_id=None, device=None, seed=0):
     """Write the sole inventory plus linked explanatory family pages."""
+    repo_root = workspace.root if (workspace.root / "particlestream").is_dir() else None
+    documentation = validate_family_documentation(repo_root)
     device = resolve_device(device)
     views = workspace.load_views()
     view = views[view_id] if view_id else next(iter(views.values()))
@@ -373,6 +519,8 @@ def compile_linked_reports(workspace, *, view_id=None, device=None, seed=0):
         members = [c for c in online if c.technique == technique]
         members += sorted([c for c in historical if c.technique == technique], key=lambda c: c.id)
         path = workspace.reports_dir / f"families/{slug(technique)}.md"
-        atomic_text(path, _family_report(workspace, technique, members, declarations, qualifications, tasks, view, device))
+        atomic_text(path, _family_report(
+            workspace, technique, members, declarations, qualifications, tasks, view, device, documentation
+        ))
         family_paths.append(str(path))
     return family_paths

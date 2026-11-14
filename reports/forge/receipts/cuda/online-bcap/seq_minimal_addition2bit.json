@@ -6,13 +6,13 @@
       "cuda_peak_allocated_bytes": 201628160,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 624,
-      "evaluation_seconds": 0.6494111019856064,
+      "evaluation_seconds": 0.5797758349217474,
       "generator_parameters": 6385,
       "optimizer_updates": 192,
-      "process_peak_rss_kib": 2357052,
+      "process_peak_rss_kib": 2322380,
       "serving_d_forwards": 0,
       "serving_g_forwards": 192,
-      "training_and_evaluation_seconds": 13.087887183006387,
+      "training_and_evaluation_seconds": 6.630746801034547,
       "training_d_forwards": 1152,
       "training_g_forwards": 384
     },
@@ -80,15 +80,18 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "memory.py": "1262354c7a139bd13e885928dbc64eb69c2c274207fbde48af6340502018e8f7",
-      "minimal_adapter.py": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
-      "minimal_online.py": "88793a7ad8c59748d8c9f03d9dfc79440863ec3528f1185d31fae7591bb3dfb1",
+      "gail_prior.py": "8c5ec8b58c58a8bd5b74aba97eaee16bde1affd54e653ca8d743bda704142248",
+      "memory.py": "080ab5e3e8f35d1bb060c86044d894fb909351f6e2faec609e824f2e5a1f8232",
+      "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
+      "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
       "minimal_velocity.py": "04bbf58c8027a8a1eeffaf00b10cb993510ac4641c5f919b568b19b5f21ffc9e",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
+      "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
-      "transport.py": "69b9bea49a9aa02b73734e47cc1b3d02195ed29b8f8367e1475f4908df246196"
+      "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
+      "transport.py": "4f197f15b3e8a8d181da1034e5b810cdf9f8c26e8deb0a2a9760f15cb5e3d856"
     },
     "memory_policy": {
       "decay": 0.9,
@@ -266,24 +269,24 @@
     "torch_version": "2.15.0+cu132"
   },
   "binding": {
-    "adapter_source_sha256": "3da33da9ba1675187b866a86f1001a3ddd0c69b0896cab1b511d8c43e18423ad",
+    "adapter_source_sha256": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
     "candidate_fingerprint": "7f1a73501855c2ea32f71334e689559ed197390e7be4c9963c7db0b1c113b151",
     "device": "cuda",
     "engine_source_sha256": "f9b1bdb63c640ec7f6bd3036bf40e71cbf2bae7cc3cf8019b6629f77ceda2774",
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "8666ccdde77a19ea09720c5b99655224280fdcda0b0483c07ecdcf539617c515"
+    "task_fingerprint": "44c222eba1c7222a28cd0f2bd1d3a582020f3245509627c44aa435e6854a70a3"
   },
   "candidate_fingerprint": "7f1a73501855c2ea32f71334e689559ed197390e7be4c9963c7db0b1c113b151",
   "candidate_id": "online-bcap",
-  "cohort_key": "5e5a9ed926619f1d1db791d3e77be3ca33f39b63293b858f5803fb7ba16e38dd",
-  "completed_at": "2026-11-07T16:10:52.450+00:00",
+  "cohort_key": "dcf59b8b0e1db9c528c4f63ed0820e50cd418bd7c85cd4625ef37610f4e7759d",
+  "completed_at": "2026-11-13T20:55:36.993+00:00",
   "completed_steps": 192,
   "cost": {
     "completed_steps": 192,
     "timeout_seconds": 300,
-    "wall_seconds": 15.2719
+    "wall_seconds": 8.6344
   },
   "device": "cuda",
   "error": null,
@@ -683,11 +686,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "8666ccdde77a19ea09720c5b99655224280fdcda0b0483c07ecdcf539617c515",
+  "task_fingerprint": "44c222eba1c7222a28cd0f2bd1d3a582020f3245509627c44aa435e6854a70a3",
   "task_id": "seq_minimal_addition2bit",
   "technique": "BCAP",
   "terminal_passing": 0,
-  "timestamp": "2026-11-07T16:10:52.450+00:00",
+  "timestamp": "2026-11-13T20:55:36.993+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "FAIL"
 }

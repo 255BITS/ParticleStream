@@ -14,6 +14,9 @@ from particlegan_forge import MetricBound, TaskSpec, file_hash, has_nonfinite, r
 
 from .balanced_transport import ContextBalancedReconstruction
 from .feature_prior import FeatureConditionalReconstruction
+from .gail_prior import GAILConditionalReconstruction
+from .residual_prior import ResidualFeatureConditionalReconstruction
+from .subspace_prior import SubspaceResidualConditionalReconstruction
 from .memory import make_stream_memory
 from .models import StreamImageCritic, StreamImageGenerator
 from .online import OnlineSession, validate_execution_policy
@@ -108,8 +111,20 @@ def _build(task, candidate, streams, steps, device):
         trainer_type = TransportGANTrainer
         options["transport"] = dict(transport)
         router = options["transport"].pop("router", "competitive")
-        if router == "feature_conditional":
-            options["router_class"] = FeatureConditionalReconstruction
+        if router in {
+            "feature_conditional",
+            "residual_feature_conditional",
+            "gail_conditional",
+            "subspace_residual_conditional",
+        }:
+            options["router_class"] = {
+                "feature_conditional": FeatureConditionalReconstruction,
+                "residual_feature_conditional": ResidualFeatureConditionalReconstruction,
+                "gail_conditional": GAILConditionalReconstruction,
+                "subspace_residual_conditional": SubspaceResidualConditionalReconstruction,
+            }[router]
+            if "encoder_seed" in options["transport"]:
+                raise ValueError("feature encoder initialization uses the protocol's named init stream")
             options["transport"]["encoder_seed"] = streams.seed_for("init", component="feature_encoder", purpose="projection")
         elif router == "context_balanced":
             options["router_class"] = ContextBalancedReconstruction
