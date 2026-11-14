@@ -129,6 +129,17 @@ def assignments(codes, router, frames):
         {"boundary_quartic_gain": -0.1},
         {"dirichlet_c_boost": -0.01},
         {"dirichlet_c_boost": 1.2},
+        {"wavepacket_equiv_weight": -1.0},
+        {"wavepacket_equiv_weight": True},
+        {"wavepacket_moment_weight": -0.1},
+        {"wavepacket_mse_weight": -0.1},
+        {"wavepacket_bypass_weight": -1.0},
+        {"wavepacket_snr_scale": 0.0},
+        {"wavepacket_shifts": -1},
+        {"wavepacket_shifts": 15},
+        {"wavepacket_shifts": True},
+        {"wavepacket_c_boost": -0.01},
+        {"wavepacket_c_boost": 1.2},
         {"reconstruction_weight": 0.0, "cancel_linear_gan": True},
     ],
 )
@@ -633,5 +644,99 @@ def test_dirichlet_precision_fisher_sobolev_gates_constant_vs_structured_frames(
     for k, v in router.state_dict().items():
         if isinstance(v, torch.Tensor):
             assert torch.equal(v, saved[k])
+
+
+def test_wavepacket_harmonic_lift_and_shift_equivariant_regularization():
+    from particlestream.minimal_velocity import render_point
+
+    gen = StreamImageGenerator(context_dim=4)
+    base = MoGParticlePrior(
+        num_particles=32,
+        z_dim=8,
+        sigma=0.025,
+        standardize=False,
+        generator=torch.Generator().manual_seed(0),
+    )
+    base.requires_grad_(False)
+    router = GAILConditionalReconstruction(
+        gen,
+        reconstruction_weight=100.0,
+        style_bonus_weight=0.002,
+        advantage_scale=0.0,
+        assoc_ridge=0.08,
+        spike_slab_scale=1.0,
+        subspace_dims=6,
+        subspace_birth_debias=True,
+        residual_kernel="matern32_krr",
+        krr_capacity=64,
+        sobolev_weight=36.0,
+        dirichlet_c_boost=0.02,
+        wavepacket_equiv_weight=3.0,
+        wavepacket_moment_weight=0.07,
+        wavepacket_mse_weight=2.5,
+        wavepacket_bypass_weight=80.0,
+        wavepacket_snr_scale=2.5,
+        wavepacket_shifts=4,
+        wavepacket_c_boost=0.205,
+        schedule_free_beta=0.88,
+    )
+    prior = ManipulatedPrior(base, [router])
+    assert router.encoder_law == "precision_whitened_subspace_or_barycentric_harmonic_lift_v1"
+    assert router.gail_style_law == "dirichlet_sobolev_wavepacket_equivariant_survival_style_hinge_cancel_v1"
+    assert router.assoc_extrapolation_law == "debiased_subspace_rls_barycentric_harmonic_unbucketed_matern32_krr_v1"
+    assert router.schedule_free_law == "dirichlet_wavepacket_gated_primal_dual_polynomial_schedule_free_v1"
+
+    wp_frame = render_point(0.35)
+    bar_frame = bars4_templates()[0:1]
+    assert router.causal_wavepacket_gate(wp_frame) == 1.0
+    assert router.causal_wavepacket_gate(bar_frame) == 0.0
+
+    # Train linear x + v kinematics across +/-0.05 speeds and verify harmonic extrapolation on unseen speed +0.075
+    step_i = 0
+    for _ in range(8):
+        for pos_x in (0.30, 0.45, 0.60):
+            for vel_x in (-0.05, 0.05):
+                gen.set_context(torch.tensor([[3.0 * (pos_x - 0.5), 0.0, 3.0 * 4.0 * vel_x, 0.0]]))
+                target = render_point(pos_x + vel_x)
+                with router.training_target(target):
+                    prior.sample(1, generator=torch.Generator().manual_seed(step_i))
+                    z_post, _ = prior.sample(1, generator=torch.Generator().manual_seed(step_i + 100))
+                    pred = gen(z_post)
+                    logits = torch.tensor([[0.1]], requires_grad=True)
+                    loss = prior.regularize(prior.z, generated=pred, logits=logits)
+                    grads = torch.autograd.grad(loss, list(gen.parameters()), allow_unused=False)
+                    assert all(torch.isfinite(g).all() for g in grads)
+                step_i += 1
+
+    assert int(router.wavepacket_steps.item()) == 48
+    assert int(router.subspace_count.item()) == 2
+    assert router._disc_gate() == 0.0
+
+    gen.set_context(torch.tensor([[3.0 * (0.65 - 0.5), 0.0, 3.0 * 4.0 * 0.075, 0.0]]))
+    pred_code = clean_codes(prior)[0:1]
+    expected_code = router.encode(render_point(0.725))
+    eff = router.wavepacket_snr_scale * router.feature_scale
+    assert torch.allclose(pred_code[:, :2], expected_code[:, :2], atol=2e-2)
+    lifted = router._barycentric_harmonic_lift(
+        pred_code[0, 0] / eff,
+        pred_code[0, 1] / eff,
+        eff_scale=eff,
+        z_dim=8,
+        dtype=pred_code.dtype,
+        device=pred_code.device,
+    )
+    assert torch.allclose(pred_code, lifted, atol=1e-6)
+
+    # Aborted wavepacket step rolls back wavepacket_steps and leaves observation_state_retained False
+    saved = deepcopy(router.state_dict())
+    with pytest.raises(RuntimeError, match="abort wavepacket"):
+        with router.training_target(wp_frame):
+            prior.sample(1, generator=torch.Generator().manual_seed(0))
+            prior.sample(1, generator=torch.Generator().manual_seed(0))
+            raise RuntimeError("abort wavepacket")
+    for k, v in router.state_dict().items():
+        if isinstance(v, torch.Tensor):
+            assert torch.equal(v, saved[k])
+    assert router.diagnostics()["observation_state_retained"] is False
 
 

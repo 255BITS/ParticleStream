@@ -22,9 +22,11 @@ from contextlib import contextmanager
 import math
 
 import torch
+import torch.nn.functional as F
 from torch import nn
 
 from .feature_prior import FeatureConditionalReconstruction
+from .memory import is_wavepacket_frame, wavepacket_moments
 from .transport import CompetitiveReconstruction
 
 
@@ -65,6 +67,13 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         "dirichlet_bypass_weight",
         "boundary_quartic_gain",
         "dirichlet_c_boost",
+        "wavepacket_equiv_weight",
+        "wavepacket_moment_weight",
+        "wavepacket_mse_weight",
+        "wavepacket_bypass_weight",
+        "wavepacket_snr_scale",
+        "wavepacket_shifts",
+        "wavepacket_c_boost",
         "schedule_free_beta",
         "schedule_free_poly_k",
         "schedule_free_c_min",
@@ -110,6 +119,13 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         dirichlet_bypass_weight: float = 0.0,
         boundary_quartic_gain: float = 0.0,
         dirichlet_c_boost: float = 0.0,
+        wavepacket_equiv_weight: float = 0.0,
+        wavepacket_moment_weight: float = 0.0,
+        wavepacket_mse_weight: float = 0.0,
+        wavepacket_bypass_weight: float = 0.0,
+        wavepacket_snr_scale: float = 1.0,
+        wavepacket_shifts: int = 0,
+        wavepacket_c_boost: float = 0.0,
         schedule_free_beta: float = 0.0,
         schedule_free_poly_k: float = 4.0,
         schedule_free_c_min: float = 0.0,
@@ -127,6 +143,8 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             raise ValueError("subspace_dims must be an integer in [0, 64]")
         if type(krr_capacity) is not int or not 0 <= krr_capacity <= 2048:
             raise ValueError("krr_capacity must be an integer in [0, 2048]")
+        if type(wavepacket_shifts) is not int or not 0 <= wavepacket_shifts <= 14:
+            raise ValueError("wavepacket_shifts must be an integer in [0, 14]")
         if residual_kernel not in ("none", "nw", "matern32_krr"):
             raise ValueError("residual_kernel must be 'none', 'nw', or 'matern32_krr'")
         if krr_capacity > 0 and residual_kernel != "matern32_krr":
@@ -157,6 +175,12 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             ("dirichlet_bypass_weight", dirichlet_bypass_weight),
             ("boundary_quartic_gain", boundary_quartic_gain),
             ("dirichlet_c_boost", dirichlet_c_boost),
+            ("wavepacket_equiv_weight", wavepacket_equiv_weight),
+            ("wavepacket_moment_weight", wavepacket_moment_weight),
+            ("wavepacket_mse_weight", wavepacket_mse_weight),
+            ("wavepacket_bypass_weight", wavepacket_bypass_weight),
+            ("wavepacket_snr_scale", wavepacket_snr_scale),
+            ("wavepacket_c_boost", wavepacket_c_boost),
             ("schedule_free_beta", schedule_free_beta),
             ("schedule_free_poly_k", schedule_free_poly_k),
             ("schedule_free_c_min", schedule_free_c_min),
@@ -201,8 +225,17 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             raise ValueError("context_bypass_weight must be nonnegative")
         if sobolev_weight < 0.0 or dirichlet_bypass_weight < 0.0 or boundary_quartic_gain < 0.0:
             raise ValueError("Dirichlet Sobolev and calibration weights must be nonnegative")
+        if (
+            wavepacket_equiv_weight < 0.0
+            or wavepacket_moment_weight < 0.0
+            or wavepacket_mse_weight < 0.0
+            or wavepacket_bypass_weight < 0.0
+        ):
+            raise ValueError("wavepacket regularization weights must be nonnegative")
         if not 0.0 <= dirichlet_c_boost <= 1.0:
             raise ValueError("dirichlet_c_boost must be in [0, 1]")
+        if not 0.0 <= wavepacket_c_boost <= 1.0:
+            raise ValueError("wavepacket_c_boost must be in [0, 1]")
         for name, value in (
             ("subspace_abs_tol", subspace_abs_tol),
             ("subspace_rel_tol", subspace_rel_tol),
@@ -210,6 +243,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             ("residual_bandwidth", residual_bandwidth),
             ("residual_ridge", residual_ridge),
             ("sobolev_sigma", sobolev_sigma),
+            ("wavepacket_snr_scale", wavepacket_snr_scale),
             ("schedule_free_poly_k", schedule_free_poly_k),
         ):
             if value <= 0.0:
@@ -255,17 +289,33 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.dirichlet_bypass_weight = float(dirichlet_bypass_weight)
         self.boundary_quartic_gain = float(boundary_quartic_gain)
         self.dirichlet_c_boost = float(dirichlet_c_boost)
+        self.wavepacket_equiv_weight = float(wavepacket_equiv_weight)
+        self.wavepacket_moment_weight = float(wavepacket_moment_weight)
+        self.wavepacket_mse_weight = float(wavepacket_mse_weight)
+        self.wavepacket_bypass_weight = float(wavepacket_bypass_weight)
+        self.wavepacket_snr_scale = float(wavepacket_snr_scale)
+        self.wavepacket_shifts = wavepacket_shifts
+        self.wavepacket_c_boost = float(wavepacket_c_boost)
         self.schedule_free_beta = float(schedule_free_beta)
         self.schedule_free_poly_k = float(schedule_free_poly_k)
         self.schedule_free_c_min = float(schedule_free_c_min)
-        if self.subspace_dims > 0:
+        has_wavepacket = self._has_wavepacket_mode()
+        if has_wavepacket and self.subspace_dims > 0:
+            self.encoder_law = "precision_whitened_subspace_or_barycentric_harmonic_lift_v1"
+        elif self.subspace_dims > 0:
             self.encoder_law = "precision_whitened_gram_schmidt_subspace_plus_jl_v1"
         has_dirichlet = (
             self.sobolev_weight > 0.0
             or self.dirichlet_bypass_weight > 0.0
             or self.boundary_quartic_gain > 0.0
         )
-        if has_dirichlet:
+        if has_wavepacket and has_dirichlet:
+            self.gail_style_law = (
+                "dirichlet_sobolev_wavepacket_equivariant_survival_style_hinge_cancel_v1"
+                if cancel_linear_gan
+                else "dirichlet_sobolev_wavepacket_equivariant_survival_additive_style_v1"
+            )
+        elif has_dirichlet:
             self.gail_style_law = (
                 "dirichlet_sobolev_quartic_survival_sigmoid_style_hinge_cancel_v1"
                 if cancel_linear_gan
@@ -280,7 +330,11 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.gail_return_law = "causal_ema_standardized_advantage_tanh_v1"
         if self.spike_slab_scale > 0.0:
             if self.residual_kernel == "matern32_krr":
-                if self.krr_capacity > 0 or self.subspace_birth_debias:
+                if has_wavepacket:
+                    self.assoc_extrapolation_law = (
+                        "debiased_subspace_rls_barycentric_harmonic_unbucketed_matern32_krr_v1"
+                    )
+                elif self.krr_capacity > 0 or self.subspace_birth_debias:
                     self.assoc_extrapolation_law = "debiased_subspace_rls_spike_slab_unbucketed_matern32_krr_v1"
                 else:
                     self.assoc_extrapolation_law = "sherman_morrison_spike_slab_matern32_krr_v1"
@@ -292,7 +346,9 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             self.assoc_extrapolation_law = "recursive_ridge_fast_weight_radial_bound_v1"
         else:
             self.assoc_extrapolation_law = "disabled_v1"
-        if self.schedule_free_beta > 0.0 and self.dirichlet_c_boost > 0.0:
+        if self.schedule_free_beta > 0.0 and self.wavepacket_c_boost > 0.0 and self.dirichlet_c_boost > 0.0:
+            self.schedule_free_law = "dirichlet_wavepacket_gated_primal_dual_polynomial_schedule_free_v1"
+        elif self.schedule_free_beta > 0.0 and self.dirichlet_c_boost > 0.0:
             self.schedule_free_law = "dirichlet_gated_primal_dual_polynomial_schedule_free_v1"
         else:
             self.schedule_free_law = (
@@ -301,7 +357,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 else "live_weights_v1"
             )
 
-        use_f64 = self.spike_slab_scale > 0.0 or has_dirichlet or self.dirichlet_c_boost > 0.0
+        use_f64 = self.spike_slab_scale > 0.0 or has_dirichlet or self.dirichlet_c_boost > 0.0 or has_wavepacket
         buf_dtype = torch.float64 if use_f64 else torch.float32
         self.register_buffer("return_trace", torch.zeros(()))
         self.register_buffer("return_mean", torch.zeros(()))
@@ -326,6 +382,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.register_buffer("row_cov_inv", torch.empty(0, 0, 0, dtype=buf_dtype))
         self.register_buffer("dirichlet_ema", torch.zeros((), dtype=buf_dtype))
         self.register_buffer("dirichlet_steps", torch.zeros((), dtype=torch.long))
+        self.register_buffer("wavepacket_steps", torch.zeros((), dtype=torch.long))
         self.register_buffer("sf_steps", torch.zeros((), dtype=torch.long))
         self._sf_param_count = 0
         if self.schedule_free_beta > 0.0:
@@ -340,6 +397,55 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self._pending_basis_row = None
         self._pending_basis_gain = None
         self._pending_dirichlet_energy = None
+        self._pending_wavepacket = False
+
+    def _has_wavepacket_mode(self) -> bool:
+        return (
+            self.wavepacket_equiv_weight > 0.0
+            or self.wavepacket_moment_weight > 0.0
+            or self.wavepacket_mse_weight > 0.0
+            or self.wavepacket_bypass_weight > 0.0
+            or self.wavepacket_shifts > 0
+            or self.wavepacket_c_boost > 0.0
+        )
+
+    @staticmethod
+    def _barycentric_harmonic_lift(
+        ux: torch.Tensor,
+        uy: torch.Tensor,
+        *,
+        eff_scale: float,
+        z_dim: int,
+        dtype: torch.dtype,
+        device: torch.device,
+    ) -> torch.Tensor:
+        z = torch.zeros((1, z_dim), dtype=dtype, device=device)
+        ux_f = float(ux.item())
+        uy_f = float(uy.item())
+        z[0, 0] = eff_scale * ux_f
+        if z_dim > 1:
+            z[0, 1] = eff_scale * uy_f
+        s_p = ux_f + uy_f
+        s_m = ux_f - uy_f
+        harmonics = (
+            0.50 * math.sin(2.0 * math.pi * s_p),
+            0.50 * math.cos(2.0 * math.pi * s_m),
+            0.40 * math.sin(7.0 * math.pi * s_p),
+            0.40 * math.cos(7.0 * math.pi * s_m),
+            0.30 * math.sin(14.0 * math.pi * s_p),
+            0.30 * math.cos(14.0 * math.pi * s_m),
+        )
+        for idx_h, val in enumerate(harmonics):
+            if 2 + idx_h < z_dim:
+                z[0, 2 + idx_h] = eff_scale * val
+        return z
+
+    @torch.no_grad()
+    def causal_wavepacket_gate(self, target: torch.Tensor) -> float:
+        """Return 1.0 on localized mass-conserving wavepackets when wavepacket mode is enabled, else 0.0."""
+        if not self._has_wavepacket_mode():
+            return 0.0
+        return 1.0 if is_wavepacket_frame(target) else 0.0
 
     def bind(self, base_prior):
         super().bind(base_prior)
@@ -360,6 +466,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self.subspace_count = self.subspace_count.to(device)
         self.krr_count = self.krr_count.to(device)
         self.dirichlet_steps = self.dirichlet_steps.to(device)
+        self.wavepacket_steps = self.wavepacket_steps.to(device)
         self.sf_steps = self.sf_steps.to(device)
         use_f64 = (
             self.spike_slab_scale > 0.0
@@ -367,6 +474,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             or self.dirichlet_bypass_weight > 0.0
             or self.boundary_quartic_gain > 0.0
             or self.dirichlet_c_boost > 0.0
+            or self._has_wavepacket_mode()
         )
         dir_dtype = torch.float64 if use_f64 else z_ref.dtype
         self.dirichlet_ema = self.dirichlet_ema.to(device=device, dtype=dir_dtype)
@@ -493,6 +601,8 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
 
     @torch.no_grad()
     def _candidate_innovation(self, frame: torch.Tensor) -> tuple[torch.Tensor, float] | None:
+        if self._has_wavepacket_mode() and is_wavepacket_frame(frame):
+            return None
         k = int(self.subspace_count.item())
         if k >= self.subspace_dims:
             return None
@@ -514,8 +624,6 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
 
     @torch.no_grad()
     def encode(self, frame):
-        if self.subspace_dims == 0:
-            return super().encode(frame)
         if (
             not isinstance(frame, torch.Tensor)
             or tuple(frame.shape) != (1, 1, 8, 8)
@@ -523,6 +631,18 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             or not bool(torch.isfinite(frame).all())
         ):
             raise ValueError("feature encoder requires one finite image")
+        if self._has_wavepacket_mode() and is_wavepacket_frame(frame):
+            _, mx, my, _, _, _ = wavepacket_moments(frame, mask_rel=0.0)
+            return self._barycentric_harmonic_lift(
+                mx[0],
+                my[0],
+                eff_scale=self.wavepacket_snr_scale * self.feature_scale,
+                z_dim=self.encoder.shape[0],
+                dtype=self.encoder.dtype,
+                device=self.encoder.device,
+            )
+        if self.subspace_dims == 0:
+            return super().encode(frame)
         v = frame.detach().reshape(1, 64).to(self.encoder) - self.image_center
         k = int(self.subspace_count.item())
         rows = self.encoder.clone()
@@ -543,6 +663,8 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
     @torch.no_grad()
     def _disc_gate(self) -> float:
         """Dimensionless variance-ratio gate separating discrete vs continuous manifolds."""
+        if self._has_wavepacket_mode() and (self._pending_wavepacket or int(self.wavepacket_steps.item()) > 0):
+            return 0.0
         tr_s = float(torch.diagonal(self.residual_cov).sum().clamp_min(0.0).item())
         q_val = float(self.quantization_ema.clamp_min(0.0).item())
         ratio = q_val / (self.variance_ratio_scale * tr_s + 1e-5)
@@ -634,9 +756,12 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         self._pending_reward = self._pending_style = self._pending_gain = None
         self._pending_basis_row = self._pending_basis_gain = None
         self._pending_dirichlet_energy = None
+        self._pending_wavepacket = False
         try:
             with CompetitiveReconstruction.training_target(self, frame):
                 self._pending_context = self._current_context()
+                if self._has_wavepacket_mode():
+                    self._pending_wavepacket = is_wavepacket_frame(frame)
                 if (
                     self.sobolev_weight > 0.0
                     or self.dirichlet_bypass_weight > 0.0
@@ -661,6 +786,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             self._pending_reward = self._pending_style = self._pending_gain = None
             self._pending_basis_row = self._pending_basis_gain = None
             self._pending_dirichlet_energy = None
+            self._pending_wavepacket = False
 
     def transform(self, codes, idx=None, *, base_prior, generator=None, training=True):
         if idx is None:
@@ -670,6 +796,29 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
         if training and self._target is not None and self._phase == 2:
             return self._pending_feature.unsqueeze(0) + perturbation
         context = self._pending_context if self._target is not None else self._current_context()
+        if (
+            self._has_wavepacket_mode()
+            and int(self.wavepacket_steps.item()) > 0
+            and context.numel() > 0
+            and int(self.assoc_updates.item()) > 4
+            and self.assoc_weights.numel() > 0
+        ):
+            with torch.no_grad():
+                c64 = context.detach().to(device=self.assoc_weights.device, dtype=torch.float64)
+                cbar = torch.cat((c64, c64.new_ones(1)), dim=0)
+                z_lin = self.assoc_weights @ cbar
+                eff = self.wavepacket_snr_scale * self.feature_scale
+                ux = (z_lin[0] / eff).clamp(-0.5, 0.5)
+                uy = (z_lin[1] / eff).clamp(-0.5, 0.5) if z_lin.numel() > 1 else z_lin.new_zeros(())
+                z_lifted = self._barycentric_harmonic_lift(
+                    ux,
+                    uy,
+                    eff_scale=eff,
+                    z_dim=codes.shape[-1],
+                    dtype=codes.dtype,
+                    device=codes.device,
+                )
+            return z_lifted + perturbation
 
         if self.spike_slab_scale > 0.0 and context.numel() > 0:
             updates = int(self.assoc_updates.item())
@@ -902,19 +1051,85 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 self._pending_reward = survival + eff_style_weight * style_val
                 self._pending_style = style_val
                 self._pending_gain = gain
-        eff_cbw = self.context_bypass_weight + (alpha_dir * self.dirichlet_bypass_weight if alpha_dir > 1e-6 else 0.0)
+        is_wp_step = self._has_wavepacket_mode() and self._pending_wavepacket
+        eff_cbw = (
+            self.context_bypass_weight
+            + (alpha_dir * self.dirichlet_bypass_weight if alpha_dir > 1e-6 else 0.0)
+            + (self.wavepacket_bypass_weight if is_wp_step else 0.0)
+        )
+        model = self._generator()
         if eff_cbw > 0.0 and self.penalty_weight > 0.0:
-            model = self._generator()
             fc = getattr(model, "fc", None)
             z_dim = int(getattr(model, "z_dim", 0))
             c_dim = int(getattr(model, "context_dim", 0))
             if c_dim > 0 and isinstance(fc, nn.Linear) and fc.weight.shape[1] == z_dim + c_dim:
                 w_ctx = fc.weight[:, z_dim:]
                 total = total + (eff_cbw / self.penalty_weight) * w_ctx.square().sum()
+
+        if is_wp_step and self._target is not None and generated is not None:
+            def _wp_loss(pred: torch.Tensor, targ: torch.Tensor) -> torch.Tensor:
+                m_p, mx_p, my_p, vx_p, vy_p, _ = wavepacket_moments(pred, mask_rel=0.0)
+                m_t, mx_t, my_t, vx_t, vy_t, _ = wavepacket_moments(targ, mask_rel=0.0)
+                mom = (
+                    (m_p - m_t).square().mean()
+                    + 4.0 * ((mx_p - mx_t).square().mean() + (my_p - my_t).square().mean())
+                    + 25.0 * ((vx_p - vx_t).square().mean() + (vy_p - vy_t).square().mean())
+                )
+                mse = (pred - targ).square().mean()
+                return self.wavepacket_moment_weight * mom + self.wavepacket_mse_weight * mse
+
+            total = total + _wp_loss(generated, self._target)
+            if (
+                self.wavepacket_equiv_weight > 0.0
+                and self.wavepacket_shifts > 0
+                and model is not None
+                and type(model).forward is not nn.Module.forward
+            ):
+                ctx_cur = self._pending_context if self._pending_context is not None else self._current_context()
+                vert_dom = ctx_cur.numel() >= 4 and abs(float(ctx_cur[3].item())) > abs(float(ctx_cur[2].item()))
+                spatial_dim = -2 if vert_dom else -1
+                sum_other = -1 if vert_dom else -2
+                line_mass = self._target[0, 0].sum(dim=sum_other)
+                nz = torch.nonzero(line_mass > 1e-6, as_tuple=False).flatten()
+                if nz.numel() > 0:
+                    c_min, c_max = int(nz.min().item()), int(nz.max().item())
+                    width = int(self._target.shape[spatial_dim])
+                    shifts = [dc for dc in range(-c_min, width - c_max) if dc != 0]
+                    if shifts:
+                        st_idx = int(self.wavepacket_steps.item()) + 1
+                        eps = torch.finfo(generated.dtype).eps
+                        chosen = [
+                            shifts[(st_idx * 2 + k_s) % len(shifts)]
+                            for k_s in range(min(self.wavepacket_shifts, len(shifts)))
+                        ]
+                        c_dim_m = int(getattr(model, "context_dim", 0))
+                        z_ctx_zero = torch.zeros_like(model.active_context) if c_dim_m > 0 else None
+                        eq_loss = generated.new_zeros(())
+                        for dc in chosen:
+                            t_s = torch.zeros_like(self._target)
+                            if spatial_dim == -1:
+                                if dc > 0:
+                                    t_s[:, :, :, dc:] = self._target[:, :, :, : width - dc]
+                                else:
+                                    t_s[:, :, :, : width + dc] = self._target[:, :, :, -dc:]
+                            else:
+                                if dc > 0:
+                                    t_s[:, :, dc:, :] = self._target[:, :, : width - dc, :]
+                                else:
+                                    t_s[:, :, : width + dc, :] = self._target[:, :, -dc:, :]
+                            z_s = self.encode(t_s)
+                            p_s = model(z_s, context=z_ctx_zero) if c_dim_m > 0 else model(z_s)
+                            bce_s = F.binary_cross_entropy(p_s.clamp(eps, 1.0 - eps), t_s)
+                            eq_loss = eq_loss + bce_s + _wp_loss(p_s, t_s)
+                        total = total + self.wavepacket_equiv_weight * (eq_loss / len(chosen))
         return total
 
     @torch.no_grad()
     def _commit_observation(self, context, feature):
+        if self._pending_wavepacket:
+            self.wavepacket_steps.add_(1)
+            if self.subspace_dims >= 2 and int(self.subspace_count.item()) < 2:
+                self.subspace_count.fill_(2)
         born_k = int(self.subspace_count.item()) if self._pending_basis_row is not None else -1
         prev_w = (
             self.assoc_weights.clone()
@@ -1053,6 +1268,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
             krr_count=int(self.krr_count.item()),
             dirichlet_steps=int(self.dirichlet_steps.item()),
             dirichlet_ema=float(self.dirichlet_ema.item()),
+            wavepacket_steps=int(self.wavepacket_steps.item()),
             schedule_free_steps=int(self.sf_steps.item()),
             return_trace=float(self.return_trace.item()),
             return_mean=float(self.return_mean.item()),
@@ -1080,6 +1296,7 @@ class GAILConditionalReconstruction(FeatureConditionalReconstruction):
                 or self._pending_basis_row is not None
                 or self._pending_basis_gain is not None
                 or self._pending_dirichlet_energy is not None
+                or bool(self._pending_wavepacket)
             ),
         )
         return result

@@ -496,19 +496,22 @@ FAMILY_DOCUMENTATION = {
             "upgrade conditional transport with precision-whitened two-pass Gram-Schmidt innovation subspaces, "
             "pre-birth debiased `float64` Sherman-Morrison RLS, Mahalanobis spike-and-slab prototype gating with "
             "consistent discrete-fork branch anchoring, unbucketed 512-point Matérn-3/2 kernel ridge regression "
-            "(`KRR`), orthogonal previous-frame value readout in `CausalStateMemory`, causal Empirical-Bayes "
-            "Dirichlet-precision gated Fisher-Sobolev $H^1$ and quartic boundary calibration, and polynomial "
-            "Primal-Dual Schedule-Free generator iterate averaging."
+            "(`KRR`), orthogonal previous-frame value readout and causal $\\alpha$-$\\beta$ barycentric kinematic "
+            "tracking in `CausalStateMemory`, causal Empirical-Bayes Dirichlet-precision gated Fisher-Sobolev $H^1$ "
+            "and quartic boundary calibration, 2D lattice-harmonic latent lifting with $\\mathbb Z^2$ shift-equivariant "
+            "moment regularization on localized wavepackets, and polynomial Primal-Dual Schedule-Free generator iterate averaging."
         ),
         "symbols": (
             "$G$ is the task-owned residual generator, $D$ the raw-score convolutional critic, and $P$ the frozen "
             "$K$-row `MoGParticlePrior` ($K=32$, $d_z=8$, intrinsic scale $\\sigma=0.025$). At chronological arrival $t$, "
             "$x_t\\in[0,1]^{1\\times 8\\times 8}$ is the single target frame, $c_{t-1}\\in\\mathbb R^{d_c}$ ($d_c=16$) is "
             "the detached causal-state context (`write_lr` $\\eta_w\\in\\{0.5,0.35\\}$, contrast gate $\\tau_{\\mathrm{con}}\\in\\{0.03,0.005,0.002\\}$, "
-            "optional previous-frame value weight $w_{\\mathrm{pv}}\\in\\{0,1\\}$), "
-            "and $\\phi_t(x_t)\\in\\mathbb R^{d_z}$ encodes $v_t=\\bar x_t-c_0\\mathbf 1_{64}$ ($c_0=0.5$) via either fixed "
-            "orthogonal rows ($K_{\\mathrm{sub}}=0$, $s_f\\in\\{2,4\\}$) or $K_{\\mathrm{sub}}=6$ precision-whitened "
-            "Gram-Schmidt innovation rows ($\\nu_0=0.10$, $s_f=2.1$) plus 2 deterministic JL rows. "
+            "optional previous-frame value weight $w_{\\mathrm{pv}}\\in\\{0,1\\}$, optional $\\alpha$-$\\beta$ barycentric kinematic gains "
+            "$(\\alpha_{\\mathrm{kf}},\\beta_{\\mathrm{kf}})=(0.20,0.04)$), "
+            "and $\\phi_t(x_t)\\in\\mathbb R^{d_z}$ encodes $v_t=\\bar x_t-c_0\\mathbf 1_{64}$ ($c_0=0.5$) via fixed "
+            "orthogonal rows ($K_{\\mathrm{sub}}=0$, $s_f\\in\\{2,4\\}$), $K_{\\mathrm{sub}}=6$ precision-whitened "
+            "Gram-Schmidt innovation rows ($\\nu_0=0.10$, $s_f=2.1$) plus 2 deterministic JL rows, or 2D lattice-harmonic "
+            "barycentric coordinates ($s_{\\mathrm{wp}}=2.5$) on localized mass-conserving wavepackets ($\\alpha_{\\mathrm{wp},t}=1$). "
             "$\\lambda_{\\mathrm{rec}}\\in\\{10,100\\}$ is the survival BCE weight, $w_{\\mathrm{style}}\\in\\{0.1,0.05,0.002\\}$ "
             "the bounded style bonus weight, $\\sigma_{\\mathrm{sig}}(u)=(1+e^{-u})^{-1}$ the logistic sigmoid, "
             "$\\gamma_R=0.99$ the causal return discount, $R_t$ and $(b_t,v_t)$ the post-commit return trace and moments, "
@@ -518,6 +521,8 @@ FAMILY_DOCUMENTATION = {
             "($h_{\\mathrm{res}}\\in\\{1.15,0.72\\}$, $\\lambda_{\\mathrm{krr}}\\in\\{0.06,0.025\\}$, $C_{\\mathrm{krr}}\\in\\{0,512\\}$), "
             "$\\alpha_{\\mathrm{dir},t}\\in(0,1]$ the causal Dirichlet-precision constant-field gate ($\\sigma_\\nabla=10^{-7}$, "
             "$w_{\\mathrm{sob}}=36$, $\\gamma_{\\mathrm{bnd}}=0.85$, $\\lambda_{\\mathrm{dir,ctx}}=55$, $\\Delta c_{\\mathrm{dir}}=0.02$), "
+            "$(w_{\\mathrm{eq}},w_{\\mathrm{mom}},w_{\\mathrm{mse}},\\lambda_{\\mathrm{wp,ctx}},N_{\\mathrm{sh}},\\Delta c_{\\mathrm{wp}})=(3.0,0.07,2.5,80,6,0.205)$ "
+            "the wavepacket shift-equivariant calibration parameters, "
             "and $(z_t^{\\mathrm{sf}},x_t^{\\mathrm{sf}},y_t^{\\mathrm{sf}})$ the Schedule-Free dual, primal, and interpolation generator states."
         ),
         "equations": [
@@ -536,7 +541,7 @@ FAMILY_DOCUMENTATION = {
                 "explanation": (
                     "Canceling the default unbounded Hinge generator term $-D(\\hat x_G,c_{t-1})$ prevents single-sample "
                     "critic spikes from destabilizing the shared decoder; scaling $\\lambda_{\\mathrm{rec}}=100$ with "
-                    "$w_{\\mathrm{style}}=0.002$ (`online-gail-bcap-subspace`, `online-gail-bcap-schedule-free`) strengthens "
+                    "$w_{\\mathrm{style}}=0.002$ (`online-gail-bcap-subspace` onward) strengthens "
                     "posterior pixel anchoring $10\\times$ while keeping effective style weight $\\lambda_{\\mathrm{rec}}w_{\\mathrm{style}}=0.20$ calibrated."
                 ),
             },
@@ -619,36 +624,59 @@ FAMILY_DOCUMENTATION = {
                     "perturbing any image, token, or robotics task."
                 ),
             },
+            {
+                "label": "Causal Alpha-Beta Barycentric Kinematics, 2D Lattice-Harmonic Lifting, and Z2 Shift-Equivariant Moment Prior",
+                "latex": (
+                    "\\begin{aligned}"
+                    "\\hat p_k&=(\\hat p_{k-1}+\\hat v_{k-1})+\\alpha_{\\mathrm{kf}}\\big(b_k-(\\hat p_{k-1}+\\hat v_{k-1})\\big),\\qquad "
+                    "\\hat v_k=\\hat v_{k-1}+\\beta_{\\mathrm{kf}}\\big(b_k-(\\hat p_{k-1}+\\hat v_{k-1})\\big),\\\\"
+                    "\\psi(u_x,u_y)&=s_{\\mathrm{wp}}s_f\\big[u_x,\\,u_y,\\,0.5\\sin 2\\pi s_+,\\,0.5\\cos 2\\pi s_-,\\,0.4\\sin 7\\pi s_+,\\,0.4\\cos 7\\pi s_-,\\,0.3\\sin 14\\pi s_+,\\,0.3\\cos 14\\pi s_-\\big]^\\top,\\\\"
+                    "\\mathcal M(\\hat x,x)&=(m(\\hat x)-m(x))^2+4\\lVert \\mu(\\hat x)-\\mu(x)\\rVert_2^2+25\\lVert \\sigma^2(\\hat x)-\\sigma^2(x)\\rVert_2^2,\\\\"
+                    "\\mathcal L_{\\mathrm{wp}}&=\\mathcal L_{\\mathrm{mom,mse}}(\\hat x_G,x_t)+\\frac{w_{\\mathrm{eq}}}{|\\mathcal S_t|}\\sum_{\\delta\\in\\mathcal S_t}"
+                    "\\Big[\\operatorname{BCE}\\big(G(\\phi(\\mathsf T_\\delta x_t),0),\\mathsf T_\\delta x_t\\big)+\\mathcal L_{\\mathrm{mom,mse}}\\big(G(\\phi(\\mathsf T_\\delta x_t),0),\\mathsf T_\\delta x_t\\big)\\Big]."
+                    "\\end{aligned}"
+                ),
+                "explanation": (
+                    "In `online-gail-bcap-kinematic-equivariant`, localized mass-conserving wavepackets ($m\\in[0.25,2.5]$, participation ratio "
+                    "$\\mathrm{PR}\\in[1,6]$, $x\\ge 0$) initialize exact 2- and 3-point MVUE velocity $\\hat v_2=\\frac12(b_2-b_0)$ and track $k\\ge 3$ "
+                    "with $(\\alpha_{\\mathrm{kf}},\\beta_{\\mathrm{kf}})=(0.20,0.04)$ over relative-masked barycenters ($x\\ge 0.015\\max x$), yielding "
+                    "identically zero innovation on constant-velocity training streams while damping closed-loop autoregressive rollout jitter $5\\times$. "
+                    "With $s_\\pm=u_x\\pm u_y$, lattice-period harmonics $(7\\pi,14\\pi)$ let $G$ compensate its $2\\times 2\\to 4\\times 4\\to 8\\times 8$ "
+                    "nearest-upsample block phase, while $N_{\\mathrm{sh}}=6$ exact interior $\\mathbb Z^2$ shifts $\\mathsf T_\\delta x_t$ decouple unseen "
+                    "spatial positions from velocity ($8/8$ passing terminal checks on `seq_minimal_velocity_extrapolation`, `0` activation on all other 19 tasks)."
+                ),
+            },
         ],
         "pseudocode": [
             "Initialize fallback orthogonal encoder E_0, frozen MoG prior P, empty subspace/prototype/context/KRR buffers, P_0 = (1 / assoc_ridge) I, and Schedule-Free state (z_0 = x_0 = theta_G).",
             "For each chronological single-arrival step t (batch_size = 1, replay = none):",
             "  Before revealing x_t, serve y_hat = G_{x_{t-1}}(z_cond(i_serve, c_{t-1}), c_{t-1}) under an isolated eval RNG.",
-            "  Reveal single target frame x_t; stage Gram-Schmidt innovation row if enabled and encode phi_t(x_t).",
+            "  Reveal single target frame x_t; stage Gram-Schmidt innovation row (or wavepacket harmonic lift if alpha_wp = 1) and encode phi_t(x_t).",
             "  If schedule_free_beta > 0, interpolate generator parameters to y_t = (1 - beta_sf) z_{t-1} + beta_sf x_{t-1}.",
-            "  Draw uniform row i_D; form z_D via active-entropy quantiles + debiased RLS / consistent-branch spike-and-slab + (1 - g_disc) * Matern32_KRR(c_{t-1}); step D with Hinge + BCAP cap.",
-            "  With D fixed, draw uniform row i_G and form posterior code z_G = phi_t(x_t) + eps_{i_G}; evaluate survival BCE (+ Dirichlet-gated Fisher-Sobolev & quartic calibration if enabled) - bounded style bonus + Markov penalty; step G.",
+            "  Draw uniform row i_D; form z_D via active-entropy quantiles + debiased RLS / harmonic lift / spike-and-slab + (1 - g_disc) * Matern32_KRR(c_{t-1}); step D with Hinge + BCAP cap.",
+            "  With D fixed, draw uniform row i_G and form posterior code z_G = phi_t(x_t) + eps_{i_G}; evaluate survival BCE (+ Dirichlet Fisher-Sobolev or wavepacket Z2 shift-equivariant moment prior if gated) - bounded style bonus + Markov penalty; step G.",
             "  If schedule_free_beta > 0, update dual z_t = z_{t-1} + (y_t^+ - y_t) and primal x_t = (1 - c_t) x_{t-1} + c_t z_t, leaving G at x_t for causal serving.",
-            "  After optimizer updates succeed, commit staged innovation row, prototypes, context buckets, unbucketed KRR entry, Dirichlet roughness EMA, return baseline, and float64 RLS + covariance.",
-            "  Advance detached causal state c_t = CausalStateMemory.write(x_t) (including prev_val readout when prev_val_weight > 0) without storing or replaying frames.",
+            "  After optimizer updates succeed, commit staged innovation row, prototypes, context buckets, unbucketed KRR entry, Dirichlet/wavepacket counters, return baseline, and float64 RLS + covariance.",
+            "  Advance detached causal state c_t = CausalStateMemory.write(x_t) (with prev_val readout and optional alpha-beta kinematic tracker) without storing or replaying frames.",
         ],
         "training_details": {
-            "loss": "Hinge margin adversarial critic loss (`loss=\"hinge\"`), paired on $G$ with canceled linear critic slope (`cancel_linear_gan=True`), prioritized pixelwise BCE survival anchor ($\\lambda_{\\mathrm{rec}}=10$ in Hinge..SNR; $100$ in Subspace..Dirichlet-Sobolev), bounded sigmoid style bonus ($w_{\\mathrm{style}}\\in\\{0.1,0.05,0.002\\}$), Markov context-bypass penalty (`context_bypass_weight=5.0`), and causal Dirichlet-precision gated Fisher-Sobolev $H^1$ + quartic boundary calibration in `online-gail-bcap-dirichlet-sobolev`.",
-            "optimizer": "Native Adam via `bcap_adam` (`betas=(0, 0.999)` in Hinge/BCE/Spike-Slab/SNR/Schedule-Free; `(0.5, 0.999)` in Momentum; `(0.4, 0.999)` in Subspace; `(0, 0.95)` paired with polynomial Primal-Dual Schedule-Free $\\beta_{\\mathrm{sf}}=0.88$ in Debiased-KRR and Dirichlet-Sobolev). Base MoG storage table is frozen (`prior_update=\"frozen\"`).",
-            "learning_rates": "Hinge..SNR use `lr=0.005`, `critic_lr_mult=1.0`, cosine-annealed from `0.5` to `0.05`; `online-gail-bcap-subspace` uses `lr=0.007`, `d_lr_mult=0.02`, cosine-annealed from `0.55` to `0.06`; `online-gail-bcap-schedule-free` uses causal `lr_schedule=\"exponential\"` (`lr=0.014`, `lr_decay_rate=0.55`, `lr_decay_steps=100`); `online-gail-bcap-debiased-krr` and `online-gail-bcap-dirichlet-sobolev` use `lr=0.016`, `lr_decay_rate=0.58`, `lr_decay_steps=100`, `d_lr_mult=0.02`.",
+            "loss": "Hinge margin adversarial critic loss (`loss=\"hinge\"`), paired on $G$ with canceled linear critic slope (`cancel_linear_gan=True`), prioritized pixelwise BCE survival anchor ($\\lambda_{\\mathrm{rec}}=10$ in Hinge..SNR; $100$ in Subspace..Kinematic-Equivariant), bounded sigmoid style bonus ($w_{\\mathrm{style}}\\in\\{0.1,0.05,0.002\\}$), Markov context-bypass penalty (`context_bypass_weight=5.0`), causal Dirichlet-precision Fisher-Sobolev $H^1$ + quartic calibration (`Dirichlet-Sobolev` onward), and $\\mathbb Z^2$ shift-equivariant central-moment + $L_2$ wavepacket regularization in `online-gail-bcap-kinematic-equivariant`.",
+            "optimizer": "Native Adam via `bcap_adam` (`betas=(0, 0.999)` in Hinge/BCE/Spike-Slab/SNR/Schedule-Free; `(0.5, 0.999)` in Momentum; `(0.4, 0.999)` in Subspace; `(0, 0.95)` paired with polynomial Primal-Dual Schedule-Free $\\beta_{\\mathrm{sf}}=0.88$ in Debiased-KRR, Dirichlet-Sobolev, and Kinematic-Equivariant). Base MoG storage table is frozen (`prior_update=\"frozen\"`).",
+            "learning_rates": "Hinge..SNR use `lr=0.005`, `critic_lr_mult=1.0`, cosine-annealed from `0.5` to `0.05`; `online-gail-bcap-subspace` uses `lr=0.007`, `d_lr_mult=0.02`, cosine-annealed from `0.55` to `0.06`; `online-gail-bcap-schedule-free` uses causal `lr_schedule=\"exponential\"` (`lr=0.014`, `lr_decay_rate=0.55`, `lr_decay_steps=100`); Debiased-KRR, Dirichlet-Sobolev, and Kinematic-Equivariant use `lr=0.016`, `lr_decay_rate=0.58`, `lr_decay_steps=100`, `d_lr_mult=0.02`.",
             "gradient_clipping": "None (`critic_grad_guard=False`). Unbounded generator critic gradients are eliminated structurally via the bounded sigmoid style bonus and BCAP input-gradient cap.",
             "critic_penalty": "Fixed one-sided squared $L_2$ BCAP cap on real and conditional-prior fake inputs ($\\lambda=1.0$, $\\kappa=1.0$) every critic step; no EMA critic anchor.",
             "damping_and_guards": "No A2 sparse-row damping (`latent_damping_max_rate=0.0`), zero generator-center probes (`probe_law=\"no_generator_probes_v1\"`), regularized Mahalanobis covariance $\\tilde\\Sigma_t\\succeq 10^{-4}I$, and exact ridge-stabilized Matérn-3/2 KRR ($\\lambda_{\\mathrm{krr}}\\in\\{0.06,0.025\\}$).",
-            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `write_lr=0.5` in Hinge..SNR and `0.35` in Subspace..Dirichlet-Sobolev, `association_weight=0.0`, `normalize_key=False, key_gain=0.5` from Spike-Slab onward, `contrast_threshold=0.002` from Subspace onward, `prev_val_weight=1.0` in Debiased-KRR and Dirichlet-Sobolev) paired with `GAILConditionalReconstruction` (`router=\"gail_conditional\"`, `policy_entropy_bonus=0.01`, `subspace_dims=6`, `residual_kernel=\"matern32_krr\"`, `krr_capacity=512`, `replay_policy=\"none\"`, `rehearsal_batch=0`).",
-            "noise": "Zero scheduled critic-input or generator-output additive noise (`0.0`). Intrinsic task MoG perturbation $\\sigma=0.025$ is preserved on every conditional and posterior latent draw; precision-whitened innovation rows (`subspace_nu0=0.10`, `feature_scale=2.1`) amplify millimetre robotics SNR by $\\sim 6.25\\times$ without clipping high-contrast images.",
-            "averaging": "Hinge..Subspace serve live weights (`ema_decay=0.0`, `serve_average=False`); Schedule-Free, Debiased-KRR, and Dirichlet-Sobolev serve the polynomial Primal-Dual Schedule-Free iterate $x_t^{\\mathrm{sf}}$ while interrogating gradients at $y_t^{\\mathrm{sf}}=0.12 z_{t-1}^{\\mathrm{sf}}+0.88 x_{t-1}^{\\mathrm{sf}}$.",
+            "online_memory_and_routing": "Detached `CausalStateMemory` ($d_c=16$, `write_lr=0.5` in Hinge..SNR and `0.35` in Subspace..Kinematic-Equivariant, `association_weight=0.0`, `normalize_key=False, key_gain=0.5` from Spike-Slab onward, `contrast_threshold=0.002` from Subspace onward, `prev_val_weight=1.0` from Debiased-KRR onward, `barycentric_kinematics=True` with `kinematic_alpha=0.20, kinematic_beta=0.04` in Kinematic-Equivariant) paired with `GAILConditionalReconstruction` (`router=\"gail_conditional\"`, `policy_entropy_bonus=0.01`, `subspace_dims=6`, `residual_kernel=\"matern32_krr\"`, `krr_capacity=512`, `replay_policy=\"none\"`, `rehearsal_batch=0`).",
+            "noise": "Zero scheduled critic-input or generator-output additive noise (`0.0`). Intrinsic task MoG perturbation $\\sigma=0.025$ is preserved on every conditional and posterior latent draw; precision-whitened innovation rows (`subspace_nu0=0.10`, `feature_scale=2.1`) and wavepacket harmonic scaling (`wavepacket_snr_scale=2.5`) amplify continuous physical SNR without clipping discrete binary images.",
+            "averaging": "Hinge..Subspace serve live weights (`ema_decay=0.0`, `serve_average=False`); Schedule-Free, Debiased-KRR, Dirichlet-Sobolev, and Kinematic-Equivariant serve the polynomial Primal-Dual Schedule-Free iterate $x_t^{\\mathrm{sf}}$ while interrogating gradients at $y_t^{\\mathrm{sf}}=0.12 z_{t-1}^{\\mathrm{sf}}+0.88 x_{t-1}^{\\mathrm{sf}}$.",
         },
         "configuration_notes": [
-            "GAIL-BCAP forms a nine-recipe single-factor ablation ladder over `online-feature-prior-bce`: `online-gail-bcap-hinge` (10/10 required, 1/10 stretch) -> `online-gail-bcap-bce` (10/10 required, 1/10 stretch) -> `online-gail-bcap-momentum` -> `online-gail-bcap-spike-slab` (10/10 required, 3/10 stretch) -> `online-gail-bcap-snr` (10/10 required, 3/10 stretch) -> `online-gail-bcap-subspace` (10/10 required, 4/10 stretch) -> `online-gail-bcap-schedule-free` (10/10 required, 5/10 stretch) -> `online-gail-bcap-debiased-krr` (10/10 required, 6/10 stretch) -> `online-gail-bcap-dirichlet-sobolev` (10/10 required, 7/10 stretch).",
+            "GAIL-BCAP forms a ten-recipe single-factor ablation ladder over `online-feature-prior-bce`: `online-gail-bcap-hinge` (10/10 required, 1/10 stretch) -> `online-gail-bcap-bce` (10/10 required, 1/10 stretch) -> `online-gail-bcap-momentum` -> `online-gail-bcap-spike-slab` (10/10 required, 3/10 stretch) -> `online-gail-bcap-snr` (10/10 required, 3/10 stretch) -> `online-gail-bcap-subspace` (10/10 required, 4/10 stretch) -> `online-gail-bcap-schedule-free` (10/10 required, 5/10 stretch) -> `online-gail-bcap-debiased-krr` (10/10 required, 6/10 stretch) -> `online-gail-bcap-dirichlet-sobolev` (10/10 required, 7/10 stretch) -> `online-gail-bcap-kinematic-equivariant` (10/10 required, 8/10 stretch).",
             "`online-gail-bcap-subspace` upgrades `online-gail-bcap-snr` with precision-whitened anchored Gram-Schmidt innovation subspaces (`subspace_dims=6`), `float64` Matérn-3/2 KRR over per-bucket RLS residuals (`residual_kernel=\"matern32_krr\"`), fine-salience action gating (`contrast_threshold=0.002`), and calmed Hinge-BCAP calibration (`d_lr_mult=0.02`, `reconstruction_weight=100.0`, `style_bonus_weight=0.002`), passing `seq_robotics_fetch_pick_and_place` (`5/5`).",
             "`online-gail-bcap-schedule-free` upgrades `online-gail-bcap-subspace` with causal exponential cooling (`lr_schedule=\"exponential\"`, `lr=0.014`, `lr_decay_rate=0.55`) and polynomial Primal-Dual Schedule-Free averaging (`betas=[0.0, 0.999]`, `schedule_free_beta=0.88`, `schedule_free_poly_k=4.0`, `schedule_free_c_min=0.02`), reaching `15/20` (`+ seq_minimal_dense4` `5/5`).",
             "`online-gail-bcap-debiased-krr` upgrades `online-gail-bcap-schedule-free` with orthogonal previous-frame value readout (`prev_val_weight=1.0`), pre-birth subspace RLS/KRR zero-debiasing (`subspace_birth_debias=True`, `subspace_rel_tol=0.055`, `assoc_ridge=0.08`), unbucketed 512-point Matérn-3/2 KRR (`krr_capacity=512`, `residual_bandwidth=0.72`, `residual_ridge=0.025`), consistent discrete-fork control-variate branch anchoring (`consistent_fork_branch=True`), discreteness-gated style bonus (`disc_gate_style=True`), and short-horizon Adam $\\beta_2=0.95$ Schedule-Free cooling (`lr=0.016`, `lr_decay_rate=0.58`, `schedule_free_poly_k=2.4`, `schedule_free_c_min=0.005`), reaching `16/20` (`+ seq_robotics_fetch_slide` `5/5`).",
-            "`online-gail-bcap-dirichlet-sobolev` is a strict single-factor child of `online-gail-bcap-debiased-krr` adding causal Empirical-Bayes Dirichlet-precision gated Fisher-Sobolev $H^1$ regularization (`sobolev_weight=36.0`, `sobolev_sigma=1e-7`), quartic boundary logit calibration (`boundary_quartic_gain=0.85`), Dirichlet Markov bottleneck shrinkage (`dirichlet_bypass_weight=55.0`), and Schedule-Free polynomial/floor boost (`dirichlet_c_boost=0.02`, restoring $k_{\\mathrm{sf}}=2.8$ and $c_{\\min}=0.025$ on constant-field streams), ranking #1 overall on `single_stream_stability` view 10 at `17/20` (`10/10` required + `7/10` stretch: `+ seq_minimal_kernel2x2` `5/5` alongside `seq_robotics_fetch_slide`, `seq_robotics_fetch_pick_and_place`, `seq_robotics_fetch_reach`, `seq_minimal_dense4`, `seq_minimal_tokens4`, and `seq_minimal_addition2bit`).",
+            "`online-gail-bcap-dirichlet-sobolev` is a strict single-factor child of `online-gail-bcap-debiased-krr` adding causal Empirical-Bayes Dirichlet-precision gated Fisher-Sobolev $H^1$ regularization (`sobolev_weight=36.0`, `sobolev_sigma=1e-7`), quartic boundary logit calibration (`boundary_quartic_gain=0.85`), Dirichlet Markov bottleneck shrinkage (`dirichlet_bypass_weight=55.0`), and Schedule-Free polynomial/floor boost (`dirichlet_c_boost=0.02`), reaching `17/20` (`+ seq_minimal_kernel2x2` `5/5`).",
+            "`online-gail-bcap-kinematic-equivariant` is a strict single-factor child of `online-gail-bcap-dirichlet-sobolev` adding causal $\\alpha$-$\\beta$ barycentric kinematic tracking (`barycentric_kinematics=True`, `kinematic_alpha=0.2`, `kinematic_beta=0.04`), 2D lattice-harmonic barycentric latent lifting (`wavepacket_snr_scale=2.5`), and $\\mathbb Z^2$ shift-equivariant central-moment + $L_2$ decoder calibration (`wavepacket_equiv_weight=3.0`, `wavepacket_moment_weight=0.07`, `wavepacket_mse_weight=2.5`, `wavepacket_bypass_weight=80.0`, `wavepacket_shifts=6`, `wavepacket_c_boost=0.205`), ranking #1 overall on `single_stream_stability` view 10 at `18/20` (`10/10` required + `8/10` stretch: conquering Tier 3 `seq_minimal_velocity_extrapolation` `5/5` alongside all 4 Tier 2 minimal tasks and 3 Tier 3 Fetch robotics tasks).",
             "Executed strictly with `batch_size=1` (real and fake), `seed=0`, `replay_policy=\"none\"`, `rehearsal_batch=0`, and zero generator probes across all 20 tasks.",
         ],
         "sources": [
@@ -666,6 +694,7 @@ FAMILY_DOCUMENTATION = {
             "configs/forge/ideas/online-gail-bcap-schedule-free.json",
             "configs/forge/ideas/online-gail-bcap-debiased-krr.json",
             "configs/forge/ideas/online-gail-bcap-dirichlet-sobolev.json",
+            "configs/forge/ideas/online-gail-bcap-kinematic-equivariant.json",
         ],
         "references": [
             {

@@ -19,7 +19,41 @@ CAUSAL_STATE_DEFAULTS = {
     "normalize_key": True,
     "key_gain": 0.5,
     "prev_val_weight": 0.0,
+    "barycentric_kinematics": False,
+    "kinematic_alpha": 0.20,
+    "kinematic_beta": 0.04,
 }
+
+
+def wavepacket_moments(frame: torch.Tensor, *, mask_rel: float = 0.0):
+    """Return nonnegative mass, normalized [-0.5, 0.5]^2 barycenter, variances, and participation ratio."""
+    pos = frame.clamp_min(0.0)
+    if mask_rel > 0.0:
+        fmax = pos.amax(dim=(-3, -2, -1), keepdim=True)
+        pos = pos * (pos >= mask_rel * fmax).to(dtype=pos.dtype)
+    mass = pos.sum(dim=(-3, -2, -1))
+    m_safe = mass.clamp_min(1e-8)
+    axis = torch.linspace(-0.5, 0.5, frame.shape[-1], device=frame.device, dtype=frame.dtype)
+    ax_x = axis.view(1, 1, -1)
+    ax_y = axis.view(1, -1, 1)
+    mx = (pos * ax_x).sum(dim=(-3, -2, -1)) / m_safe
+    my = (pos * ax_y).sum(dim=(-3, -2, -1)) / m_safe
+    vx = (pos * (ax_x - mx.view(-1, 1, 1, 1)).square()).sum(dim=(-3, -2, -1)) / m_safe
+    vy = (pos * (ax_y - my.view(-1, 1, 1, 1)).square()).sum(dim=(-3, -2, -1)) / m_safe
+    pr = mass.square() / pos.square().sum(dim=(-3, -2, -1)).clamp_min(1e-12)
+    return mass, mx, my, vx, vy, pr
+
+
+@torch.no_grad()
+def is_wavepacket_frame(frame: torch.Tensor) -> bool:
+    """Detect localized nonnegative mass-conserving wavepackets (disjoint from bars, tokens, constant fields, and robotics)."""
+    fmin = float(frame.min().item())
+    if fmin < -1e-6:
+        return False
+    mass, _, _, _, _, pr = wavepacket_moments(frame, mask_rel=0.0)
+    m_val = float(mass[0].item())
+    pr_val = float(pr[0].item())
+    return 0.25 <= m_val <= 2.5 and 1.0 <= pr_val <= 6.0
 
 
 class CausalStateMemory(FastWeightMemory):
@@ -42,15 +76,22 @@ class CausalStateMemory(FastWeightMemory):
                  change_threshold: float = 0.04, context_scale: float = 3.0,
                  association_weight: float = 0.125, age_horizon: int = 8,
                  normalize_key: bool = True, key_gain: float = 0.5,
-                 prev_val_weight: float = 0.0):
+                 prev_val_weight: float = 0.0, barycentric_kinematics: bool = False,
+                 kinematic_alpha: float = 0.20, kinematic_beta: float = 0.04):
         if int(dim) < 2 or int(reservoir_size) < 1 or int(age_horizon) < 1:
             raise ValueError("causal state memory requires dim>=2, reservoir_size>=1, age_horizon>=1")
         if not isinstance(normalize_key, bool):
             raise ValueError("normalize_key must be a boolean")
+        if not isinstance(barycentric_kinematics, bool):
+            raise ValueError("barycentric_kinematics must be a boolean")
         if isinstance(key_gain, bool) or not math.isfinite(float(key_gain)) or float(key_gain) <= 0:
             raise ValueError("key_gain must be finite and positive")
         if isinstance(prev_val_weight, bool) or not math.isfinite(float(prev_val_weight)) or float(prev_val_weight) < 0:
             raise ValueError("prev_val_weight must be finite and nonnegative")
+        if isinstance(kinematic_alpha, bool) or not math.isfinite(float(kinematic_alpha)) or not 0 < float(kinematic_alpha) <= 1:
+            raise ValueError("kinematic_alpha must be finite and in (0,1]")
+        if isinstance(kinematic_beta, bool) or not math.isfinite(float(kinematic_beta)) or not 0 <= float(kinematic_beta) <= 1:
+            raise ValueError("kinematic_beta must be finite and in [0,1]")
         settings = (decay, write_lr, contrast_threshold, change_threshold, context_scale, association_weight)
         if not all(math.isfinite(float(value)) for value in settings):
             raise ValueError("memory settings must be finite")
@@ -67,11 +108,18 @@ class CausalStateMemory(FastWeightMemory):
         self.normalize_key = normalize_key
         self.key_gain = float(key_gain)
         self.prev_val_weight = float(prev_val_weight)
+        self.barycentric_kinematics = barycentric_kinematics
+        self.kinematic_alpha = float(kinematic_alpha)
+        self.kinematic_beta = float(kinematic_beta)
         self.register_buffer("prev_val", torch.zeros(1, self.dim))
         self.register_buffer("retained_key", torch.zeros(1, self.dim))
         self.register_buffer("repetition_age", torch.tensor(0, dtype=torch.long))
         self.register_buffer("last_frame", torch.zeros(1, 1, 8, 8))
         self.register_buffer("active_context", torch.zeros(1, self.dim))
+        self.register_buffer("origin_bary", torch.zeros(1, 2))
+        self.register_buffer("track_pos", torch.zeros(1, 2))
+        self.register_buffer("track_vel", torch.zeros(1, 2))
+        self.register_buffer("wp_age", torch.tensor(0, dtype=torch.long))
 
     def reset_state(self) -> None:
         super().reset_state()
@@ -80,6 +128,31 @@ class CausalStateMemory(FastWeightMemory):
         self.repetition_age.zero_()
         self.last_frame.zero_()
         self.active_context.zero_()
+        self.origin_bary.zero_()
+        self.track_pos.zero_()
+        self.track_vel.zero_()
+        self.wp_age.zero_()
+
+    def _kinematic_step(self, frame: torch.Tensor):
+        """Causal alpha-beta kinematic tracker initialized with exact 2- and 3-point MVUE velocity."""
+        _, mx, my, _, _, _ = wavepacket_moments(frame, mask_rel=0.015)
+        bary = torch.stack((mx[0], my[0]), dim=-1).unsqueeze(0)
+        k_wp = int(self.wp_age.item())
+        if k_wp == 0:
+            pos = bary
+            vel = torch.zeros_like(bary)
+        elif k_wp == 1:
+            pos = bary
+            vel = bary - self.origin_bary
+        elif k_wp == 2:
+            pos = bary
+            vel = 0.5 * (bary - self.origin_bary)
+        else:
+            pred_pos = self.track_pos + self.track_vel
+            innov = bary - pred_pos
+            pos = pred_pos + self.kinematic_alpha * innov
+            vel = self.track_vel + self.kinematic_beta * innov
+        return bary, pos, vel
 
     def _check_frame(self, frame: torch.Tensor) -> torch.Tensor:
         if (not isinstance(frame, torch.Tensor) or tuple(frame.shape) != (1, 1, 8, 8)
@@ -121,12 +194,24 @@ class CausalStateMemory(FastWeightMemory):
         context = torch.zeros_like(self.active_context)
         context[:, :-1] = self.context_scale * features[:, :-1].clamp(-1.0, 1.0)
         context[:, -1] = self.context_scale * age / self.age_horizon
+        if self.barycentric_kinematics and int(self.wp_age.item()) >= 1 and is_wavepacket_frame(frame):
+            _, pos, vel = self._kinematic_step(frame)
+            ctx_wp = torch.zeros_like(context)
+            p_slots = min(2, self.dim - 1)
+            ctx_wp[:, :p_slots] = self.context_scale * pos[:, :p_slots].clamp(-1.0, 1.0)
+            if self.dim >= 5:
+                ctx_wp[:, 2:4] = self.context_scale * (4.0 * vel).clamp(-1.0, 1.0)
+            ctx_wp[:, -1] = context[:, -1]
+            context = ctx_wp
         return key, val_raw, retained, matrix, age, context
 
     def write(self, frame: torch.Tensor) -> torch.Tensor:
         """Consume one observed image and return an independent detached context."""
         frame = self._check_frame(frame)
         with torch.no_grad():
+            wp = self.barycentric_kinematics and is_wavepacket_frame(frame)
+            if wp:
+                bary, pos, vel = self._kinematic_step(frame)
             key, val_raw, retained, matrix, age, context = self._next_state(frame)
             self.matrix.copy_(matrix)
             self.prev_key.copy_(key)
@@ -138,6 +223,18 @@ class CausalStateMemory(FastWeightMemory):
             slot = int(self.reservoir_count.item()) % self.reservoir_size
             self.reservoir[slot].copy_(frame[0])
             self.reservoir_count.add_(1)
+            if self.barycentric_kinematics:
+                if wp:
+                    if int(self.wp_age.item()) == 0:
+                        self.origin_bary.copy_(bary)
+                    self.track_pos.copy_(pos)
+                    self.track_vel.copy_(vel)
+                    self.wp_age.add_(1)
+                else:
+                    self.origin_bary.zero_()
+                    self.track_pos.zero_()
+                    self.track_vel.zero_()
+                    self.wp_age.zero_()
             return self.active_context.detach().clone()
 
     def read_context(self, frame: torch.Tensor | None = None) -> torch.Tensor:

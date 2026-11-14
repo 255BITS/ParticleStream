@@ -227,6 +227,12 @@ class TransportGANTrainer(GANTrainer):
                     if alpha_d > 1e-6:
                         poly_k = poly_k + 20.0 * alpha_d * c_boost
                         c_min = min(1.0, c_min + alpha_d * c_boost)
+                wp_boost = float(getattr(self.transport, "wavepacket_c_boost", 0.0))
+                if wp_boost > 0.0 and hasattr(self.transport, "causal_wavepacket_gate"):
+                    alpha_w = float(self.transport.causal_wavepacket_gate(real))
+                    if alpha_w > 1e-6:
+                        poly_k = poly_k + 20.0 * alpha_w * wp_boost
+                        c_min = min(1.0, c_min + 0.015 * alpha_w * wp_boost)
                 ct = min(1.0, max(poly_k / (t + poly_k - 1.0), c_min))
                 for p, yt, zp, xp in zip(g_params, y_pre, z_bufs, x_bufs):
                     zp.add_(p.detach() - yt)
