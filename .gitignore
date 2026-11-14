@@ -7,3 +7,4 @@ runs/
 dist/
 build/
 .venv/
+MUJOCO_LOG.TXT
