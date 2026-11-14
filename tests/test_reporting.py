@@ -29,7 +29,7 @@ def test_every_technique_recipe_and_count_link_reaches_its_generated_section(wor
     text = inventory.read_text()
     active = text.split("## All executable recipes\n", 1)[1].split("## Stretch experiments", 1)[0]
     historical = text.split("## Historical declarations\n", 1)[1].split("## Per-Task Breakdown", 1)[0]
-    assert active.count("| `INCOMPLETE` |") == 43
+    assert active.count("| `INCOMPLETE` |") == 44
     assert historical.count("| READ_ONLY |") == 14
     assert "`stream-bcap-adam`" not in active
     assert "[0/10*]" in active and "0/20" in active

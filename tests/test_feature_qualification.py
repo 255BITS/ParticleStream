@@ -84,6 +84,7 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
         "online-gail-bcap-schedule-free",
         "online-gail-bcap-debiased-krr",
         "online-gail-bcap-dirichlet-sobolev",
+        "online-gail-bcap-kinematic-equivariant",
     ):
         result = workspace.qualify(candidate_id, view.id, device="cuda")
         assert result["status"] == "PASS" and result["eligible"] is True, candidate_id
@@ -199,6 +200,25 @@ def test_gail_bcap_recipes_qualify_all_ten_current_required_tasks():
         "seq_robotics_fetch_slide",
     ):
         assert dsob_stretch[stretch_pass_id]["status"] == "PASS", stretch_pass_id
+
+    keq_result = workspace.qualify("online-gail-bcap-kinematic-equivariant", view.id, device="cuda")
+    keq_stretch = {
+        tid: outcome
+        for tier in keq_result["tiers"].values()
+        for tid, outcome in tier["tasks"].items()
+        if outcome["importance"] == "stretch"
+    }
+    for stretch_pass_id in (
+        "seq_minimal_dense4",
+        "seq_minimal_tokens4",
+        "seq_minimal_addition2bit",
+        "seq_minimal_kernel2x2",
+        "seq_minimal_velocity_extrapolation",
+        "seq_robotics_fetch_reach",
+        "seq_robotics_fetch_pick_and_place",
+        "seq_robotics_fetch_slide",
+    ):
+        assert keq_stretch[stretch_pass_id]["status"] == "PASS", stretch_pass_id
 
 
 def test_subspace_prior_recipes_qualify_all_ten_required_and_advance_stretch_frontier():

@@ -3,16 +3,16 @@
   "artifacts": {
     "compute": {
       "critic_parameters": 9473,
-      "cuda_peak_allocated_bytes": 17802752,
+      "cuda_peak_allocated_bytes": 17814016,
       "evaluation_d_forwards": 0,
       "evaluation_g_forwards": 1536,
-      "evaluation_seconds": 8.289973110193387,
+      "evaluation_seconds": 8.457894312683493,
       "generator_parameters": 6385,
       "optimizer_updates": 480,
-      "process_peak_rss_kib": 2709668,
+      "process_peak_rss_kib": 2712468,
       "serving_d_forwards": 0,
       "serving_g_forwards": 480,
-      "training_and_evaluation_seconds": 21.076740627060644,
+      "training_and_evaluation_seconds": 21.300132474978454,
       "training_d_forwards": 2880,
       "training_g_forwards": 960
     },
@@ -104,8 +104,8 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "gail_prior.py": "8c5ec8b58c58a8bd5b74aba97eaee16bde1affd54e653ca8d743bda704142248",
-      "memory.py": "080ab5e3e8f35d1bb060c86044d894fb909351f6e2faec609e824f2e5a1f8232",
+      "gail_prior.py": "3a2c31ee0b818c004dbab621bb18ba78573f05a163dbf1e57797db84edb44d1e",
+      "memory.py": "2507b132b0e3bf928022adc6300cf943e3279e5770ec4e870dde99ed46222087",
       "minimal_adapter.py": "1f35220fa9764872c455b89a8e89204f8a43d804e3d997913ca106d2a9f717aa",
       "minimal_online.py": "04a1c2fe5b9581f13a342c2f1af63778758edab2e4e8f32f8bc3fd0b4224abe7",
       "minimal_tasks.py": "1b732c4d20bec9bd4abe8fa3cee83776a3ec45ac5d7088bb420a43386dcd7864",
@@ -117,7 +117,7 @@
       "robotics_tasks.py": "9f47e78dfaed6b77d26c1562d9e753067aaa4e6600303f8fd48ca892f55acbc0",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
-      "transport.py": "4f197f15b3e8a8d181da1034e5b810cdf9f8c26e8deb0a2a9760f15cb5e3d856"
+      "transport.py": "bd7aced2de55d79c3b189b095d380a0860f32078ae48a1f9d3625a2532e098ca"
     },
     "memory_policy": {
       "age_horizon": 8.0,
@@ -873,7 +873,14 @@
           "usage_decay": 1.0,
           "usage_penalty": 0.0,
           "variance_ratio_scale": 0.15,
-          "visit_shrinkage": 0.25
+          "visit_shrinkage": 0.25,
+          "wavepacket_bypass_weight": 0.0,
+          "wavepacket_c_boost": 0.0,
+          "wavepacket_equiv_weight": 0.0,
+          "wavepacket_moment_weight": 0.0,
+          "wavepacket_mse_weight": 0.0,
+          "wavepacket_shifts": 0,
+          "wavepacket_snr_scale": 1.0
         }
       },
       "observation_state_retained": false,
@@ -895,7 +902,8 @@
         9.21752643585205,
         9.874465942382812
       ],
-      "target_retained": false
+      "target_retained": false,
+      "wavepacket_steps": 0
     }
   },
   "binding": {
@@ -906,17 +914,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "fc5c52b37e2f33843b56ae2a5791b4360212e3586f5f92531fb563255136f166"
+    "task_fingerprint": "aee2e02f8ad36f60419f9419653a76d9196fac927fbf577f4377ee92ec3a9f84"
   },
   "candidate_fingerprint": "04100a48f4c807277b1724817cae0485aef9a9daa4224b909c2a2a2cbdcf4815",
   "candidate_id": "online-gail-bcap-dirichlet-sobolev",
-  "cohort_key": "975a84d37a36726abc554d57dbd25675e55fc11a593ff3bfe7e00496781c0e2d",
-  "completed_at": "2026-11-13T22:34:07.428+00:00",
+  "cohort_key": "783a7df80efcf6b3a886eaef5c1a2e50ab6204d4f5f0eefb065f3650fbcadfc4",
+  "completed_at": "2026-11-14T03:22:25.947+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 23.307
+    "wall_seconds": 23.3736
   },
   "device": "cuda",
   "error": null,
@@ -1437,11 +1445,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "fc5c52b37e2f33843b56ae2a5791b4360212e3586f5f92531fb563255136f166",
+  "task_fingerprint": "aee2e02f8ad36f60419f9419653a76d9196fac927fbf577f4377ee92ec3a9f84",
   "task_id": "seq_robotics_fetch_pick_and_place",
   "technique": "GAIL-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-13T22:34:07.428+00:00",
+  "timestamp": "2026-11-14T03:22:25.947+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }

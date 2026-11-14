@@ -177,7 +177,11 @@ def test_invalid_observations_fail_without_mutation(frame):
                                      {"context_scale": float("nan")}, {"contrast_threshold": -.01},
                                      {"normalize_key": "yes"}, {"key_gain": 0.0}, {"key_gain": True},
                                      {"prev_val_weight": -0.1}, {"prev_val_weight": True},
-                                     {"prev_val_weight": float("nan")}])
+                                     {"prev_val_weight": float("nan")},
+                                     {"barycentric_kinematics": "yes"}, {"kinematic_alpha": 0.0},
+                                     {"kinematic_alpha": 1.2}, {"kinematic_alpha": True},
+                                     {"kinematic_beta": -0.01}, {"kinematic_beta": 1.2},
+                                     {"kinematic_beta": True}])
 def test_invalid_policy_settings_fail(settings):
     with pytest.raises(ValueError):
         CausalStateMemory(**settings)
@@ -252,3 +256,75 @@ def test_linear_key_mode_preserves_additive_superposition_and_gates_distractors(
     assert torch.allclose(memory.prev_key, torch.zeros_like(memory.prev_key))
     assert memory.retained_key.norm() > 0.05
     assert after_distractor[:, :-1].norm() > 0.1
+
+
+def test_barycentric_kinematics_tracks_wavepackets_and_leaves_non_wavepackets_unchanged():
+    from particlestream.minimal_velocity import render_point
+
+    legacy = make_stream_memory({"kind": "fast_weight", "dim": 16})
+    mem_base = make_stream_memory({
+        "kind": "fast_weight",
+        "dim": 16,
+        "reader": "causal_state",
+        "association_weight": 0.0,
+        "normalize_key": False,
+        "key_gain": 0.5,
+        "prev_val_weight": 1.0,
+    })
+    mem_kin = make_stream_memory({
+        "kind": "fast_weight",
+        "dim": 16,
+        "reader": "causal_state",
+        "association_weight": 0.0,
+        "normalize_key": False,
+        "key_gain": 0.5,
+        "prev_val_weight": 1.0,
+        "barycentric_kinematics": True,
+        "kinematic_alpha": 0.20,
+        "kinematic_beta": 0.04,
+    })
+    _init_module(mem_base, NamedStreams(seed=0), "memory")
+    _init_module(mem_kin, NamedStreams(seed=0), "memory")
+    assert {name: tuple(v.shape) for name, v in legacy.named_parameters()} == {
+        name: tuple(v.shape) for name, v in mem_kin.named_parameters()
+    }
+
+    # Non-wavepacket frames (e.g. translating bars) produce byte-identical contexts, and single-frame
+    # wavepacket writes (wp_age == 0 before write) also leave the first emitted context unchanged.
+    bars, _ = translating_bar_cycle()
+    for frame in bars[:4]:
+        assert torch.equal(mem_base.write(frame.unsqueeze(0)), mem_kin.write(frame.unsqueeze(0)))
+    assert int(mem_kin.wp_age.item()) == 0
+    mem_base.reset_state()
+    mem_kin.reset_state()
+
+    wp0 = render_point(0.30)
+    wp1 = render_point(0.35)
+    wp2 = render_point(0.40)
+    wp3 = render_point(0.45)
+    assert torch.equal(mem_base.write(wp0), mem_kin.write(wp0))
+    assert int(mem_kin.wp_age.item()) == 1
+
+    # Preview read_context matches clone.write without mutating live buffers
+    saved = {k: v.clone() for k, v in mem_kin.state_dict().items()}
+    preview1 = mem_kin.read_context(wp1)
+    assert all(torch.equal(v, mem_kin.state_dict()[k]) for k, v in saved.items())
+    ctx1 = mem_kin.write(wp1)
+    assert torch.equal(preview1, ctx1)
+    ctx2 = mem_kin.write(wp2)
+    ctx3 = mem_kin.write(wp3)
+
+    # Constant-velocity trajectory has zero innovation at k=3 (exact 0.05 normalized/grid velocity = +0.05)
+    assert float(ctx2[0, 0].item()) == pytest.approx(3.0 * (0.40 - 0.50), abs=1e-5)
+    assert float(ctx2[0, 2].item()) == pytest.approx(3.0 * 4.0 * 0.05, abs=1e-5)
+    assert float(ctx3[0, 0].item()) == pytest.approx(3.0 * (0.45 - 0.50), abs=1e-5)
+    assert float(ctx3[0, 2].item()) == pytest.approx(3.0 * 4.0 * 0.05, abs=1e-5)
+
+    # Closed-loop perturbed frame at k=4 damps position jitter by kinematic_alpha=0.20 (5x reduction)
+    wp4_perturbed = (render_point(0.50 + 0.02) + 0.0005).clamp(0.0, 1.0)
+    ctx4 = mem_kin.write(wp4_perturbed)
+    tracked_x = float(ctx4[0, 0].item()) / 3.0 + 0.50
+    assert abs(tracked_x - 0.50) < 0.006
+
+    mem_kin.reset_state()
+    assert all(torch.count_nonzero(buf) == 0 for buf in mem_kin.buffers())

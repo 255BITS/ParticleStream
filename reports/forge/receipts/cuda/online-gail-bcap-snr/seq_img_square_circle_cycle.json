@@ -480,7 +480,14 @@
             "usage_decay": 1.0,
             "usage_penalty": 0.0,
             "variance_ratio_scale": 0.15,
-            "visit_shrinkage": 0.25
+            "visit_shrinkage": 0.25,
+            "wavepacket_bypass_weight": 0.0,
+            "wavepacket_c_boost": 0.0,
+            "wavepacket_equiv_weight": 0.0,
+            "wavepacket_moment_weight": 0.0,
+            "wavepacket_mse_weight": 0.0,
+            "wavepacket_shifts": 0,
+            "wavepacket_snr_scale": 1.0
           }
         },
         "observation_state_retained": false,
@@ -495,7 +502,8 @@
         "serving_sampling": "row_midpoint_empirical_quantiles_v1",
         "subspace_count": 0,
         "subspace_gains": [],
-        "target_retained": false
+        "target_retained": false,
+        "wavepacket_steps": 0
       }
     },
     "gif_sha256": "fef7adf992171f5a3e21a82cfa73ed38a62c755be3f8741fef27a7585a50f89b",
@@ -507,14 +515,14 @@
       "challenge_adapter.py": "ce2a01269b6dea97b894211617f4afa08a985266b83d49e0d081e3a854c59f57",
       "challenges.py": "12bf028bd85af82af030729c325c43900de9679e4c63905f448778ebde87db11",
       "feature_prior.py": "d0eac916455cb5d54530d09c6bd9aa8be25b7147de9c6bc966cc10faecfb59b7",
-      "gail_prior.py": "8c5ec8b58c58a8bd5b74aba97eaee16bde1affd54e653ca8d743bda704142248",
-      "memory.py": "080ab5e3e8f35d1bb060c86044d894fb909351f6e2faec609e824f2e5a1f8232",
+      "gail_prior.py": "3a2c31ee0b818c004dbab621bb18ba78573f05a163dbf1e57797db84edb44d1e",
+      "memory.py": "2507b132b0e3bf928022adc6300cf943e3279e5770ec4e870dde99ed46222087",
       "models.py": "f12130a1abc0339833f1c7a87dc479401a1d38e55b9879b6ebc1a5643dacbcaa",
       "online.py": "0dda4a54b7a56d60d882a584947a40534bb07436270daf1bbd71372ced19c2a7",
       "residual_prior.py": "3efd5bb46bca5f7d8c60d57b02d75b70735c226240ad4251ec1adf318e7875aa",
       "streams.py": "c2920e6d1b3ec1e038f49f19e4b27aa681cbe037aae451bc1f6f9c54e4145fc6",
       "subspace_prior.py": "de19f14aa5b51b486b1b2349d0d45d3752a67f89dfc82404a427efe631c385aa",
-      "transport.py": "4f197f15b3e8a8d181da1034e5b810cdf9f8c26e8deb0a2a9760f15cb5e3d856"
+      "transport.py": "bd7aced2de55d79c3b189b095d380a0860f32078ae48a1f9d3625a2532e098ca"
     },
     "memory_policy": {
       "age_horizon": 8.0,
@@ -1176,7 +1184,14 @@
           "usage_decay": 1.0,
           "usage_penalty": 0.0,
           "variance_ratio_scale": 0.15,
-          "visit_shrinkage": 0.25
+          "visit_shrinkage": 0.25,
+          "wavepacket_bypass_weight": 0.0,
+          "wavepacket_c_boost": 0.0,
+          "wavepacket_equiv_weight": 0.0,
+          "wavepacket_moment_weight": 0.0,
+          "wavepacket_mse_weight": 0.0,
+          "wavepacket_shifts": 0,
+          "wavepacket_snr_scale": 1.0
         }
       },
       "observation_state_retained": false,
@@ -1191,7 +1206,8 @@
       "serving_sampling": "row_midpoint_empirical_quantiles_v1",
       "subspace_count": 0,
       "subspace_gains": [],
-      "target_retained": false
+      "target_retained": false,
+      "wavepacket_steps": 0
     }
   },
   "binding": {
@@ -1202,17 +1218,17 @@
     "namespace": "particlegan_forge",
     "rng_version": "forge-rng-v1",
     "seed": 0,
-    "task_fingerprint": "75313ef6123c0ff03f6522707a12cb44842089d6e0ebcd11f2758082d813e08e"
+    "task_fingerprint": "9960cd5f309e069aae8da5646116660c94b4364f5ec80f2b2fed62a128e00f5f"
   },
   "candidate_fingerprint": "50ab4ca17b2b680a1436cd54833b15defa85c64c55449060db323306ac152727",
   "candidate_id": "online-gail-bcap-snr",
-  "cohort_key": "e44279405ea0a5c0f65cae860eaaa59e293beed068754ab3e479d1c19434f18a",
-  "completed_at": "2026-11-13T22:51:15.145+00:00",
+  "cohort_key": "f1fc7fb745a5ae4631cf9ce4b05bfb665b13c17eff6ecc0270fdb28560fd2e3e",
+  "completed_at": "2026-11-14T03:50:55.324+00:00",
   "completed_steps": 480,
   "cost": {
     "completed_steps": 480,
     "timeout_seconds": 300,
-    "wall_seconds": 59.8175
+    "wall_seconds": 60.8122
   },
   "device": "cuda",
   "error": null,
@@ -1787,11 +1803,11 @@
   },
   "schema_version": 2,
   "seed": 0,
-  "task_fingerprint": "75313ef6123c0ff03f6522707a12cb44842089d6e0ebcd11f2758082d813e08e",
+  "task_fingerprint": "9960cd5f309e069aae8da5646116660c94b4364f5ec80f2b2fed62a128e00f5f",
   "task_id": "seq_img_square_circle_cycle",
   "technique": "GAIL-BCAP",
   "terminal_passing": 5,
-  "timestamp": "2026-11-13T22:51:15.145+00:00",
+  "timestamp": "2026-11-14T03:50:55.324+00:00",
   "unintended_rng_deviations": 0,
   "verdict": "PASS"
 }
